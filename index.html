@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Sustained — practical, evidence-led thinking on AI adoption | By Kevin Clubb</title>
+<meta name="description" content="A newsletter and article series for the AI-curious. Practical, evidence-led writing on AI adoption, capability, agentic workflows, and sustainability — from a senior business analyst's perspective.">
+<meta name="keywords" content="AI Sustained, AI newsletter UK, AI adoption, AI competency, Kevin Clubb, AI for business analysts, generative AI, AI strategy, AI sustainability, agentic workflows, vibe coding, future of work, UK AI">
+<meta name="author" content="Kevin Clubb">
+<meta property="og:title" content="AI Sustained — practical thinking on AI adoption">
+<meta property="og:description" content="Evidence-led writing on AI adoption, capability, agentic workflows and sustainability. From a senior business analyst's perspective.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="og-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Sustained — practical thinking on AI adoption">
+<meta name="twitter:description" content="Evidence-led writing on AI adoption, capability, agentic workflows and sustainability.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "AI Sustained",
+  "url": "https://aisustained.com",
+  "author": { "@type": "Person", "name": "Kevin Clubb", "jobTitle": "Senior Business Analyst" },
+  "description": "Practical, evidence-led writing on AI adoption, capability, agentic workflows, and sustainability."
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --base: #F7FCF9;
+    --accent: #1B4332;
+    --accent-mid: #2D6A4F;
+    --secondary: #40916C;
+    --highlight: #D8F3DC;
+    --highlight-soft: #E8F7EC;
+    --text: #081C15;
+    --text-soft: #3A4A42;
+    --muted: #6B7A72;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--base);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ============ TOP BAR ============ */
+  .topbar {
+    border-top: 4px solid var(--accent);
+    padding: 14px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid rgba(27, 67, 50, 0.15);
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .topbar-left { display: flex; gap: 24px; align-items: baseline; }
+  .topbar .brand { font-weight: 600; }
+  .topbar-nav { display: flex; gap: 22px; }
+  .topbar-nav a {
+    color: var(--accent);
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition: border-color 0.15s;
+  }
+  .topbar-nav a:hover { border-bottom-color: var(--secondary); }
+  .topbar-nav a.active { color: var(--secondary); }
+
+  /* ============ HERO ============ */
+  .hero {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 80px 32px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 420px;
+    height: 420px;
+    border: 60px solid var(--secondary);
+    border-radius: 50%;
+    opacity: 0.1;
+    z-index: 0;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+  }
+  .hero-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hero-kicker::before {
+    content: '';
+    width: 44px;
+    height: 2px;
+    background: var(--secondary);
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(48px, 7vw, 92px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    color: var(--accent);
+    margin-bottom: 28px;
+  }
+  .hero .deck {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 23px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--secondary);
+    max-width: 720px;
+  }
+  .hero .deck strong {
+    font-weight: 500;
+    color: var(--accent);
+    background: linear-gradient(180deg, transparent 60%, var(--highlight) 60%);
+    padding: 0 4px;
+  }
+
+  /* ============ BYLINE STRIP ============ */
+  .byline {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px 60px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    flex-wrap: wrap;
+  }
+  .byline strong { color: var(--accent); font-weight: 600; }
+  .byline .dot { width: 5px; height: 5px; background: var(--secondary); border-radius: 50%; }
+
+  /* ============ SECTION HEADER ============ */
+  .section-header {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 32px 32px;
+    border-top: 1px solid rgba(27, 67, 50, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 38px;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+  }
+  .section-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ============ FILTER CHIPS ============ */
+  .filters {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px 32px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-mid);
+    background: var(--highlight-soft);
+    padding: 8px 14px;
+    border-radius: 100px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .chip:hover { background: var(--highlight); }
+  .chip.active {
+    background: var(--accent);
+    color: var(--highlight);
+    border-color: var(--accent);
+  }
+
+  /* ============ ARTICLE GRID ============ */
+  .grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px 80px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 28px;
+  }
+
+  /* Featured card spans 2 columns when grid is wide enough */
+  @media (min-width: 1080px) {
+    .grid { grid-template-columns: repeat(3, 1fr); }
+    .card.featured { grid-column: span 2; grid-row: span 1; }
+    .card.featured .card-image { aspect-ratio: 16/9; }
+    .card.featured .card-title { font-size: 38px; }
+    .card.featured .card-deck { font-size: 18px; }
+  }
+
+  .card {
+    background: var(--base);
+    border: 1px solid rgba(27, 67, 50, 0.15);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--secondary);
+    box-shadow: 0 12px 32px rgba(27, 67, 50, 0.08);
+  }
+  .card-image {
+    aspect-ratio: 1/1;
+    background: var(--highlight-soft);
+    position: relative;
+    overflow: hidden;
+  }
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .card-image-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .card-body {
+    padding: 24px 26px 28px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    margin-bottom: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .card-meta .dot { width: 4px; height: 4px; background: var(--secondary); border-radius: 50%; }
+  .card-meta .muted { color: var(--muted); }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 1.15;
+    color: var(--accent);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .card-deck {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text-soft);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .card-cta {
+    margin-top: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: gap 0.15s;
+  }
+  .card:hover .card-cta { gap: 14px; color: var(--secondary); }
+  .card-cta::after { content: '→'; font-size: 14px; }
+
+  .card.coming-soon { opacity: 0.55; cursor: default; }
+  .card.coming-soon:hover { transform: none; box-shadow: none; border-color: rgba(27, 67, 50, 0.15); }
+  .card.coming-soon .card-cta::after { content: ''; }
+
+  /* ============ ABOUT BLOCK ============ */
+  .about {
+    background: var(--accent);
+    color: var(--base);
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .about::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 280px;
+    height: 280px;
+    border: 44px solid var(--secondary);
+    border-radius: 50%;
+    opacity: 0.2;
+  }
+  .about-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  @media (max-width: 880px) {
+    .about-inner { grid-template-columns: 1fr; gap: 40px; }
+  }
+  .about-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: #B7E4C7;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .about-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(216, 243, 220, 0.25);
+  }
+  .about h2 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.15;
+    color: var(--base);
+    margin-bottom: 24px;
+    letter-spacing: -0.015em;
+  }
+  .about h2 em { color: #B7E4C7; font-style: italic; }
+  .about-body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--highlight);
+  }
+  .about-body p { margin-bottom: 16px; }
+  .about-body strong { color: var(--base); font-weight: 600; }
+  .about-links {
+    display: flex;
+    gap: 16px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .about-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #B7E4C7;
+    border-bottom: 1px solid #B7E4C7;
+    padding-bottom: 2px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .about-link:hover { color: var(--base); border-color: var(--base); }
+
+  /* ============ FOOTER ============ */
+  .footer {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 48px 32px 32px;
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+    border-top: 4px solid var(--accent);
+  }
+  .footer-left h3 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .footer-left p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .footer-right {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: right;
+  }
+  .footer-right a { color: var(--accent); border-bottom: 1px solid transparent; padding-bottom: 1px; }
+  .footer-right a:hover { border-bottom-color: var(--secondary); }
+</style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="brand">AI Sustained</span>
+      <span>by Kevin Clubb</span>
+    </div>
+    <nav class="topbar-nav">
+      <a href="#articles" class="active">Articles</a>
+      <a href="#about">About</a>
+      <a href="https://www.linkedin.com/in/kevinclubb" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-kicker">Practical · Evidence-led · No fluff</div>
+      <h1>AI, written by someone who actually uses it.</h1>
+      <p class="deck">A series of articles and reports on AI adoption, capability, agentic workflows and sustainability. <strong>Aimed at people who want answers, not hype.</strong></p>
+    </div>
+  </section>
+
+  <div class="byline">
+    <span><strong>Kevin Clubb</strong></span>
+    <span class="dot"></span>
+    <span>Senior business analyst</span>
+    <span class="dot"></span>
+    <span>UK · Hospitality &amp; catering</span>
+    <span class="dot"></span>
+    <span>2026 · Issue series</span>
+  </div>
+
+  <header class="section-header" id="articles">
+    <h2 class="section-title">The articles.</h2>
+    <span class="section-meta">Newest first</span>
+  </header>
+
+  <div class="filters" role="tablist" aria-label="Filter articles by topic">
+    <button class="chip active" data-filter="all">All</button>
+    <button class="chip" data-filter="adoption">Adoption</button>
+    <button class="chip" data-filter="practical">Practical AI</button>
+    <button class="chip" data-filter="agentic">Agentic</button>
+    <button class="chip" data-filter="sustainability">Sustainability</button>
+    <button class="chip" data-filter="vibe-coding">Vibe coding</button>
+  </div>
+
+  <section class="grid">
+
+    <a class="card featured" data-topic="practical" href="/articles/ai-curious/">
+      <div class="card-image">
+        <img src="/articles/ai-curious/cover.png" alt="AI-curious? This is the bit no one tells you. Cover image in Clinical Green design." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 002</span>
+          <span class="dot"></span>
+          <span>Practical AI</span>
+          <span class="dot"></span>
+          <span class="muted">4 min read · 25 Apr 2026</span>
+        </div>
+        <h3 class="card-title">AI-curious? This is the bit no one tells you.</h3>
+        <p class="card-deck">Stop typing questions into AI. Start pasting things in. The free habit that beats any productivity app — no subscription, no prompt engineering, no faff.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+
+    <a class="card" data-topic="adoption" href="/articles/ai-competency-pyramid/">
+      <div class="card-image">
+        <img src="/articles/ai-competency-pyramid/cover.png" alt="The AI Competency Pyramid. Cover showing 20.6m UK workers across 14 levels." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 001</span>
+          <span class="dot"></span>
+          <span>Adoption</span>
+          <span class="dot"></span>
+          <span class="muted">7 min read · 20 Apr 2026</span>
+        </div>
+        <h3 class="card-title">The AI competency pyramid.</h3>
+        <p class="card-deck">Where 20.6 million UK workers actually sit. 14 levels, 95% at the bottom, and the jump that costs nothing — but 97% still haven't made.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+
+    <div class="card coming-soon" data-topic="sustainability">
+      <div class="card-image">
+        <div class="card-image-placeholder">Issue 003 · Coming soon</div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 003</span>
+          <span class="dot"></span>
+          <span>Sustainability</span>
+          <span class="dot"></span>
+          <span class="muted">Coming soon</span>
+        </div>
+        <h3 class="card-title">The carbon cost of convergence.</h3>
+        <p class="card-deck">Frontier models are eating the grid. Why intelligence-per-watt is the new unit, and what enterprise AI strategies need to do about it.</p>
+        <span class="card-cta">In drafts</span>
+      </div>
+    </div>
+
+    <div class="card coming-soon" data-topic="agentic">
+      <div class="card-image">
+        <div class="card-image-placeholder">Issue 004 · Coming soon</div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 004</span>
+          <span class="dot"></span>
+          <span>Agentic</span>
+          <span class="dot"></span>
+          <span class="muted">Coming soon</span>
+        </div>
+        <h3 class="card-title">Why your MCP strategy needs a red team.</h3>
+        <p class="card-deck">For every organisation deploying agents, someone needs to try to break them. The 5→6 leap is cultural — and the safety ratio doesn't inspire confidence.</p>
+        <span class="card-cta">In drafts</span>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="about" id="about">
+    <div class="about-inner">
+      <div>
+        <div class="about-label">About the author</div>
+        <h2>Senior business analyst. <em>AI super-adopter</em>. Still learning.</h2>
+      </div>
+      <div class="about-body">
+        <p>I've spent twenty years bridging business and technical teams across retail, fashion, finance and now hospitality &amp; catering. The last twelve months have been almost entirely about putting AI to work — properly, in real production systems, not as a demo.</p>
+        <p><strong>AI Sustained</strong> is where I write up what I'm learning. Practical, evidence-led, and aimed at people who want to use AI well — not people who want to be sold something.</p>
+        <p>If something here is useful, share it. If something is wrong, tell me. If you want to talk shop, find me on LinkedIn.</p>
+        <div class="about-links">
+          <a class="about-link" href="https://www.linkedin.com/in/kevinclubb" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a class="about-link" href="mailto:kevin@aisustained.com">Email</a>
+          <a class="about-link" href="#articles">Back to articles</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <h3>AI Sustained</h3>
+      <p>By Kevin Clubb · 2026</p>
+    </div>
+    <div class="footer-right">
+      <p>Built by hand · Hosted on Cloudflare Pages · <a href="https://github.com/kevinclubb/ai-sustained" target="_blank" rel="noopener">Source on GitHub ↗</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // Topic filter
+    const chips = document.querySelectorAll('.chip');
+    const cards = document.querySelectorAll('.card');
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const filter = chip.dataset.filter;
+        cards.forEach(card => {
+          if (filter === 'all' || card.dataset.topic === filter) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
