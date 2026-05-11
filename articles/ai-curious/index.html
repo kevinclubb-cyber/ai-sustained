@@ -1,1 +1,255 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-curious? This is the bit no one tells you. | AI Sustained</title>
+<meta name="description" content="The simplest, free habit that turns AI from a glorified search engine into a proper time-saver. No subscriptions, no jargon, no faff.">
+<meta name="keywords" content="AI for beginners, ChatGPT tips, Claude AI, Microsoft Copilot, Google Gemini, AI productivity, free AI tools, AI at work, paste into AI, document AI, spreadsheet AI, AI for office workers, UK AI, practical AI">
+<meta name="author" content="Kevin Clubb">
+<meta property="og:title" content="AI-curious? This is the bit no one tells you.">
+<meta property="og:description" content="Stop typing questions into AI. Start pasting things in. The free habit that beats any productivity app.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="ai_curious_practical_user_Article_Cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI-curious? This is the bit no one tells you.">
+<meta name="twitter:description" content="The simplest free habit that turns AI from a glorified search engine into a proper time-saver.">
+<meta name="twitter:image" content="ai_curious_practical_user_Article_Cover.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "AI-curious? This is the bit no one tells you.",
+  "author": { "@type": "Person", "name": "Kevin Clubb" },
+  "datePublished": "2026-04-25",
+  "description": "The simplest free habit that turns AI from a glorified search engine into a proper time-saver. No subscriptions, no jargon, no faff.",
+  "keywords": "AI for beginners, ChatGPT, Claude, Copilot, Gemini, AI productivity, free AI tools, paste into AI, AI at work",
+  "image": "ai_curious_practical_user_Article_Cover.png",
+  "publisher": { "@type": "Organization", "name": "AI Sustained" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --base: #F7FCF9;
+    --accent: #1B4332;
+    --accent-mid: #2D6A4F;
+    --secondary: #40916C;
+    --highlight: #D8F3DC;
+    --highlight-soft: #E8F7EC;
+    --text: #081C15;
+    --text-soft: #3A4A42;
+    --muted: #6B7A72;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--base); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
 
+  .masthead { border-top: 4px solid var(--accent); padding: 14px 0 10px; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid rgba(27, 67, 50, 0.15); }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; }
+
+  .hero { padding: 56px 0 40px; border-bottom: 1px solid rgba(27, 67, 50, 0.15); }
+  .kicker { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--secondary); margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
+  .kicker::before { content: ''; width: 36px; height: 2px; background: var(--secondary); }
+  .hero h1 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; font-size: clamp(40px, 6.5vw, 68px); line-height: 1.02; letter-spacing: -0.02em; color: var(--accent); margin-bottom: 22px; }
+  .deck { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 21px; font-weight: 400; line-height: 1.45; color: var(--secondary); max-width: 680px; }
+
+  .content { font-size: 18px; line-height: 1.7; color: var(--text); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-weight: 600; color: var(--accent); }
+  .content p em { font-style: italic; color: var(--accent-mid); }
+  .content h2 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 32px; line-height: 1.2; color: var(--accent); margin: 48px 0 20px; letter-spacing: -0.01em; }
+  .content ul { margin: 16px 0 24px 0; list-style: none; padding: 0; }
+  .content ul li { padding: 10px 0 10px 28px; border-bottom: 0.5px solid rgba(27, 67, 50, 0.1); position: relative; }
+  .content ul li::before { content: '→'; position: absolute; left: 0; top: 10px; color: var(--secondary); font-weight: 600; }
+  .content ul li strong { color: var(--accent); font-weight: 600; }
+  .content a { color: var(--accent-mid); text-decoration: underline; text-underline-offset: 2px; }
+
+  .pull-quote { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; font-size: 30px; line-height: 1.3; color: var(--accent); margin: 60px auto; padding: 40px 0; border-top: 1px solid var(--highlight); border-bottom: 1px solid var(--highlight); text-align: center; max-width: 720px; letter-spacing: -0.01em; }
+  .pull-quote::before { content: '"'; display: block; font-size: 48px; color: var(--secondary); line-height: 0.5; margin-bottom: 12px; }
+
+  .takeaway { background: var(--accent); color: var(--base); padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px; position: relative; overflow: hidden; }
+  .takeaway::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border: 36px solid var(--secondary); border-radius: 50%; opacity: 0.22; }
+  .takeaway-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--highlight); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; position: relative; z-index: 1; }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(216, 243, 220, 0.25); }
+  .takeaway h2 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 32px; line-height: 1.22; color: var(--base); margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em; }
+  .takeaway h2 em { color: #B7E4C7; font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(216, 243, 220, 0.35); padding-top: 14px; }
+  .takeaway-point-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #B7E4C7; margin-bottom: 8px; }
+  .takeaway-point-text { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400; font-size: 16px; line-height: 1.45; color: var(--highlight); }
+  .takeaway-point-text strong { color: var(--base); font-weight: 600; font-style: normal; }
+
+  .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 32px 0; }
+  .tool-box { background: var(--highlight); padding: 18px 20px; border-radius: 4px; border-left: 4px solid var(--secondary); }
+  .tool-name { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 20px; color: var(--accent); margin-bottom: 4px; }
+  .tool-url { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent-mid); letter-spacing: 0.04em; }
+
+  .footer { padding: 36px 0 24px; border-top: 1px solid rgba(27, 67, 50, 0.2); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--accent); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; background: var(--highlight); padding: 0 4px; }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 300px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 0.5px solid rgba(27, 67, 50, 0.2); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--secondary); }
+  .hashtag-list span { font-weight: 500; }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 4px solid var(--accent); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 40px; }
+    .deck { font-size: 18px; }
+  }
+
+  @media print {
+    @page { size: A3; margin: 14mm; }
+    body { background: var(--base); }
+    .page { max-width: none; padding: 0; }
+    .page-break { page-break-before: always; break-before: page; }
+    .tool-box, .takeaway-point, .pull-quote { page-break-inside: avoid; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<article class="page">
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <span>AI Sustained</span>
+      <span>Issue 002</span>
+    </div>
+    <div class="masthead-right">
+      <span>2026.04.25</span>
+      <span>Practical AI</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">For the AI-curious · 4-minute read</div>
+    <h1>AI-curious? This is the bit no one tells you.</h1>
+    <p class="deck">Stop typing questions into AI. Start pasting things in. The free habit that beats any productivity app you've ever downloaded.</p>
+  </section>
+
+  <section class="content">
+    <p>You've probably had a poke at ChatGPT or Gemini. Maybe asked it a question or two. Closed the tab. Got on with your day.</p>
+
+    <p>That's fair. But you're missing the bit that actually makes a difference — and it's the easiest bit of the lot.</p>
+
+    <p>You don't need to learn anything. You don't need to pay for anything. <strong>You just need to stop typing questions and start pasting things in.</strong></p>
+
+    <h2>Paste what's on your screen.</h2>
+
+    <p>This is the one that converts most people. Once you've done it twice, you won't go back.</p>
+
+    <p>Got a confusing error message popping up on your laptop? Highlight it, copy it, paste it into a free AI tool, and ask what's going on. You'll usually get the answer — and the fix — in plain English.</p>
+
+    <p>Reading something dense and not quite following? Copy the paragraph. Paste it. Ask <em>"what does this actually mean?"</em> You'll get it explained in two sentences without anyone making you feel daft.</p>
+
+    <p>Got a chunk of data on screen that you need to do something with? Paste it. Tell the AI what you want. Job done.</p>
+
+    <blockquote class="pull-quote">This single habit will save you more time than any productivity app you've ever downloaded.</blockquote>
+
+    <h2>Tidying up data from different places.</h2>
+
+    <p>Spreadsheet of products in one file. Prices in another. Supplier details sitting in an email.</p>
+
+    <p>Normally that means VLOOKUPs, XLOOKUPs, or copying and pasting until your eyes water.</p>
+
+    <p>Drop all three into a free AI tool and ask it to merge them by product code. Two minutes later you've got one clean table you can paste straight into Excel.</p>
+
+    <p>No formulas. No fighting with Excel. Just: <em>"here are my three lists, please give me one combined table."</em></p>
+
+    <h2>Pulling tables out of PDFs.</h2>
+
+    <p>This one is genuinely satisfying the first time you try it.</p>
+
+    <p>You've got a PDF with a useful table buried in it — a supplier price list, a report, a council document. Selecting and copying never works properly. You either get one long line of text or formatting that breaks the moment it hits Excel.</p>
+
+    <p>Drop the PDF into the AI tool. Ask: <em>"extract the table on page 3 and give it to me in a format I can paste into Excel."</em></p>
+
+    <p>That's it. Clean table back. Copy, paste, done.</p>
+
+    <h2>Turning your scribbled notes into something usable.</h2>
+
+    <p>Meeting just finished. Half-sentences, names without context, three bullet points only you understand.</p>
+
+    <p>Paste those messy notes in. Ask for a tidy summary. Or a follow-up email. Or a list of action points.</p>
+
+    <p>The trick is giving it your actual notes, not asking it to imagine a meeting.</p>
+
+    <h2>The free tools worth knowing about.</h2>
+
+    <p>You don't need to pay for any of this. The free tiers handle everyday use perfectly well.</p>
+
+    <div class="tools-grid">
+      <div class="tool-box">
+        <div class="tool-name">ChatGPT</div>
+        <div class="tool-url">chat.openai.com</div>
+      </div>
+      <div class="tool-box">
+        <div class="tool-name">Claude</div>
+        <div class="tool-url">claude.ai</div>
+      </div>
+      <div class="tool-box">
+        <div class="tool-name">Gemini</div>
+        <div class="tool-url">gemini.google.com</div>
+      </div>
+      <div class="tool-box">
+        <div class="tool-name">Copilot</div>
+        <div class="tool-url">copilot.microsoft.com</div>
+      </div>
+    </div>
+
+    <p>Pick whichever one feels easiest. They all do roughly the same things.</p>
+  </section>
+
+  <section class="takeaway" aria-label="The whole point">
+    <div class="takeaway-label">The whole point</div>
+    <h2>Stop asking AI questions. Start <em>giving it your stuff</em>.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 · PASTE</div>
+        <div class="takeaway-point-text">The <strong>error message</strong>, the paragraph you don't follow, the data on screen — paste it and ask in plain English.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 · DROP</div>
+        <div class="takeaway-point-text">The <strong>spreadsheet</strong>, the PDF, the document — drop it in and tell the AI what you want out the other end.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 · ASK</div>
+        <div class="takeaway-point-text">In <strong>plain English</strong>. No prompt engineering, no special syntax. Talk to it like a colleague who's already read the brief.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">That's it. <strong>That's the whole step up.</strong></p>
+    </div>
+    <div class="sources">
+      All tools mentioned offer free tiers as of April 2026. Free-tier limits and capabilities change over time.
+    </div>
+  </footer>
+
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#ArtificialIntelligence</span> <span>#AIForBeginners</span> <span>#ChatGPT</span> <span>#Claude</span> <span>#Copilot</span> <span>#Gemini</span> <span>#Productivity</span> <span>#FutureOfWork</span> <span>#DigitalSkills</span> <span>#WorkSmarter</span> <span>#OfficeLife</span> <span>#UKBusiness</span> <span>#CareerDevelopment</span> <span>#Upskilling</span> <span>#ProfessionalDevelopment</span>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span>AI Sustained · By Kevin Clubb</span>
+    <span>2026 · Issue 002</span>
+  </div>
+
+</article>
+</body>
+</html>
