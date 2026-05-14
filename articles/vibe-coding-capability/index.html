@@ -1,1 +1,852 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>If you can describe it, you can build it. | AI Sustained</title>
+<meta name="description" content="Vibe coding has collapsed the gap between idea and working software. A primer for the analysts, operators and managers still outsourcing their own ideas.">
+<meta name="keywords" content="vibe coding, AI tools, Claude, citizen development, no-code, prototyping, business analyst, internal tools, software engineering">
+<meta name="author" content="Kevin Clubb">
+<meta property="og:title" content="If you can describe it, you can build it.">
+<meta property="og:description" content="Vibe coding has collapsed the gap between idea and working software. A primer for the analysts, operators and managers still outsourcing their own ideas.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="vibe_coding_describe_it_Article_Cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="If you can describe it, you can build it.">
+<meta name="twitter:description" content="Vibe coding has collapsed the gap between idea and working software.">
+<meta name="twitter:image" content="vibe_coding_describe_it_Article_Cover.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "If you can describe it, you can build it.",
+  "author": { "@type": "Person", "name": "Kevin Clubb" },
+  "datePublished": "2026-05-06",
+  "description": "Vibe coding has collapsed the gap between idea and working software. A primer for the analysts, operators and managers still outsourcing their own ideas.",
+  "keywords": "vibe coding, AI tools, Claude, citizen development, no-code, prototyping, business analyst, internal tools",
+  "image": "vibe_coding_describe_it_Article_Cover.png",
+  "publisher": { "@type": "Organization", "name": "AI Sustained" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --base: #F7FCF9;
+    --accent: #1B4332;
+    --accent-mid: #2D6A4F;
+    --secondary: #40916C;
+    --highlight: #D8F3DC;
+    --highlight-soft: #E8F7EC;
+    --text: #081C15;
+    --text-soft: #3A4A42;
+    --muted: #6B7A72;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--base);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    padding: 0;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 28px 48px;
+  }
+
+  .masthead {
+    border-top: 4px solid var(--accent);
+    padding: 14px 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid rgba(27, 67, 50, 0.15);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; }
+
+  .hero {
+    padding: 56px 0 40px;
+    border-bottom: 1px solid rgba(27, 67, 50, 0.15);
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .kicker::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    background: var(--secondary);
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(40px, 6.5vw, 68px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    margin-bottom: 22px;
+  }
+  .deck {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 21px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--secondary);
+    max-width: 680px;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 40px 0 48px;
+  }
+  .stat-box {
+    background: var(--highlight);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border-bottom: 3px solid var(--accent);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-mid);
+    margin-bottom: 8px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+  }
+  .stat-value .unit {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--secondary);
+    margin-left: 3px;
+  }
+  .stat-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  .content {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text);
+    max-width: 680px;
+    margin: 48px 0;
+  }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-weight: 600; color: var(--accent); }
+  .content p em { font-style: italic; color: var(--accent-mid); }
+  .content a {
+    color: var(--accent-mid);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-thickness: 1px;
+  }
+  .content h2 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 1.2;
+    color: var(--accent);
+    margin: 48px 0 20px;
+    letter-spacing: -0.01em;
+  }
+  .content h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
+    font-size: 19px;
+    color: var(--accent);
+    margin: 32px 0 10px;
+  }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+
+  .inline-highlight {
+    background: var(--highlight);
+    padding: 1px 4px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  .pull-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 1.3;
+    color: var(--accent);
+    margin: 60px auto;
+    padding: 40px 0;
+    border-top: 1px solid var(--highlight);
+    border-bottom: 1px solid var(--highlight);
+    text-align: center;
+    max-width: 720px;
+    letter-spacing: -0.01em;
+  }
+  .pull-quote::before {
+    content: '"';
+    display: block;
+    font-size: 48px;
+    color: var(--secondary);
+    line-height: 0.5;
+    margin-bottom: 12px;
+  }
+
+  .takeaway {
+    background: var(--accent);
+    color: var(--base);
+    padding: 44px 40px;
+    border-radius: 4px;
+    margin: 72px 0 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .takeaway::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 200px;
+    height: 200px;
+    border: 36px solid var(--secondary);
+    border-radius: 50%;
+    opacity: 0.22;
+  }
+  .takeaway-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--highlight);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .takeaway-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(216, 243, 220, 0.25);
+  }
+  .takeaway h2 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 1.22;
+    color: var(--base);
+    margin-bottom: 26px;
+    position: relative;
+    z-index: 1;
+    letter-spacing: -0.01em;
+  }
+  .takeaway h2 em { color: #B7E4C7; font-style: italic; }
+  .takeaway-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    position: relative;
+    z-index: 1;
+  }
+  .takeaway-point {
+    border-top: 1px solid rgba(216, 243, 220, 0.35);
+    padding-top: 14px;
+  }
+  .takeaway-point-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #B7E4C7;
+    margin-bottom: 8px;
+  }
+  .takeaway-point-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--highlight);
+  }
+  .takeaway-point-text strong {
+    color: var(--base);
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  .toc {
+    background: var(--highlight-soft);
+    border-radius: 4px;
+    padding: 22px 26px;
+    margin: 32px 0 48px;
+  }
+  .toc-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    margin-bottom: 12px;
+  }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li {
+    margin: 6px 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+  }
+  .toc a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  .toc a:hover { border-bottom-color: var(--secondary); }
+  .toc .toc-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--secondary);
+    margin-right: 10px;
+  }
+
+  .footer {
+    padding: 36px 0 24px;
+    border-top: 1px solid rgba(27, 67, 50, 0.2);
+    margin-top: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.3;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .footer-cta strong {
+    font-style: normal;
+    font-weight: 600;
+    background: var(--highlight);
+    padding: 0 4px;
+  }
+  .sources {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.55;
+    max-width: 300px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+
+  .hashtags {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 0.5px solid rgba(27, 67, 50, 0.2);
+  }
+  .hashtag-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .hashtag-list {
+    font-size: 12px;
+    line-height: 1.75;
+    color: var(--secondary);
+  }
+  .hashtag-list span { font-weight: 500; }
+
+  .colophon {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 4px solid var(--accent);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 40px; }
+    .deck { font-size: 18px; }
+  }
+
+
+  /* ============ FIGURES ============ */
+  .figure {
+    margin: 36px 0 32px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .figure .fig-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+  }
+  .figure-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 12px;
+    padding-left: 14px;
+    border-left: 2px solid var(--secondary);
+  }
+  .figure-caption strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  @media print {
+    @page { size: A3; margin: 14mm; }
+    body { background: var(--base); padding: 0; }
+    .page { max-width: none; padding: 0; }
+    .page-break { page-break-before: always; break-before: page; }
+    .stat-box, .takeaway-point, .pull-quote { page-break-inside: avoid; break-inside: avoid; }
+    .takeaway, .figure { page-break-inside: avoid; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<article class="page">
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <span>AI Sustained</span>
+      <span>Issue 004</span>
+    </div>
+    <div class="masthead-right">
+      <span>06 May 2026</span>
+      <span>Vibe Coding · Capability</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">A Primer · For The Curious Sceptic</div>
+    <h1>If you can describe it, you can build it.</h1>
+    <p class="deck">Vibe coding has collapsed the gap between idea and working software. The people who used to outsource their own ideas now have a faster option — and most of them haven't noticed.</p>
+  </section>
+
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">Time to first prototype</div>
+      <span class="stat-value">90<span class="unit">sec</span></span>
+      <div class="stat-note">Versus weeks of agency or backlog time.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Tools required</div>
+      <span class="stat-value">1</span>
+      <div class="stat-note">A subscription. No IDE, no syntax, no framework.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Skill floor</div>
+      <span class="stat-value">L1<span class="unit">/2</span></span>
+      <div class="stat-note">If you can use Outlook and Excel, you have it.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Cost of trying</div>
+      <span class="stat-value">~£0</span>
+      <div class="stat-note">The economics of "what if" change entirely.</div>
+    </div>
+  </section>
+
+  
+  <figure class="figure" aria-label="The vibe coding pattern: human describes intent, AI builds working software">
+    <svg class="fig-svg" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360">
+  <defs>
+    <style>
+      .lbl { font-family: 'JetBrains Mono', 'Courier New', monospace; font-weight: 600; letter-spacing: 0.18em; }
+      .body { font-family: 'Plus Jakarta Sans', 'Helvetica', sans-serif; }
+      .quote { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 500; }
+    </style>
+  </defs>
+
+  <!-- Mint base -->
+  <rect width="800" height="360" fill="#F7FCF9"/>
+
+  <!-- Decorative ring (signature Clinical Green motif) -->
+  <circle cx="780" cy="-20" r="120" fill="none" stroke="#40916C" stroke-width="28" opacity="0.10"/>
+
+  <!-- Left card: human + intent -->
+  <rect x="40" y="46" width="280" height="268" rx="4" fill="#FFFFFF" stroke="#1B4332" stroke-width="1.5"/>
+  <rect x="40" y="46" width="280" height="4" fill="#1B4332"/>
+  <text x="60" y="84" class="lbl" font-size="11" fill="#1B4332">YOU</text>
+  <text x="60" y="104" class="body" font-size="11" fill="#6B7A72">An idea, in plain English</text>
+
+  <!-- Speech bubble (Playfair italic, mint highlight) -->
+  <rect x="60" y="128" width="240" height="120" rx="4" fill="#D8F3DC"/>
+  <rect x="60" y="128" width="4" height="120" fill="#1B4332"/>
+  <text x="76" y="155" class="quote" font-size="13" fill="#1B4332">"I want a tool that lets</text>
+  <text x="76" y="174" class="quote" font-size="13" fill="#1B4332">our regional managers</text>
+  <text x="76" y="193" class="quote" font-size="13" fill="#1B4332">log site visits and tag</text>
+  <text x="76" y="212" class="quote" font-size="13" fill="#1B4332">issues by category..."</text>
+
+  <!-- Person glyph -->
+  <circle cx="100" cy="280" r="13" fill="#1B4332"/>
+  <rect x="80" y="290" width="40" height="18" rx="9" fill="#1B4332"/>
+
+  <!-- Arrow + label -->
+  <text x="345" y="172" class="lbl" font-size="10" fill="#40916C">DESCRIBE</text>
+  <line x1="335" y1="184" x2="455" y2="184" stroke="#1B4332" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="445,176 463,184 445,192" fill="#1B4332"/>
+
+  <!-- Right card: app being built (dark moss) -->
+  <rect x="480" y="46" width="280" height="268" rx="4" fill="#1B4332"/>
+  <rect x="480" y="46" width="280" height="4" fill="#40916C"/>
+  <text x="500" y="84" class="lbl" font-size="11" fill="#D8F3DC">CLAUDE</text>
+  <text x="500" y="104" class="body" font-size="11" fill="#B7E4C7">Working software, in seconds</text>
+
+  <!-- Mock app window -->
+  <rect x="500" y="128" width="240" height="160" rx="4" fill="#F7FCF9"/>
+  <rect x="500" y="128" width="240" height="26" rx="4" fill="#1B4332"/>
+  <rect x="500" y="146" width="240" height="8" fill="#1B4332"/>
+  <circle cx="514" cy="141" r="3" fill="#40916C"/>
+  <circle cx="528" cy="141" r="3" fill="#40916C" opacity="0.6"/>
+  <circle cx="542" cy="141" r="3" fill="#40916C" opacity="0.4"/>
+  <text x="660" y="145" class="lbl" font-size="9" fill="#D8F3DC" text-anchor="middle">SITE VISIT LOG</text>
+
+  <!-- Form fields -->
+  <rect x="514" y="170" width="100" height="14" rx="2" fill="#E8F7EC"/>
+  <rect x="624" y="170" width="100" height="14" rx="2" fill="#E8F7EC"/>
+  <rect x="514" y="192" width="210" height="14" rx="2" fill="#E8F7EC"/>
+
+  <!-- Buttons -->
+  <rect x="514" y="216" width="60" height="22" rx="2" fill="#1B4332"/>
+  <text x="544" y="231" class="lbl" font-size="9" fill="#F7FCF9" text-anchor="middle">SAVE</text>
+  <rect x="582" y="216" width="64" height="22" rx="2" fill="none" stroke="#1B4332" stroke-width="1"/>
+  <text x="614" y="231" class="lbl" font-size="9" fill="#1B4332" text-anchor="middle">EXPORT</text>
+
+  <!-- Tag row -->
+  <rect x="514" y="252" width="210" height="24" rx="2" fill="#E8F7EC"/>
+  <rect x="520" y="258" width="56" height="12" rx="6" fill="#40916C"/>
+  <rect x="582" y="258" width="72" height="12" rx="6" fill="#1B4332" opacity="0.6"/>
+
+  <text x="500" y="306" class="body" font-size="9" fill="#B7E4C7">No engineers. No agency. Just describing what you want.</text>
+</svg>
+
+    <figcaption class="figure-caption"><strong>Fig. 01</strong> · The pattern — describe intent, receive working software.</figcaption>
+  </figure>
+
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-label">In this issue</div>
+    <ol>
+      <li><span class="toc-num">01</span><a href="#section-1">What vibe coding actually is</a></li>
+      <li><span class="toc-num">02</span><a href="#section-2">Why not engineers, agency, or Power Apps?</a></li>
+      <li><span class="toc-num">03</span><a href="#section-3">The loop — and what to build first</a></li>
+      <li><span class="toc-num">04</span><a href="#section-4">One honest caveat</a></li>
+    </ol>
+  </nav>
+
+  <section class="content" id="section-1">
+    <p>Vibe coding is a new way of making software. <strong>You don't write code. You don't drag boxes.</strong> You describe what you want, in normal English, to an AI like Claude. It builds it. You look at it, react, ask for changes. It updates. That's the loop.</p>
+
+    <p>The name is silly on purpose. It captures the feel — you're not engineering, you're describing a vibe and steering. The output is real, working software you can use today.</p>
+
+    <p>For anyone who has spent twenty years writing requirements for someone else to build, this is a category change. The thing in your head and the thing on the screen are now <em>seconds apart</em>, not sprints apart.</p>
+
+    <h2 id="section-2">Why not engineers, agency, or Power Apps?</h2>
+
+    <p>You always had options. They all came with a tax.</p>
+
+<figure class="figure" aria-label="Comparison of four routes from idea to working software">
+      <svg class="fig-svg" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380">
+  <defs>
+    <style>
+      .lbl { font-family: 'JetBrains Mono', 'Courier New', monospace; font-weight: 600; letter-spacing: 0.18em; }
+      .body { font-family: 'Plus Jakarta Sans', 'Helvetica', sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Soft mint surround -->
+  <rect width="800" height="380" fill="#E8F7EC"/>
+
+  <!-- Section header -->
+  <text x="400" y="42" class="lbl" font-size="12" fill="#1B4332" text-anchor="middle">YOU HAVE AN IDEA — WHAT NEXT?</text>
+  <line x1="356" y1="52" x2="444" y2="52" stroke="#40916C" stroke-width="1.5"/>
+
+  <!-- ============ Card 1: Engineers ============ -->
+  <rect x="30" y="76" width="170" height="270" rx="3" fill="#F7FCF9"/>
+  <rect x="30" y="76" width="170" height="3" fill="#1B4332"/>
+  <text x="115" y="106" class="lbl" font-size="11" fill="#1B4332" text-anchor="middle">HIRE ENGINEERS</text>
+  <line x1="65" y1="120" x2="165" y2="120" stroke="#40916C" stroke-width="1"/>
+
+  <text x="46" y="148" class="lbl" font-size="9" fill="#40916C">TIME</text>
+  <text x="105" y="148" class="body" font-size="10.5" fill="#081C15">Weeks → months</text>
+  <text x="46" y="172" class="lbl" font-size="9" fill="#40916C">COST</text>
+  <text x="105" y="172" class="body" font-size="10.5" fill="#081C15">£40k+ to start</text>
+  <text x="46" y="196" class="lbl" font-size="9" fill="#40916C">FEEL</text>
+  <text x="105" y="196" class="body" font-size="10.5" fill="#081C15">Specs, tickets, sprints</text>
+  <text x="46" y="220" class="lbl" font-size="9" fill="#40916C">PIVOT</text>
+  <text x="105" y="220" class="body" font-size="10.5" fill="#081C15">Slow to change</text>
+
+  <rect x="46" y="280" width="138" height="48" rx="3" fill="#E8F7EC"/>
+  <text x="115" y="298" class="lbl" font-size="8" fill="#40916C" text-anchor="middle">BEST FOR</text>
+  <text x="115" y="316" class="body" font-size="10.5" font-weight="600" fill="#1B4332" text-anchor="middle">production systems</text>
+
+  <!-- ============ Card 2: Agency ============ -->
+  <rect x="220" y="76" width="170" height="270" rx="3" fill="#F7FCF9"/>
+  <rect x="220" y="76" width="170" height="3" fill="#1B4332"/>
+  <text x="305" y="106" class="lbl" font-size="11" fill="#1B4332" text-anchor="middle">DESIGN AGENCY</text>
+  <line x1="255" y1="120" x2="355" y2="120" stroke="#40916C" stroke-width="1"/>
+
+  <text x="236" y="148" class="lbl" font-size="9" fill="#40916C">TIME</text>
+  <text x="295" y="148" class="body" font-size="10.5" fill="#081C15">4–12 weeks</text>
+  <text x="236" y="172" class="lbl" font-size="9" fill="#40916C">COST</text>
+  <text x="295" y="172" class="body" font-size="10.5" fill="#081C15">£15k–£60k</text>
+  <text x="236" y="196" class="lbl" font-size="9" fill="#40916C">FEEL</text>
+  <text x="295" y="196" class="body" font-size="10.5" fill="#081C15">Polished, but rigid</text>
+  <text x="236" y="220" class="lbl" font-size="9" fill="#40916C">PIVOT</text>
+  <text x="295" y="220" class="body" font-size="10.5" fill="#081C15">Change reqs = £££</text>
+
+  <rect x="236" y="280" width="138" height="48" rx="3" fill="#E8F7EC"/>
+  <text x="305" y="298" class="lbl" font-size="8" fill="#40916C" text-anchor="middle">BEST FOR</text>
+  <text x="305" y="316" class="body" font-size="10.5" font-weight="600" fill="#1B4332" text-anchor="middle">customer-facing brand</text>
+
+  <!-- ============ Card 3: Power Apps ============ -->
+  <rect x="410" y="76" width="170" height="270" rx="3" fill="#F7FCF9"/>
+  <rect x="410" y="76" width="170" height="3" fill="#1B4332"/>
+  <text x="495" y="106" class="lbl" font-size="10" fill="#1B4332" text-anchor="middle">POWER APPS / NO-CODE</text>
+  <line x1="445" y1="120" x2="545" y2="120" stroke="#40916C" stroke-width="1"/>
+
+  <text x="426" y="148" class="lbl" font-size="9" fill="#40916C">TIME</text>
+  <text x="485" y="148" class="body" font-size="10.5" fill="#081C15">Days, if you know it</text>
+  <text x="426" y="172" class="lbl" font-size="9" fill="#40916C">COST</text>
+  <text x="485" y="172" class="body" font-size="10.5" fill="#081C15">Per-seat licensing</text>
+  <text x="426" y="196" class="lbl" font-size="9" fill="#40916C">FEEL</text>
+  <text x="485" y="196" class="body" font-size="10.5" fill="#081C15">Drag-drop, lego-like</text>
+  <text x="426" y="220" class="lbl" font-size="9" fill="#40916C">PIVOT</text>
+  <text x="485" y="220" class="body" font-size="10.5" fill="#081C15">Hits a ceiling fast</text>
+
+  <rect x="426" y="280" width="138" height="48" rx="3" fill="#E8F7EC"/>
+  <text x="495" y="298" class="lbl" font-size="8" fill="#40916C" text-anchor="middle">BEST FOR</text>
+  <text x="495" y="316" class="body" font-size="10.5" font-weight="600" fill="#1B4332" text-anchor="middle">simple forms / flows</text>
+
+  <!-- ============ Card 4: Vibe coding (highlighted) ============ -->
+  <rect x="595" y="64" width="180" height="290" rx="3" fill="#1B4332"/>
+  <rect x="618" y="54" width="135" height="22" rx="3" fill="#40916C"/>
+  <text x="685" y="69" class="lbl" font-size="10" fill="#F7FCF9" text-anchor="middle">VIBE CODING</text>
+
+  <text x="685" y="110" class="lbl" font-size="11" fill="#D8F3DC" text-anchor="middle">YOU + AI</text>
+  <line x1="635" y1="124" x2="735" y2="124" stroke="#40916C" stroke-width="1"/>
+
+  <text x="611" y="152" class="lbl" font-size="9" fill="#B7E4C7">TIME</text>
+  <text x="668" y="152" class="body" font-size="10" fill="#F7FCF9">Minutes to hours</text>
+  <text x="611" y="176" class="lbl" font-size="9" fill="#B7E4C7">COST</text>
+  <text x="668" y="176" class="body" font-size="10" fill="#F7FCF9">A subscription</text>
+  <text x="611" y="200" class="lbl" font-size="9" fill="#B7E4C7">FEEL</text>
+  <text x="668" y="200" class="body" font-size="10" fill="#F7FCF9">Describe; it builds</text>
+  <text x="611" y="224" class="lbl" font-size="9" fill="#B7E4C7">PIVOT</text>
+  <text x="668" y="224" class="body" font-size="10" fill="#F7FCF9">Seconds to change</text>
+  <text x="611" y="248" class="lbl" font-size="9" fill="#B7E4C7">SKILL</text>
+  <text x="668" y="248" class="body" font-size="10" fill="#F7FCF9">No syntax to learn</text>
+
+  <rect x="611" y="288" width="148" height="56" rx="3" fill="#40916C"/>
+  <text x="685" y="306" class="lbl" font-size="8" fill="#D8F3DC" text-anchor="middle">BEST FOR</text>
+  <text x="685" y="324" class="body" font-size="10.5" font-weight="600" fill="#F7FCF9" text-anchor="middle">prototypes, internal</text>
+  <text x="685" y="338" class="body" font-size="10.5" font-weight="600" fill="#F7FCF9" text-anchor="middle">tools, "what if" tests</text>
+</svg>
+
+
+      <figcaption class="figure-caption"><strong>Fig. 02</strong> · The four routes — same destination, very different tax.</figcaption>
+    </figure>
+
+    <p>The honest read: <strong>engineers and agencies</strong> are worth every penny when something has to scale, be secure, and live for years — and overkill when you just want to test if an idea is any good. <strong>Power Apps and no-code platforms</strong> are useful, but you're still learning a tool and you hit a wall the moment you want something the platform didn't predict. Vibe coding closes the gap between thinking it and seeing it.</p>
+
+    <blockquote class="pull-quote">Vibe coding closes the gap between thinking it and seeing it. The cost of trying drops to almost zero — which changes what you bother trying.</blockquote>
+
+    <h3>Vibe coding</h3>
+    <p>Minutes to hours. <strong>The cost of a subscription.</strong> You describe; it builds. Change in seconds. No syntax to learn. Best for prototypes, internal tools, "what if" tests — the things that used to die in the backlog because nobody could justify a project for them.</p>
+
+    <h2 id="section-3">The loop — and what to build first</h2>
+
+    <p>The mechanics are simple. You describe. It builds. You react. You ship or scrap. If you've ever sent a colleague a message saying <em>"can the report show last month too?"</em> — you already have the skill. You're describing intent. The AI is the colleague who builds it for you, instantly, and never gets tired of revisions.</p>
+
+
+    <figure class="figure" aria-label="The four-step vibe coding loop: describe, see it, react, ship or scrap">
+      <svg class="fig-svg" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320">
+  <defs>
+    <style>
+      .lbl { font-family: 'JetBrains Mono', 'Courier New', monospace; font-weight: 600; letter-spacing: 0.18em; }
+      .body { font-family: 'Plus Jakarta Sans', 'Helvetica', sans-serif; }
+      .quote { font-family: 'Playfair Display', Georgia, serif; font-style: italic; }
+    </style>
+  </defs>
+
+  <rect width="800" height="320" fill="#F7FCF9"/>
+
+  <!-- Decorative ring -->
+  <circle cx="40" cy="320" r="100" fill="none" stroke="#1B4332" stroke-width="20" opacity="0.05"/>
+
+  <!-- Title -->
+  <text x="400" y="44" class="lbl" font-size="12" fill="#1B4332" text-anchor="middle">THE LOOP</text>
+  <line x1="378" y1="54" x2="422" y2="54" stroke="#40916C" stroke-width="1.5"/>
+  <text x="400" y="74" class="body" font-size="11" fill="#40916C" text-anchor="middle">If you can use Google, Word and Excel, you already know the muscle.</text>
+
+  <!-- Step 1 -->
+  <circle cx="120" cy="180" r="50" fill="#F7FCF9" stroke="#1B4332" stroke-width="2"/>
+  <text x="120" y="170" class="lbl" font-size="10" fill="#40916C" text-anchor="middle">01</text>
+  <text x="120" y="190" class="lbl" font-size="11" fill="#1B4332" text-anchor="middle">DESCRIBE</text>
+  <text x="120" y="252" class="quote" font-size="11" fill="#3A4A42" text-anchor="middle">"I want a form</text>
+  <text x="120" y="266" class="quote" font-size="11" fill="#3A4A42" text-anchor="middle">that does X."</text>
+
+  <!-- Arrow 1 -->
+  <path d="M 175 180 Q 220 160, 265 180" fill="none" stroke="#1B4332" stroke-width="1.5"/>
+  <polygon points="258,172 272,180 258,188" fill="#1B4332"/>
+
+  <!-- Step 2 -->
+  <circle cx="320" cy="180" r="50" fill="#F7FCF9" stroke="#1B4332" stroke-width="2"/>
+  <text x="320" y="170" class="lbl" font-size="10" fill="#40916C" text-anchor="middle">02</text>
+  <text x="320" y="190" class="lbl" font-size="11" fill="#1B4332" text-anchor="middle">SEE IT</text>
+  <text x="320" y="252" class="body" font-size="11" fill="#3A4A42" text-anchor="middle">A working version</text>
+  <text x="320" y="266" class="body" font-size="11" fill="#3A4A42" text-anchor="middle">appears.</text>
+
+  <!-- Arrow 2 -->
+  <path d="M 375 180 Q 420 160, 465 180" fill="none" stroke="#1B4332" stroke-width="1.5"/>
+  <polygon points="458,172 472,180 458,188" fill="#1B4332"/>
+
+  <!-- Step 3 -->
+  <circle cx="520" cy="180" r="50" fill="#F7FCF9" stroke="#1B4332" stroke-width="2"/>
+  <text x="520" y="170" class="lbl" font-size="10" fill="#40916C" text-anchor="middle">03</text>
+  <text x="520" y="190" class="lbl" font-size="11" fill="#1B4332" text-anchor="middle">REACT</text>
+  <text x="520" y="252" class="quote" font-size="11" fill="#3A4A42" text-anchor="middle">"Move that. Add a</text>
+  <text x="520" y="266" class="quote" font-size="11" fill="#3A4A42" text-anchor="middle">date filter."</text>
+
+  <!-- Arrow 3 -->
+  <path d="M 575 180 Q 620 160, 665 180" fill="none" stroke="#1B4332" stroke-width="1.5"/>
+  <polygon points="658,172 672,180 658,188" fill="#1B4332"/>
+
+  <!-- Step 4 (filled — destination) -->
+  <circle cx="720" cy="180" r="50" fill="#1B4332"/>
+  <text x="720" y="166" class="lbl" font-size="10" fill="#B7E4C7" text-anchor="middle">04</text>
+  <text x="720" y="186" class="lbl" font-size="10" fill="#F7FCF9" text-anchor="middle">SHIP</text>
+  <text x="720" y="202" class="lbl" font-size="10" fill="#F7FCF9" text-anchor="middle">/ SCRAP</text>
+  <text x="720" y="252" class="body" font-size="11" fill="#3A4A42" text-anchor="middle">Use it. Or bin it.</text>
+  <text x="720" y="266" class="body" font-size="11" fill="#3A4A42" text-anchor="middle">No sunk cost.</text>
+
+  <!-- Loop-back -->
+  <path d="M 720 130 Q 720 96, 600 96 L 200 96 Q 120 96, 120 130" fill="none" stroke="#40916C" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <polygon points="112,123 120,135 128,123" fill="#40916C"/>
+  <text x="420" y="90" class="quote" font-size="11" fill="#40916C" text-anchor="middle">repeat in seconds, not sprints</text>
+</svg>
+
+      <figcaption class="figure-caption"><strong>Fig. 03</strong> · A conversation, not a project. The loop runs in seconds.</figcaption>
+    </figure>
+
+    <h3>Real things people have built in under an hour</h3>
+    <ul>
+      <li><strong>A weekly KPI dashboard</strong> from a CSV export, with date filters and traffic-light flags.</li>
+      <li><strong>A bid go / no-go scorer</strong> that reads a tender PDF and rates it against your criteria.</li>
+      <li><strong>A meeting-minutes tidier</strong> that turns a Teams transcript into actions, owners, and dates.</li>
+      <li><strong>A holiday-cover planner</strong> for a regional team — drag names, see clashes, export the result.</li>
+    </ul>
+
+    <p>Pick the most boring, most repetitive thing on your week. Open Claude. Describe it: <em>"I do this every Friday — I'd love a tool that..."</em> See what comes back in 90 seconds. You've lost nothing. You may have just deleted a three-hour task from your future.</p>
+
+    <h2 id="section-4">One honest caveat.</h2>
+
+    <p>Vibe coding does not replace engineers. It replaces <strong>the part where you used to wait</strong>. Anything that handles money, customer data, or has to run unattended for years still needs proper engineering, proper testing, proper governance.</p>
+
+    <p>But the prototype that proves the idea worth building? That used to take a project. Now it takes an afternoon — and that changes which ideas get to exist at all.</p>
+  </section>
+
+  <section class="takeaway" aria-label="Tactical takeaway for leaders">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2>The barrier to building software just collapsed. <em>Most people haven't noticed yet.</em></h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 · WHO</div>
+        <div class="takeaway-point-text">Anyone who can write a clear email already has the <strong>operating skill</strong>. Stop waiting for permission.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 · WHAT</div>
+        <div class="takeaway-point-text">Target the <strong>boring repetition</strong> first — internal tools, prototypes, "what if" tests the backlog killed.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 · BOUNDARY</div>
+        <div class="takeaway-point-text">Engineers still own anything <strong>customer-facing, money-touching, or unattended</strong>. Don't blur the line.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">If the cost of trying is now zero — <strong>what would you build first</strong>?</p>
+    </div>
+    <div class="sources">
+      Sources · Anthropic Claude · Author practice · Internal tooling, prototyping, and analyst workflows across multiple sectors.
+    </div>
+  </footer>
+
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#VibeCoding</span> <span>#AITools</span> <span>#Claude</span> <span>#CitizenDevelopment</span> <span>#NoCode</span> <span>#BusinessAnalysis</span> <span>#FutureOfWork</span> <span>#Leadership</span> <span>#Innovation</span> <span>#Productivity</span> <span>#DigitalTransformation</span> <span>#UKBusiness</span>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span>AI Sustained · By Kevin Clubb</span>
+    <span>2026</span>
+  </div>
+
+</article>
+</body>
+</html>
 
