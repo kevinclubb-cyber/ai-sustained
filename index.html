@@ -3,25 +3,49 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Sustained — practical, evidence-led thinking on AI adoption | By Kevin Clubb, AI-Native Analyst</title>
-<meta name="description" content="A newsletter and article series for the AI-curious. Practical, evidence-led writing on AI adoption, capability, agentic workflows, and sustainability — from a senior business analyst's perspective.">
-<meta name="keywords" content="AI Sustained, AI newsletter UK, AI adoption, AI competency, Kevin Clubb, AI for business analysts, generative AI, AI strategy, AI sustainability, agentic workflows, vibe coding, future of work, UK AI">
+<title>AI Sustained — AI that survives Monday morning | By Kevin Clubb</title>
+<meta name="description" content="AI that survives Monday morning. Practical, evidence-led writing on AI adoption, capability, agentic workflows and sustainability — by Kevin Clubb, senior business analyst.">
+<meta name="keywords" content="AI Sustained, AI that survives Monday morning, AI newsletter UK, AI adoption, AI competency, Kevin Clubb, AI for business analysts, generative AI, AI strategy, AI sustainability, agentic workflows, vibe coding, future of work, UK AI">
 <meta name="author" content="Kevin Clubb">
-<meta property="og:title" content="AI Sustained — practical thinking on AI adoption">
-<meta property="og:description" content="Evidence-led writing on AI adoption, capability, agentic workflows and sustainability. From a senior business analyst's perspective.">
+<meta property="og:title" content="AI Sustained — AI that survives Monday morning">
+<meta property="og:description" content="Practical, evidence-led writing on AI adoption, capability, agentic workflows and sustainability — by someone who actually uses it.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="og-cover.png">
+<meta property="og:image" content="https://ai-sustained.com/favicon-512.png">
+<meta property="og:url" content="https://ai-sustained.com">
+<meta property="og:site_name" content="AI Sustained">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="AI Sustained — practical thinking on AI adoption">
+<meta name="twitter:title" content="AI Sustained — AI that survives Monday morning">
 <meta name="twitter:description" content="Evidence-led writing on AI adoption, capability, agentic workflows and sustainability.">
+<meta name="twitter:image" content="/favicon-512.png">
+
+<!-- Favicons -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+<meta name="theme-color" content="#1B4332">
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "AI Sustained",
-  "url": "https://aisustained.com",
+  "alternateName": "AI that survives Monday morning",
+  "url": "https://ai-sustained.com",
+  "logo": "https://ai-sustained.com/ai_sustained_logo_mark.png",
   "author": { "@type": "Person", "name": "Kevin Clubb", "jobTitle": "Senior Business Analyst" },
-  "description": "Practical, evidence-led writing on AI adoption, capability, agentic workflows, and sustainability."
+  "description": "Practical, evidence-led writing on AI adoption, capability, agentic workflows, and sustainability.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "AI Sustained",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ai-sustained.com/ai_sustained_logo_mark.png"
+    }
+  }
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -66,7 +90,39 @@
     max-width: 1280px;
     margin: 0 auto;
   }
-  .topbar-left { display: flex; gap: 24px; align-items: baseline; }
+  .topbar-left { display: flex; gap: 14px; align-items: center; }
+  .topbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .topbar-logo img.mark {
+    height: 44px;
+    width: auto;
+    display: block;
+  }
+  .topbar-logo img.wordmark {
+    height: 36px;
+    width: auto;
+    display: block;
+  }
+  .topbar-byline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-left: 14px;
+    border-left: 1px solid rgba(27, 67, 50, 0.2);
+  }
+  /* Mobile — show only the mark, hide the wordmark, tighten spacing */
+  @media (max-width: 720px) {
+    .topbar-logo img.mark { height: 36px; }
+    .topbar-logo img.wordmark { display: none; }
+    .topbar-byline { display: none; }
+  }
   .topbar .brand { font-weight: 600; }
   .topbar-nav { display: flex; gap: 22px; }
   .topbar-nav a {
@@ -470,21 +526,24 @@
 
   <header class="topbar">
     <div class="topbar-left">
-      <span class="brand">AI Sustained</span>
-      <span>by Kevin Clubb</span>
+      <a href="/" class="topbar-logo" aria-label="AI Sustained — AI that survives Monday morning">
+        <img src="/ai_sustained_logo_mark.png" alt="AI Sustained" class="mark" />
+        <img src="/ai_sustained_wordmark.png" alt="AI Sustained — AI that survives Monday morning." class="wordmark" />
+      </a>
+      <span class="topbar-byline">by Kevin Clubb</span>
     </div>
     <nav class="topbar-nav">
       <a href="#articles" class="active">Articles</a>
       <a href="#about">About</a>
-      <a href="https://www.linkedin.com/in/kevin-clubb/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://www.linkedin.com/in/kevinclubb" target="_blank" rel="noopener">LinkedIn ↗</a>
     </nav>
   </header>
 
   <section class="hero">
     <div class="hero-content">
       <div class="hero-kicker">Practical · Evidence-led · No fluff</div>
-      <h1>AI, written by someone who actually uses it.</h1>
-      <p class="deck">A series of articles and reports on AI adoption, capability, agentic workflows and sustainability. <strong>Aimed at people who want answers, not hype.</strong></p>
+      <h1>AI that survives <em style="font-style: italic; color: var(--secondary);">Monday morning</em>.</h1>
+      <p class="deck">Practical, evidence-led writing on AI adoption, capability, agentic workflows and sustainability — <strong>by someone who actually uses it</strong>. Aimed at people who want answers, not hype.</p>
     </div>
   </section>
 
@@ -513,6 +572,7 @@
   </div>
 
   <section class="grid">
+
     <a class="card featured" data-topic="adoption" href="/articles/ai-competency-pyramid/">
       <div class="card-image">
         <img src="/articles/ai-competency-pyramid/cover.png" alt="The AI Competency Pyramid. Cover showing 20.6m UK workers across 14 levels." />
