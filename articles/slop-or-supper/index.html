@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slop, or supper? When AI-edited writing stops being slop — and starts being yours | AI Sustained</title>
+<meta name="description" content="A senior business analyst on the boundary where AI-assisted writing stops being slop. The 53.7% LinkedIn stat, the 78% labelling demand, and the line between machine output and authored work.">
+<meta name="keywords" content="AI slop, LinkedIn AI content, AI-assisted writing, content authenticity, AI labelling, human-AI co-writing, Ethan Mollick, prompt engineering, AI editing, fact-checking AI, AI Sustained, Kevin Clubb">
+<meta name="author" content="Kevin Clubb">
+<meta property="og:title" content="Slop, or supper? When AI-edited writing stops being slop — and starts being yours">
+<meta property="og:description" content="A working definition of AI slop, the data showing why readers are bored of it, and the messy boundary where AI-assisted writing crosses back into authored work.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="cover.png">
+<meta property="og:url" content="https://ai-sustained.com/articles/ai-slop/">
+<meta property="og:site_name" content="AI Sustained">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Slop, or supper? When AI-edited writing stops being slop">
+<meta name="twitter:description" content="A working definition of AI slop, the data showing why readers are bored of it, and the messy boundary where AI-assisted writing crosses back into authored work.">
+<meta name="twitter:image" content="cover.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Slop, or supper? When AI-edited writing stops being slop — and starts being yours",
+  "author": { "@type": "Person", "name": "Kevin Clubb", "jobTitle": "Senior Business Analyst" },
+  "datePublished": "2026-05-19",
+  "description": "A working definition of AI slop, the data showing why readers are bored of it, and the messy boundary where AI-assisted writing crosses back into authored work.",
+  "keywords": "AI slop, LinkedIn AI content, AI-assisted writing, content authenticity, AI labelling, prompt engineering, AI Sustained",
+  "image": "cover.png",
+  "publisher": { "@type": "Organization", "name": "AI Sustained" }
+}
+</script>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+<meta name="theme-color" content="#1B4332">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --base: #F7FCF9;
+    --accent: #1B4332;
+    --accent-mid: #2D6A4F;
+    --secondary: #40916C;
+    --highlight: #D8F3DC;
+    --highlight-soft: #E8F7EC;
+    --text: #081C15;
+    --text-soft: #3A4A42;
+    --muted: #6B7A72;
+    --pale-mint: #B7E4C7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--base); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
+
+  .masthead { border-top: 4px solid var(--accent); padding: 14px 0 10px; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid rgba(27, 67, 50, 0.15); }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; }
+
+  .hero { padding: 56px 0 40px; border-bottom: 1px solid rgba(27, 67, 50, 0.15); }
+  .kicker { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--secondary); margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
+  .kicker::before { content: ''; width: 36px; height: 2px; background: var(--secondary); }
+  .hero h1 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; font-size: clamp(40px, 6.5vw, 64px); line-height: 1.02; letter-spacing: -0.02em; color: var(--accent); margin-bottom: 22px; }
+  .hero h1 em { color: var(--secondary); font-style: italic; }
+  .deck { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 21px; font-weight: 400; line-height: 1.45; color: var(--secondary); max-width: 680px; }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 40px 0 48px; }
+  .stat-box { background: var(--highlight); padding: 22px 24px; border-radius: 4px; border-bottom: 3px solid var(--accent); }
+  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent-mid); margin-bottom: 8px; }
+  .stat-value { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 600; color: var(--accent); line-height: 1; display: block; }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--secondary); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+
+  /* The Oxford-style definition block */
+  .definition {
+    background: var(--highlight-soft);
+    border-left: 4px solid var(--accent);
+    padding: 32px 36px;
+    margin: 40px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .definition .word {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 38px;
+    color: var(--accent);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .definition .phonetics {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    letter-spacing: 0.04em;
+  }
+  .definition .pos {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--accent-mid);
+    margin-bottom: 10px;
+  }
+  .definition .meaning {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+  .definition .meaning-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--secondary);
+    margin-right: 8px;
+  }
+  .definition .example {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--accent-mid);
+    border-left: 2px solid var(--secondary);
+    padding-left: 14px;
+    margin-top: 14px;
+  }
+  .definition .etymology {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(27, 67, 50, 0.15);
+  }
+
+  .content { font-size: 18px; line-height: 1.7; color: var(--text); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-weight: 600; color: var(--accent); }
+  .content p em { font-style: italic; color: var(--accent-mid); }
+  .content h2 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 36px; line-height: 1.15; color: var(--accent); margin: 56px 0 20px; letter-spacing: -0.01em; }
+  .content h2 em { font-style: italic; color: var(--secondary); }
+  .content h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 22px; color: var(--accent); margin: 36px 0 6px; }
+  .inline-highlight { background: var(--highlight); padding: 1px 4px; border-radius: 2px; font-weight: 500; }
+
+  .pull-quote { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; font-size: 30px; line-height: 1.3; color: var(--accent); margin: 60px auto; padding: 40px 0; border-top: 1px solid var(--highlight); border-bottom: 1px solid var(--highlight); text-align: center; max-width: 720px; letter-spacing: -0.01em; }
+  .pull-quote::before { content: '"'; display: block; font-size: 48px; color: var(--secondary); line-height: 0.5; margin-bottom: 12px; }
+
+  .takeaway { background: var(--accent); color: var(--base); padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px; position: relative; overflow: hidden; }
+  .takeaway::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border: 36px solid var(--secondary); border-radius: 50%; opacity: 0.22; }
+  .takeaway-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--highlight); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; position: relative; z-index: 1; }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(216, 243, 220, 0.25); }
+  .takeaway h2 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 32px; line-height: 1.22; color: var(--base); margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em; }
+  .takeaway h2 em { color: var(--pale-mint); font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(216, 243, 220, 0.35); padding-top: 14px; }
+  .takeaway-point-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pale-mint); margin-bottom: 8px; }
+  .takeaway-point-text { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400; font-size: 16px; line-height: 1.45; color: var(--highlight); }
+  .takeaway-point-text strong { color: var(--base); font-weight: 600; font-style: normal; }
+
+  .footer { padding: 36px 0 24px; border-top: 1px solid rgba(27, 67, 50, 0.2); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--accent); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; background: var(--highlight); padding: 0 4px; }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 320px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 0.5px solid rgba(27, 67, 50, 0.2); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--secondary); }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 4px solid var(--accent); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 40px; }
+    .deck { font-size: 18px; }
+    .definition { padding: 24px 22px; }
+    .definition .word { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+<article class="page">
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <span>AI Sustained</span>
+      <span>Issue 006</span>
+    </div>
+    <div class="masthead-right">
+      <span>2026.05.15</span>
+      <span>Content</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">A working definition · 2026 · 9-minute read</div>
+    <h1>Slop, or <em>supper?</em></h1>
+    <p class="deck">When does AI-assisted writing stop being slop and start being yours? A working definition, the boredom data, and the line in the sand most people are crossing without realising it.</p>
+  </section>
+
+  <!-- The Oxford-style definition block -->
+  <aside class="definition" aria-label="Dictionary-style definition">
+    <div class="word">slop</div>
+    <div class="phonetics">/slɒp/</div>
+    <div class="pos">noun.</div>
+    <p class="meaning"><span class="meaning-num">1.</span> Digital content produced with generative artificial intelligence, perceived as lacking in effort, quality, or meaning, and produced in high volume to gain advantage in the attention economy.</p>
+    <p class="meaning"><span class="meaning-num">2.</span> Filler material prioritising speed and quantity over substance and originality; the digital equivalent of a microwaved supermarket meal served on a hotel-buffet plate.</p>
+    <p class="example">"Scroll LinkedIn for 60 seconds and you'll meet the same thrilled-to-announce opener, the same tidy life lesson, the same polished tone that says nothing specific. That's the slop."</p>
+    <div class="etymology">Etymology · Old English <em>sloppe</em> — a watery food, esp. for pigs · 2024 ext. AI-generated content · 2025 Word of the Year, Merriam-Webster &amp; American Dialect Society</div>
+  </aside>
+
+  <section class="content" style="margin-top: 32px;">
+    <p style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 22px; line-height: 1.4; color: var(--accent-mid); max-width: 700px;">That's the dictionary definition. <strong style="color: var(--accent); font-style: normal;">This article was drafted with Claude.</strong> By the time you finish reading it, I'd like you to decide whether what you're reading qualifies. The numbers come first — partly because they're useful, mostly because they explain why anyone is talking about this at all.</p>
+  </section>
+
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">LinkedIn long-form</div>
+      <span class="stat-value">53.7<span class="unit">%</span></span>
+      <div class="stat-note">Likely AI-generated, 2026 (Originality.ai)</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Reach penalty</div>
+      <span class="stat-value">−30<span class="unit">%</span></span>
+      <div class="stat-note">For posts flagged as AI</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Engagement penalty</div>
+      <span class="stat-value">−55<span class="unit">%</span></span>
+      <div class="stat-note">Comments, reactions, shares</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Want it labelled</div>
+      <span class="stat-value">78<span class="unit">%</span></span>
+      <div class="stat-note">Of consumers globally (WARC 2026)</div>
+    </div>
+  </section>
+
+  <section class="content">
+
+    <h2>The boredom is <em>measurable</em>.</h2>
+
+    <p>The breathless think-pieces about how AI is going to transform content all miss the same thing: <strong>your readers got bored of AI writing before you even started using it</strong>. They got bored sometime around the third "Here's why this changes everything" carousel they scrolled past on a Tuesday morning.</p>
+
+    <p>The numbers back this up with the kind of brutal clarity that makes a Monday-morning marketing meeting genuinely uncomfortable. Originality.ai analysed hundreds of thousands of LinkedIn posts in 2025 and 2026 and found that <span class="inline-highlight">53.7% of long-form LinkedIn posts are now likely AI-generated</span>. The average length of those posts has gone up by 107%. So we're producing more, longer, more polished content than ever — and we're being read less.</p>
+
+    <p>Posts flagged as AI-generated received <strong>30% less reach and 55% less engagement</strong> than human-written ones. That's not a rounding error. That's the platform's classifier — and your audience's scroll-thumb — both telling you the same thing.</p>
+
+    <p>Meanwhile, WARC's 2026 Consumer Trends report found that <strong>78% of consumers globally demand clear labelling of AI-generated content</strong>. That's not "would be nice to have." That's "baseline expectation, please." And the EU's AI labelling rule is doing exactly that — making it the law.</p>
+
+    <p>So we're in this slightly absurd position. Roughly half the professional internet is being written by something that nobody wants to read, that performs worse than the alternative, and that everyone wants labelled so they can skip past it faster. It's like opening a restaurant where half the menu is "microwave meal," charging dinner-party prices for it, and being baffled when people stop coming back.</p>
+
+    <h2>So what <em>actually</em> is slop?</h2>
+
+    <p>Forget the dictionary. Sat in front of LinkedIn on a Thursday morning, slop has three tells:</p>
+
+    <h3>1. Competent sentences. No stakes.</h3>
+    <p>The defining feature isn't bad grammar. AI is depressingly good at grammar. The signature is paragraphs of perfectly-constructed sentences that contain no actual information. <em>"Leadership is about people, not processes. Empathy matters. Vulnerability builds trust."</em> Three sentences nobody would write down if they had to use a pen.</p>
+
+    <h3>2. Story-shaped. No fingerprints.</h3>
+    <p>Slop loves the shape of vulnerability. The "challenging week," the "tough conversation with a mentor," the "learning moment." But the specifics are interchangeable. No Tuesday afternoon detail, no name, no smell of conference-room coffee. It's a story-shaped balloon with nothing inside.</p>
+
+    <h3>3. Mid-Atlantic, faintly American.</h3>
+    <p>British writers using AI without editing produce text that doesn't sound British. The em-dashes multiply. The word "leverage" appears unprompted. Things become "elevated" rather than "made better." Sentences end with the same three-beat rhythm. Read enough of it and you start to feel like the whole country went on the same MBA programme.</p>
+
+    <h2>The boundary <em>question</em>.</h2>
+
+    <p>Now to the more interesting question. Because if 53.7% of long-form LinkedIn is AI-generated, and the people writing it are mostly intelligent adults with opinions of their own, the binary "human or AI" framing is doing a lot of work it can't really sustain.</p>
+
+    <p>Consider this article. You're reading text that was drafted by Claude. <strong>That's a fact.</strong> I won't pretend otherwise. But — and this is where it gets interesting — the idea is mine. The structure is mine. The dry-British-analyst voice is mine. The hooks, the running joke about microwave meals, the specific decision to open with a dictionary entry, the boredom angle, the personal-disclosure moment you're reading right now — all mine.</p>
+
+    <p>What actually happened was this. I read a post on LinkedIn from someone making a point of <em>not</em> spending their AI credits on writing it. Good for them. Mid-scroll, with a streaming cold, I started planning the counter-argument in my head — the one you're reading now. The shape of the article got drafted on the walk to the shop to buy some medicinal beer (poor me, I hear you say). The brief I dictated into Claude when I got home was about 600 words long. Claude drafted a first pass. I read it, didn't like the opening, asked for it again in a more editorial voice. Read the second pass. Cut three paragraphs. Added two of my own. Rewrote the takeaway. Then I went away for a few hours, came back, read it again, hated one of the section headers, changed it.</p>
+
+    <p>Thought about the jokes. Kept some. Binned the ones that were trying too hard. Wrote some of my own that the model would never have produced because they require knowing me.</p>
+
+    <p>By the time you read this, the words on the screen are about 70% Claude's first draft, 20% my edits, and 10% my second-and-third-draft additions. <em>Is that slop?</em></p>
+
+    <blockquote class="pull-quote">A finished AI draft you approved is slop. A scaffold you argued with for an afternoon is something else entirely. The difference is the argument.</blockquote>
+
+    <h2>The interaction <em>is the point</em>.</h2>
+
+    <p>There's a useful piece of academic research I keep coming back to. Ken Arnold and Jiho Kim published a paper in 2024 called <em>Interaction-Required Suggestions for Control, Ownership, and Awareness in Human-AI Co-Writing</em>. Catchy title, I know. But the argument they make is this: AI writing interfaces that <strong>require human involvement at every step</strong> — rather than handing back a finished draft — produce work that the human writer experiences as genuinely theirs. Control, ownership, and awareness are the three things they measured.</p>
+
+    <p>Ethan Mollick, who runs Wharton's Generative AI Lab and writes more usefully about this than most people, makes a related point: the people getting good results from AI aren't the ones who write better prompts. They're the ones who <em>argue with the output</em>. They push back, ask for alternatives, reject the first draft, demand the second one go in a completely different direction. The work is in the back-and-forth, not in the typing.</p>
+
+    <p>The slop-to-not-slop boundary, in other words, isn't measured in word count or in percentage-of-human-written. It's measured in <span class="inline-highlight">how many rounds of friction the draft survived before going live</span>.</p>
+
+    <p>One round — "draft me a post about leadership" → click post — is slop. Six rounds, including the one where you went away and came back and changed your mind, is something else. Even if the underlying vocabulary is still mostly the model's.</p>
+
+    <p>The interaction is doing three things that matter:</p>
+
+    <p><strong>First, you're applying your own taste.</strong> You're noticing when something sounds wrong. You're cutting the cliché. You're refusing the predictable structure. The model can't do any of this on your behalf because it doesn't know what your voice sounds like — and frankly, neither does anyone who hasn't read enough of you.</p>
+
+    <p><strong>Second, you're embedding judgement.</strong> The model doesn't know which examples land for your specific audience. It doesn't know what your colleague said in the Slack message last week. It doesn't know that the joke about the spreadsheet won't work because you've used it twice already. You do.</p>
+
+    <p><strong>Third, you're slowing down.</strong> This is the underrated bit. Slop's signature is the speed at which it gets published. Writing that's been read four times by its author before posting reads differently to writing that's been read zero times by its author before posting, and your readers can tell.</p>
+
+    <h2>So how much editing is <em>enough?</em></h2>
+
+    <p>Nobody asks me this question. What I hear, constantly, is people talking about how slop is polluting their feed — without ever offering criteria for what makes a piece of writing slop or not. I don't have a tidy answer either. All I know is this: I put the hours in. If the content is crap, by all means call it crap. But it isn't slop.</p>
+
+    <p>My working rule, after about eighteen months of writing this way:</p>
+
+    <p><strong>Edit the first line and the last line by hand. Always.</strong> Both are where almost all the voice lives, and both are where AI drafts most reliably sound AI. If those two sentences sound like you, the middle has a fighting chance.</p>
+
+    <p><strong>Cut at least 20% of what the model produces.</strong> First drafts from AI are reliably 20% too long because the model thinks padding is helpful. It isn't. The cut is where the writing tightens up.</p>
+
+    <p><strong>Make at least three structural changes.</strong> Move a section. Combine two paragraphs. Split one. Add something the model didn't think of. Take something out the model thought was important. The structural fingerprints matter more than the sentence-level ones.</p>
+
+    <p><strong>Read it out loud once.</strong> This is the most boring rule and the most useful one. AI writing sounds different when you hear it. Anything that snags when you read it aloud — a clunky construction, a sentence that goes on too long, a transition that doesn't really work — comes out. Your readers hear text the same way; they just don't realise it.</p>
+
+    <p><strong>Run it through a second model.</strong> This is the rule I've come to trust most for any article that cites a statistic, a study, or a named person. The first model drafts. I edit. Then I paste the whole thing into a different model — usually Gemini, sometimes ChatGPT — and ask it to flag anything that looks factually wrong, mis-attributed, or hallucinated. The hit rate is uncomfortably high. Models invent plausible-sounding sources, get years slightly wrong, attribute quotes to the wrong person. The second model catches what the first one's confidence concealed. Then I check the flags by hand against actual primary sources. <em>Friction, not faith.</em></p>
+
+    <p><strong>And — this is the one nobody admits — sleep on it once.</strong> The article you wrote at 11pm and post-edited at 9am the next morning is meaningfully better than the article you wrote at 11pm and posted at 11.20pm. The eight-hour break is where your taste catches up with your output.</p>
+
+    <h2>What this article <em>actually</em> took.</h2>
+
+    <p>The whole point of this piece is transparency, so here's what I actually did. Not a neat hour count — I didn't track it, and the honest version is messier than that. Just the steps, in order, so you can decide for yourself whether what you've been reading qualifies as authored work or sophisticated slop.</p>
+
+    <p><strong>1. The idea.</strong> I read a LinkedIn post from someone making a point of not using AI to write their post. I disagreed with the framing. I planned out the counter-argument in my head on the walk to the shop. None of that involved Claude.</p>
+
+    <p><strong>2. The brief.</strong> I dictated about 600 words of structure into Claude when I got home — what I wanted to argue, who I wanted to be talking to, what the dry-British-analyst voice should sound like, what stats to look for, the dictionary-block idea, the personal-disclosure section, the running joke about microwave meals.</p>
+
+    <p><strong>3. The first draft.</strong> Claude produced about 1,400 words. I didn't like the opening. I disagreed with several of the section transitions. The personal-disclosure section had me getting asked a question I never get asked, so I rewrote it. The origin story had me having a thought one Thursday morning, which is a slop opener if I've ever seen one, so I replaced it with the real version about reading someone else's post and walking to the shop.</p>
+
+    <p><strong>4. The structural edits.</strong> Cut three paragraphs that were filler. Added two of my own — the medicinal beer aside, the bit about constantly hearing people complain about slop without offering criteria. Moved the Wharton-style section earlier in the article. Rewrote the takeaway. Added a fact-checking rule I realised I'd left out, even though it's the rule I actually use most.</p>
+
+    <p><strong>5. The voice pass.</strong> Read it through looking for AI tells. Cut the em-dashes that weren't pulling their weight. Refused to let any paragraph end with the same three-beat rhythm twice. Replaced "leverage" with "use." Replaced "elevated" with "made better." Killed any sentence that started with "Moreover."</p>
+
+    <p><strong>6. The fact-check.</strong> Pasted the whole article into Gemini and asked it to flag anything that looked like a hallucinated statistic, a mis-attributed quote, or a fabricated study. It flagged my original "Wharton line" framing as a paraphrase I couldn't back up to a specific paper, which is how the citation now points at the Arnold &amp; Kim 2024 paper (a real one) and Ethan Mollick (a real person who has actually argued this).</p>
+
+    <p><strong>7. The overnight pass.</strong> Slept on it. Read it again the next morning. Made another round of edits. Some of them were me un-editing my own previous edits because they'd been over-careful.</p>
+
+    <p><strong>8. The first-line and last-line treatment.</strong> Rewrote both by hand, no AI involved.</p>
+
+    <p>That's what's in front of you. The model produced the scaffolding. I produced the argument, the structure, the jokes, the voice, the corrections, and the editorial decisions about what stays and what goes. <em>Whether that constitutes authored work or sophisticated slop is genuinely your call.</em> The whole point of this article is to make that call possible.</p>
+
+    <p>I'd argue this is roughly the workflow you'd need to follow to publish anything that doesn't read as slop. The people who don't do this — who type a prompt, accept the first draft, click post — are the ones generating the 53.7%. The people who do, even when they're using exactly the same models, are producing something else.</p>
+
+    <p>This isn't a defence of using AI to write. It's not an accusation either. It's just a description of the boundary, written from inside it — which is where most professional writers in 2026 actually sit, whether they admit it or not.</p>
+
+  </section>
+
+  <!-- TACTICAL TAKEAWAY -->
+  <section class="takeaway" aria-label="Tactical takeaway for writers and content leaders">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2>Slop is a measure of <em>friction, not authorship</em>. More friction, less slop.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 · INTERACTION</div>
+        <div class="takeaway-point-text">A draft that survived <strong>six rounds of argument</strong> is not slop, regardless of who typed the first version.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 · TASTE</div>
+        <div class="takeaway-point-text">Edit the <strong>first and last lines by hand</strong>. Cut 20%. Read aloud once. Run the result through a second model to flag the hallucinations.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 · TIME</div>
+        <div class="takeaway-point-text">Sleep on it. The <strong>eight-hour break</strong> between writing and posting is where your taste catches up with your output.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">If this article didn't feel like slop, <strong>it's because of the hours, not the words</strong>. The boundary is the friction.</p>
+    </div>
+    <div class="sources">
+      Sources · Originality.ai 2026 LinkedIn analysis · WARC Consumer Trends 2026 · Arnold &amp; Kim 2024, "Interaction-Required Suggestions for Control, Ownership, and Awareness in Human-AI Co-Writing" (arXiv:2504.08726) · Ethan Mollick / Wharton Generative AI Lab · Merriam-Webster &amp; American Dialect Society 2025 Word of the Year · EY AI Sentiment Index 2026 · NIM consumer attitudes study · Editor Group analysis. Article drafted with Claude (Anthropic), fact-checked through a second model, edited by hand over multiple sittings.
+    </div>
+  </footer>
+
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      #AISlop · #AIWriting · #ContentAuthenticity · #LinkedInContent · #GenerativeAI · #PromptEngineering · #AIEditing · #ThoughtLeadership · #ContentStrategy · #BusinessAnalyst · #FutureOfWork · #DigitalMarketing · #AILiteracy · #ContentCreation · #AISustained
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span>AI Sustained · By Kevin Clubb</span>
+    <span>2026 · Issue 006</span>
+  </div>
+
+</article>
+</body>
+</html>
