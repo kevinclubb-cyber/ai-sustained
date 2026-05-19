@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- ============================================================ -->
+  <!-- AI Sustained · ai-sustained.com                                -->
+  <!-- Practical, evidence-led writing on AI adoption, capability,    -->
+  <!-- agentic workflows and sustainability — by Kevin Clubb,         -->
+  <!-- senior business analyst, UK.                                   -->
+  <!-- ============================================================ -->
+
+
+  <!-- ===== HOMEPAGE ============================================== -->
+  <url>
+    <loc>https://ai-sustained.com/</loc>
+    <lastmod>2026-05-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://ai-sustained.com/ai_sustained_logo_mark.png</image:loc>
+      <image:title>AI Sustained logo</image:title>
+      <image:caption>AI Sustained — AI that survives Monday morning. Practical, evidence-led writing on AI adoption, capability, agentic workflows and sustainability by Kevin Clubb.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ai-sustained.com/ai_sustained_wordmark.png</image:loc>
+      <image:title>AI Sustained wordmark with tagline</image:title>
+      <image:caption>AI Sustained wordmark and tagline lockup.</image:caption>
+    </image:image>
+  </url>
+
+
+  <!-- ===== ISSUE 000 · Death of the IT Dept ====================== -->
+  <url>
+    <loc>https://ai-sustained.com/articles/death-of-the-it-dept/</loc>
+    <lastmod>2026-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://ai-sustained.com/articles/death-of-the-it-dept/cover.png</image:loc>
+      <image:title>The death of the IT Department</image:title>
+      <image:caption>How AI is collapsing traditional IT roles into a single AI-native function — the foundational essay that started AI Sustained.</image:caption>
+    </image:image>
+  </url>
+
+
+  <!-- ===== ISSUE 001 · The AI Competency Pyramid ================= -->
+  <url>
+    <loc>https://ai-sustained.com/articles/ai-competency-pyramid/</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://ai-sustained.com/articles/ai-competency-pyramid/cover-v3.png</image:loc>
+      <image:title>The AI competency pyramid</image:title>
+      <image:caption>Where 20.6 million UK workers actually sit. 14 levels of AI competency, from non-user to frontier model researcher. 95% sit at the bottom four levels.</image:caption>
+    </image:image>
+  </url>
+
+
+  <!-- ===== ISSUE 002 · AI-curious? =============================== -->
+  <url>
+    <loc>https://ai-sustained.com/articles/ai-curious/</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://ai-sustained.com/articles/ai-curious/cover-v3.png</image:loc>
+      <image:title>AI-curious? This is the bit no one tells you</image:title>
+      <image:caption>Stop typing questions into AI. Start pasting things in. The free habit that beats any productivity app.</image:caption>
+    </image:image>
+  </url>
+
+
+  <!-- ===== ISSUE 003 · Four labs. Seven days. ==================== -->
+  <url>
+    <loc>https://ai-sustained.com/articles/four-labs-seven-days/</loc>
+    <lastmod>2026-04-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://ai-sustained.com/articles/four-labs-seven-days/cover-v5.png</image:loc>
+      <image:title>Four labs. Seven days. No clear winner.</image:title>
+      <image:caption>Mapping the April 2026 AI frontier — Opus 4.7, GPT-5.5, Gemini 3.1 Pro, DeepSeek V4, Grok 4.20 — and what it means for enterprise strategy.</image:caption>
+    </image:image>
+  </url>
+
+
+  <!-- ===== ISSUE 004 · Vibe coding capability ==================== -->
+  <url>
+    <loc>https://ai-sustained.com/articles/vibe-coding-capability/</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://ai-sustained.com/articles/vibe-coding-capability/cover-v2.png</image:loc>
+      <image:title>Vibe coding capability</image:title>
+      <image:caption>Three skill sets collapsed into one prompting loop. What vibe coders actually do all day, and where they sit on the AI competency pyramid.</image:caption>
+    </image:image>
+  </url>
+
+
+  <!-- ===== ISSUE 005 · A British Prompt ========================== -->
+  <url>
+    <loc>https://ai-sustained.com/articles/A-British-Prompt/</loc>
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://ai-sustained.com/articles/A-British-Prompt/cover.jpeg</image:loc>
+      <image:title>A British prompt</image:title>
+      <image:caption>How politeness, qualifiers and British understatement quietly change what AI models produce.</image:caption>
+    </image:image>
+  </url>
+
+
+  <!-- ============================================================ -->
+  <!-- Drop this in when Issue 006 (AI Slop) goes live              -->
+  <!-- ============================================================ -->
+  <!--
+  <url>
+    <loc>https://ai-sustained.com/articles/ai-slop/</loc>
+    <lastmod>2026-05-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://ai-sustained.com/articles/ai-slop/cover.jpeg</image:loc>
+      <image:title>Slop, or supper? When AI-edited writing stops being slop</image:title>
+      <image:caption>A working definition of AI slop, the 53.7% LinkedIn stat, and the messy boundary where AI-assisted writing crosses back into authored work.</image:caption>
+    </image:image>
+  </url>
+  -->
+
+</urlset>
