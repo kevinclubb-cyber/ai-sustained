@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Sustained — AI that survives Monday morning | By Kevin Clubb</title>
+<meta name="description" content="AI that survives Monday morning. Practical, evidence-led writing on AI adoption, capability, agentic workflows and sustainability — by Kevin Clubb, senior business analyst.">
+<meta name="keywords" content="AI Sustained, AI that survives Monday morning, AI newsletter UK, AI adoption, AI competency, Kevin Clubb, AI for business analysts, generative AI, AI strategy, AI sustainability, agentic workflows, vibe coding, future of work, UK AI">
+<meta name="author" content="Kevin Clubb">
+<meta property="og:title" content="AI Sustained — AI that survives Monday morning">
+<meta property="og:description" content="Practical, evidence-led writing on AI adoption, capability, agentic workflows and sustainability — by someone who actually uses it.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://ai-sustained.com/favicon-512.png">
+<meta property="og:url" content="https://ai-sustained.com">
+<meta property="og:site_name" content="AI Sustained">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Sustained — AI that survives Monday morning">
+<meta name="twitter:description" content="Evidence-led writing on AI adoption, capability, agentic workflows and sustainability.">
+<meta name="twitter:image" content="/favicon-512.png">
+<!-- Favicons -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+<meta name="theme-color" content="#1B4332">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "AI Sustained",
+  "alternateName": "AI that survives Monday morning",
+  "url": "https://ai-sustained.com",
+  "logo": "https://ai-sustained.com/ai_sustained_logo_mark.png",
+  "author": { "@type": "Person", "name": "Kevin Clubb", "jobTitle": "Senior Business Analyst" },
+  "description": "Practical, evidence-led writing on AI adoption, capability, agentic workflows, and sustainability.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "AI Sustained",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ai-sustained.com/ai_sustained_logo_mark.png"
+    }
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --base: #F7FCF9;
+    --accent: #1B4332;
+    --accent-mid: #2D6A4F;
+    --secondary: #40916C;
+    --highlight: #D8F3DC;
+    --highlight-soft: #E8F7EC;
+    --text: #081C15;
+    --text-soft: #3A4A42;
+    --muted: #6B7A72;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--base);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  /* ============ TOP BAR ============ */
+  .topbar {
+    border-top: 4px solid var(--accent);
+    padding: 14px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid rgba(27, 67, 50, 0.15);
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .topbar-left { display: flex; gap: 14px; align-items: center; }
+  .topbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .topbar-logo img.mark {
+    height: 44px;
+    width: auto;
+    display: block;
+  }
+  .topbar-logo img.wordmark {
+    height: 36px;
+    width: auto;
+    display: block;
+  }
+  .topbar-byline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-left: 14px;
+    border-left: 1px solid rgba(27, 67, 50, 0.2);
+  }
+  /* Mobile — show only the mark, hide the wordmark, tighten spacing */
+  @media (max-width: 720px) {
+    .topbar-logo img.mark { height: 36px; }
+    .topbar-logo img.wordmark { display: none; }
+    .topbar-byline { display: none; }
+  }
+  .topbar .brand { font-weight: 600; }
+  .topbar-nav { display: flex; gap: 22px; }
+  .topbar-nav a {
+    color: var(--accent);
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition: border-color 0.15s;
+  }
+  .topbar-nav a:hover { border-bottom-color: var(--secondary); }
+  .topbar-nav a.active { color: var(--secondary); }
+  /* ============ HERO ============ */
+  .hero {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 80px 32px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 420px;
+    height: 420px;
+    border: 60px solid var(--secondary);
+    border-radius: 50%;
+    opacity: 0.1;
+    z-index: 0;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+  }
+  .hero-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hero-kicker::before {
+    content: '';
+    width: 44px;
+    height: 2px;
+    background: var(--secondary);
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(48px, 7vw, 92px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    color: var(--accent);
+    margin-bottom: 28px;
+  }
+  .hero .deck {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 23px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--secondary);
+    max-width: 720px;
+  }
+  .hero .deck strong {
+    font-weight: 500;
+    color: var(--accent);
+    background: linear-gradient(180deg, transparent 60%, var(--highlight) 60%);
+    padding: 0 4px;
+  }
+  /* ============ BYLINE STRIP ============ */
+  .byline {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px 60px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    flex-wrap: wrap;
+  }
+  .byline strong { color: var(--accent); font-weight: 600; }
+  .byline .dot { width: 5px; height: 5px; background: var(--secondary); border-radius: 50%; }
+  /* ============ SECTION HEADER ============ */
+  .section-header {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 32px 32px;
+    border-top: 1px solid rgba(27, 67, 50, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 38px;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+  }
+  .section-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  /* ============ FILTER CHIPS ============ */
+  .filters {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px 32px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-mid);
+    background: var(--highlight-soft);
+    padding: 8px 14px;
+    border-radius: 100px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .chip:hover { background: var(--highlight); }
+  .chip.active {
+    background: var(--accent);
+    color: var(--highlight);
+    border-color: var(--accent);
+  }
+  /* ============ ARTICLE GRID ============ */
+  .grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px 80px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 28px;
+  }
+  /* Featured card spans 2 columns when grid is wide enough */
+  @media (min-width: 1080px) {
+    .grid { grid-template-columns: repeat(3, 1fr); }
+    .card.featured { grid-column: span 2; grid-row: span 1; }
+    .card.featured .card-image { aspect-ratio: 16/9; }
+    .card.featured .card-title { font-size: 38px; }
+    .card.featured .card-deck { font-size: 18px; }
+  }
+  .card {
+    background: var(--base);
+    border: 1px solid rgba(27, 67, 50, 0.15);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--secondary);
+    box-shadow: 0 12px 32px rgba(27, 67, 50, 0.08);
+  }
+  .card-image {
+    aspect-ratio: 1/1;
+    background: var(--highlight-soft);
+    position: relative;
+    overflow: hidden;
+  }
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .card-image-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .card-body {
+    padding: 24px 26px 28px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    margin-bottom: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .card-meta .dot { width: 4px; height: 4px; background: var(--secondary); border-radius: 50%; }
+  .card-meta .muted { color: var(--muted); }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 1.15;
+    color: var(--accent);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .card-deck {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text-soft);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .card-cta {
+    margin-top: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: gap 0.15s;
+  }
+  .card:hover .card-cta { gap: 14px; color: var(--secondary); }
+  .card-cta::after { content: '→'; font-size: 14px; }
+  .card.coming-soon { opacity: 0.55; cursor: default; }
+  .card.coming-soon:hover { transform: none; box-shadow: none; border-color: rgba(27, 67, 50, 0.15); }
+  .card.coming-soon .card-cta::after { content: ''; }
+  /* ============ ABOUT BLOCK ============ */
+  .about {
+    background: var(--accent);
+    color: var(--base);
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .about::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 280px;
+    height: 280px;
+    border: 44px solid var(--secondary);
+    border-radius: 50%;
+    opacity: 0.2;
+  }
+  .about-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  @media (max-width: 880px) {
+    .about-inner { grid-template-columns: 1fr; gap: 40px; }
+  }
+  .about-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: #B7E4C7;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .about-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(216, 243, 220, 0.25);
+  }
+  .about h2 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.15;
+    color: var(--base);
+    margin-bottom: 24px;
+    letter-spacing: -0.015em;
+  }
+  .about h2 em { color: #B7E4C7; font-style: italic; }
+  .about-body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--highlight);
+  }
+  .about-body p { margin-bottom: 16px; }
+  .about-body strong { color: var(--base); font-weight: 600; }
+  .about-links {
+    display: flex;
+    gap: 16px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .about-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #B7E4C7;
+    border-bottom: 1px solid #B7E4C7;
+    padding-bottom: 2px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .about-link:hover { color: var(--base); border-color: var(--base); }
+  /* ============ FOOTER ============ */
+  .footer {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 48px 32px 32px;
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+    border-top: 4px solid var(--accent);
+  }
+  .footer-left h3 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .footer-left p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .footer-right {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: right;
+  }
+  .footer-right a { color: var(--accent); border-bottom: 1px solid transparent; padding-bottom: 1px; }
+  .footer-right a:hover { border-bottom-color: var(--secondary); }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-left">
+      <a href="/" class="topbar-logo" aria-label="AI Sustained — AI that survives Monday morning">
+        <img src="/ai_sustained_logo_mark.png" alt="AI Sustained" class="mark" />
+        <img src="/ai_sustained_wordmark.png" alt="AI Sustained — AI that survives Monday morning." class="wordmark" />
+      </a>
+      <span class="topbar-byline">by Kevin Clubb</span>
+    </div>
+    <nav class="topbar-nav">
+      <a href="#articles" class="active">Articles</a>
+      <a href="#about">About</a>
+      <a href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </nav>
+  </header>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-kicker">Practical · Evidence-led · No fluff</div>
+      <h1>AI that survives <em style="font-style: italic; color: var(--secondary);">Monday morning</em>.</h1>
+      <p class="deck">Practical, evidence-led writing on AI adoption, capability, agentic workflows and sustainability — <strong>by someone who actually uses it</strong>. Aimed at people who want answers, not hype.</p>
+    </div>
+  </section>
+  <div class="byline">
+    <span><strong>Kevin Clubb</strong></span>
+    <span class="dot"></span>
+    <span>AI-Native Analyst</span>
+    <span class="dot"></span>
+    <span>UK</span>
+    <span class="dot"></span>
+    <span>Retail · Hospitality · Education</span>
+    <span class="dot"></span>
+    <span>Issue series 2026</span>
+  </div>
+  <header class="section-header" id="articles">
+    <h2 class="section-title">The articles.</h2>
+    <span class="section-meta">In article order</span>
+  </header>
+  <div class="filters" role="tablist" aria-label="Filter articles by topic">
+    <button class="chip active" data-filter="all">All</button>
+    <button class="chip" data-filter="adoption">Adoption</button>
+    <button class="chip" data-filter="practical">Practical AI</button>
+    <button class="chip" data-filter="frontier">Frontier</button>
+    <button class="chip" data-filter="agentic">Agentic</button>
+    <button class="chip" data-filter="sustainability">Sustainability</button>
+    <button class="chip" data-filter="vibe-coding">Vibe coding</button>
+    <button class="chip" data-filter="culture">Culture</button>
+    <button class="chip" data-filter="content">Content</button>
+  </div>
+  <section class="grid">
+    <a class="card featured" data-topic="adoption" href="/articles/ai-competency-pyramid/">
+      <div class="card-image">
+        <img src="/articles/ai-competency-pyramid/cover-v3.png" alt="The AI Competency Pyramid. Cover showing 20.6m UK workers across 14 levels." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 001</span>
+          <span class="dot"></span>
+          <span>Adoption</span>
+          <span class="dot"></span>
+          <span class="muted">7 min read · 20 Apr 2026</span>
+        </div>
+        <h3 class="card-title">The AI competency pyramid.</h3>
+        <p class="card-deck">Where 20.6 million UK workers actually sit. 14 levels, 95% at the bottom, and the jump that costs nothing — but 97% still haven't made.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="practical" href="/articles/ai-curious/">
+      <div class="card-image">
+        <img src="/articles/ai-curious/cover-v3.png" alt="AI-curious? This is the bit no one tells you. Cover image in Clinical Green design." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 002</span>
+          <span class="dot"></span>
+          <span>Practical AI</span>
+          <span class="dot"></span>
+          <span class="muted">4 min read · 25 Apr 2026</span>
+        </div>
+        <h3 class="card-title">AI-curious? This is the bit no one tells you.</h3>
+        <p class="card-deck">Stop typing questions into AI. Start pasting things in. The free habit that beats any productivity app — no subscription, no prompt engineering, no faff.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="frontier" href="/articles/four-labs-seven-days/">
+      <div class="card-image">
+        <img src="/articles/four-labs-seven-days/cover-v8.png" alt="Four labs. Seven days. No clear winner. Cover image showing the April 2026 AI frontier." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 003</span>
+          <span class="dot"></span>
+          <span>Frontier</span>
+          <span class="dot"></span>
+          <span class="muted">9 min read · 28 Apr 2026</span>
+        </div>
+        <h3 class="card-title">Four labs. Seven days. No clear winner.</h3>
+        <p class="card-deck">Six months ago, GPT-5 was the headline. Today, four labs are trading the lead in seven-day cycles. A clear-eyed map of where capability sits in April 2026 — and what it means for enterprise strategy.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="vibe-coding" href="/articles/vibe-coding-capability/">
+      <div class="card-image">
+        <img src="/articles/vibe-coding-capability/cover-v2.png" alt="Vibe coding capability. Three skill sets collapsed into one prompting loop." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 004</span>
+          <span class="dot"></span>
+          <span>Vibe coding</span>
+          <span class="dot"></span>
+          <span class="muted">8 min read · 6 May 2026</span>
+        </div>
+        <h3 class="card-title">Vibe coding capability.</h3>
+        <p class="card-deck">Three skill sets — collapsed into one prompting loop. What vibe coders actually do all day, and why it sits somewhere between Level 4 and Level 5 on the AI competency pyramid.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="culture" href="/articles/A-British-Prompt/">
+      <div class="card-image">
+        <img src="/articles/A-British-Prompt/cover-v2.png" alt="A British prompt. The comical etiquette of British professionals prompting AI like apologetic emails." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 005</span>
+          <span class="dot"></span>
+          <span>Culture</span>
+          <span class="dot"></span>
+          <span class="muted">5 min read · 9 May 2026</span>
+        </div>
+        <h3 class="card-title">A British prompt.</h3>
+        <p class="card-deck">AI doesn't care about please and thank you. So why do British professionals still write prompts like apologetic emails? A comical look at prompt etiquette, productivity, and our incurable politeness.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="content" href="/articles/slop-or-supper/">
+      <div class="card-image">
+        <img src="/articles/slop-or-supper/cover-v2.png" alt="Slop, or supper? When AI-edited writing stops being slop and starts being yours." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 006</span>
+          <span class="dot"></span>
+          <span>Content</span>
+          <span class="dot"></span>
+          <span class="muted">9 min read · 19 May 2026</span>
+        </div>
+        <h3 class="card-title">Slop, or supper?</h3>
+        <p class="card-deck">When does AI-assisted writing stop being slop and start being yours? A working definition, the boredom data, and the line in the sand most people are crossing without realising it.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="sustainability" href="/articles/ai-space-race/">
+      <div class="card-image">
+        <img src="/articles/ai-space-race/cover.png" alt="Mining for the model. Cover showing autonomous off-world mining for AI hardware minerals." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 007</span>
+          <span class="dot"></span>
+          <span>Sustainability</span>
+          <span class="dot"></span>
+          <span class="muted">9 min read · 26 May 2026</span>
+        </div>
+        <h3 class="card-title">Mining for the model.</h3>
+        <p class="card-deck">AI is burning roughly Japan's worth of electricity to solve the maths behind autonomous off-world mining — the only viable route to the minerals needed for the next decade of hardware. The maths is ready. The launch cadence isn't.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+  </section>
+  <section class="about" id="about">
+    <div class="about-inner">
+      <div>
+        <div class="about-label">About the author</div>
+        <h2>Senior business analyst. <em>AI super-adopter</em>. Still learning.</h2>
+      </div>
+      <div class="about-body">
+        <p>I've spent twenty years bridging business and technical teams across retail, fashion, finance and now hospitality &amp; catering. The last twelve months have been almost entirely about putting AI to work — properly, in real production systems, not as a demo.</p>
+        <p><strong>AI Sustained</strong> is where I write up what I'm learning. Practical, evidence-led, and aimed at people who want to use AI well — not people who want to be sold something.</p>
+        <p>If something here is useful, share it. If something is wrong, tell me. If you want to talk shop, find me on LinkedIn.</p>
+        <div class="about-links">
+          <a class="about-link" href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a class="about-link" href="mailto:ai.sustained.ops@gmail.com">Email</a>
+          <a class="about-link" href="#articles">Back to articles</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <div class="footer-left">
+      <h3>AI Sustained</h3>
+      <p>By Kevin Clubb · 2026</p>
+    </div>
+    <div class="footer-right">
+      <p>Built by hand · Hosted on Cloudflare Pages · <a href="https://github.com/kevinclubb-cyber/ai-sustained" target="_blank" rel="noopener">Source on GitHub ↗</a></p>
+    </div>
+  </footer>
+  <script>
+    // Topic filter
+    const chips = document.querySelectorAll('.chip');
+    const cards = document.querySelectorAll('.card');
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const filter = chip.dataset.filter;
+        cards.forEach(card => {
+          if (filter === 'all' || card.dataset.topic === filter) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
