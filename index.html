@@ -2,7 +2,6 @@
 <html lang="en-GB">
 <head>
 <meta charset="UTF-8">
-
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
 <script>
@@ -516,6 +515,119 @@
   }
   .footer-right a { color: var(--accent); border-bottom: 1px solid transparent; padding-bottom: 1px; }
   .footer-right a:hover { border-bottom-color: var(--secondary); }
+  /* ============ SUBSCRIBE BLOCK ============ */
+  .subscribe {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 72px 32px;
+    border-top: 1px solid rgba(27, 67, 50, 0.2);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  @media (max-width: 880px) {
+    .subscribe { grid-template-columns: 1fr; gap: 32px; padding: 56px 32px; }
+  }
+  .subscribe-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .subscribe-label::before {
+    content: '';
+    width: 32px;
+    height: 2px;
+    background: var(--secondary);
+  }
+  .subscribe h2 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(32px, 4vw, 44px);
+    line-height: 1.1;
+    color: var(--accent);
+    letter-spacing: -0.015em;
+    margin-bottom: 14px;
+  }
+  .subscribe p {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--text-soft);
+    max-width: 480px;
+  }
+  .embeddable-buttondown-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .embeddable-buttondown-form label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .embeddable-buttondown-form input[type="email"] {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    padding: 14px 18px;
+    border: 1px solid rgba(27, 67, 50, 0.25);
+    background: var(--base);
+    color: var(--text);
+    border-radius: 4px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .embeddable-buttondown-form input[type="email"]:focus {
+    outline: none;
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px var(--highlight-soft);
+  }
+  .embeddable-buttondown-form input[type="submit"] {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 14px 20px;
+    background: var(--accent);
+    color: var(--base);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .embeddable-buttondown-form input[type="submit"]:hover {
+    background: var(--secondary);
+    transform: translateY(-1px);
+  }
+  .embeddable-buttondown-form p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .embeddable-buttondown-form p a {
+    color: var(--muted);
+    border-bottom: 1px solid transparent;
+    padding-bottom: 1px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .embeddable-buttondown-form p a:hover {
+    color: var(--secondary);
+    border-bottom-color: var(--secondary);
+  }
 </style>
 </head>
 <body>
@@ -529,6 +641,7 @@
     </div>
     <nav class="topbar-nav">
       <a href="#articles" class="active">Articles</a>
+      <a href="#subscribe">Subscribe</a>
       <a href="#about">About</a>
       <a href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener">LinkedIn ↗</a>
     </nav>
@@ -686,6 +799,27 @@
         <span class="card-cta">Read</span>
       </div>
     </a>
+  </section>
+  <section class="subscribe" id="subscribe">
+    <div>
+      <div class="subscribe-label">Subscribe</div>
+      <h2>The next issue, in your inbox.</h2>
+      <p>One issue per release. Practical, evidence-led, no hype. Unsubscribe any time — no hard feelings.</p>
+    </div>
+    <form
+      action="https://buttondown.com/api/emails/embed-subscribe/aisustainedops"
+      method="post"
+      class="embeddable-buttondown-form"
+    >
+      <label for="bd-email">Enter your email</label>
+      <input type="email" name="email" id="bd-email" placeholder="you@example.com" required />
+      <input type="submit" value="Subscribe" />
+      <p>
+        <a href="https://buttondown.com/refer/aisustainedops" target="_blank" rel="noopener">
+          Powered by Buttondown ↗
+        </a>
+      </p>
+    </form>
   </section>
   <section class="about" id="about">
     <div class="about-inner">
