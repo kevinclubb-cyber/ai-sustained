@@ -423,6 +423,72 @@
   .card.coming-soon:hover { transform: none; border-color: var(--paper-18); background: var(--paper-06); }
   .card.coming-soon:hover::before { opacity: 0; }
   .card.coming-soon .card-cta::after { content: ''; }
+  /* ============ SUBSTACK SLAB (tactical-takeaway treatment) ============ */
+  .slab {
+    background: var(--acid);
+    color: var(--ink);
+    border-top: 1px solid var(--paper-30);
+    border-bottom: 1px solid var(--paper-30);
+  }
+  .slab-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 56px 32px;
+    display: grid;
+    grid-template-columns: minmax(200px, 1fr) 2.4fr auto;
+    gap: 48px;
+    align-items: center;
+  }
+  @media (max-width: 880px) {
+    .slab-inner { grid-template-columns: 1fr; gap: 24px; padding: 44px 32px; }
+  }
+  .slab-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .slab-label::before {
+    content: '';
+    width: 32px;
+    height: 2px;
+    background: var(--ink);
+  }
+  .slab-body {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 2.4vw, 30px);
+    line-height: 1.2;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .slab-body em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+  }
+  .slab-cta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 4px;
+    white-space: nowrap;
+    transition: gap 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .slab-cta:hover { gap: 16px; }
+  .slab-cta::after { content: '→'; font-size: 16px; }
   /* ============ ABOUT BLOCK ============ */
   .about {
     background: var(--paper-06);
@@ -689,6 +755,7 @@
       <a href="#articles" class="active">Articles</a>
       <a href="#subscribe">Subscribe</a>
       <a href="#about">About</a>
+      <a href="https://aisustained.substack.com/" target="_blank" rel="noopener">Substack ↗</a>
       <a href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener">LinkedIn ↗</a>
     </nav>
   </header>
@@ -867,6 +934,13 @@
       </p>
     </form>
   </section>
+  <section class="slab" aria-label="Also on Substack">
+    <a class="slab-inner" href="https://aisustained.substack.com/" target="_blank" rel="noopener" style="text-decoration: none;">
+      <div class="slab-label">Also on Substack</div>
+      <div class="slab-body">Deeper research, white papers and <em>podcast versions</em> — for people who'd rather listen than read.</div>
+      <span class="slab-cta">Open Substack</span>
+    </a>
+  </section>
   <section class="about" id="about">
     <div class="about-inner">
       <div>
@@ -878,6 +952,7 @@
         <p><strong>AI Sustained</strong> is where I write up what I'm learning. Practical, evidence-led, and aimed at people who want to use AI well — not people who want to be sold something.</p>
         <p>If something here is useful, share it. If something is wrong, tell me. If you want to talk shop, find me on LinkedIn.</p>
         <div class="about-links">
+          <a class="about-link" href="https://aisustained.substack.com/" target="_blank" rel="noopener">Substack ↗</a>
           <a class="about-link" href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener">LinkedIn ↗</a>
           <a class="about-link" href="mailto:ai.sustained.ops@gmail.com">Email</a>
           <a class="about-link" href="#articles">Back to articles</a>
