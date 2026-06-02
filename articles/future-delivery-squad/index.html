@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<!--
+    AI Sustained · Issue 008 · The Renaissance of the Delivery Squad
+    Published: 2nd June 2026
+    GitHub source: ai-sustained / articles / future-delivery-squad / index.html
+    Live URL:      https://ai-sustained.com/articles/future-delivery-squad/
+    Companion white paper (Substack): https://open.substack.com/pub/aisustained/p/the-autonomous-delivery-squad-of
+-->
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3WZNV09BB');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 2030 Delivery Squad — AI Sustained · Issue 008</title>
+    <meta name="description" content="Issue 008 of AI Sustained. The Renaissance of the Delivery Squad — how digital product teams shift from syntax-writers to orchestrators by 2030.">
+    <link rel="canonical" href="https://ai-sustained.com/articles/future-delivery-squad/">
+    <meta property="og:title" content="The 2030 Delivery Squad — AI Sustained · Issue 008">
+    <meta property="og:description" content="By 2030, the delivery squad becomes a high-leverage unit of orchestrators, designers and value strategists. The Renaissance of the Delivery Squad — Issue 008.">
+    <meta property="og:url" content="https://ai-sustained.com/articles/future-delivery-squad/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AI Sustained">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The 2030 Delivery Squad — AI Sustained · Issue 008">
+    <meta name="twitter:description" content="By 2030, the delivery squad becomes a high-leverage unit of orchestrators, designers and value strategists.">
+    <meta name="theme-color" content="#1B4332">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1B4332;
+            --paper: #F2ECD9;
+            --acid: #E8FF3A;
+            --mint: #D8F3DC;
+            --ink: #0A0F0C;
+            --coral: #FF8C61;
+            --sky: #7DD3FC;
+            --paper-06: rgba(242, 236, 217, 0.06);
+            --paper-10: rgba(242, 236, 217, 0.10);
+            --paper-18: rgba(242, 236, 217, 0.18);
+            --paper-30: rgba(242, 236, 217, 0.30);
+            --paper-60: rgba(242, 236, 217, 0.60);
+            --paper-80: rgba(242, 236, 217, 0.80);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--forest);
+            color: var(--paper);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            color: var(--paper);
+            letter-spacing: -0.015em;
+        }
+
+        em, .italic, .serif-font {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 500;
+            color: var(--acid);
+        }
+
+        p { color: var(--mint); }
+        p strong, .body-strong { color: var(--paper); font-weight: 600; }
+
+        .meta-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--acid);
+        }
+
+        /* ===== NAV ===== */
+        nav.brand-nav {
+            background: rgba(27, 67, 50, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--paper-30);
+            border-top: 4px solid var(--acid);
+        }
+        nav.brand-nav .nav-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            color: var(--paper);
+            letter-spacing: -0.01em;
+        }
+        nav.brand-nav .nav-mark {
+            color: var(--acid);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+        }
+        nav.brand-nav .nav-issue,
+        nav.brand-nav .nav-date {
+            color: var(--mint);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+        nav.brand-nav .nav-date { color: var(--paper-60); }
+        nav.brand-nav a.nav-link {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--mint);
+            transition: color 0.15s, border-color 0.15s;
+            border-bottom: 1px solid transparent;
+            padding-bottom: 2px;
+        }
+        nav.brand-nav a.nav-link:hover {
+            color: var(--acid);
+            border-bottom-color: var(--acid);
+        }
+
+        /* ===== HERO ===== */
+        .issue-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: var(--acid);
+            margin-bottom: 24px;
+        }
+        .issue-pill::before {
+            content: '';
+            width: 44px;
+            height: 2px;
+            background: var(--acid);
+        }
+        h1.hero-title {
+            font-size: clamp(48px, 6.6vw, 84px);
+            line-height: 0.98;
+            font-weight: 700;
+            color: var(--paper);
+        }
+        .hero-deck {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 400;
+            font-size: 22px;
+            line-height: 1.5;
+            color: var(--mint);
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .hero-deck em { color: var(--acid); font-weight: 500; }
+
+        /* ===== SECTION CARDS ===== */
+        .brand-card {
+            background: var(--paper-06);
+            border: 1px solid var(--paper-18);
+            border-radius: 8px;
+        }
+        .chart-shell {
+            background: var(--paper-10);
+            border: 1px solid var(--paper-18);
+            border-radius: 8px;
+        }
+        .chart-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--acid);
+            text-align: center;
+        }
+        section h2 {
+            font-size: clamp(28px, 3.4vw, 42px);
+            font-weight: 700;
+            color: var(--paper);
+            letter-spacing: -0.015em;
+        }
+        section h3 { color: var(--paper); }
+        section.section-divided {
+            border-top: 1px solid var(--paper-30);
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container { height: 400px; }
+        }
+
+        /* ===== WHITE PAPER CALLOUT (back-link to Substack long-form) ===== */
+        .paper-callout {
+            background: var(--paper-06);
+            border: 1px solid var(--paper-18);
+            border-left: 4px solid var(--acid);
+            border-radius: 6px;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .paper-callout-inner {
+            display: grid;
+            grid-template-columns: minmax(170px, 0.8fr) 2.4fr auto;
+            gap: 28px;
+            align-items: center;
+            padding: 22px 28px;
+            text-decoration: none;
+            color: inherit;
+        }
+        @media (max-width: 880px) {
+            .paper-callout-inner {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding: 22px 24px;
+            }
+        }
+        .paper-callout:hover { background: var(--paper-10); }
+        .paper-callout-kicker {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--acid);
+            white-space: nowrap;
+        }
+        .paper-callout-body {
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--mint);
+        }
+        .paper-callout-body em {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 500;
+            color: var(--acid);
+        }
+        .paper-callout-cta {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--acid);
+            border-bottom: 1px solid var(--acid);
+            padding-bottom: 3px;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.15s;
+        }
+        .paper-callout:hover .paper-callout-cta { gap: 14px; }
+        .paper-callout-cta::after { content: '→'; font-size: 14px; }
+
+        /* ===== MACRO-SHIFT STACK (heading on top, chart full-width below) ===== */
+        .macro-shift-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+        }
+        .macro-shift-bullets {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 16px;
+            border-left: 2px solid var(--paper-18);
+            padding-left: 20px;
+        }
+        .bullet-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            color: var(--mint);
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        .bullet-row .arrow-up,
+        .bullet-row .arrow-down {
+            font-size: 20px;
+            line-height: 1;
+            margin-top: 2px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* ===== SQUAD COMPOSITION SHIFT (slope chart) ===== */
+        .slope-wrap {
+            width: 100%;
+            overflow-x: auto;
+            padding: 8px 0;
+        }
+        .slope-chart {
+            width: 100%;
+            min-width: 560px;
+            max-width: 1100px;
+            margin: 0 auto;
+            height: auto;
+            display: block;
+        }
+        .slope-year {
+            fill: var(--acid);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: 0.08em;
+        }
+        .slope-year-sub {
+            fill: var(--paper-60);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 9px;
+            letter-spacing: 0.22em;
+        }
+        .slope-axis-tag {
+            fill: var(--paper-60);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+        .slope-guide {
+            stroke: var(--paper-18);
+            stroke-width: 1;
+            stroke-dasharray: 3 5;
+        }
+        .slope-line {
+            fill: none;
+            stroke-width: 3;
+            transition: stroke-width 0.18s, opacity 0.18s;
+        }
+        .slope-row { cursor: default; }
+        .slope-row:hover .slope-line { stroke-width: 5; }
+        .slope-row:hover .slope-dot { r: 7; }
+        .slope-row:hover .slope-cat { fill: var(--paper); font-weight: 600; }
+        .slope-dot {
+            r: 5;
+            stroke: var(--forest);
+            stroke-width: 2;
+            transition: r 0.18s;
+        }
+        .slope-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.04em;
+        }
+        .slope-cat {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            fill: var(--paper);
+            font-weight: 500;
+            transition: fill 0.18s, font-weight 0.18s;
+        }
+        .slope-arrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .slope-new-tag {
+            fill: var(--paper-60);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 9px;
+            letter-spacing: 0.22em;
+        }
+
+        /* Below-chart summary slab */
+        .slope-summary {
+            margin-top: 24px;
+            padding: 18px 20px;
+            border-top: 1px solid var(--paper-18);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--paper);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+        @media (max-width: 720px) {
+            .slope-summary { grid-template-columns: 1fr; gap: 12px; }
+        }
+        .slope-summary-row {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+        }
+        .slope-summary-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .slope-summary .down-count { color: var(--coral); font-weight: 700; }
+        .slope-summary .up-count { color: var(--acid); font-weight: 700; }
+
+        /* ===== ROLE EXPLORER BUTTONS ===== */
+        .role-btn {
+            width: 100%;
+            text-align: left;
+            padding: 16px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--paper-18);
+            background: var(--paper-06);
+            color: var(--paper);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            font-size: 15px;
+            cursor: pointer;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.15s;
+        }
+        .role-btn:hover {
+            background: var(--paper-10);
+            border-color: var(--paper-30);
+        }
+        .role-btn.active {
+            background: var(--acid);
+            color: var(--ink);
+            border-color: var(--acid);
+            font-weight: 700;
+        }
+
+        /* ===== ROLE DISPLAY CARD ===== */
+        .role-display {
+            background: var(--paper-10);
+            border: 1px solid var(--paper-18);
+            border-left: 4px solid var(--acid);
+            border-radius: 12px;
+            padding: 36px;
+            color: var(--paper);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        @media (min-width: 768px) {
+            .role-display { padding: 48px; }
+        }
+        .role-display h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: clamp(28px, 3vw, 38px);
+            color: var(--paper);
+            line-height: 1.1;
+        }
+        .role-display p { color: var(--mint); }
+        .role-opportunity {
+            background: var(--forest);
+            border: 1px solid var(--paper-18);
+            border-left: 3px solid var(--acid);
+            padding: 18px 20px;
+            border-radius: 8px;
+        }
+        .role-opportunity h4 {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--acid);
+            margin-bottom: 6px;
+        }
+        .role-opportunity p {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--mint);
+            margin: 0;
+        }
+
+        /* ===== PHASE BUTTONS ===== */
+        .phase-btn {
+            padding: 10px 22px;
+            border-radius: 999px;
+            border: 1px solid var(--paper-18);
+            background: var(--paper-06);
+            color: var(--paper);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .phase-btn:hover {
+            background: var(--paper-10);
+            border-color: var(--paper-30);
+        }
+        .phase-btn.active {
+            background: var(--acid);
+            color: var(--ink);
+            border-color: var(--acid);
+        }
+
+        .phase-tag {
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--forest);
+            border: 1px solid var(--paper-18);
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--acid);
+            margin-bottom: 12px;
+        }
+
+        /* ===== ARROW INDICATORS ===== */
+        .arrow-up { color: var(--acid); font-weight: 700; }
+        .arrow-down { color: var(--coral); font-weight: 700; }
+
+        /* ===== LEADERSHIP SLAB (tactical-takeaway) ===== */
+        .leadership-slab {
+            background: var(--acid);
+            color: var(--ink);
+            border-radius: 12px;
+            padding: 56px 32px;
+        }
+        @media (min-width: 768px) {
+            .leadership-slab { padding: 72px 56px; }
+        }
+        .leadership-slab h2 {
+            color: var(--ink);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
+        .leadership-slab .slab-kicker {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: var(--ink);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .leadership-slab .slab-kicker::before {
+            content: '';
+            width: 32px;
+            height: 2px;
+            background: var(--ink);
+        }
+        .leadership-slab p { color: var(--ink); }
+        .leadership-slab strong { color: var(--ink); font-weight: 700; }
+        .leadership-slab em {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 500;
+            color: var(--ink);
+        }
+        .role-future-card {
+            background: var(--forest);
+            color: var(--paper);
+            padding: 26px;
+            border-radius: 10px;
+            border-left: 3px solid var(--acid);
+        }
+        .role-future-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--paper);
+            margin-bottom: 8px;
+        }
+        .role-future-card h3 .alt-accent { color: var(--acid); }
+        .role-future-card p { color: var(--mint); font-size: 14px; }
+        .role-future-card strong { color: var(--paper); }
+        .pull-quote {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 500;
+            font-size: clamp(20px, 2.2vw, 28px);
+            color: var(--ink);
+            line-height: 1.35;
+            border-top: 1px solid rgba(10, 15, 12, 0.3);
+            padding-top: 28px;
+            margin-top: 16px;
+        }
+
+        /* ===== SUBSCRIBE BLOCK ===== */
+        .subscribe-section {
+            border-top: 1px solid var(--paper-30);
+            padding: 64px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 56px;
+            align-items: center;
+        }
+        @media (max-width: 880px) {
+            .subscribe-section { grid-template-columns: 1fr; gap: 32px; padding: 48px 0; }
+        }
+        .subscribe-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: var(--acid);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .subscribe-label::before {
+            content: '';
+            width: 32px;
+            height: 2px;
+            background: var(--acid);
+        }
+        .subscribe-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: clamp(28px, 3.4vw, 40px);
+            line-height: 1.1;
+            color: var(--paper);
+            letter-spacing: -0.015em;
+            margin-bottom: 14px;
+        }
+        .subscribe-section p.intro {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.55;
+            color: var(--mint);
+            max-width: 480px;
+        }
+        .buttondown-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .buttondown-form label {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--acid);
+        }
+        .buttondown-form input[type="email"] {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            padding: 14px 18px;
+            border: 1px solid var(--paper-30);
+            background: var(--paper-06);
+            color: var(--paper);
+            border-radius: 4px;
+            transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+        }
+        .buttondown-form input[type="email"]::placeholder { color: var(--paper-60); }
+        .buttondown-form input[type="email"]:focus {
+            outline: none;
+            border-color: var(--acid);
+            background: var(--paper-10);
+            box-shadow: 0 0 0 3px rgba(232, 255, 58, 0.18);
+        }
+        .buttondown-form input[type="submit"] {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 16px 20px;
+            background: var(--acid);
+            color: var(--ink);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.15s, filter 0.15s;
+        }
+        .buttondown-form input[type="submit"]:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.08);
+        }
+        .buttondown-form .form-foot {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--paper-60);
+            margin-top: 4px;
+        }
+        .buttondown-form .form-foot a {
+            color: var(--mint);
+            border-bottom: 1px solid transparent;
+            padding-bottom: 1px;
+            transition: color 0.15s, border-color 0.15s;
+        }
+        .buttondown-form .form-foot a:hover {
+            color: var(--acid);
+            border-bottom-color: var(--acid);
+        }
+
+        /* ===== SOCIAL SLAB (Substack + Facebook back links) ===== */
+        .social-slab {
+            background: var(--acid);
+            color: var(--ink);
+            border-top: 1px solid var(--paper-30);
+            border-bottom: 1px solid var(--paper-30);
+        }
+        .social-slab-inner {
+            padding: 48px 0;
+            display: grid;
+            grid-template-columns: minmax(180px, 1fr) 2fr auto;
+            gap: 40px;
+            align-items: center;
+        }
+        @media (max-width: 880px) {
+            .social-slab-inner { grid-template-columns: 1fr; gap: 20px; padding: 40px 0; text-align: left; }
+        }
+        .social-slab .slab-kicker {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: var(--ink);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .social-slab .slab-kicker::before {
+            content: '';
+            width: 32px;
+            height: 2px;
+            background: var(--ink);
+        }
+        .social-slab .slab-body {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: clamp(20px, 2.2vw, 26px);
+            line-height: 1.25;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+        }
+        .social-slab .slab-body em {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 500;
+            color: var(--ink);
+        }
+        .social-slab .slab-cta-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .social-slab .slab-cta {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--ink);
+            border: 2px solid var(--ink);
+            padding: 12px 18px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.15s, color 0.15s;
+            white-space: nowrap;
+        }
+        .social-slab .slab-cta:hover {
+            background: var(--ink);
+            color: var(--acid);
+        }
+        .social-slab .slab-cta::after { content: '→'; font-size: 14px; }
+
+        /* ===== FOOTER ===== */
+        footer.brand-footer {
+            border-top: 4px solid var(--acid);
+            background: transparent;
+            color: var(--mint);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            padding: 32px;
+            text-align: center;
+        }
+        footer.brand-footer a {
+            color: var(--acid);
+            border-bottom: 1px solid transparent;
+            padding-bottom: 1px;
+            transition: border-color 0.15s;
+        }
+        footer.brand-footer a:hover { border-bottom-color: var(--acid); }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+<!-- Palette: Forest #1B4332 base, Paper #F2ECD9 wordmark/headlines, Acid #E8FF3A highlight, Mint #D8F3DC body, Ink #0A0F0C on Acid slab. Chart accents add Sky #7DD3FC and Coral #FF8C61 for category distinction. -->
+
+    <nav class="brand-nav sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="/" class="flex items-center" style="gap: 10px; flex-wrap: wrap;">
+                    <span class="nav-mark">AI SUSTAINED.</span>
+                    <span class="nav-divider" style="color: var(--paper-30); font-family: 'JetBrains Mono', monospace; font-weight: 600;">/</span>
+                    <span class="nav-issue">Issue 008</span>
+                    <span class="nav-divider" style="color: var(--paper-30); font-family: 'JetBrains Mono', monospace; font-weight: 600;">/</span>
+                    <span class="nav-date">2nd June 2026</span>
+                </a>
+                <div class="hidden md:flex items-center space-x-7">
+                    <a href="#vision" class="nav-link">The Vision</a>
+                    <a href="#roles" class="nav-link">Role Evolution</a>
+                    <a href="#lifecycle" class="nav-link">The Lifecycle</a>
+                    <a href="#leadership" class="nav-link">Managers</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+
+        <section id="vision" class="text-center max-w-4xl mx-auto mt-6">
+            <div class="issue-pill">Research White Paper &middot; Horizon 2030</div>
+            <h1 class="hero-title mb-8">
+                The Renaissance of the <em>Delivery Squad</em>.
+            </h1>
+            <p class="hero-deck">
+                By 2030, the drudgery of boilerplate coding and manual ticket-shuffling will be history. Driven by advanced AI, the digital product team will transform from a group of syntax-writers into a high-leverage squad of <em>orchestrators</em>, designers, and value strategists — with unprecedented human opportunity.
+            </p>
+        </section>
+
+        <section class="paper-callout" aria-label="Read the full white paper on Substack">
+            <a class="paper-callout-inner" href="https://open.substack.com/pub/aisustained/p/the-autonomous-delivery-squad-of?r=8iqef9&amp;utm_campaign=post&amp;utm_medium=web&amp;showWelcomeOnShare=true" target="_blank" rel="noopener">
+                <div class="paper-callout-kicker">📄 The Full White Paper</div>
+                <div class="paper-callout-body">
+                    Want the <em>long-form research piece</em> behind this article — extended evidence, the 27-source reading list, and the companion podcast?
+                </div>
+                <span class="paper-callout-cta">Read on Substack</span>
+            </a>
+        </section>
+
+        <section class="brand-card p-8 md:p-12">
+            <div class="macro-shift-stack">
+                <div class="macro-shift-intro grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
+                    <div class="md:col-span-7 space-y-5">
+                        <h2>The macro shift: from coding to orchestration.</h2>
+                        <p class="leading-relaxed">
+                            Historically, software delivery was bottlenecked by the sheer physical effort of writing code, hunting bugs, and deploying servers. As AI models become capable of handling 80% of routine generation and testing, the composition of the squad shifts dramatically.
+                        </p>
+                        <p class="leading-relaxed">
+                            We are moving from a <em>labour-intensive</em> model to an <em>idea-intensive</em> model. The focus shifts from "How do we build this?" to <span class="body-strong">"What exactly should we build, and what are the ethical, experiential, and systemic implications?"</span>
+                        </p>
+                    </div>
+                    <div class="md:col-span-5 macro-shift-bullets">
+                        <div class="bullet-row">
+                            <span class="arrow-up">↗</span>
+                            <span>Massive increase in strategic and human-centric roles.</span>
+                        </div>
+                        <div class="bullet-row">
+                            <span class="arrow-down">↘</span>
+                            <span>Decline in pure syntax-generation and manual regression testing.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-shell p-6 md:p-8">
+                    <h3 class="chart-title mb-4">Composition Shift · From Labour-Intensive To Idea-Intensive</h3>
+                    <div class="slope-wrap">
+                        <svg viewBox="0 0 800 460" preserveAspectRatio="xMidYMid meet" class="slope-chart" role="img" aria-label="Slope chart showing the shift in squad composition between 2024 and 2030">
+                            <!-- Axis tag -->
+                            <text x="790" y="20" text-anchor="end" class="slope-axis-tag">% of squad effort</text>
+
+                            <!-- Year headers -->
+                            <text x="90" y="38" text-anchor="middle" class="slope-year">2024</text>
+                            <text x="90" y="54" text-anchor="middle" class="slope-year-sub">AS-IS</text>
+                            <text x="440" y="38" text-anchor="middle" class="slope-year">2030</text>
+                            <text x="440" y="54" text-anchor="middle" class="slope-year-sub">PROJECTED</text>
+
+                            <!-- Vertical guides -->
+                            <line x1="90" y1="70" x2="90" y2="410" class="slope-guide" />
+                            <line x1="440" y1="70" x2="440" y2="410" class="slope-guide" />
+
+                            <!-- Syntax Generation / Coding (50 → 10) Coral, declining -->
+                            <g class="slope-row">
+                                <line class="slope-line" x1="90" y1="100" x2="440" y2="340" stroke="#FF6B6B" />
+                                <circle class="slope-dot" cx="90"  cy="100" fill="#FF6B6B" />
+                                <circle class="slope-dot" cx="440" cy="340" fill="#FF6B6B" />
+                                <text x="80"  y="104" text-anchor="end"   class="slope-val" fill="#FF6B6B">50%</text>
+                                <text x="450" y="344" class="slope-val" fill="#FF6B6B">10%</text>
+                                <text x="490" y="344" class="slope-cat">Syntax Generation / Coding</text>
+                                <text x="788" y="346" text-anchor="end"   class="slope-arrow" fill="#FF6B6B">↘</text>
+                            </g>
+
+                            <!-- Manual Testing / QA (30 → 5) Amber, declining -->
+                            <g class="slope-row">
+                                <line class="slope-line" x1="90" y1="220" x2="440" y2="370" stroke="#FFC857" />
+                                <circle class="slope-dot" cx="90"  cy="220" fill="#FFC857" />
+                                <circle class="slope-dot" cx="440" cy="370" fill="#FFC857" />
+                                <text x="80"  y="224" text-anchor="end"   class="slope-val" fill="#FFC857">30%</text>
+                                <text x="450" y="374" class="slope-val" fill="#FFC857">5%</text>
+                                <text x="482" y="374" class="slope-cat">Manual Testing / QA</text>
+                                <text x="788" y="376" text-anchor="end"   class="slope-arrow" fill="#FFC857">↘</text>
+                            </g>
+
+                            <!-- Orchestration / Architecture (10 → 40) Acid, growing -->
+                            <g class="slope-row">
+                                <line class="slope-line" x1="90" y1="340" x2="440" y2="160" stroke="#E8FF3A" />
+                                <circle class="slope-dot" cx="90"  cy="340" fill="#E8FF3A" />
+                                <circle class="slope-dot" cx="440" cy="160" fill="#E8FF3A" />
+                                <text x="80"  y="345" text-anchor="end"   class="slope-val" fill="#E8FF3A">10%</text>
+                                <text x="450" y="164" class="slope-val" fill="#E8FF3A">40%</text>
+                                <text x="490" y="164" class="slope-cat">Orchestration / Architecture</text>
+                                <text x="788" y="166" text-anchor="end"   class="slope-arrow" fill="#E8FF3A">↗</text>
+                            </g>
+
+                            <!-- Strategy / Value Definition (10 → 30) Sky, growing -->
+                            <g class="slope-row">
+                                <line class="slope-line" x1="90" y1="340" x2="440" y2="220" stroke="#7DD3FC" />
+                                <circle class="slope-dot" cx="90"  cy="340" fill="#7DD3FC" />
+                                <circle class="slope-dot" cx="440" cy="220" fill="#7DD3FC" />
+                                <!-- 10% value shown by Orchestration row -->
+                                <text x="450" y="224" class="slope-val" fill="#7DD3FC">30%</text>
+                                <text x="490" y="224" class="slope-cat">Strategy / Value Definition</text>
+                                <text x="788" y="226" text-anchor="end"   class="slope-arrow" fill="#7DD3FC">↗</text>
+                            </g>
+
+                            <!-- Ethics & Human Context (0 → 15) Lavender, new -->
+                            <g class="slope-row">
+                                <line class="slope-line" x1="90" y1="400" x2="440" y2="310" stroke="#C4B5FD" />
+                                <circle class="slope-dot" cx="90"  cy="400" fill="#C4B5FD" />
+                                <circle class="slope-dot" cx="440" cy="310" fill="#C4B5FD" />
+                                <text x="80"  y="404" text-anchor="end"   class="slope-val" fill="#C4B5FD">0%</text>
+                                <text x="450" y="314" class="slope-val" fill="#C4B5FD">15%</text>
+                                <text x="490" y="314" class="slope-cat">Ethics &amp; Human Context</text>
+                                <text x="700" y="316" text-anchor="end"   class="slope-new-tag">✦ NEW</text>
+                                <text x="788" y="316" text-anchor="end"   class="slope-arrow" fill="#C4B5FD">↗</text>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="slope-summary">
+                        <div class="slope-summary-row">
+                            <span class="slope-summary-tag down-count">Labour-intensive ↘</span>
+                            <span>Syntax + QA collapse from <span class="down-count">80%</span> to <span class="down-count">15%</span> of squad effort.</span>
+                        </div>
+                        <div class="slope-summary-row">
+                            <span class="slope-summary-tag up-count">Idea-intensive ↗</span>
+                            <span>Orchestration + Strategy + Ethics rise from <span class="up-count">20%</span> to <span class="up-count">85%</span>.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="roles" class="space-y-10 section-divided pt-16">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="mb-4">The evolution of roles.</h2>
+                <p class="text-lg">
+                    Jobs are not disappearing; they are elevating. Click on a traditional tech role to discover how it morphs into its 2030 counterpart — unlocking higher value and deeper human connection to the product.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                <div class="md:col-span-4 space-y-2" id="role-buttons">
+                    <h3 class="meta-label text-sm mb-4" style="font-size: 11px;">Traditional Roles (Pre-2025)</h3>
+                </div>
+                <div class="md:col-span-8">
+                    <div class="role-display fade-in" id="role-display">
+                        <div class="meta-label mb-3" style="font-size: 11px;">Select a role to view</div>
+                        <h3>The Future Squad.</h3>
+                        <p class="mt-4 text-lg leading-relaxed">
+                            Interactive exploration of the individuals who will orchestrate the digital products of tomorrow. Map your current skills to your future potential.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="lifecycle" class="space-y-10 section-divided pt-16">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <h2 class="mb-4">The AI-augmented SDLC.</h2>
+                <p class="text-lg">
+                    The Software Development Life Cycle remains, but the distribution of effort changes wildly. Explore the phases below to see how humans and AI will collaborate in 2030.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-3 mb-8" id="phase-buttons"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start brand-card p-8">
+                <div id="phase-text-container" class="space-y-5 fade-in"></div>
+                <div class="chart-shell p-6">
+                    <h3 class="chart-title mb-4">Human vs AI Effort Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="effortChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="leadership" class="leadership-slab">
+            <div class="max-w-4xl mx-auto text-center space-y-8">
+                <div class="slab-kicker">Tactical Takeaway · The Managerial Question</div>
+                <h2 style="font-size: clamp(28px, 3.6vw, 44px); line-height: 1.1;">
+                    Do Product &amp; Project Managers disappear?
+                </h2>
+                <div class="text-left space-y-6 text-lg">
+                    <p>
+                        A common fear is that AI agents will simply "manage" projects and define products. <strong>Our research suggests the exact opposite.</strong> As the cost of building software drops to near-zero, the premium shifts entirely to <em>deciding what is worth building</em>.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div class="role-future-card">
+                            <h3>The Value Strategist <span class="alt-accent">(formerly PM/PO)</span></h3>
+                            <p class="leading-relaxed">
+                                Product Managers transition from writing Jira tickets to becoming pure Value Strategists and <strong>AI Context Directors</strong>. They feed the AI deeply nuanced context about human desires, market shifts, and emotional resonance. They are the empathetic anchor of the team.
+                            </p>
+                        </div>
+                        <div class="role-future-card">
+                            <h3>The Flow Optimiser <span class="alt-accent">(formerly Project Mgr)</span></h3>
+                            <p class="leading-relaxed">
+                                Project Managers evolve into <strong>Workflow Designers</strong> and <strong>Automation Pioneers</strong>. Rather than chasing humans for status updates, they design the autonomous systems, monitor AI agent collaboration, and remove systemic bottlenecks. They engineer the process itself.
+                            </p>
+                        </div>
+                    </div>
+                    <p class="pull-quote text-center">
+                        "With radical change comes opportunity. The future belongs to those who view AI not as a replacement, but as the ultimate collaborator."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="subscribe-section" id="subscribe">
+            <div>
+                <div class="subscribe-label">Subscribe</div>
+                <h2>The next issue, in your inbox.</h2>
+                <p class="intro">One issue per release. Practical, evidence-led, no hype. Unsubscribe any time — no hard feelings.</p>
+            </div>
+            <form
+                action="https://buttondown.com/api/emails/embed-subscribe/aisustainedops"
+                method="post"
+                class="buttondown-form"
+            >
+                <label for="bd-email">Enter your email</label>
+                <input type="email" name="email" id="bd-email" placeholder="you@example.com" required />
+                <input type="submit" value="Subscribe" />
+                <p class="form-foot">
+                    <a href="https://buttondown.com/refer/aisustainedops" target="_blank" rel="noopener">
+                        Powered by Buttondown ↗
+                    </a>
+                </p>
+            </form>
+        </section>
+
+    </main>
+
+    <section class="social-slab" aria-label="Find AI Sustained on Substack and Facebook">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="social-slab-inner">
+                <div class="slab-kicker">Also on</div>
+                <div class="slab-body">Deeper research, white papers and <em>podcast versions</em> on Substack — daily reflections and conversation on Facebook.</div>
+                <div class="slab-cta-row">
+                    <a class="slab-cta" href="https://aisustained.substack.com" target="_blank" rel="noopener">Substack</a>
+                    <a class="slab-cta" href="https://www.facebook.com/profile.php?id=61590498480578" target="_blank" rel="noopener">Facebook</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="brand-footer">
+        <p style="margin-bottom: 12px;">AI Sustained · Issue 008 · 2nd June 2026 · A hypothetical vision of 2030 by Kevin Clubb</p>
+        <p>
+            <a href="/">Back to articles</a>
+            &nbsp;·&nbsp;
+            <a href="#subscribe">Subscribe</a>
+            &nbsp;·&nbsp;
+            <a href="https://aisustained.substack.com" target="_blank" rel="noopener">Substack ↗</a>
+            &nbsp;·&nbsp;
+            <a href="https://www.facebook.com/profile.php?id=61590498480578" target="_blank" rel="noopener">Facebook ↗</a>
+        </p>
+    </footer>
+
+    <script>
+        // ===== Brand chart defaults =====
+        const BRAND = {
+            forest: '#1B4332',
+            paper: '#F2ECD9',
+            acid:   '#E8FF3A',
+            mint:   '#D8F3DC',
+            ink:    '#0A0F0C',
+            coral:  '#FF8C61',
+            sky:    '#7DD3FC',
+            paper60: 'rgba(242, 236, 217, 0.6)',
+            paper80: 'rgba(242, 236, 217, 0.85)',
+            paper15: 'rgba(242, 236, 217, 0.15)'
+        };
+        Chart.defaults.color = BRAND.paper80;
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.font.size = 12;
+
+        const rolesData = [
+            {
+                id: 'dev',
+                traditional: 'Software Engineer / Developer',
+                future: 'Workflow Engineer / Logic Architect',
+                icon: '🏗️',
+                description: 'The days of writing boilerplate CRUD apps are over. The Developer evolves into a Logic Architect. They design the complex systems, define the prompts that guide AI agents to write the code, and review the structural integrity of the generated outputs. They are conductors of an AI orchestra.',
+                opportunity: 'Moving from syntax memorisation to high-level system design and architectural thinking.'
+            },
+            {
+                id: 'qa',
+                traditional: 'QA Engineer / Tester',
+                future: 'AI Output Validator / Edge-Case Pioneer',
+                icon: '🛡️',
+                description: 'AI handles 100% of standard integration and regression testing instantly. The QA role morphs into an Edge-Case Pioneer. They focus on complex, adversarial testing, hallucination checking, and ensuring the AI\'s output aligns with human expectations and accessibility standards.',
+                opportunity: 'Transitioning from repetitive test execution to deeply creative, investigative, and psychological analysis.'
+            },
+            {
+                id: 'designer',
+                traditional: 'UX/UI Designer',
+                future: 'Human-AI Interaction Designer',
+                icon: '🎨',
+                description: 'Generative UI creates screens on the fly based on user needs. The Designer focuses on the overarching emotional journey, the design system rules fed to the AI, and how users converse with and trust AI elements within the product.',
+                opportunity: 'Focusing entirely on psychology, emotion, and fluid interaction models rather than pixel-pushing.'
+            },
+            {
+                id: 'ops',
+                traditional: 'DevOps / SysAdmin',
+                future: 'Automation Pioneer / MLOps Architect',
+                icon: '🚀',
+                description: 'Deployment is fully autonomous. This role shifts to managing the AI infrastructure, training localised models, optimising token usage, and pioneering new ways to automate the orchestration of AI agents across the delivery pipeline.',
+                opportunity: 'Becoming the core enabler of team velocity by building the very systems that power the AI agents.'
+            },
+            {
+                id: 'ba',
+                traditional: 'Business Analyst',
+                future: 'Outcome Architect & Context Engineer',
+                icon: '🧩',
+                description: 'By 2031, the mechanical core of business analysis — drawing as-is process maps, writing user stories, BPMN diagrams, data flow diagrams — is generated by AI-enhanced process mining straight from live system telemetry. Virtual-stakeholder agents simulate departmental pushback during elicitation. The BA stops documenting the as-is and starts architecting the to-be. They define which decisions sit with humans versus AI agents, set the authority limits and guardrails for agent collaboration, and translate the unspoken political, cultural and emotional context behind a requirement into agent-ready specification. Significant overlap with the Logic Architect on system modelling and with the AI Ethicist & Governance Lead on policy and decision-rights — but the empathy-driven elicitation, the messy human conversations that surface what stakeholders cannot articulate, remains unmistakably the BA\'s territory.',
+                opportunity: 'Moving from documenting current-state processes to designing AI-augmented future-state outcomes — the trusted human bridge between fuzzy business intent and the agent-ready context that powers the rest of the squad.'
+            },
+            {
+                id: 'data',
+                traditional: 'Data Analyst',
+                future: 'AI Ethicist & Governance Lead',
+                icon: '🧠',
+                description: 'A new vital role emerging from data/QA disciplines, with strong crossover from the Business Analyst pathway. As AI makes more autonomous decisions, this person ensures models are unbiased, transparent, and compliant with global regulations. They audit the AI\'s decision-making pathways and own the policy layer the Outcome Architect designs against.',
+                opportunity: 'Becoming the moral compass and legal safeguard of the digital product.'
+            }
+        ];
+
+        const phasesData = {
+            'discovery': {
+                title: 'Due Diligence & Requirement Elicitation',
+                text: 'AI instantly processes millions of data points, past user interviews, and market trends to generate preliminary requirement models. Humans spend their time conducting deeply empathetic interviews, exploring unarticulated needs, and defining the emotional goals of the product.',
+                humanEffort: 70,
+                aiEffort: 30
+            },
+            'build': {
+                title: 'AI Automation, Design & Build',
+                text: 'Value Strategists and Logic Architects feed context to AI agents. AI generates prototypes, writes the code, and configures the databases in minutes. Humans review architectural decisions, resolve complex logic conflicts, and refine the AI\'s creative direction.',
+                humanEffort: 20,
+                aiEffort: 80
+            },
+            'test': {
+                title: 'Integration to UAT',
+                text: 'Unit, integration, and security tests are written and executed autonomously by AI upon code generation. Humans perform User Acceptance Testing (UAT) focused on "feel," brand alignment, and adversarial edge cases that AI cannot comprehend.',
+                humanEffort: 40,
+                aiEffort: 60
+            },
+            'deploy': {
+                title: 'Deployment & Monitoring',
+                text: 'Deployment is a continuous, invisible process managed by autonomous agents that monitor metrics, roll back errors instantly, and A/B test without human intervention. Humans review high-level health dashboards and focus on next-cycle strategy.',
+                humanEffort: 10,
+                aiEffort: 90
+            }
+        };
+
+        const renderRoles = () => {
+            const btnContainer = document.getElementById('role-buttons');
+            const displayArea = document.getElementById('role-display');
+
+            rolesData.forEach((role, index) => {
+                const btn = document.createElement('button');
+                btn.className = `role-btn ${index === 0 ? 'active' : ''}`;
+                btn.innerHTML = `<span>${role.traditional}</span> <span>→</span>`;
+
+                btn.onclick = (e) => {
+                    document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+
+                    displayArea.classList.remove('fade-in');
+                    void displayArea.offsetWidth;
+
+                    displayArea.innerHTML = `
+                        <div class="meta-label mb-3" style="font-size: 11px;">Evolves Into</div>
+                        <h3 style="display: flex; align-items: center; gap: 14px;">
+                            <span style="font-size: 0.85em;">${role.icon}</span>
+                            <span>${role.future}.</span>
+                        </h3>
+                        <p class="mt-5 text-lg leading-relaxed">
+                            ${role.description}
+                        </p>
+                        <div class="role-opportunity mt-6">
+                            <h4>The Human Opportunity</h4>
+                            <p>${role.opportunity}</p>
+                        </div>
+                    `;
+                    displayArea.classList.add('fade-in');
+                };
+                btnContainer.appendChild(btn);
+            });
+
+            document.querySelector('.role-btn').click();
+        };
+
+        let effortChartInstance = null;
+
+        const renderLifecycle = () => {
+            const btnContainer = document.getElementById('phase-buttons');
+            const textContainer = document.getElementById('phase-text-container');
+            const ctx = document.getElementById('effortChart').getContext('2d');
+
+            Object.keys(phasesData).forEach((key, index) => {
+                const btn = document.createElement('button');
+                btn.className = `phase-btn ${index === 0 ? 'active' : ''}`;
+                btn.innerText = key;
+
+                btn.onclick = (e) => {
+                    document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    updatePhaseDisplay(key);
+                };
+                btnContainer.appendChild(btn);
+            });
+
+            const updatePhaseDisplay = (phaseKey) => {
+                const data = phasesData[phaseKey];
+
+                textContainer.classList.remove('fade-in');
+                void textContainer.offsetWidth;
+                textContainer.innerHTML = `
+                    <div class="phase-tag">Phase · ${phaseKey}</div>
+                    <h3 style="font-size: 26px; line-height: 1.15;">${data.title}</h3>
+                    <p class="text-lg leading-relaxed">${data.text}</p>
+                `;
+                textContainer.classList.add('fade-in');
+
+                if (effortChartInstance) {
+                    effortChartInstance.data.datasets[0].data = [data.humanEffort, data.aiEffort];
+                    effortChartInstance.update();
+                } else {
+                    effortChartInstance = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Human Effort', 'AI Autonomous Effort'],
+                            datasets: [{
+                                label: '% of Workload',
+                                data: [data.humanEffort, data.aiEffort],
+                                backgroundColor: [BRAND.acid, BRAND.mint],
+                                borderColor: [BRAND.acid, BRAND.mint],
+                                borderWidth: 0,
+                                borderRadius: 6,
+                                barPercentage: 0.6
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    max: 100,
+                                    ticks: {
+                                        color: BRAND.paper80,
+                                        callback: function(value) { return value + '%'; }
+                                    },
+                                    grid: { color: BRAND.paper15 }
+                                },
+                                x: {
+                                    ticks: { color: BRAND.paper80 },
+                                    grid: { display: false }
+                                }
+                            },
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: BRAND.ink,
+                                    titleColor: BRAND.acid,
+                                    bodyColor: BRAND.paper,
+                                    borderColor: BRAND.acid,
+                                    borderWidth: 1,
+                                    callbacks: {
+                                        label: function(context) {
+                                            return context.parsed.y + '% of workload';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            };
+
+            updatePhaseDisplay(Object.keys(phasesData)[0]);
+        };
+
+        // Slope chart is static SVG — no JS render needed.
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderRoles();
+            renderLifecycle();
+        });
+    </script>
+</body>
+</html>
