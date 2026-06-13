@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<!--
+    AI Sustained · Issue 010 · Switched Off In Three Days
+    Published: 13th June 2026
+    Live URL: https://ai-sustained.com/articles/fable-5-mythos-5-suspended/
+-->
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3WZNV09BB');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why the US Government Suspended Claude Fable 5 and Mythos 5 — AI Sustained · Issue 010</title>
+    <meta name="description" content="On 12 June 2026 the US government ordered Anthropic to suspend Claude Fable 5 and Mythos 5 over a national-security 'jailbreak' — the first federal shutdown of a live frontier AI model. A balanced look at national security, free speech, export control and data access. AI Sustained Issue 010.">
+    <meta name="keywords" content="Fable 5, Mythos 5, Claude Fable 5, Claude Mythos 5, Anthropic, US government AI suspension, export control directive, AI national security, AI jailbreak, First Amendment AI, AI free speech, foreign nationals AI access, frontier AI regulation, AI Sustained, Kevin Clubb">
+    <meta name="author" content="Kevin Clubb">
+    <link rel="canonical" href="https://ai-sustained.com/articles/fable-5-mythos-5-suspended/">
+    <meta property="og:title" content="Switched Off In Three Days: Why the US Government Suspended Claude Fable 5 and Mythos 5">
+    <meta property="og:description" content="The first federal shutdown of a live frontier model. A balanced look at the national security case, the free-speech case, and who gets to access the world's smartest software.">
+    <meta property="og:url" content="https://ai-sustained.com/articles/fable-5-mythos-5-suspended/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AI Sustained">
+    <meta property="og:image" content="https://ai-sustained.com/articles/fable-5-mythos-5-suspended/cover.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Why the US Government Suspended Claude Fable 5 and Mythos 5 — AI Sustained · Issue 010">
+    <meta name="twitter:description" content="The first time Washington pulled a live frontier AI model. National security vs free speech vs data access — the balanced read.">
+    <meta name="twitter:image" content="https://ai-sustained.com/articles/fable-5-mythos-5-suspended/cover.png">
+    <meta name="theme-color" content="#1B4332">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Why the US Government Suspended Claude Fable 5 and Mythos 5",
+      "alternativeHeadline": "The first federal shutdown of a live frontier AI model — a balanced look at national security, free speech and data access.",
+      "author": { "@type": "Person", "name": "Kevin Clubb", "jobTitle": "Senior Business Analyst" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "AI Sustained",
+        "logo": { "@type": "ImageObject", "url": "https://ai-sustained.com/ai_sustained_logo_mark.png" }
+      },
+      "datePublished": "2026-06-13",
+      "dateModified": "2026-06-13",
+      "description": "On 12 June 2026 the US government ordered Anthropic to suspend Claude Fable 5 and Mythos 5 over a national-security 'jailbreak'. A balanced look at the security case, the free-speech case, and the question of who gets access to frontier AI.",
+      "keywords": "Fable 5, Mythos 5, Anthropic, US government AI suspension, export control, AI national security, AI jailbreak, First Amendment, free speech, frontier AI regulation",
+      "image": "https://ai-sustained.com/articles/fable-5-mythos-5-suspended/cover.png",
+      "articleSection": "AI Policy",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ai-sustained.com/articles/fable-5-mythos-5-suspended/" }
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1B4332;
+            --paper: #F2ECD9;
+            --acid: #E8FF3A;
+            --mint: #D8F3DC;
+            --ink: #0A0F0C;
+            --coral: #FF8C61;
+            --sky: #7DD3FC;
+            --paper-06: rgba(242, 236, 217, 0.06);
+            --paper-10: rgba(242, 236, 217, 0.10);
+            --paper-18: rgba(242, 236, 217, 0.18);
+            --paper-30: rgba(242, 236, 217, 0.30);
+            --paper-60: rgba(242, 236, 217, 0.60);
+            --paper-80: rgba(242, 236, 217, 0.80);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--forest);
+            color: var(--paper);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: inherit; text-decoration: none; }
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            color: var(--paper);
+            letter-spacing: -0.015em;
+        }
+        em, .italic { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--acid); }
+        p { color: var(--mint); margin-bottom: 1.1em; }
+        p strong { color: var(--paper); font-weight: 600; }
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+        .wide { max-width: 1280px; }
+
+        /* ===== NAV ===== */
+        nav.brand-nav {
+            background: rgba(27, 67, 50, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--paper-30);
+            border-top: 4px solid var(--acid);
+            position: sticky; top: 0; z-index: 50;
+        }
+        .nav-inner {
+            max-width: 1280px; margin: 0 auto;
+            padding: 14px 32px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--mint);
+        }
+        .nav-brand { color: var(--paper); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: -0.01em; }
+        .nav-brand em { font-size: 16px; }
+        .nav-mark { color: var(--acid); margin-right: 14px; padding-right: 14px; border-right: 1px solid var(--paper-30); }
+        .nav-links { display: flex; gap: 22px; }
+        .nav-links a { color: var(--mint); border-bottom: 1px solid transparent; padding-bottom: 2px; transition: all 0.15s; }
+        .nav-links a:hover { color: var(--acid); border-bottom-color: var(--acid); }
+        @media (max-width: 720px) { .nav-links { display: none; } }
+
+        /* ===== HERO ===== */
+        .hero {
+            padding: 90px 0 60px;
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute;
+            top: -120px; right: -120px;
+            width: 460px; height: 460px;
+            border: 64px solid var(--paper);
+            border-radius: 50%;
+            opacity: 0.05; z-index: 0;
+        }
+        .hero-inner { position: relative; z-index: 1; }
+        .issue-pill {
+            display: inline-flex; align-items: center; gap: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 12px;
+            letter-spacing: 0.26em; text-transform: uppercase;
+            color: var(--acid); margin-bottom: 24px;
+        }
+        .issue-pill::before { content: ''; width: 44px; height: 2px; background: var(--acid); }
+        .hero h1 {
+            font-size: clamp(48px, 7vw, 92px);
+            line-height: 0.98; margin-bottom: 28px;
+            max-width: 920px;
+        }
+        .hero h1 em { font-size: inherit; }
+        .hero-deck {
+            font-family: 'Fraunces', serif; font-style: italic;
+            font-weight: 400; font-size: 23px; line-height: 1.5;
+            color: var(--mint); max-width: 760px;
+        }
+        .hero-deck strong { color: var(--paper); font-weight: 500; }
+        .byline {
+            margin-top: 44px;
+            display: flex; gap: 22px; flex-wrap: wrap; align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px; font-weight: 600;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--mint);
+        }
+        .byline strong { color: var(--acid); font-weight: 600; }
+        .byline .dot { width: 5px; height: 5px; background: var(--acid); border-radius: 50%; }
+
+        /* ===== STAT GRID ===== */
+        .stats {
+            padding: 24px 0 64px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+        @media (max-width: 880px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+        .stat {
+            background: var(--paper-06);
+            border: 1px solid var(--paper-18);
+            border-radius: 6px;
+            padding: 24px 22px;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat::before {
+            content: ''; position: absolute;
+            left: 0; top: 0; bottom: 0; width: 3px;
+            background: var(--acid);
+        }
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 34px;
+            color: var(--paper); line-height: 1; letter-spacing: -0.01em;
+            margin-bottom: 10px;
+        }
+        .stat-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 10px;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            color: var(--acid);
+        }
+        .stat-sub { color: var(--mint); font-size: 13px; margin-top: 10px; line-height: 1.4; }
+
+        /* ===== SECTIONS ===== */
+        section.body-section {
+            padding: 64px 0;
+            border-top: 1px solid var(--paper-30);
+        }
+        section.body-section h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            margin-bottom: 18px;
+            max-width: 880px;
+        }
+        section.body-section h2 em { font-size: inherit; }
+        section.body-section .section-kicker {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 11px;
+            letter-spacing: 0.26em; text-transform: uppercase;
+            color: var(--acid); margin-bottom: 14px;
+        }
+        section.body-section h3 {
+            font-size: 22px; margin: 32px 0 12px;
+            color: var(--paper);
+        }
+        section.body-section p { max-width: 760px; font-size: 17px; }
+        section.body-section ul {
+            max-width: 760px; padding-left: 0;
+            list-style: none; margin-bottom: 1.1em;
+        }
+        section.body-section li {
+            color: var(--mint); font-size: 17px;
+            margin-bottom: 12px; padding-left: 28px; position: relative; line-height: 1.55;
+        }
+        section.body-section li::before {
+            content: '→'; position: absolute; left: 0; top: 0;
+            color: var(--acid); font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+        }
+        section.body-section li strong { color: var(--paper); }
+
+        /* ===== TIMELINE INFOGRAPHIC ===== */
+        .timeline {
+            margin: 36px 0; max-width: 980px;
+            border: 1px solid var(--paper-18);
+            border-radius: 8px;
+            background: var(--paper-06);
+            padding: 32px 28px;
+        }
+        .timeline-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 11px;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            color: var(--acid); margin-bottom: 26px;
+        }
+        .timeline-track {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 0; position: relative;
+        }
+        .timeline-track::before {
+            content: ''; position: absolute;
+            left: 6%; right: 6%; top: 9px; height: 2px;
+            background: var(--paper-18);
+        }
+        @media (max-width: 720px) {
+            .timeline-track { grid-template-columns: 1fr; gap: 22px; }
+            .timeline-track::before { display: none; }
+        }
+        .tl-step { position: relative; padding: 0 10px; }
+        .tl-dot {
+            width: 18px; height: 18px; border-radius: 50%;
+            background: var(--forest); border: 3px solid var(--acid);
+            position: relative; z-index: 1; margin-bottom: 16px;
+        }
+        .tl-step.dark .tl-dot { background: var(--coral); border-color: var(--coral); }
+        .tl-when {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 11px;
+            letter-spacing: 0.14em; text-transform: uppercase;
+            color: var(--acid); margin-bottom: 8px;
+        }
+        .tl-what { color: var(--mint); font-size: 14px; line-height: 1.5; }
+        .tl-what strong { color: var(--paper); }
+
+        /* ===== SPECTRUM GRID (three viewpoints) ===== */
+        .spectrum {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 16px; margin: 32px 0; max-width: 1000px;
+        }
+        @media (max-width: 760px) { .spectrum { grid-template-columns: 1fr; } }
+        .view {
+            background: var(--paper-06);
+            border: 1px solid var(--paper-18);
+            border-radius: 8px; padding: 26px 24px;
+            position: relative; overflow: hidden;
+        }
+        .view::before {
+            content: ''; position: absolute;
+            left: 0; top: 0; bottom: 0; width: 4px;
+        }
+        .view.left::before { background: var(--sky); }
+        .view.centre::before { background: var(--paper); }
+        .view.right::before { background: var(--coral); }
+        .view-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 10px;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .view.left .view-tag { color: var(--sky); }
+        .view.centre .view-tag { color: var(--paper); }
+        .view.right .view-tag { color: var(--coral); }
+        .view-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700; font-size: 19px;
+            color: var(--paper); margin-bottom: 14px; line-height: 1.15;
+        }
+        .view p { color: var(--mint); font-size: 14px; line-height: 1.55; margin-bottom: 0; max-width: none; }
+        .view p strong { color: var(--paper); }
+        .view .voice {
+            margin-top: 14px; padding-top: 14px;
+            border-top: 1px solid var(--paper-18);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px; letter-spacing: 0.1em;
+            color: var(--paper-60); text-transform: uppercase;
+        }
+
+        /* ===== TENSIONS GRID ===== */
+        .tensions {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 16px; margin: 32px 0; max-width: 980px;
+        }
+        @media (max-width: 720px) { .tensions { grid-template-columns: 1fr; } }
+        .tension {
+            background: var(--paper-06);
+            border: 1px solid var(--paper-18);
+            border-radius: 6px; padding: 22px;
+        }
+        .tension .vs {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700; font-size: 17px;
+            color: var(--paper); margin-bottom: 10px;
+        }
+        .tension .vs span { color: var(--acid); font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; }
+        .tension p { color: var(--mint); font-size: 14px; line-height: 1.5; margin: 0; max-width: none; }
+
+        /* ===== PULL QUOTE ===== */
+        .pull {
+            margin: 56px auto; max-width: 820px;
+            padding: 36px 24px;
+            border-top: 1px solid var(--acid);
+            border-bottom: 1px solid var(--acid);
+            text-align: center;
+        }
+        .pull blockquote {
+            font-family: 'Fraunces', serif; font-style: italic;
+            font-weight: 400; font-size: clamp(24px, 3.2vw, 34px);
+            line-height: 1.3; color: var(--paper);
+        }
+        .pull blockquote em { color: var(--acid); }
+        .pull cite {
+            display: block;
+            margin-top: 18px;
+            font-family: 'JetBrains Mono', monospace;
+            font-style: normal; font-size: 11px;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            color: var(--acid);
+        }
+
+        /* ===== OPEN QUESTIONS (signature dark panel) ===== */
+        .takeaway {
+            margin: 64px 0;
+            background: var(--ink);
+            border: 1px solid var(--paper-18);
+            border-radius: 8px;
+            padding: 56px 48px;
+            max-width: 980px;
+            position: relative;
+            overflow: hidden;
+        }
+        .takeaway::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: var(--acid);
+        }
+        .takeaway-kicker {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 12px;
+            letter-spacing: 0.26em; text-transform: uppercase;
+            color: var(--acid); margin-bottom: 18px;
+        }
+        .takeaway h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700; font-size: clamp(28px, 3.4vw, 40px);
+            color: var(--paper); margin-bottom: 36px;
+            letter-spacing: -0.015em;
+        }
+        .takeaway h3 em { color: var(--acid); }
+        .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        @media (max-width: 720px) { .takeaway-grid { grid-template-columns: 1fr; } }
+        .takeaway-item .label {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 11px;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            color: var(--acid); margin-bottom: 12px;
+        }
+        .takeaway-item p {
+            font-family: 'Fraunces', serif; font-style: italic;
+            font-weight: 400; font-size: 18px; line-height: 1.45;
+            color: var(--paper); max-width: none;
+        }
+
+        /* ===== SUBSTACK CTA ===== */
+        .substack-cta {
+            margin: 48px 0 16px;
+            max-width: 980px;
+            background: var(--acid);
+            color: var(--ink);
+            border-radius: 8px;
+            padding: 32px 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .substack-cta-text { flex: 1 1 320px; }
+        .substack-cta .kicker {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 11px;
+            letter-spacing: 0.26em; text-transform: uppercase;
+            color: var(--ink); margin-bottom: 8px;
+        }
+        .substack-cta h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700; font-size: clamp(22px, 2.6vw, 30px);
+            color: var(--ink); letter-spacing: -0.015em;
+            margin-bottom: 6px;
+        }
+        .substack-cta h3 em {
+            font-family: 'Fraunces', serif; font-style: italic;
+            font-weight: 500; color: var(--forest);
+        }
+        .substack-cta p {
+            font-family: 'Inter', sans-serif;
+            color: var(--ink); font-size: 15px;
+            line-height: 1.5; margin: 0; max-width: none;
+        }
+        .substack-cta a.btn {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 12px;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            background: var(--ink); color: var(--acid);
+            padding: 16px 24px; border-radius: 4px;
+            border: 1px solid var(--ink);
+            transition: all 0.15s; white-space: nowrap;
+        }
+        .substack-cta a.btn:hover {
+            background: var(--forest); color: var(--acid);
+            border-color: var(--forest);
+        }
+
+        /* ===== FOOTER ===== */
+        footer.brand-footer {
+            border-top: 1px solid var(--paper-30);
+            margin-top: 60px; padding: 48px 0;
+        }
+        .footer-inner {
+            display: flex; justify-content: space-between; gap: 24px;
+            flex-wrap: wrap;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--paper-60);
+        }
+        .footer-inner a { color: var(--mint); }
+        .footer-inner a:hover { color: var(--acid); }
+        .disclaimer {
+            margin-top: 22px; max-width: 880px;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px; color: var(--paper-60);
+            line-height: 1.6;
+        }
+        .hashtags {
+            margin-top: 22px; max-width: 880px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; color: var(--paper-60);
+            letter-spacing: 0.06em; line-height: 1.7;
+            word-spacing: 6px;
+        }
+        .hashtags span { color: var(--acid); }
+    </style>
+</head>
+<body>
+
+<nav class="brand-nav">
+    <div class="nav-inner">
+        <div style="display:flex;align-items:center;">
+            <span class="nav-brand">AI Sustained <em>·</em> Issue 010</span>
+        </div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/articles/">Articles</a>
+            <a href="https://aisustained.substack.com" target="_blank" rel="noopener">Substack</a>
+        </div>
+    </div>
+</nav>
+
+<article>
+
+<header class="hero">
+    <div class="container hero-inner">
+        <div class="issue-pill">Issue 010 · 13 June 2026 · AI Policy</div>
+        <h1>Switched off in <em>three days</em>.</h1>
+        <p class="hero-deck">On 12 June 2026 the US government ordered Anthropic to suspend <strong>Claude Fable 5 and Mythos 5</strong> over a national-security "jailbreak" — the first time Washington has pulled a live frontier model. A balanced look at <strong>national security, free speech, export control and who gets to access the smartest software on earth</strong>.</p>
+        <div class="byline">
+            <span>By <strong>Kevin Clubb</strong></span>
+            <span class="dot"></span>
+            <span>Senior Business Analyst</span>
+            <span class="dot"></span>
+            <span>Reading time <strong>9 min</strong></span>
+            <span class="dot"></span>
+            <span>Tier <strong>AI Policy</strong></span>
+        </div>
+    </div>
+</header>
+
+<section class="container">
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-value">3 days</div>
+            <div class="stat-label">Fable 5's public lifespan</div>
+            <div class="stat-sub">Launch to forced shutdown. The shelf-life of a supermarket avocado.</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">5:21pm</div>
+            <div class="stat-label">ET · 12 June 2026</div>
+            <div class="stat-sub">When the export-control directive landed. A Friday, naturally.</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">1st</div>
+            <div class="stat-label">Of its kind</div>
+            <div class="stat-sub">First live frontier model taken offline at federal request.</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Customers cut off</div>
+            <div class="stat-sub">Order targeted foreign nationals. Anthropic disabled both models for everyone.</div>
+        </div>
+    </div>
+</section>
+
+<section class="body-section" id="what-happened">
+    <div class="container">
+        <div class="section-kicker">01 · What happened</div>
+        <h2>The model with the <em>lifespan of an avocado</em>.</h2>
+        <p>Claude <strong>Fable 5</strong>, Anthropic's newest frontier model, was public for roughly three days. At <strong>5:21pm ET on 12 June 2026</strong>, the US government issued an export-control directive citing "national security authorities" and ordered Anthropic to suspend all access to <strong>Fable 5 and Mythos 5</strong> by "any foreign national, whether inside or outside the United States" — including Anthropic's own foreign-national employees.</p>
+        <p>There is no clean way to fence off "foreign nationals only" from a globally deployed API in an afternoon. So Anthropic did the only thing the order left it room to do: it disabled both models for <strong>every customer worldwide</strong>. The directive was reportedly delivered verbally, with no written justification attached.</p>
+        <p>The trigger, per Anthropic, was a claimed method of <strong>"jailbreaking" Fable 5</strong> — bypassing some of its safeguards. Reports suggest a rival company demonstrated a bypass technique to officials, who concluded the model posed a national-security risk. Anthropic says it reviewed the demonstration and found "a small number of previously known, minor vulnerabilities," adding that the same capabilities are already available in other systems, including <strong>OpenAI's GPT-5.5</strong>.</p>
+
+        <div class="timeline">
+            <div class="timeline-title">The 72 hours · launch to lights-out</div>
+            <div class="timeline-track">
+                <div class="tl-step">
+                    <div class="tl-dot"></div>
+                    <div class="tl-when">~9 June</div>
+                    <div class="tl-what"><strong>Fable 5 ships.</strong> Anthropic's newest frontier model goes public alongside Mythos 5.</div>
+                </div>
+                <div class="tl-step">
+                    <div class="tl-dot"></div>
+                    <div class="tl-when">11 June</div>
+                    <div class="tl-what"><strong>The jailbreak claim.</strong> A bypass technique is demonstrated to officials; the Commerce side takes interest.</div>
+                </div>
+                <div class="tl-step">
+                    <div class="tl-dot"></div>
+                    <div class="tl-when">12 June · 5:21pm</div>
+                    <div class="tl-what"><strong>The directive.</strong> Export-control order: no foreign-national access to Fable 5 or Mythos 5.</div>
+                </div>
+                <div class="tl-step dark">
+                    <div class="tl-dot"></div>
+                    <div class="tl-when">12 June · evening</div>
+                    <div class="tl-what"><strong>Lights out.</strong> Unable to segregate access in time, Anthropic disables both models for all users globally.</div>
+                </div>
+            </div>
+        </div>
+
+        <p>This did not happen in a vacuum. Since <strong>February 2026</strong>, Anthropic and the administration have been at odds: President Trump and Defense Secretary Pete Hegseth moved to bar Anthropic's products from federal agencies after the company pushed for stronger guardrails on how the Pentagon could use Claude — specifically around surveillance and autonomous weapons. Anthropic sued, alleging "an unlawful campaign of retaliation" and a First Amendment violation. A federal judge in California sided with Anthropic; the case continues in Washington, DC. Read charitably or cynically, the Fable 5 shutdown lands on top of an already-tense relationship.</p>
+    </div>
+</section>
+
+<section class="body-section" id="three-views">
+    <div class="container">
+        <div class="section-kicker">02 · The arguments</div>
+        <h2>Three readings of the <em>same shutdown</em>.</h2>
+        <p>This is one of those rare episodes that scrambles the usual political map. Security hawks on both left and right are relaxed; civil-libertarians on both left and right are alarmed; and the centre is mostly worried about <em>how</em> it was done rather than <em>whether</em>. Here are the three strongest cases, made as their own advocates would make them.</p>
+
+        <div class="spectrum">
+            <div class="view right">
+                <div class="view-tag">National-security case</div>
+                <div class="view-name">"Frontier AI is a strategic asset. Treat it like one."</div>
+                <p>Advanced models are dual-use technology — the same reasoning that fixes a codebase can probe critical infrastructure. <strong>Export controls already govern chips; software capable of cyber-offence belongs in the same bucket.</strong> If a credible bypass exists and a hostile state could exploit it, a few days offline is a cheap insurance premium. Acting in hours, not committees, is the point.</p>
+                <div class="voice">Security hawks · the administration · Commerce</div>
+            </div>
+            <div class="view centre">
+                <div class="view-tag">Centrist / due-process case</div>
+                <div class="view-name">"Maybe right call. Definitely wrong way to make it."</div>
+                <p>Perhaps the model should pause. But a <strong>verbal order, no written rationale, a narrow flaw the vendor says exists in rival models too</strong>, and a global blackout as collateral? That is governance by vibes. The worry isn't this one decision — it's the <strong>precedent</strong>: that a deployed model used by millions can vanish in an afternoon with no published standard for when, or why.</p>
+                <div class="voice">Tech-policy pragmatists · most reporting</div>
+            </div>
+            <div class="view left">
+                <div class="view-tag">Free-speech / civil-liberties case</div>
+                <div class="view-name">"Pulling lawful software is a speech and access problem."</div>
+                <p>Anthropic argues the Constitution protects its right to publish its models and its safety views — and that the government can't punish protected speech. <strong>Banning "foreign nationals" sweeps up lawful US residents and a global public</strong> from a tool rivals still offer. Civil-libertarians left and right see a chilling template: comply quietly, or lose your product overnight.</p>
+                <div class="voice">Anthropic · ACLU-style & libertarian voices</div>
+            </div>
+        </div>
+
+        <p>Note the strange coalition. The libertarian-leaning <em>Reason</em> and left-leaning civil-liberties groups end up on roughly the same side — wary of government reaching into a private company's product — while national-security voices across the aisle are comfortable with exactly that reach. The episode is less left-versus-right than <strong>security-versus-liberty</strong>, the oldest argument there is, wearing a very new hat.</p>
+    </div>
+</section>
+
+<section class="body-section" id="four-tensions">
+    <div class="container">
+        <div class="section-kicker">03 · The fault lines</div>
+        <h2>Four tensions sitting <em>underneath it all</em>.</h2>
+        <p>Strip away the personalities and the Fable 5 case is really four older arguments colliding at once.</p>
+
+        <div class="tensions">
+            <div class="tension">
+                <div class="vs">National security <span>vs</span> personal security</div>
+                <p>The state's safety can require limiting what individuals can do. But "your data and tools are now a national-security matter" is a sentence that, once normal, is hard to walk back.</p>
+            </div>
+            <div class="tension">
+                <div class="vs">Free speech <span>vs</span> state control</div>
+                <p>Is a model a product, a weapon, or a form of expression? Anthropic says publishing it is protected speech. The administration says refusing a directive isn't. The courts will decide what an AI model legally <em>is</em>.</p>
+            </div>
+            <div class="tension">
+                <div class="vs">Open access <span>vs</span> gatekeeping</div>
+                <p>"Foreign nationals" is a blunt instrument. It bars lawful residents and a global public from a tool competitors still sell — raising who, exactly, gets to use frontier capability, and on whose say-so.</p>
+            </div>
+            <div class="tension">
+                <div class="vs">Speed <span>vs</span> due process</div>
+                <p>A genuine threat may need a response in hours. But a verbal order with no written standard means no one can predict, contest, or appeal the next one. Fast and accountable rarely come free.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="pull">
+    <blockquote>"This was never really about one model's safeguards. It was a live test of a quieter question: <em>can the state switch off the smartest software on earth — and on whose authority?</em>"</blockquote>
+    <cite>— AI Sustained · Issue 010</cite>
+</div>
+
+<section class="body-section" id="why-it-matters">
+    <div class="container">
+        <div class="section-kicker">04 · Why it matters</div>
+        <h2>The precedent is the <em>real product</em>.</h2>
+        <p>Whatever you make of the jailbreak — and "asking a model to read a codebase and fix flaws" is hardly the stuff of supervillainy — the lasting artefact of this week isn't a patch note. It's a demonstration.</p>
+        <p>The demonstration is that a leading AI company can be told to take a live, commercially deployed model offline <strong>on a timeline of hours, citing authorities it can't see, with no written justification</strong> — and will comply. That is now a thing that has happened. Every lab's lawyers, and every foreign government, watched it happen.</p>
+        <p>For the supporters, that's the system working: the state can act decisively on a genuine national-security risk, exactly as it does with chips, encryption and munitions. For the critics, it's a template with no published rulebook — and templates without rulebooks tend to get reused on worse days for worse reasons. Anthropic, for its part, has promised technical detail "within 24 hours" and says it's working to restore access. By the time you read this, the models may well be back. The precedent will not have gone anywhere.</p>
+        <p>The honest position, I think, is that <strong>both the supporters and the critics are describing the same machine</strong> — they simply disagree about whether you'd want it pointed at you. Which is roughly where the security-versus-liberty argument has sat for about four hundred years. We've just handed it a new and unusually capable subject.</p>
+    </div>
+</section>
+
+<section class="container">
+    <div class="takeaway">
+        <div class="takeaway-kicker">Open questions · for the reader</div>
+        <h3>Three questions this episode <em>doesn't answer</em>.</h3>
+        <div class="takeaway-grid">
+            <div class="takeaway-item">
+                <div class="label">01 · The standard</div>
+                <p>What is the published threshold for pulling a deployed model — and if there isn't one, who decides, and how would you ever appeal it?</p>
+            </div>
+            <div class="takeaway-item">
+                <div class="label">02 · The status</div>
+                <p>Is a frontier model a product, a weapon, or protected speech? The answer reshapes who can build, sell and use AI — and the courts haven't ruled.</p>
+            </div>
+            <div class="takeaway-item">
+                <div class="label">03 · The line</div>
+                <p>If "national security" can switch off the smartest software on earth in an afternoon, where exactly is the line between keeping us safe and deciding what we're allowed to use?</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="body-section" id="sources">
+    <div class="container">
+        <div class="section-kicker">Sources</div>
+        <h2>The <em>evidence</em> trail.</h2>
+        <ul>
+            <li>Anthropic — "Statement on the US government directive to suspend access to Fable 5 and Mythos 5" (12 June 2026)</li>
+            <li>NBC News — "Anthropic suspends new AI models after government directive"</li>
+            <li>CNBC — "Anthropic disables access to Fable 5 and Mythos 5 to comply with government directive" (12 June 2026)</li>
+            <li>Bloomberg — "Anthropic Says US Orders Halt to Foreign Access for Fable 5, Mythos 5"</li>
+            <li>Axios — "Trump admin blocks foreign access to Anthropic's most powerful AI"</li>
+            <li>TechCrunch — "Anthropic's safety warnings may have just backfired"</li>
+            <li>Reason — "A First Amendment Right Not To Use AI for Evil?"</li>
+            <li>TechRadar — "Trump administration says Anthropic refusal was 'not protected speech'"</li>
+        </ul>
+        <p style="font-size:14px;color:var(--paper-60);">Some operational details (the precise jailbreak mechanism, the "hallucinatory logic" framing) appear only in secondary tech outlets and should be treated as reported-but-unconfirmed pending Anthropic's promised technical write-up.</p>
+    </div>
+</section>
+
+<section class="container">
+    <div class="substack-cta">
+        <div class="substack-cta-text">
+            <div class="kicker">Companion long-form</div>
+            <h3>Read the <em>full Substack</em> version.</h3>
+            <p>The same balanced argument, the full source trail, and the bits the article didn't have room for.</p>
+        </div>
+        <a class="btn" href="https://aisustained.substack.com" target="_blank" rel="noopener">Read on Substack →</a>
+    </div>
+</section>
+
+<footer class="brand-footer">
+    <div class="container wide">
+        <div class="footer-inner">
+            <div>AI Sustained · Issue 010 · 13 June 2026</div>
+            <div><a href="https://aisustained.substack.com" target="_blank" rel="noopener">Read this issue on Substack</a> · <a href="/">ai-sustained.com</a></div>
+        </div>
+        <div class="disclaimer">This piece sets out the strongest version of each side's case; it is analysis, not legal advice, and the situation is fast-moving. Where details rest on single secondary sources they are flagged as such. If new facts land, the argument should move with them.</div>
+        <div class="hashtags">
+            <span>#Fable5</span> <span>#Mythos5</span> <span>#Anthropic</span> <span>#ClaudeAI</span> <span>#AINationalSecurity</span> <span>#ExportControls</span> <span>#AIRegulation</span> <span>#FreeSpeech</span> <span>#FirstAmendment</span> <span>#AIJailbreak</span> <span>#AIPolicy</span> <span>#FrontierModels</span> <span>#TechPolicy</span> <span>#AIGovernance</span> <span>#AISustained</span> <span>#KevinClubb</span>
+        </div>
+    </div>
+</footer>
+
+</article>
+
+</body>
+</html>
