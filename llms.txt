@@ -1,0 +1,19 @@
+# AI Sustained
+
+> Practical, evidence-led writing on AI adoption, capability and agentic workflows by Kevin Clubb (senior business analyst, UK) — plus real-world AI & data case studies. Tagline: "AI that survives Monday morning."
+
+## Case studies
+- [Before you write an AI policy, ask the people already using it](https://ai-sustained.com/case-studies/shadow-ai-ask-the-workforce/): shadow AI in the workforce, and building a usage survey by delegating it to an AI agent.
+- [What a single source of truth really costs (before you add AI)](https://ai-sustained.com/case-studies/single-source-of-truth/): three routes to one trustworthy data source — warehouse-light, modern data stack, and a multi-site build — with indicative costs and timelines.
+- [All case studies](https://ai-sustained.com/case-studies/)
+
+## Editorial (selected)
+- [The AI competency pyramid](https://ai-sustained.com/articles/ai-competency-pyramid/): where 20.6m UK workers sit across 14 levels of AI capability.
+- [Four labs. Seven days. No clear winner.](https://ai-sustained.com/articles/four-labs-seven-days/): the state of the AI frontier in April 2026.
+- [The Renaissance of the Delivery Squad](https://ai-sustained.com/articles/future-delivery-squad/): how AI agents reshape the product team.
+- [All editorial](https://ai-sustained.com/#editorial)
+
+## About
+- [About the author](https://ai-sustained.com/#about)
+- [Subscribe](https://ai-sustained.com/#subscribe)
+- [Privacy & cookies](https://ai-sustained.com/privacy/)

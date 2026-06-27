@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<!--
+    AI Sustained · Case Study 002 · Single source of truth
+    BEFORE PUBLISHING — confirm / anonymise:
+      - Client kept unnamed ("a multi-site group"). Figures: 1,400–1,800 sites, ~£180–300m revenue (anonymised ranges). Costs are sourced industry benchmarks, not author estimates.
+      - Stack named: Snowflake, Power BI, Metabase. Scrub if you'd rather not state publicly.
+      - COSTS ARE INDICATIVE (2026, GBP approximations from USD list prices). Confirm before quoting anyone.
+        All cost/time figures are now derived from cited third-party benchmarks (Deloitte/Gartner IT spend, Go Fig/ScienceSoft, trocco timelines) — NOT attributed to the author. See footer.
+    Soft CTA is discreet (email shown as text). Swap to a HubSpot form/page to capture into CRM.
+-->
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What a Single Source of Truth Really Costs (Before You Add AI) | AI Sustained Case Study</title>
+<meta name="description" content="Three realistic routes to one trustworthy source of data — warehouse-light, the modern data stack, and the full multi-site build across 1,400–1,800 sites — with indicative 2026 costs and timelines. The groundwork AI actually needs.">
+<meta name="keywords" content="single source of truth, data warehouse cost, data warehouse light, modern data stack, Snowflake cost, BigQuery, Microsoft Fabric, Fivetran, dbt, Power BI, Metabase, data integration, AI readiness, SME data, data warehouse timeline, AI case study, Kevin Clubb, AI Sustained">
+<meta name="author" content="Kevin Clubb">
+<link rel="canonical" href="https://ai-sustained.com/case-studies/single-source-of-truth/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="What a Single Source of Truth Really Costs (Before You Add AI)">
+<meta property="og:description" content="Three realistic routes to one trustworthy source of data — with indicative costs and timelines, from warehouse-light to a 1,400–1,800-site build.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ai-sustained.com/case-studies/single-source-of-truth/">
+<meta property="og:site_name" content="AI Sustained">
+<meta property="og:image" content="https://ai-sustained.com/case-studies/single-source-of-truth/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What a Single Source of Truth Really Costs (Before You Add AI)">
+<meta name="twitter:description" content="Warehouse-light vs modern data stack vs the full multi-site build — costs, timelines, and why it all comes before AI.">
+<meta name="twitter:image" content="https://ai-sustained.com/case-studies/single-source-of-truth/cover.png">
+<meta name="theme-color" content="#1B4332">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "What a Single Source of Truth Really Costs (Before You Add AI)",
+  "alternativeHeadline": "Three realistic routes to one trustworthy source of data — with indicative costs and timelines.",
+  "author": { "@type": "Person", "name": "Kevin Clubb", "jobTitle": "Senior Business Analyst" },
+  "datePublished": "2026-06-27",
+  "dateModified": "2026-06-27",
+  "description": "Three realistic routes to a single source of truth — warehouse-light, the modern data stack, and a full multi-site build across 1,400–1,800 sites — with indicative 2026 costs and timelines, as the precondition for useful AI.",
+  "keywords": "single source of truth, data warehouse cost, modern data stack, Snowflake, BigQuery, Microsoft Fabric, Fivetran, dbt, Power BI, Metabase, AI readiness",
+  "image": "https://ai-sustained.com/case-studies/single-source-of-truth/cover.png",
+  "articleSection": "Case study",
+  "publisher": { "@type": "Organization", "name": "AI Sustained", "logo": { "@type": "ImageObject", "url": "https://ai-sustained.com/ai_sustained_logo_mark.png" } },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ai-sustained.com/case-studies/single-source-of-truth/" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332; --ink: #0A0F0C; --ink-soft: #2A3530; --paper: #F2ECD9; --paper-2: #E8E1CB;
+    --acid: #E8FF3A; --coral: #FF5A3C; --moss: #2D6A4F; --sage: #74C69D; --mint: #D8F3DC;
+    --muted: #8FA398; --rule: rgba(242,236,217,0.16); --rule-soft: rgba(242,236,217,0.09); --panel: rgba(242,236,217,0.04);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--forest); color: var(--paper); font-family: 'Inter', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+
+  nav.brand-nav { background: rgba(27,67,50,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule); border-top: 4px solid var(--acid); position: sticky; top: 0; z-index: 50; }
+  .nav-inner { max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mint); }
+  .nav-brand { color: var(--paper); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: -0.01em; text-decoration: none; }
+  .nav-links { display: flex; gap: 22px; }
+  .nav-links a { color: var(--mint); text-decoration: none; border-bottom: 1px solid transparent; padding-bottom: 2px; transition: all 0.15s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--acid); border-bottom-color: var(--acid); }
+  @media (max-width: 720px) { .nav-links a.opt { display: none; } }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 24px 28px 48px; }
+  .breadcrumb { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); padding: 14px 0 0; }
+  .breadcrumb a { color: var(--mint); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--acid); }
+
+  .masthead { padding: 14px 0 12px; display: flex; justify-content: space-between; align-items: baseline; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper); border-bottom: 1px solid var(--rule); }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
+
+  .hero { padding: 64px 0 48px; border-bottom: 1px solid var(--rule); text-align: center; }
+  .kicker { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--acid); margin-bottom: 24px; display: inline-flex; align-items: center; gap: 14px; justify-content: center; }
+  .kicker::before { content: ''; width: 36px; height: 2px; background: var(--acid); }
+  .hero h1 { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(44px, 6.6vw, 80px); line-height: 1.04; letter-spacing: -0.02em; color: var(--paper); margin: 0 auto 26px; max-width: 16ch; }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck { font-family: 'Fraunces', serif; font-style: italic; font-size: 22px; font-weight: 400; line-height: 1.5; color: var(--paper-2); max-width: 680px; margin: 0 auto; }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 44px 0 48px; }
+  .stat-box { background: var(--panel); padding: 22px 24px; border-radius: 4px; border: 1px solid var(--rule); border-bottom: 3px solid var(--acid); }
+  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); margin-bottom: 10px; }
+  .stat-value { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 600; color: var(--acid); line-height: 1.05; display: block; }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .content h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 33px; line-height: 1.15; color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em; }
+  .content h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px; }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+  .content li::marker { color: var(--acid); }
+  .inline-highlight { color: var(--acid); font-weight: 500; }
+
+  /* routes table — sectioned, acid section-headers, two columns (label/value) */
+  table.routes { width: 100%; border-collapse: collapse; margin: 28px 0 10px; }
+  table.routes tr.rhead th {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.01em;
+    color: var(--ink); background: var(--acid); text-align: left; padding: 11px 16px;
+  }
+  table.routes tr.rhead th .rh-tag { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); opacity: 0.7; }
+  table.routes tr.rhead.gap th { border-top: 14px solid var(--forest); }
+  table.routes th[scope="row"] { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sage); text-align: left; vertical-align: top; padding: 11px 16px; width: 32%; white-space: nowrap; border-bottom: 1px solid var(--rule); }
+  table.routes td { font-size: 14px; color: var(--mint); padding: 11px 16px; vertical-align: top; line-height: 1.5; border-bottom: 1px solid var(--rule); }
+  table.routes .fig { font-family: 'JetBrains Mono', monospace; color: var(--paper); }
+  @media (max-width: 520px) { table.routes th[scope="row"] { white-space: normal; width: 38%; } }
+  .caption { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; margin: 10px 0 0; line-height: 1.6; }
+
+  .callout { background: var(--panel); border: 1px solid var(--rule); border-left: 3px solid var(--acid); border-radius: 4px; padding: 22px 26px; margin: 32px 0; }
+  .callout p { font-size: 16px; color: var(--mint); margin: 0; max-width: none; }
+  .callout p strong { color: var(--paper); }
+
+  .pull-quote { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 30px; line-height: 1.3; color: var(--paper); margin: 60px auto; padding: 40px 0; border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid); text-align: center; max-width: 720px; letter-spacing: -0.01em; }
+  .pull-quote::before { content: '"'; display: block; font-size: 56px; color: var(--acid); line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif; }
+
+  .takeaway { background: var(--ink); color: var(--paper); padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px; position: relative; overflow: hidden; }
+  .takeaway::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border: 36px solid var(--acid); border-radius: 50%; opacity: 0.14; }
+  .takeaway-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; position: relative; z-index: 1; }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .takeaway h2 { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; font-size: 32px; line-height: 1.22; color: var(--paper); margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em; }
+  .takeaway h2 em { color: var(--acid); font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
+  .takeaway-point-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px; }
+  .takeaway-point-text { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: 16px; line-height: 1.45; color: var(--paper-2); }
+  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
+
+  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
+  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
+  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
+
+  .cta { margin: 56px 0 8px; background: var(--acid); color: var(--ink); border-radius: 6px; padding: 36px 40px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .cta-text { flex: 1 1 340px; }
+  .cta .cta-kicker { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink); margin-bottom: 8px; }
+  .cta h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(22px, 2.6vw, 30px); color: var(--ink); letter-spacing: -0.015em; margin-bottom: 6px; }
+  .cta h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--forest); }
+  .cta p { color: var(--ink); font-size: 15px; line-height: 1.5; margin: 0; }
+  .cta a.btn { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; background: var(--ink); color: var(--acid); padding: 16px 24px; border-radius: 4px; border: 1px solid var(--ink); text-decoration: none; transition: all 0.15s; white-space: nowrap; }
+  .cta a.btn:hover { background: var(--forest); color: var(--acid); border-color: var(--forest); }
+
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.7; max-width: 360px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+  .sources a { color: var(--sage); text-decoration: none; }
+  .sources a:hover { color: var(--acid); }
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon a { color: var(--muted); text-decoration: none; }
+  .colophon a:hover { color: var(--acid); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 42px; }
+    .deck { font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="brand-nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">AI Sustained</a>
+    <div class="nav-links">
+      <a href="/#editorial">Editorial</a>
+      <a href="/case-studies/" class="active">Case studies</a>
+      <a href="https://aisustained.substack.com" class="opt" target="_blank" rel="noopener">Substack</a>
+    </div>
+  </div>
+</nav>
+
+<article class="page">
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a> &nbsp;/&nbsp; <a href="/case-studies/">Case studies</a> &nbsp;/&nbsp; Single source of truth
+  </nav>
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <span class="wordmark">AI Sustained.</span>
+      <span>Case Study 002</span>
+    </div>
+    <div class="masthead-right">
+      <span>Data &amp; AI · 27 Jun 2026</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">Data &amp; AI · Case Study</div>
+    <h1>Before you overlay AI, build the <span class="accent">single source of truth</span>.</h1>
+    <p class="deck">The unglamorous groundwork that has to come first &mdash; with the part nobody publishes: <span class="accent">what it actually costs, and how long it takes</span>, from a lean setup to a build spanning 1,400&ndash;1,800 sites.</p>
+  </section>
+
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">Scale (the example)</div>
+      <span class="stat-value">1,400&ndash;1,800<span class="unit"> sites</span></span>
+      <div class="stat-note">Each feeding till and app sales, daily</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Group revenue</div>
+      <span class="stat-value">£180&ndash;300m</span>
+      <div class="stat-note">Typical for a footprint of that size</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">All-in build</div>
+      <span class="stat-value">~£2&ndash;3m</span>
+      <div class="stat-note">≈ 1% of annual revenue — mostly people and integration</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Time to live</div>
+      <span class="stat-value">~12&ndash;18<span class="unit"> mo</span></span>
+      <div class="stat-note">To an active, well-structured warehouse</div>
+    </div>
+  </section>
+
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-label">In this study</div>
+    <ol>
+      <li><span class="toc-num">01</span><a href="#section-1">Everyone wants AI. Few have the data for it</a></li>
+      <li><span class="toc-num">02</span><a href="#section-2">Find the system of record — retire the spreadsheet</a></li>
+      <li><span class="toc-num">03</span><a href="#section-3">Three realistic routes — with costs and timelines</a></li>
+      <li><span class="toc-num">04</span><a href="#section-4">The build behind the multi-site example</a></li>
+      <li><span class="toc-num">05</span><a href="#section-5">Then — and only then — the AI</a></li>
+    </ol>
+  </nav>
+
+  <section class="content" id="section-1">
+    <p>Across twenty years bridging business and technical teams &mdash; retail, fashion, finance, and now hospitality and education &mdash; the same pattern keeps turning up. Leaders want the same thing: <em>AI, pointed at our data</em>. Forecasting, anomaly detection, an assistant that actually knows the numbers. The ambition is right. The snag is almost always identical: there is no single "our data" to point it at. There are forty places the data lives, and no two of them agree.</p>
+
+    <p>This is the part that never makes the slide. Before AI is worth a penny, you need a <strong>single source of truth</strong>: one trustworthy place where the numbers live, are defined once, and reconcile. In practice that means two unglamorous jobs done properly &mdash; <strong>standing up a data warehouse</strong> (or a lighter equivalent) and <strong>connecting the software</strong> already running the business. Skip it and AI just hallucinates faster, over worse data.</p>
+
+    <h2 id="section-2">Find the system of record — retire the spreadsheet.</h2>
+
+    <p>The first job isn't technical, it's archaeological. For every important number &mdash; sales, stock, margin, headcount &mdash; you have to find the <em>system of record</em>: the one place that is genuinely authoritative. In a healthy setup that's a proper application. In most growing businesses, it's a spreadsheet that quietly became load-bearing.</p>
+
+    <p>Spreadsheets are where single sources of truth go to die. They get copied, emailed, edited offline, and within a week there are three versions and a chain titled "FINAL_v4". Part of the work is simply naming, for each metric, which system wins &mdash; then moving the ones living in spreadsheets into systems that can actually be trusted and integrated.</p>
+
+    <blockquote class="pull-quote">AI doesn't fix a data mess. It industrialises it.</blockquote>
+
+    <h2 id="section-3">Three realistic routes — with costs and timelines.</h2>
+
+    <p>"Build a data warehouse" sounds like one decision. It isn't. There's a sensible route for a five-person firm and a very different one for a multi-site group, and the gap between them is enormous. Here are the three I'd actually put in front of someone, with <strong>indicative 2026 costs</strong> and how long each takes to stand up.</p>
+
+    <table class="routes">
+      <tbody>
+        <tr class="rhead"><th colspan="2">Warehouse-light <span class="rh-tag">&nbsp;· small business</span></th></tr>
+        <tr><th scope="row">Turnover</th><td><span class="fig">~£1&ndash;10m</span></td></tr>
+        <tr><th scope="row">What it is</th><td>A managed all-in-one (Microsoft Fabric or Power BI) or a serverless warehouse (BigQuery's free tier), native connectors, one BI tool. Sometimes the right answer is no warehouse at all &mdash; pick one system of record and push the others into it.</td></tr>
+        <tr><th scope="row">Indicative cost</th><td><span class="fig">~£5k&ndash;£40k</span> year one (software often &lt; £400/mo)</td></tr>
+        <tr><th scope="row">Time to live</th><td><span class="fig">1&ndash;3 months</span></td></tr>
+        <tr><th scope="row">Best when</th><td>A handful of systems; mainly killing the spreadsheets.</td></tr>
+
+        <tr class="rhead gap"><th colspan="2">Modern data stack <span class="rh-tag">&nbsp;· growing SMB</span></th></tr>
+        <tr><th scope="row">Turnover</th><td><span class="fig">~£10&ndash;100m</span></td></tr>
+        <tr><th scope="row">What it is</th><td>A cloud warehouse (Snowflake or BigQuery), managed pipelines (Fivetran or open-source Airbyte), transformation (dbt) and BI (Power BI or Metabase). The "warehouse-light done properly".</td></tr>
+        <tr><th scope="row">Indicative cost</th><td><span class="fig">~£75k&ndash;£300k</span> year one (software ~£20k&ndash;£80k + contract build)</td></tr>
+        <tr><th scope="row">Time to live</th><td><span class="fig">4&ndash;9 months</span></td></tr>
+        <tr><th scope="row">Best when</th><td>10&ndash;30 sources; reporting you can actually trust.</td></tr>
+
+        <tr class="rhead gap"><th colspan="2">Multi-site build <span class="rh-tag">&nbsp;· medium group</span></th></tr>
+        <tr><th scope="row">Turnover</th><td><span class="fig">~£180&ndash;300m</span></td></tr>
+        <tr><th scope="row">What it is</th><td>Enterprise Snowflake with a governed, layered (medallion) model, middleware and many integrations, Power BI and Metabase, a CRM rollout, and a data team. The multi-site example below.</td></tr>
+        <tr><th scope="row">Indicative cost</th><td><span class="fig">~£2&ndash;3m</span> all-in (≈ 1% of annual revenue), mostly people and integration</td></tr>
+        <tr><th scope="row">Time to live</th><td><span class="fig">~12&ndash;18+ months</span></td></tr>
+        <tr><th scope="row">Best when</th><td>Many sites and systems; decisions ride on the numbers.</td></tr>
+      </tbody>
+    </table>
+    <p class="caption">Indicative only, 2026, GBP approximations from USD list prices; ex-VAT and excluding internal staff time unless stated. Confirm against your own systems and volumes before budgeting. Sources at the foot of the page.</p>
+
+    <div class="callout">
+      <p><strong>The honest bit about money.</strong> The licences are rarely what hurts &mdash; a small warehouse can run on a few hundred pounds a month, and tools like Metabase or dbt have free, open-source editions. What costs is the <strong>people and the integration work</strong>: finding the systems of record, plumbing each one in, and making the numbers reconcile. At the smallest end you can reach a usable single source of truth for the price of a decent laptop and some focused weeks. At multi-site scale, it's a programme, not a project.</p>
+    </div>
+
+    <h2 id="section-4">The build behind the multi-site example.</h2>
+
+    <p>To make the top row real: a group of <strong>1,400&ndash;1,800 sites or stores</strong> taking both <strong>till sales and app sales</strong>, with annual revenue in the region of <strong>£180&ndash;300m</strong>, running on disconnected systems and load-bearing spreadsheets. The brief was one trustworthy place for the numbers &mdash; and to do it with a small team and <strong>no in-house software engineers</strong>.</p>
+
+    <p>The shape that worked: a <strong>Snowflake</strong> warehouse with a layered (medallion) model, so raw feeds are cleaned and conformed into one governed, gold-level layer where a "sale" means exactly one thing &mdash; whether it came from a till or the app. The <strong>finance, CRM and sales systems</strong> were integrated alongside the other operational tools, and reporting sits on top in <strong>Power BI and Metabase</strong>, reading from that single model rather than from forty exports.</p>
+
+    <h3>Why the integration is the hard part</h3>
+    <p>The warehouse is the easy bit. The graft is in the connections: integrated tills behave differently from non-integrated ones, app sales arrive on a different clock to till sales, and every system has its own idea of a date, a store, and a transaction. Reconciling those into one honest model &mdash; so finance and operations finally quote the same figure &mdash; is most of the job, and most of the value.</p>
+
+    <h3>What it costs — by the benchmarks, not by me</h3>
+    <p>Put a figure on it without taking my word for it. Cross-industry, firms spend roughly <strong>3.6&ndash;5.7% of revenue on IT</strong> (Deloitte's CIO benchmarks), with retail and hospitality typically at the lower end; broader <strong>digital-transformation programmes run 5&ndash;15% of revenue</strong> (Deloitte). A foundational data-platform build is one slice of that, delivered over roughly <strong>12&ndash;18 months</strong> for a multi-site estate (industry implementation timelines). Independent data-infrastructure studies put a complete mid-market capability &mdash; software plus team &mdash; at hundreds of thousands to over a million per year.</p>
+    <p>Stack those together for a group turning over <strong>£180&ndash;300m</strong> and the all-in cost of reaching a single source of truth lands in the <strong>low single-digit millions &mdash; on the order of £2&ndash;3m, or about 1% of a single year's revenue</strong>. It sits at the upper end of those ranges precisely because of the number of sites and systems being joined up. The licences are a rounding error in that total; the cost is people and integration.</p>
+
+    <h2 id="section-5">Then — and only then — the AI.</h2>
+
+    <p>Once there's one trustworthy model, AI suddenly has somewhere to stand. The questions that were impossible &mdash; <em>which sites are quietly underperforming, what's the real margin by channel, where is demand moving</em> &mdash; become answerable, because the data underneath is finally consistent. The AI didn't get smarter. The ground beneath it got solid.</p>
+
+    <p>That's the order that matters, and the one most businesses get backwards. The exciting layer is the last layer. The single source of truth comes first &mdash; whether yours costs five thousand pounds or three million &mdash; and it's the difference between AI that works on Monday morning and a demo that falls over the moment someone checks the number.</p>
+  </section>
+
+  <section class="takeaway" aria-label="Tactical takeaway for leaders">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2>AI is only ever as good as the <em>single source of truth</em> beneath it &mdash; so right-size the spend.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 · RECORD</div>
+        <div class="takeaway-point-text">For each key number, name the <strong>system of record</strong> — and move the ones hiding in spreadsheets into something trustworthy.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 · RIGHT-SIZE</div>
+        <div class="takeaway-point-text">Match the route to the business. <strong>Warehouse-light from ~£5k</strong>, a modern stack in the low hundreds of thousands, a multi-site build in the millions.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 · SEQUENCE</div>
+        <div class="takeaway-point-text">Build the foundation first. <strong>AI comes last</strong> — bolt it on early and you just automate the mess, faster.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Discreet contact CTA. Email shown as visible text so it works even without a default mail app. To capture into HubSpot instead, point the button at a /contact/ page or HubSpot form. -->
+  <section class="cta">
+    <div class="cta-text">
+      <div class="cta-kicker">Get in touch</div>
+      <h2>Would you like to <em>find out more</em>?</h2>
+      <p>Happy to talk through how this was built, or what a right-sized single source of truth might look like for your data — drop me a line at <a href="mailto:ai.sustained.ops@gmail.com" style="color:var(--ink);text-decoration:underline;text-underline-offset:2px;">ai.sustained.ops@gmail.com</a>.</p>
+    </div>
+    <a class="btn" href="mailto:ai.sustained.ops@gmail.com?subject=Enquiry%20via%20ai-sustained.com">Contact me →</a>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">If you can't trust the number, <strong>you can't automate the decision.</strong></p>
+    </div>
+    <div class="sources">
+      Client details generalised. Cost and time figures are indicative <strong>industry benchmarks, not the author's estimates</strong> &mdash; IT spend as a share of revenue
+      (<a href="https://www.deloitte.com/us/en/insights/topics/operations/tech-finance-technology-investment-budgeting-processes.html" target="_blank" rel="noopener">Deloitte</a>,
+      <a href="https://www.gartner.com/en/information-technology/research/it-budget-and-efficiency-benchmark" target="_blank" rel="noopener">Gartner</a>),
+      data-infrastructure cost (<a href="https://gofig.ai/blog/true-cost-of-a-complete-data-infrastructure/" target="_blank" rel="noopener">Go Fig</a>,
+      <a href="https://www.scnsoft.com/data/data-warehouse/implementation" target="_blank" rel="noopener">ScienceSoft</a>),
+      implementation timelines (<a href="https://global.trocco.io/blogs/how-long-does-a-data-warehouse-implementation-take-timelines-factors" target="_blank" rel="noopener">trocco</a>),
+      and 2026 tool pricing (<a href="https://www.cloudzero.com/blog/snowflake-pricing/" target="_blank" rel="noopener">Snowflake</a>,
+      <a href="https://www.microsoft.com/en-us/power-platform/products/power-bi/pricing" target="_blank" rel="noopener">Power BI / Fabric</a>,
+      <a href="https://www.fivetran.com/blog/dbt-explained" target="_blank" rel="noopener">Fivetran / dbt</a>). Figures move; confirm before budgeting.
+    </div>
+  </footer>
+
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#SingleSourceOfTruth</span> <span>#DataWarehouse</span> <span>#DataIntegration</span> <span>#AIReadiness</span> <span>#ModernDataStack</span> <span>#BusinessIntelligence</span>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span><span class="wordmark">AI Sustained.</span> · By Kevin Clubb · <a href="/case-studies/">All case studies</a></span>
+    <span>2026</span>
+  </div>
+
+</article>
+</body>
+</html>
