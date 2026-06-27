@@ -1,15 +1,4 @@
-# robots.txt for ai-sustained.com
-#
-# Strategy: openly crawlable.
-# AI Sustained is content that benefits from being cited in AI chatbots
-# (ChatGPT, Claude, Perplexity, Gemini) as well as traditional search.
-# We do NOT block AI training/retrieval bots — we want the work to be findable.
-
 User-agent: *
 Allow: /
 
-# Don't waste crawl budget on assets the user already accesses inline
-Disallow: /*.json$
-
-# Sitemap location
 Sitemap: https://ai-sustained.com/sitemap.xml

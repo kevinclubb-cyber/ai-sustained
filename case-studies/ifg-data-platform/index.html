@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<!--
+    AI Sustained · Case Study 01 · Data platform, BI & CRM for a £100m+ catering group
+    TEMPLATE STATUS: DRAFT SCAFFOLD.
+    - Text in [SQUARE BRACKETS] is a placeholder for you to replace.
+    - Confirm every number before publishing (you flagged hallucination risk — none of the
+      metrics below are real until you set them).
+    - This page is built to be reused on consulting.ai-sustained.com later. To reuse: copy this
+      file across, and change the soft CTA at the bottom to the consulting enquiry form.
+-->
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3WZNV09BB');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building One Source of Truth for a £100m+ Catering Group — AI Sustained Case Study</title>
+    <meta name="description" content="How a multi-site catering group replaced disconnected tills and spreadsheets with a Snowflake data platform, a gold-level enterprise model, Power BI and Metabase reporting, and a CRM rollout — delivered by a small team with no in-house software engineers. An AI Sustained case study.">
+    <meta name="keywords" content="data platform case study, Snowflake case study, medallion architecture, gold enterprise model, Power BI, Metabase, CRM rollout, business intelligence, hospitality data, education catering, single source of truth, AI Sustained, Kevin Clubb">
+    <meta name="author" content="Kevin Clubb">
+    <link rel="canonical" href="https://ai-sustained.com/case-studies/ifg-data-platform/">
+    <meta property="og:title" content="One Source of Truth for a £100m+ Catering Group — AI Sustained Case Study">
+    <meta property="og:description" content="Snowflake data platform, gold-level enterprise model, BI and a CRM rollout — delivered by a small team with no in-house software engineers.">
+    <meta property="og:url" content="https://ai-sustained.com/case-studies/ifg-data-platform/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AI Sustained">
+    <meta property="og:image" content="https://ai-sustained.com/case-studies/ifg-data-platform/cover.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="One Source of Truth for a £100m+ Catering Group — AI Sustained Case Study">
+    <meta name="twitter:description" content="The problem, the approach, what shipped, and what it changed.">
+    <meta name="twitter:image" content="https://ai-sustained.com/case-studies/ifg-data-platform/cover.png">
+    <meta name="theme-color" content="#1B4332">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Building one source of truth for a £100m+ catering group",
+      "alternativeHeadline": "A Snowflake data platform, BI and CRM rollout delivered by a small team with no in-house software engineers.",
+      "author": { "@type": "Person", "name": "Kevin Clubb", "jobTitle": "Senior Business Analyst" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "AI Sustained",
+        "logo": { "@type": "ImageObject", "url": "https://ai-sustained.com/ai_sustained_logo_mark.png" }
+      },
+      "datePublished": "2026-06-27",
+      "dateModified": "2026-06-27",
+      "description": "How a multi-site catering group replaced disconnected tills and spreadsheets with a Snowflake data platform, a gold-level enterprise model, Power BI and Metabase reporting, and a CRM rollout.",
+      "articleSection": "Case study",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ai-sustained.com/case-studies/ifg-data-platform/" }
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1B4332; --paper: #F2ECD9; --acid: #E8FF3A; --mint: #D8F3DC; --ink: #0A0F0C;
+            --coral: #FF8C61; --sky: #7DD3FC;
+            --paper-06: rgba(242,236,217,0.06); --paper-10: rgba(242,236,217,0.10);
+            --paper-18: rgba(242,236,217,0.18); --paper-30: rgba(242,236,217,0.30);
+            --paper-60: rgba(242,236,217,0.60); --paper-80: rgba(242,236,217,0.80);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--forest); color: var(--paper); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        a { color: inherit; text-decoration: none; }
+        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--paper); letter-spacing: -0.015em; }
+        em, .italic { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--acid); }
+        p { color: var(--mint); margin-bottom: 1.1em; }
+        p strong { color: var(--paper); font-weight: 600; }
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+        .wide { max-width: 1280px; }
+        /* draft banner — delete this block (and the .draft div in the body) before publishing */
+        .draft { background: var(--coral); color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-align: center; padding: 10px 16px; }
+        /* NAV */
+        nav.brand-nav { background: rgba(27,67,50,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--paper-30); border-top: 4px solid var(--acid); position: sticky; top: 0; z-index: 50; }
+        .nav-inner { max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mint); }
+        .nav-brand { color: var(--paper); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: -0.01em; }
+        .nav-links { display: flex; gap: 22px; }
+        .nav-links a { color: var(--mint); border-bottom: 1px solid transparent; padding-bottom: 2px; transition: all 0.15s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--acid); border-bottom-color: var(--acid); }
+        @media (max-width: 720px) { .nav-links a.opt { display: none; } }
+        /* HERO */
+        .hero { padding: 70px 0 50px; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: -120px; right: -120px; width: 460px; height: 460px; border: 64px solid var(--paper); border-radius: 50%; opacity: 0.05; z-index: 0; }
+        .hero-inner { position: relative; z-index: 1; }
+        .breadcrumb { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper-60); margin-bottom: 26px; }
+        .breadcrumb a { color: var(--mint); }
+        .breadcrumb a:hover { color: var(--acid); }
+        .issue-pill { display: inline-flex; align-items: center; gap: 14px; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--acid); margin-bottom: 24px; }
+        .issue-pill::before { content: ''; width: 44px; height: 2px; background: var(--acid); }
+        .hero h1 { font-size: clamp(44px, 6.4vw, 84px); line-height: 1.0; margin-bottom: 26px; max-width: 940px; }
+        .hero h1 em { font-size: inherit; }
+        .hero-deck { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: 23px; line-height: 1.5; color: var(--mint); max-width: 760px; }
+        .hero-deck strong { color: var(--paper); font-weight: 500; }
+        .byline { margin-top: 40px; display: flex; gap: 22px; flex-wrap: wrap; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mint); }
+        .byline strong { color: var(--acid); font-weight: 600; }
+        .byline .dot { width: 5px; height: 5px; background: var(--acid); border-radius: 50%; }
+        /* AT A GLANCE PANEL */
+        .glance { margin: 8px 0 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media (max-width: 760px) { .glance { grid-template-columns: 1fr; } }
+        .glance-box { background: var(--paper-06); border: 1px solid var(--paper-18); border-radius: 8px; padding: 26px 26px; position: relative; overflow: hidden; }
+        .glance-box::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--acid); }
+        .glance-box .g-label { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 10px; }
+        .glance-box p { color: var(--mint); font-size: 15px; margin: 0; line-height: 1.5; }
+        .glance-box p strong { color: var(--paper); }
+        /* STAT GRID */
+        .stats { padding: 40px 0 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+        @media (max-width: 880px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+        .stat { background: var(--paper-06); border: 1px solid var(--paper-18); border-radius: 6px; padding: 24px 22px; position: relative; overflow: hidden; }
+        .stat::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--acid); }
+        .stat-value { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 34px; color: var(--paper); line-height: 1; letter-spacing: -0.01em; margin-bottom: 10px; }
+        .stat-label { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); }
+        .stat-sub { color: var(--mint); font-size: 13px; margin-top: 10px; line-height: 1.4; }
+        /* SECTIONS */
+        section.body-section { padding: 60px 0; border-top: 1px solid var(--paper-30); }
+        section.body-section h2 { font-size: clamp(30px, 4vw, 46px); margin-bottom: 18px; max-width: 880px; }
+        section.body-section h2 em { font-size: inherit; }
+        section.body-section .section-kicker { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--acid); margin-bottom: 14px; }
+        section.body-section h3 { font-size: 22px; margin: 32px 0 12px; color: var(--paper); }
+        section.body-section p { max-width: 760px; font-size: 17px; }
+        section.body-section ul { max-width: 760px; padding-left: 0; list-style: none; margin-bottom: 1.1em; }
+        section.body-section li { color: var(--mint); font-size: 17px; margin-bottom: 12px; padding-left: 28px; position: relative; line-height: 1.55; }
+        section.body-section li::before { content: '→'; position: absolute; left: 0; top: 0; color: var(--acid); font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+        section.body-section li strong { color: var(--paper); }
+        /* PIPELINE / STACK STEPS */
+        .stack { margin: 36px 0; max-width: 980px; border: 1px solid var(--paper-18); border-radius: 8px; background: var(--paper-06); padding: 32px 28px; }
+        .stack-title { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 26px; }
+        .stack-track { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+        .stack-track::before { content: ''; position: absolute; left: 6%; right: 6%; top: 9px; height: 2px; background: var(--paper-18); }
+        @media (max-width: 720px) { .stack-track { grid-template-columns: 1fr; gap: 22px; } .stack-track::before { display: none; } }
+        .st-step { position: relative; padding: 0 10px; }
+        .st-dot { width: 18px; height: 18px; border-radius: 50%; background: var(--forest); border: 3px solid var(--acid); position: relative; z-index: 1; margin-bottom: 16px; }
+        .st-when { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px; }
+        .st-what { color: var(--mint); font-size: 14px; line-height: 1.5; }
+        .st-what strong { color: var(--paper); }
+        /* PULL QUOTE */
+        .pull { margin: 56px auto; max-width: 820px; padding: 36px 24px; border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid); text-align: center; }
+        .pull blockquote { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: clamp(24px, 3.2vw, 34px); line-height: 1.3; color: var(--paper); }
+        .pull blockquote em { color: var(--acid); }
+        .pull cite { display: block; margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-style: normal; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); }
+        /* RESULTS DARK PANEL */
+        .takeaway { margin: 60px 0; background: var(--ink); border: 1px solid var(--paper-18); border-radius: 8px; padding: 56px 48px; max-width: 980px; position: relative; overflow: hidden; }
+        .takeaway::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--acid); }
+        .takeaway-kicker { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--acid); margin-bottom: 18px; }
+        .takeaway h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(28px, 3.4vw, 40px); color: var(--paper); margin-bottom: 36px; letter-spacing: -0.015em; }
+        .takeaway h3 em { color: var(--acid); }
+        .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        @media (max-width: 720px) { .takeaway-grid { grid-template-columns: 1fr; } }
+        .takeaway-item .label { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+        .takeaway-item p { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: 18px; line-height: 1.45; color: var(--paper); max-width: none; }
+        /* SOFT CTA */
+        .cta { margin: 48px 0 16px; max-width: 980px; background: var(--acid); color: var(--ink); border-radius: 8px; padding: 36px 40px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+        .cta-text { flex: 1 1 340px; }
+        .cta .kicker { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink); margin-bottom: 8px; }
+        .cta h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(22px, 2.6vw, 30px); color: var(--ink); letter-spacing: -0.015em; margin-bottom: 6px; }
+        .cta h3 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--forest); }
+        .cta p { font-family: 'Inter', sans-serif; color: var(--ink); font-size: 15px; line-height: 1.5; margin: 0; max-width: none; }
+        .cta a.btn { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; background: var(--ink); color: var(--acid); padding: 16px 24px; border-radius: 4px; border: 1px solid var(--ink); transition: all 0.15s; white-space: nowrap; }
+        .cta a.btn:hover { background: var(--forest); color: var(--acid); border-color: var(--forest); }
+        /* FOOTER */
+        footer.brand-footer { border-top: 1px solid var(--paper-30); margin-top: 56px; padding: 48px 0; }
+        .footer-inner { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-60); }
+        .footer-inner a { color: var(--mint); }
+        .footer-inner a:hover { color: var(--acid); }
+        .disclaimer { margin-top: 22px; max-width: 880px; font-family: 'Inter', sans-serif; font-size: 12px; color: var(--paper-60); line-height: 1.6; }
+        .hashtags { margin-top: 22px; max-width: 880px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--paper-60); letter-spacing: 0.06em; line-height: 1.7; word-spacing: 6px; }
+        .hashtags span { color: var(--acid); }
+    </style>
+</head>
+<body>
+
+<!-- DELETE this draft banner before publishing -->
+<div class="draft">DRAFT SCAFFOLD · replace [bracketed] copy and confirm every number before publishing</div>
+
+<nav class="brand-nav">
+    <div class="nav-inner">
+        <a href="/" class="nav-brand">AI Sustained</a>
+        <div class="nav-links">
+            <a href="/#editorial">Editorial</a>
+            <a href="/case-studies/" class="active">Case studies</a>
+            <a href="https://aisustained.substack.com" class="opt" target="_blank" rel="noopener">Substack</a>
+        </div>
+    </div>
+</nav>
+
+<article>
+
+<header class="hero">
+    <div class="container hero-inner">
+        <div class="breadcrumb"><a href="/">Home</a> &nbsp;/&nbsp; <a href="/case-studies/">Case studies</a> &nbsp;/&nbsp; Data platform</div>
+        <div class="issue-pill">Case study 01 · Data platform · BI · CRM</div>
+        <h1>One source of truth for a <em>£100m+</em> catering group.</h1>
+        <p class="hero-deck">A multi-site hospitality &amp; education catering group was running on disconnected tills, exported spreadsheets and gut feel. The brief: build <strong>one trustworthy place for the numbers</strong> — and do it with a small team and <strong>no in-house software engineers</strong>.</p>
+        <div class="byline">
+            <span>By <strong>Kevin Clubb</strong></span>
+            <span class="dot"></span>
+            <span>Senior Business Analyst</span>
+            <span class="dot"></span>
+            <span>Role <strong>[Delivery / functional + technical BA]</strong></span>
+            <span class="dot"></span>
+            <span>Reading time <strong>[X] min</strong></span>
+        </div>
+    </div>
+</header>
+
+<section class="container">
+    <div class="glance">
+        <div class="glance-box">
+            <div class="g-label">The client</div>
+            <p><strong>[Sector + scale]</strong> — a multi-site catering group operating across hospitality and education, c. <strong>£100m+ turnover</strong> across <strong>[N] sites</strong>. <em>(Name only if the client has agreed to be identified.)</em></p>
+        </div>
+        <div class="glance-box">
+            <div class="g-label">The remit</div>
+            <p>Stand up an enterprise data platform and the business-intelligence tooling on top of it, integrate the core SaaS products, and roll out a CRM — <strong>[delivered / orchestrated]</strong> by a small team with no in-house software engineering.</p>
+        </div>
+    </div>
+</section>
+
+<section class="container">
+    <!-- HEADLINE METRICS · replace every value; these are placeholders -->
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-value">£100m+</div>
+            <div class="stat-label">Group turnover</div>
+            <div class="stat-sub">[Multi-site hospitality &amp; education catering.]</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">1</div>
+            <div class="stat-label">Source of truth</div>
+            <div class="stat-sub">[A governed Snowflake warehouse replacing scattered exports.]</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">[X]</div>
+            <div class="stat-label">Source systems integrated</div>
+            <div class="stat-sub">[Tills/POS, ordering, finance, HR — list the real ones.]</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">[X hrs/wk]</div>
+            <div class="stat-label">Manual effort removed</div>
+            <div class="stat-sub">[Reporting time saved once the platform went live.]</div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ 01 · THE PROBLEM ============ -->
+<section class="body-section" id="problem">
+    <div class="container">
+        <div class="section-kicker">01 · The problem</div>
+        <h2>Decisions made on <em>yesterday's spreadsheet</em>.</h2>
+        <p>[Open with the pain in plain English. What did "reporting" look like before? Who was doing what by hand, and how long did it take? Where did the numbers disagree with each other, and what did that cost in trust or time?]</p>
+        <p>[Name the symptoms a reader will recognise: integrated vs non-integrated tills behaving differently, finance and operations quoting different figures, no single definition of a "sale", month-end stitched together from exports, etc.]</p>
+        <ul>
+            <li><strong>[Symptom 1]</strong> — [one line on the impact].</li>
+            <li><strong>[Symptom 2]</strong> — [one line on the impact].</li>
+            <li><strong>[Symptom 3]</strong> — [one line on the impact].</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ============ 02 · THE APPROACH ============ -->
+<section class="body-section" id="approach">
+    <div class="container">
+        <div class="section-kicker">02 · The approach</div>
+        <h2>Name the problem before <em>buying the tool</em>.</h2>
+        <p>[How you sized the work to the business. Why a medallion architecture. Why Snowflake. How you decided what to integrate first and what to leave. The principle that mattered: right-size the spend, prove value early, hand capability back to the team.]</p>
+
+        <div class="pull">
+            <blockquote>[A short, quotable line that captures the philosophy — e.g. <em>"the right amount of platform was the amount the team could actually run."</em>]</blockquote>
+            <cite>— [Attribution, or delete]</cite>
+        </div>
+
+        <p>[The team and the model. Who did what — data engineer, BI analyst, yourself — and how a small team with no in-house software engineers still shipped enterprise-grade infrastructure.]</p>
+    </div>
+</section>
+
+<!-- ============ 03 · THE BUILD ============ -->
+<section class="body-section" id="build">
+    <div class="container">
+        <div class="section-kicker">03 · What we built</div>
+        <h2>From raw tills to a <em>governed gold layer</em>.</h2>
+        <p>[Walk the architecture at a level a non-engineer can follow. Source systems → ingestion/middleware → Snowflake bronze/silver/gold → BI. Keep it concrete but plain.]</p>
+
+        <div class="stack">
+            <div class="stack-title">The data flow · source to decision</div>
+            <div class="stack-track">
+                <div class="st-step">
+                    <div class="st-dot"></div>
+                    <div class="st-when">Source</div>
+                    <div class="st-what"><strong>[Tills / POS / ordering / finance / HR]</strong> — the systems that actually run the business.</div>
+                </div>
+                <div class="st-step">
+                    <div class="st-dot"></div>
+                    <div class="st-when">Ingest</div>
+                    <div class="st-what"><strong>[Middleware / integrations]</strong> — how data lands in the warehouse, and how often.</div>
+                </div>
+                <div class="st-step">
+                    <div class="st-dot"></div>
+                    <div class="st-when">Model</div>
+                    <div class="st-what"><strong>Snowflake · gold enterprise model</strong> — medallion architecture; one governed definition of each metric.</div>
+                </div>
+                <div class="st-step">
+                    <div class="st-dot"></div>
+                    <div class="st-when">Consume</div>
+                    <div class="st-what"><strong>Power BI · Metabase · [Client Portal]</strong> — reporting the business actually uses.</div>
+                </div>
+            </div>
+        </div>
+
+        <h3>The CRM rollout</h3>
+        <p>[The CRM strand — what was rolled out, the adoption challenge, and how it connects back to the platform. Keep it honest about what was hard.]</p>
+
+        <h3>What we deliberately didn't do</h3>
+        <p>[A short, credibility-building paragraph: where you right-sized — the kit you skipped, the spend you avoided, the "enterprise feature" that wasn't worth it yet. This is the line that separates you from vendors.]</p>
+    </div>
+</section>
+
+<!-- ============ 04 · THE RESULT ============ -->
+<section class="container">
+    <div class="takeaway">
+        <div class="takeaway-kicker">04 · What changed</div>
+        <h3>From <em>argued-about numbers</em> to a number everyone trusts.</h3>
+        <div class="takeaway-grid">
+            <div class="takeaway-item">
+                <div class="label">Outcome 01</div>
+                <p>[The headline change — one trusted source, faster month-end, a decision that's now possible. Quantify if you can.]</p>
+            </div>
+            <div class="takeaway-item">
+                <div class="label">Outcome 02</div>
+                <p>[A second concrete outcome — manual effort removed, a report that changed behaviour, etc.]</p>
+            </div>
+            <div class="takeaway-item">
+                <div class="label">Outcome 03</div>
+                <p>[Capability kept, not rented — the team can now run and extend it themselves.]</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ 05 · LESSONS ============ -->
+<section class="body-section" id="lessons">
+    <div class="container">
+        <div class="section-kicker">05 · What I'd tell you</div>
+        <h2>If you're about to do <em>the same thing</em>.</h2>
+        <ul>
+            <li><strong>[Lesson 1]</strong> — [the transferable principle].</li>
+            <li><strong>[Lesson 2]</strong> — [the transferable principle].</li>
+            <li><strong>[Lesson 3]</strong> — [the transferable principle].</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ============ SOFT CTA ============ -->
+<!-- For now this routes to email. When you wire up the consulting site, change the href to https://consulting.ai-sustained.com/ -->
+<section class="container">
+    <div class="cta">
+        <div class="cta-text">
+            <div class="kicker">Work with me</div>
+            <h3>Outgrown the <em>spreadsheet</em>?</h3>
+            <p>If your business needs data and AI done properly — assessed, right-sized, then handed back to your team — start a conversation. No pitch deck, no pressure.</p>
+        </div>
+        <a class="btn" href="mailto:ai.sustained.ops@gmail.com?subject=Case%20study%20enquiry%20%E2%80%94%20data%20platform">Start a conversation →</a>
+    </div>
+</section>
+
+<footer class="brand-footer">
+    <div class="container wide">
+        <div class="footer-inner">
+            <div>AI Sustained · Case study 01 · 2026</div>
+            <div><a href="/case-studies/">All case studies</a> · <a href="/">ai-sustained.com</a></div>
+        </div>
+        <div class="disclaimer">[Optional: a line on what's been anonymised or generalised at the client's request, and a note that figures are as measured at the time of the project.]</div>
+        <div class="hashtags">
+            <span>#DataPlatform</span> <span>#Snowflake</span> <span>#BusinessIntelligence</span> <span>#PowerBI</span> <span>#Metabase</span> <span>#CRM</span> <span>#MedallionArchitecture</span> <span>#AIAdoption</span> <span>#Hospitality</span> <span>#CaseStudy</span> <span>#AISustained</span> <span>#KevinClubb</span>
+        </div>
+    </div>
+</footer>
+
+</article>
+
+</body>
+</html>

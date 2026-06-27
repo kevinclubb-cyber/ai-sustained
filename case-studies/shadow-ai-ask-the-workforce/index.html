@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Before You Write an AI Policy, Ask the People Already Using It | AI Sustained Case Study</title>
+<meta name="description" content="A field note on building a workforce AI-usage survey by delegating the whole job to an AI agent that did it in about fifteen minutes, through a browser.">
+<meta name="keywords" content="AI adoption, shadow AI, agentic AI, workplace AI, BYOAI, Claude, Cowork, Microsoft Forms, future of work, AI policy, AI case study">
+<meta name="author" content="Kevin Clubb">
+<link rel="canonical" href="https://ai-sustained.com/case-studies/shadow-ai-ask-the-workforce/">
+<meta property="og:title" content="Before You Write an AI Policy, Ask the People Already Using It">
+<meta property="og:description" content="The workforce is already using AI on personal and business accounts. The smart first move isn't a policy. It's a question.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ai-sustained.com/case-studies/shadow-ai-ask-the-workforce/">
+<meta property="og:site_name" content="AI Sustained">
+<meta property="og:image" content="https://ai-sustained.com/case-studies/shadow-ai-ask-the-workforce/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Before You Write an AI Policy, Ask the People Already Using It">
+<meta name="twitter:description" content="A field note on shadow AI, and on handing the survey build to an agent that ran my browser for me.">
+<meta name="twitter:image" content="https://ai-sustained.com/case-studies/shadow-ai-ask-the-workforce/cover.png">
+<meta name="theme-color" content="#1B4332">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Before You Write an AI Policy, Ask the People Already Using It",
+  "alternativeHeadline": "A field note on shadow AI and handing a survey build to an agent.",
+  "author": { "@type": "Person", "name": "Kevin Clubb", "jobTitle": "Senior Business Analyst" },
+  "datePublished": "2026-06-22",
+  "dateModified": "2026-06-22",
+  "description": "A field note on building a workforce AI-usage survey by delegating the job to an AI agent that did it in about fifteen minutes, through a browser.",
+  "keywords": "AI adoption, shadow AI, agentic AI, workplace AI, BYOAI, Claude, Cowork",
+  "image": "https://ai-sustained.com/case-studies/shadow-ai-ask-the-workforce/cover.png",
+  "articleSection": "Case study",
+  "publisher": { "@type": "Organization", "name": "AI Sustained", "logo": { "@type": "ImageObject", "url": "https://ai-sustained.com/ai_sustained_logo_mark.png" } },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ai-sustained.com/case-studies/shadow-ai-ask-the-workforce/" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --ink-soft: #2A3530;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
+    --acid: #E8FF3A;
+    --coral: #FF5A3C;
+    --moss: #2D6A4F;
+    --sage: #74C69D;
+    --mint: #D8F3DC;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --rule-soft: rgba(242,236,217,0.09);
+    --panel: rgba(242,236,217,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--forest);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  a { color: inherit; }
+
+  /* ============ SITE NAV ============ */
+  nav.brand-nav { background: rgba(27,67,50,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule); border-top: 4px solid var(--acid); position: sticky; top: 0; z-index: 50; }
+  .nav-inner { max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mint); }
+  .nav-brand { color: var(--paper); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: -0.01em; text-decoration: none; }
+  .nav-links { display: flex; gap: 22px; }
+  .nav-links a { color: var(--mint); text-decoration: none; border-bottom: 1px solid transparent; padding-bottom: 2px; transition: all 0.15s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--acid); border-bottom-color: var(--acid); }
+  @media (max-width: 720px) { .nav-links a.opt { display: none; } }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 24px 28px 48px; }
+
+  /* ============ BREADCRUMB ============ */
+  .breadcrumb { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); padding: 14px 0 0; }
+  .breadcrumb a { color: var(--mint); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--acid); }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ HERO (centred) ============ */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+  }
+  .kicker::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    background: var(--acid);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(46px, 7vw, 84px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin: 0 auto 26px;
+    max-width: 14ch;
+  }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--paper-2);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+
+  /* ============ STAT GRID ============ */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 44px 0 48px;
+  }
+  .stat-box {
+    background: var(--panel);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 10px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px; font-weight: 600;
+    color: var(--acid); line-height: 1; display: block;
+  }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  /* ============ BODY CONTENT ============ */
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 33px; line-height: 1.15;
+    color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em;
+  }
+  .content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px;
+  }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+  .content li::marker { color: var(--acid); }
+
+  .inline-highlight { color: var(--acid); font-weight: 500; }
+
+  /* ============ PULL QUOTE ============ */
+  .pull-quote {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 30px; line-height: 1.3; color: var(--paper);
+    margin: 60px auto; padding: 40px 0;
+    border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid);
+    text-align: center; max-width: 720px; letter-spacing: -0.01em;
+  }
+  .pull-quote::before {
+    content: '"'; display: block; font-size: 56px; color: var(--acid);
+    line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif;
+  }
+
+  /* ============ TACTICAL TAKEAWAY (ink panel — signature) ============ */
+  .takeaway {
+    background: var(--ink); color: var(--paper);
+    padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .takeaway::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--acid);
+    border-radius: 50%; opacity: 0.14;
+  }
+  .takeaway-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .takeaway h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 32px; line-height: 1.22; color: var(--paper);
+    margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em;
+  }
+  .takeaway h2 em { color: var(--acid); font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
+  .takeaway-point-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .takeaway-point-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 16px; line-height: 1.45; color: var(--paper-2);
+  }
+  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
+
+  /* ============ TOC ============ */
+  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
+  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
+  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
+
+  /* ============ SOFT CTA ============ */
+  .cta { margin: 56px 0 8px; background: var(--acid); color: var(--ink); border-radius: 6px; padding: 36px 40px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .cta-text { flex: 1 1 340px; }
+  .cta .cta-kicker { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink); margin-bottom: 8px; }
+  .cta h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(22px, 2.6vw, 30px); color: var(--ink); letter-spacing: -0.015em; margin-bottom: 6px; }
+  .cta h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--forest); }
+  .cta p { color: var(--ink); font-size: 15px; line-height: 1.5; margin: 0; }
+  .cta a.btn { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; background: var(--ink); color: var(--acid); padding: 16px 24px; border-radius: 4px; border: 1px solid var(--ink); text-decoration: none; transition: all 0.15s; white-space: nowrap; }
+  .cta a.btn:hover { background: var(--forest); color: var(--acid); border-color: var(--forest); }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 300px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
+  .hashtag-list span { font-weight: 500; }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon a { color: var(--muted); text-decoration: none; }
+  .colophon a:hover { color: var(--acid); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 44px; }
+    .deck { font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="brand-nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">AI Sustained</a>
+    <div class="nav-links">
+      <a href="/#editorial">Editorial</a>
+      <a href="/case-studies/" class="active">Case studies</a>
+      <a href="https://aisustained.substack.com" class="opt" target="_blank" rel="noopener">Substack</a>
+    </div>
+  </div>
+</nav>
+
+<article class="page">
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a> &nbsp;/&nbsp; <a href="/case-studies/">Case studies</a> &nbsp;/&nbsp; Ask the workforce
+  </nav>
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <span class="wordmark">AI Sustained.</span>
+      <span>Case Study 001</span>
+    </div>
+    <div class="masthead-right">
+      <span>Agentic AI · 22 Jun 2026</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">Practical AI · Case Study</div>
+    <h1>Before you write an AI policy, <span class="accent">ask the people already using it</span>.</h1>
+    <p class="deck">A field note on building a workforce AI-usage survey &mdash; by handing the whole job to an agent that did it in <span class="accent">about fifteen minutes</span>, through a browser, while I sat in an unrelated meeting.</p>
+  </section>
+
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">Shadow access</div>
+      <span class="stat-value">47<span class="unit">%</span></span>
+      <div class="stat-note">Of workers use AI via personal or unmanaged accounts (Netskope, 2024&ndash;25)</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Bring-your-own-AI</div>
+      <span class="stat-value">78<span class="unit">%</span></span>
+      <div class="stat-note">Of AI users bring their own tools to work (Microsoft Work Trend Index)</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Our signal</div>
+      <span class="stat-value">~150</span>
+      <div class="stat-note">Active AI users on company hardware, outside the digital team</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Build time</div>
+      <span class="stat-value">~15<span class="unit">min</span></span>
+      <div class="stat-note">For the agent to design, build and configure the survey</div>
+    </div>
+  </section>
+
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-label">In this note</div>
+    <ol>
+      <li><span class="toc-num">01</span><a href="#section-1">The workforce didn't wait for permission</a></li>
+      <li><span class="toc-num">02</span><a href="#section-2">Ask, don't police</a></li>
+      <li><span class="toc-num">03</span><a href="#section-3">I handed the build to an agent</a></li>
+    </ol>
+  </nav>
+
+  <section class="content" id="section-1">
+    <p>Somewhere in your organisation, right now, someone is pasting a real document into a chatbot they pay for themselves. They are not being reckless. They are being <em>efficient</em>. And almost nobody has asked them what they're doing.</p>
+
+    <p>We could see the shape of it from our own telemetry: roughly <span class="inline-highlight">150 active AI users</span> on company hardware, well beyond the digital team. ChatGPT doing the heavy lifting, with a spread across Claude, Gemini and Adobe Firefly. The national picture says the same. <strong>Netskope</strong> found 47% of people using generative AI at work do so through personal or unmanaged accounts. <strong>Microsoft</strong> puts "bring-your-own-AI" at 78% of AI users. This is not a pilot waiting for sign-off. It already happened.</p>
+
+    <h2 id="section-2">Ask, don't police.</h2>
+
+    <p>The instinct in most businesses is to reach for a policy. Write the rules, restrict the tools, move on. But you cannot govern what you do not understand, and a policy written in the dark tends to ban the wrong things while missing the real risk.</p>
+
+    <p>So we went the other way. Before regulating, we wanted to <em>listen</em>. A short, anonymous workforce survey aimed at the people outside the digital team, built to surface five things: what they're using, how they're using it, how it helps them, how it benefits the day job, and what value it actually brings.</p>
+
+    <p>The design has one quiet trick. Nobody answers "yes, I share sensitive data" when you ask them directly. So you don't ask directly. You ask what kinds of content they typically paste in, and what they do when a task involves real company data &mdash; framed as workflow, not interrogation. Make it anonymous, and people tell you the truth.</p>
+
+    <blockquote class="pull-quote">The tool that measures our AI usage was itself built by AI &mdash; while I was looking the other way.</blockquote>
+
+    <h2 id="section-3">I handed the build to an agent.</h2>
+
+    <p>Here's the part that still feels slightly absurd. The whole AI-adoption programme lives in a workspace I've been feeding for months &mdash; context layered over time about each work package as I've shipped it. So I didn't brief a person to build the survey. I briefed the <em>agent</em>.</p>
+
+    <p>It had no direct line into our forms platform, so it did what a capable colleague would: it opened a browser, drove the form builder's own AI to generate all twelve questions, then went back and fixed what mattered. It caught that responses were set to record names &mdash; which would have quietly killed the honesty the survey depended on &mdash; and switched it to anonymous. It added a closing thank-you. It left the distribution to me.</p>
+
+    <p>Total time: about fifteen minutes. I watched it happen in a side window <em>while I was in a meeting about something else entirely</em>. The deliverable was sitting there, ready for review, by the time I looked back. That is the shift worth noticing: agentic AI is no longer just drafting text in a box. It is operating your actual tools, on your behalf, to a standard you'd accept from a junior analyst.</p>
+  </section>
+
+  <section class="takeaway" aria-label="Tactical takeaway for leaders">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2>The fastest route to a sane AI policy is <em>evidence from your own people</em>, gathered fast.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 · SIGNAL</div>
+        <div class="takeaway-point-text">You already hold shadow-AI telemetry &mdash; <strong>web activity, SSO logs, expense claims</strong>. Start there, not from zero.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 · METHOD</div>
+        <div class="takeaway-point-text">Ask before you regulate, anonymously, and frame data-handling questions as <strong>workflow, not interrogation</strong>.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 · LEVERAGE</div>
+        <div class="takeaway-point-text">Agents can now run your real tools. <strong>Delegate the build</strong>, not just the draft &mdash; then check the settings that matter.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Soft CTA. Routes to email for now. When the consulting site goes public, swap to https://consulting.ai-sustained.com/ -->
+  <section class="cta">
+    <div class="cta-text">
+      <div class="cta-kicker">Work with me</div>
+      <h2>Want to know what <em>your</em> workforce is doing with AI?</h2>
+      <p>I help businesses surface shadow AI, size the opportunity, and write a policy grounded in evidence — not guesswork. Start a conversation; no pitch deck, no pressure.</p>
+    </div>
+    <a class="btn" href="mailto:ai.sustained.ops@gmail.com?subject=Shadow%20AI%20%E2%80%94%20case%20study%20enquiry">Start a conversation →</a>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">What is your workforce already doing with AI &mdash; <strong>that you've never thought to ask about?</strong></p>
+    </div>
+    <div class="sources">
+      Sources &middot; Netskope Cloud &amp; Threat Report, 2025 &middot; Microsoft Work Trend Index &middot; Internal web-activity observation &middot; Survey built with Claude in Cowork via Microsoft Forms.
+    </div>
+  </footer>
+
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#AIAdoption</span> <span>#ShadowAI</span> <span>#AgenticAI</span> <span>#FutureOfWork</span> <span>#WorkplaceAI</span>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span><span class="wordmark">AI Sustained.</span> · By Kevin Clubb · <a href="/case-studies/">All case studies</a></span>
+    <span>2026</span>
+  </div>
+
+</article>
+</body>
+</html>

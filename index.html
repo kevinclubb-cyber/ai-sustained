@@ -11,19 +11,20 @@
   gtag('config', 'G-L3WZNV09BB');
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Sustained — AI that survives Monday morning | By Kevin Clubb</title>
-<meta name="description" content="AI that survives Monday morning. Practical, evidence-led writing on AI adoption, capability, agentic workflows and sustainability — by Kevin Clubb, senior business analyst.">
-<meta name="keywords" content="AI Sustained, AI that survives Monday morning, AI newsletter UK, AI adoption, AI competency, Kevin Clubb, AI for business analysts, generative AI, AI strategy, AI sustainability, agentic workflows, vibe coding, future of work, UK AI">
+<title>AI Sustained — AI that survives Monday morning | Editorial & Case Studies by Kevin Clubb</title>
+<meta name="description" content="AI that survives Monday morning. Practical, evidence-led writing on AI adoption, capability and agentic workflows — plus real-world AI &amp; data case studies. By Kevin Clubb, senior business analyst.">
+<meta name="keywords" content="AI Sustained, AI that survives Monday morning, AI newsletter UK, AI adoption, AI competency, AI case studies, AI case study UK, Kevin Clubb, AI for business analysts, generative AI, AI strategy, AI sustainability, agentic workflows, vibe coding, future of work, UK AI, data platform case study, CRM rollout">
 <meta name="author" content="Kevin Clubb">
+<link rel="canonical" href="https://ai-sustained.com/">
 <meta property="og:title" content="AI Sustained — AI that survives Monday morning">
-<meta property="og:description" content="Practical, evidence-led writing on AI adoption, capability, agentic workflows and sustainability — by someone who actually uses it.">
+<meta property="og:description" content="Practical, evidence-led writing on AI adoption, capability and agentic workflows — plus real-world AI &amp; data case studies. By someone who actually builds it.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://ai-sustained.com/favicon-512.png">
 <meta property="og:url" content="https://ai-sustained.com">
 <meta property="og:site_name" content="AI Sustained">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AI Sustained — AI that survives Monday morning">
-<meta name="twitter:description" content="Evidence-led writing on AI adoption, capability, agentic workflows and sustainability.">
+<meta name="twitter:description" content="Evidence-led writing on AI adoption and agentic workflows, plus real AI &amp; data case studies.">
 <meta name="twitter:image" content="/favicon-512.png">
 <!-- Favicons -->
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -43,7 +44,7 @@
   "url": "https://ai-sustained.com",
   "logo": "https://ai-sustained.com/ai_sustained_logo_mark.png",
   "author": { "@type": "Person", "name": "Kevin Clubb", "jobTitle": "Senior Business Analyst" },
-  "description": "Practical, evidence-led writing on AI adoption, capability, agentic workflows, and sustainability.",
+  "description": "Practical, evidence-led writing on AI adoption, capability, agentic workflows and sustainability, plus real-world AI and data case studies.",
   "publisher": {
     "@type": "Organization",
     "name": "AI Sustained",
@@ -64,6 +65,8 @@
     --acid: #E8FF3A;
     --mint: #D8F3DC;
     --ink: #0A0F0C;
+    --coral: #FF8C61;
+    --sky: #7DD3FC;
     --paper-06: rgba(242, 236, 217, 0.06);
     --paper-10: rgba(242, 236, 217, 0.10);
     --paper-18: rgba(242, 236, 217, 0.18);
@@ -103,7 +106,6 @@
     gap: 12px;
     text-decoration: none;
   }
-  /* Convert dark logo assets to Paper on the Forest background */
   .topbar-logo img.mark {
     height: 44px;
     width: auto;
@@ -126,8 +128,7 @@
     padding-left: 14px;
     border-left: 1px solid var(--paper-30);
   }
-  /* Mobile — show only the mark, hide the wordmark, tighten spacing */
-  @media (max-width: 720px) {
+  @media (max-width: 860px) {
     .topbar-logo img.mark { height: 36px; }
     .topbar-logo img.wordmark { display: none; }
     .topbar-byline { display: none; }
@@ -142,6 +143,10 @@
   }
   .topbar-nav a:hover { color: var(--acid); border-bottom-color: var(--acid); }
   .topbar-nav a.active { color: var(--acid); }
+  @media (max-width: 640px) {
+    .topbar-nav { gap: 14px; font-size: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    .topbar-nav a.ext { display: none; }
+  }
   /* ============ HERO ============ */
   .hero {
     max-width: 1280px;
@@ -216,6 +221,30 @@
     background: none;
     padding: 0;
   }
+  .hero-lanes {
+    display: flex;
+    gap: 14px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+  .lane-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 14px 22px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.15s, filter 0.15s, background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .lane-btn.primary { background: var(--acid); color: var(--ink); }
+  .lane-btn.primary:hover { transform: translateY(-1px); filter: brightness(1.08); }
+  .lane-btn.ghost { background: var(--paper-06); color: var(--paper); border: 1px solid var(--paper-30); }
+  .lane-btn.ghost:hover { border-color: var(--acid); color: var(--acid); }
+  .lane-btn::after { content: '→'; }
   /* ============ BYLINE STRIP ============ */
   .byline {
     max-width: 1280px;
@@ -268,6 +297,32 @@
     text-transform: uppercase;
     color: var(--acid);
   }
+  /* ============ TYPE TOGGLE (segmented) ============ */
+  .type-toggle {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px 18px;
+    display: flex;
+    gap: 4px;
+  }
+  .seg {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--mint);
+    background: var(--paper-06);
+    padding: 10px 18px;
+    border: 1px solid var(--paper-18);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .seg:first-child { border-radius: 4px 0 0 4px; }
+  .seg:last-child { border-radius: 0 4px 4px 0; }
+  .seg:hover { color: var(--paper); background: var(--paper-10); }
+  .seg.active { background: var(--paper); color: var(--ink); border-color: var(--paper); }
   /* ============ FILTER CHIPS ============ */
   .filters {
     max-width: 1280px;
@@ -307,7 +362,6 @@
     grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
     gap: 28px;
   }
-  /* Featured card spans 2 columns when grid is wide enough */
   @media (min-width: 1080px) {
     .grid { grid-template-columns: repeat(3, 1fr); }
     .card.featured { grid-column: span 2; grid-row: span 1; }
@@ -383,9 +437,17 @@
     display: flex;
     gap: 12px;
     align-items: center;
+    flex-wrap: wrap;
   }
   .card-meta .dot { width: 4px; height: 4px; background: var(--mint); border-radius: 50%; opacity: 0.6; }
   .card-meta .muted { color: var(--paper-60); }
+  .card-meta .tag-type {
+    color: var(--acid);
+    border: 1px solid var(--paper-18);
+    border-radius: 100px;
+    padding: 2px 8px;
+    letter-spacing: 0.16em;
+  }
   .card-title {
     font-family: 'Space Grotesk', sans-serif;
     font-style: normal;
@@ -419,11 +481,156 @@
   }
   .card:hover .card-cta { gap: 14px; }
   .card-cta::after { content: '→'; font-size: 14px; }
-  .card.coming-soon { opacity: 0.45; cursor: default; }
+  .card.coming-soon { opacity: 0.55; cursor: default; }
   .card.coming-soon:hover { transform: none; border-color: var(--paper-18); background: var(--paper-06); }
   .card.coming-soon:hover::before { opacity: 0; }
   .card.coming-soon .card-cta::after { content: ''; }
-  /* ============ SUBSTACK SLAB (tactical-takeaway treatment) ============ */
+  /* ============ CASE STUDIES BAND ============ */
+  .casework {
+    background: var(--ink);
+    border-top: 1px solid var(--paper-30);
+    border-bottom: 1px solid var(--paper-30);
+    position: relative;
+    overflow: hidden;
+  }
+  .casework::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: var(--acid);
+  }
+  .casework-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 64px 32px 72px;
+    position: relative;
+    z-index: 1;
+  }
+  .casework-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .casework-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .casework-kicker::before { content: ''; width: 32px; height: 2px; background: var(--acid); }
+  .casework h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(30px, 4vw, 46px);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    color: var(--paper);
+    max-width: 760px;
+  }
+  .casework h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--acid); }
+  .casework-lead {
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    color: var(--mint);
+    max-width: 640px;
+    margin: 18px 0 40px;
+  }
+  .case-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+  @media (max-width: 880px) { .case-grid { grid-template-columns: 1fr; } }
+  .case-card {
+    background: var(--paper-06);
+    border: 1px solid var(--paper-18);
+    border-radius: 6px;
+    padding: 34px 32px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .case-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--acid);
+    opacity: 0; transition: opacity 0.2s;
+  }
+  a.case-card:hover { transform: translateY(-3px); border-color: var(--paper-30); background: var(--paper-10); }
+  a.case-card:hover::before { opacity: 1; }
+  .case-card .c-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--acid); margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  }
+  .case-card .c-meta .dot { width: 4px; height: 4px; background: var(--acid); border-radius: 50%; opacity: 0.6; }
+  .case-card .c-meta .muted { color: var(--paper-60); }
+  .case-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 28px; line-height: 1.12;
+    color: var(--paper); letter-spacing: -0.01em; margin-bottom: 14px;
+  }
+  .case-card p {
+    font-family: 'Inter', sans-serif; font-size: 15px;
+    color: var(--mint); line-height: 1.55; flex: 1;
+  }
+  .case-metrics {
+    display: flex; gap: 28px; margin: 22px 0 6px; flex-wrap: wrap;
+  }
+  .case-metric .m-val {
+    font-family: 'JetBrains Mono', monospace; font-weight: 600;
+    font-size: 28px; color: var(--paper); line-height: 1;
+  }
+  .case-metric .m-lab {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--acid); margin-top: 6px;
+  }
+  .case-card .c-cta {
+    margin-top: 22px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid);
+    display: flex; align-items: center; gap: 8px; transition: gap 0.15s;
+  }
+  a.case-card:hover .c-cta { gap: 14px; }
+  .case-card .c-cta::after { content: '→'; }
+  .case-aside {
+    background: transparent;
+    border: 1px dashed var(--paper-30);
+    border-radius: 6px;
+    padding: 34px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .case-aside .a-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 14px;
+  }
+  .case-aside p { font-family: 'Inter', sans-serif; font-size: 15px; color: var(--mint); line-height: 1.6; margin-bottom: 14px; }
+  .case-aside .browse {
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--acid);
+    border-bottom: 1px solid var(--acid); padding-bottom: 3px; align-self: flex-start;
+    transition: gap 0.15s; display: inline-flex; gap: 8px; align-items: center;
+  }
+  .case-aside .browse::after { content: '→'; }
+  /* ============ SUBSTACK SLAB ============ */
   .slab {
     background: var(--acid);
     color: var(--ink);
@@ -623,7 +830,6 @@
   }
   .footer-right a { color: var(--acid); border-bottom: 1px solid transparent; padding-bottom: 1px; }
   .footer-right a:hover { border-bottom-color: var(--acid); }
-  /* ============ FOOTER SOCIAL BUTTONS ============ */
   .footer-social {
     display: flex;
     gap: 14px;
@@ -707,12 +913,12 @@
     color: var(--mint);
     max-width: 480px;
   }
-  .embeddable-buttondown-form {
+  .subscribe-form {
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
-  .embeddable-buttondown-form label {
+  .subscribe-form label {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     font-weight: 600;
@@ -720,7 +926,7 @@
     text-transform: uppercase;
     color: var(--acid);
   }
-  .embeddable-buttondown-form input[type="email"] {
+  .subscribe-form input[type="email"] {
     font-family: 'Inter', sans-serif;
     font-size: 16px;
     padding: 14px 18px;
@@ -730,14 +936,14 @@
     border-radius: 4px;
     transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
   }
-  .embeddable-buttondown-form input[type="email"]::placeholder { color: var(--paper-60); }
-  .embeddable-buttondown-form input[type="email"]:focus {
+  .subscribe-form input[type="email"]::placeholder { color: var(--paper-60); }
+  .subscribe-form input[type="email"]:focus {
     outline: none;
     border-color: var(--acid);
     background: var(--paper-10);
     box-shadow: 0 0 0 3px rgba(232, 255, 58, 0.18);
   }
-  .embeddable-buttondown-form input[type="submit"] {
+  .subscribe-form input[type="submit"] {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 13px;
     font-weight: 700;
@@ -751,11 +957,11 @@
     cursor: pointer;
     transition: transform 0.15s, filter 0.15s;
   }
-  .embeddable-buttondown-form input[type="submit"]:hover {
+  .subscribe-form input[type="submit"]:hover {
     transform: translateY(-1px);
     filter: brightness(1.08);
   }
-  .embeddable-buttondown-form p {
+  .subscribe-form p {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
     font-weight: 600;
@@ -764,15 +970,47 @@
     color: var(--paper-60);
     margin-top: 4px;
   }
-  .embeddable-buttondown-form p a {
+  .subscribe-form p a {
     color: var(--mint);
     border-bottom: 1px solid transparent;
     padding-bottom: 1px;
     transition: color 0.15s, border-color 0.15s;
   }
-  .embeddable-buttondown-form p a:hover {
+  .subscribe-form p a:hover {
     color: var(--acid);
     border-bottom-color: var(--acid);
+  }
+  .subscribe-form .consent {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: normal;
+    text-transform: none;
+    color: var(--paper-60);
+    line-height: 1.5;
+    margin-top: 2px;
+  }
+  .subscribe-form .consent a { color: var(--mint); border-bottom: 1px solid transparent; }
+  .subscribe-form .consent a:hover { color: var(--acid); border-bottom-color: var(--acid); }
+  .form-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin-top: 6px;
+    min-height: 18px;
+  }
+  .form-status.ok { color: var(--acid); }
+  .form-status.err { color: var(--coral); }
+  .empty-note {
+    max-width: 1280px;
+    margin: -40px auto 60px;
+    padding: 0 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--paper-60);
+    display: none;
   }
 </style>
 </head>
@@ -786,18 +1024,23 @@
       <span class="topbar-byline">by Kevin Clubb</span>
     </div>
     <nav class="topbar-nav">
-      <a href="#articles" class="active">Articles</a>
+      <a href="#editorial" class="active">Editorial</a>
+      <a href="#case-studies">Case studies</a>
       <a href="#subscribe">Subscribe</a>
       <a href="#about">About</a>
-      <a href="https://aisustained.substack.com/" target="_blank" rel="noopener">Substack ↗</a>
-      <a href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://aisustained.substack.com/" class="ext" target="_blank" rel="noopener">Substack ↗</a>
+      <a href="https://www.linkedin.com/in/kevin-clubb" class="ext" target="_blank" rel="noopener">LinkedIn ↗</a>
     </nav>
   </header>
   <section class="hero">
     <div class="hero-content">
       <div class="hero-kicker">Practical · Evidence-led · No fluff</div>
       <h1>AI that survives <em>Monday morning</em>.</h1>
-      <p class="deck">Practical, evidence-led writing on AI adoption, capability, agentic workflows and sustainability — <strong>by someone who actually uses it</strong>. Aimed at people who want answers, not hype.</p>
+      <p class="deck">Practical, evidence-led writing on AI adoption, capability, agentic workflows and sustainability — <strong>by someone who actually uses it</strong>. Plus real case studies from the build. Aimed at people who want answers, not hype.</p>
+      <div class="hero-lanes">
+        <a class="lane-btn primary" href="#editorial">Read the editorial</a>
+        <a class="lane-btn ghost" href="#case-studies">See the case studies</a>
+      </div>
     </div>
   </section>
   <div class="byline">
@@ -811,24 +1054,14 @@
     <span class="dot"></span>
     <span>Issue series 2026</span>
   </div>
-  <header class="section-header" id="articles">
-    <h2 class="section-title">The articles.</h2>
-    <span class="section-meta">In article order</span>
+
+  <!-- ============ EDITORIAL ============ -->
+  <header class="section-header" id="editorial">
+    <h2 class="section-title">The <em>editorial</em>.</h2>
+    <span class="section-meta">In issue order</span>
   </header>
-  <div class="filters" role="tablist" aria-label="Filter articles by topic">
-    <button class="chip active" data-filter="all">All</button>
-    <button class="chip" data-filter="adoption">Adoption</button>
-    <button class="chip" data-filter="practical">Practical AI</button>
-    <button class="chip" data-filter="frontier">Frontier</button>
-    <button class="chip" data-filter="agentic">Agentic</button>
-    <button class="chip" data-filter="sustainability">Sustainability</button>
-    <button class="chip" data-filter="vibe-coding">Vibe coding</button>
-    <button class="chip" data-filter="culture">Culture</button>
-    <button class="chip" data-filter="content">Content</button>
-    <button class="chip" data-filter="strategy">Strategy</button>
-  </div>
-  <section class="grid">
-    <a class="card featured" data-topic="adoption" href="/articles/ai-competency-pyramid/">
+  <section class="grid" id="editorial-grid">
+    <a class="card featured" data-topic="adoption" data-type="letter" href="/articles/ai-competency-pyramid/">
       <div class="card-image">
         <img src="/articles/ai-competency-pyramid/cover-v3.png" alt="The AI Competency Pyramid. Cover showing 20.6m UK workers across 14 levels." />
       </div>
@@ -845,7 +1078,7 @@
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="practical" href="/articles/ai-curious/">
+    <a class="card" data-topic="practical" data-type="letter" href="/articles/ai-curious/">
       <div class="card-image">
         <img src="/articles/ai-curious/cover-v3.png" alt="AI-curious? This is the bit no one tells you. Cover image in Clinical Green design." />
       </div>
@@ -862,7 +1095,7 @@
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="frontier" href="/articles/four-labs-seven-days/">
+    <a class="card" data-topic="frontier" data-type="news" href="/articles/four-labs-seven-days/">
       <div class="card-image">
         <img src="/articles/four-labs-seven-days/cover-v8.png" alt="Four labs. Seven days. No clear winner. Cover image showing the April 2026 AI frontier." />
       </div>
@@ -879,7 +1112,7 @@
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="vibe-coding" href="/articles/vibe-coding-capability/">
+    <a class="card" data-topic="vibe-coding" data-type="letter" href="/articles/vibe-coding-capability/">
       <div class="card-image">
         <img src="/articles/vibe-coding-capability/cover-v2.png" alt="Vibe coding capability. Three skill sets collapsed into one prompting loop." />
       </div>
@@ -896,7 +1129,7 @@
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="culture" href="/articles/A-British-Prompt/">
+    <a class="card" data-topic="culture" data-type="letter" href="/articles/A-British-Prompt/">
       <div class="card-image">
         <img src="/articles/A-British-Prompt/cover-v2.png" alt="A British prompt. The comical etiquette of British professionals prompting AI like apologetic emails." />
       </div>
@@ -913,7 +1146,7 @@
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="content" href="/articles/slop-or-supper/">
+    <a class="card" data-topic="content" data-type="letter" href="/articles/slop-or-supper/">
       <div class="card-image">
         <img src="/articles/slop-or-supper/cover-v2.png" alt="Slop, or supper? When AI-edited writing stops being slop and starts being yours." />
       </div>
@@ -930,7 +1163,7 @@
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="sustainability" href="/articles/AI-Space-Race/">
+    <a class="card" data-topic="sustainability" data-type="letter" href="/articles/AI-Space-Race/">
       <div class="card-image">
         <img src="/articles/AI-Space-Race/cover.png" alt="Mining for the model. Cover showing autonomous off-world mining for AI hardware minerals." />
       </div>
@@ -947,7 +1180,7 @@
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="agentic" href="/articles/future-delivery-squad/">
+    <a class="card" data-topic="agentic" data-type="letter" href="/articles/future-delivery-squad/">
       <div class="card-image">
         <img src="/articles/future-delivery-squad/cover.png" alt="The Renaissance of the Delivery Squad. Cover showing the 2030 AI-augmented product team." />
       </div>
@@ -960,11 +1193,11 @@
           <span class="muted">11 min read · 2 Jun 2026</span>
         </div>
         <h3 class="card-title">The Renaissance of the Delivery Squad.</h3>
-        <p class="card-deck">Three to five humans. A network of AI agents. The Business Analyst becomes the Outcome Architect, the Developer becomes the Logic Architect, and the squad of 2030 looks nothing like the squad of 2024. Companion white paper on Substack.</p>
+        <p class="card-deck">Three to five humans. A network of AI agents. The Business Analyst becomes the Outcome Architect, the Developer becomes the Logic Architect, and the squad of 2030 looks nothing like the squad of 2024. Companion long-read on Substack.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="strategy" href="/articles/009_siri_but_make_it_gemini/">
+    <a class="card" data-topic="strategy" data-type="news" href="/articles/009_siri_but_make_it_gemini/">
       <div class="card-image">
         <img src="/articles/009_siri_but_make_it_gemini/cover.png" alt="Siri, but make it Gemini. Cover image — a museum-style iPhone exhibit with a small acid-yellow Post-it note, on a forest-green plinth." />
       </div>
@@ -981,7 +1214,7 @@
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="strategy" href="/articles/fable-5-mythos-5-suspended/">
+    <a class="card" data-topic="strategy" data-type="news" href="/articles/fable-5-mythos-5-suspended/">
       <div class="card-image">
         <img src="/articles/fable-5-mythos-5-suspended/cover.png" alt="Switched off in three days. Cover image — a glowing acid-yellow AI core being switched off on a forest-green background, for the Fable 5 and Mythos 5 suspension." />
       </div>
@@ -999,31 +1232,120 @@
       </div>
     </a>
   </section>
+
+  <!-- ============ CASE STUDIES ============ -->
+  <section class="casework" id="case-studies">
+    <div class="casework-inner">
+      <div class="casework-kicker">Case studies · From the build</div>
+      <div class="casework-head">
+        <h2>Proof, not <em>promises</em>.</h2>
+      </div>
+      <p class="casework-lead">The editorial is the thinking. This is the doing — real platform, BI and CRM work, written up plainly: the problem, the approach, what shipped, and what it actually changed.</p>
+      <div class="case-grid">
+        <!-- FEATURED CASE STUDY -->
+        <a class="case-card" href="/case-studies/shadow-ai-ask-the-workforce/">
+          <div class="c-meta">
+            <span>Case study 001</span>
+            <span class="dot"></span>
+            <span>Agentic AI · Shadow AI</span>
+            <span class="dot"></span>
+            <span class="muted">AI adoption</span>
+          </div>
+          <h3>Before you write an AI policy, ask the people already using it.</h3>
+          <p>The workforce is already using AI — on personal and business accounts. Instead of a policy written in the dark, we ran an anonymous workforce survey. The twist: the survey itself was built by an AI agent driving a browser, in about fifteen minutes.</p>
+          <div class="case-metrics">
+            <div class="case-metric"><div class="m-val">~150</div><div class="m-lab">Shadow AI users</div></div>
+            <div class="case-metric"><div class="m-val">~15 min</div><div class="m-lab">Agent build time</div></div>
+            <div class="case-metric"><div class="m-val">12</div><div class="m-lab">Survey questions</div></div>
+          </div>
+          <span class="c-cta">Read the case study</span>
+        </a>
+        <div class="case-aside">
+          <div class="a-kicker">More on the way</div>
+          <p>New case studies land as projects wrap — automation, reporting and right-sized AI adoption across retail, hospitality and education.</p>
+          <p>The thinking behind every case study is public. Judge the work before you ever get in touch.</p>
+          <a class="browse" href="/case-studies/">Browse all case studies</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="subscribe" id="subscribe">
     <div>
       <div class="subscribe-label">Subscribe</div>
       <h2>The next issue, in your inbox.</h2>
       <p>One issue per release. Practical, evidence-led, no hype. Unsubscribe any time — no hard feelings.</p>
     </div>
-    <form
-      action="https://buttondown.com/api/emails/embed-subscribe/aisustainedops"
-      method="post"
-      class="embeddable-buttondown-form"
-    >
-      <label for="bd-email">Enter your email</label>
-      <input type="email" name="email" id="bd-email" placeholder="you@example.com" required />
+    <!--
+      ============================================================
+      HUBSPOT NEWSLETTER SIGN-UP
+      This on-brand form submits straight to HubSpot's Forms API,
+      so subscribers land in HubSpot (CRM + marketing) — no Buttondown.
+      TO GO LIVE, set the two values below:
+        HS_PORTAL_ID  — HubSpot > Settings > Account Setup > Account & Billing (your Hub ID)
+        HS_FORM_GUID  — HubSpot > Marketing > Forms > [your newsletter form] > Share/Embed (the form's GUID)
+      The form must contain an "email" field. Double opt-in / GDPR consent
+      are configured on the HubSpot form itself.
+      ============================================================
+    -->
+    <form id="subscribe-form" class="subscribe-form" novalidate>
+      <label for="hs-email">Enter your email</label>
+      <input type="email" name="email" id="hs-email" placeholder="you@example.com" required />
       <input type="submit" value="Subscribe" />
-      <p>
-        <a href="https://buttondown.com/refer/aisustainedops" target="_blank" rel="noopener">
-          Powered by Buttondown ↗
-        </a>
-      </p>
+      <p class="consent">By subscribing you agree to receive AI Sustained emails. Unsubscribe any time. See HubSpot's handling in our <a href="/privacy/">privacy note</a>.</p>
+      <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
     </form>
+    <script>
+      (function () {
+        // ===== SET THESE TWO VALUES =====
+        var HS_PORTAL_ID = "148698319";
+        var HS_FORM_GUID = "fb5e2a95-a0e8-44c1-9529-571631ff2843";
+        // =================================
+        var form = document.getElementById("subscribe-form");
+        var statusEl = document.getElementById("form-status");
+        if (!form) return;
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var email = document.getElementById("hs-email").value.trim();
+          if (!email) { statusEl.className = "form-status err"; statusEl.textContent = "Please enter your email."; return; }
+          if (HS_PORTAL_ID === "YOUR_PORTAL_ID" || HS_FORM_GUID === "YOUR_FORM_GUID") {
+            statusEl.className = "form-status err";
+            statusEl.textContent = "Form not connected yet — add your HubSpot IDs.";
+            return;
+          }
+          statusEl.className = "form-status"; statusEl.textContent = "Subscribing…";
+          var endpoint = "https://api.hsforms.com/submissions/v3/integration/submit/" + HS_PORTAL_ID + "/" + HS_FORM_GUID;
+          var payload = {
+            fields: [{ objectTypeId: "0-1", name: "email", value: email }],
+            context: { pageUri: window.location.href, pageName: document.title }
+          };
+          fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          })
+          .then(function (r) {
+            if (r.ok) {
+              statusEl.className = "form-status ok";
+              statusEl.textContent = "You're in — check your inbox to confirm.";
+              form.reset();
+            } else {
+              statusEl.className = "form-status err";
+              statusEl.textContent = "Something went wrong — please try again.";
+            }
+          })
+          .catch(function () {
+            statusEl.className = "form-status err";
+            statusEl.textContent = "Network error — please try again.";
+          });
+        });
+      })();
+    </script>
   </section>
   <section class="slab" aria-label="Also on Substack">
     <a class="slab-inner" href="https://aisustained.substack.com/" target="_blank" rel="noopener" style="text-decoration: none;">
       <div class="slab-label">Also on Substack</div>
-      <div class="slab-body">Deeper research, white papers and <em>podcast versions</em> — for people who'd rather listen than read.</div>
+      <div class="slab-body">Deeper research and <em>podcast versions</em> — for people who'd rather listen than read.</div>
       <span class="slab-cta">Open Substack</span>
     </a>
   </section>
@@ -1035,13 +1357,13 @@
       </div>
       <div class="about-body">
         <p>I've spent twenty years bridging business and technical teams across retail, fashion, finance and now hospitality &amp; catering. The last twelve months have been almost entirely about putting AI to work — properly, in real production systems, not as a demo.</p>
-        <p><strong>AI Sustained</strong> is where I write up what I'm learning. Practical, evidence-led, and aimed at people who want to use AI well — not people who want to be sold something.</p>
+        <p><strong>AI Sustained</strong> is where I write up what I'm learning. Practical, evidence-led, and aimed at people who want to use AI well — not people who want to be sold something. The <strong>case studies</strong> are where I show the receipts.</p>
         <p>If something here is useful, share it. If something is wrong, tell me. If you want to talk shop, find me on LinkedIn.</p>
         <div class="about-links">
           <a class="about-link" href="https://aisustained.substack.com/" target="_blank" rel="noopener">Substack ↗</a>
           <a class="about-link" href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener">LinkedIn ↗</a>
           <a class="about-link" href="mailto:ai.sustained.ops@gmail.com">Email</a>
-          <a class="about-link" href="#articles">Back to articles</a>
+          <a class="about-link" href="#editorial">Back to editorial</a>
         </div>
       </div>
     </div>
@@ -1069,24 +1391,5 @@
       <p>Built by hand · Hosted on Cloudflare Pages · <a href="https://github.com/kevinclubb-cyber/ai-sustained" target="_blank" rel="noopener">Source on GitHub ↗</a></p>
     </div>
   </footer>
-  <script>
-    // Topic filter
-    const chips = document.querySelectorAll('.chip');
-    const cards = document.querySelectorAll('.card');
-    chips.forEach(chip => {
-      chip.addEventListener('click', () => {
-        chips.forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        const filter = chip.dataset.filter;
-        cards.forEach(card => {
-          if (filter === 'all' || card.dataset.topic === filter) {
-            card.style.display = '';
-          } else {
-            card.style.display = 'none';
-          }
-        });
-      });
-    });
-  </script>
 </body>
 </html>
