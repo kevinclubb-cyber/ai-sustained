@@ -23,6 +23,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ai-sustained.com/case-studies/charles-virtual-agent/</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ai-sustained.com/privacy/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
