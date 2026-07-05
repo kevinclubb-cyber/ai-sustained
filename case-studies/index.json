@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "updated": "2026-07-04",
+  "source": "https://ai-sustained.com/case-studies/",
+  "caseStudies": [
+    {
+      "id": "shadow-ai-ask-the-workforce",
+      "number": "001",
+      "title": "Before you write an AI policy, ask the people already using it.",
+      "category": "Agentic AI · Shadow AI",
+      "date": "2026-06-22",
+      "summary": "The workforce was already using AI on personal and business accounts. Rather than a policy written in the dark, we ran an anonymous workforce survey — and handed the build to an AI agent that designed and configured it through a browser in about fifteen minutes.",
+      "url": "https://ai-sustained.com/case-studies/shadow-ai-ask-the-workforce/",
+      "metrics": [
+        { "value": "~150", "label": "Shadow AI users" },
+        { "value": "~15 min", "label": "Agent build time" },
+        { "value": "12", "label": "Survey questions" }
+      ],
+      "capabilities": ["AI adoption", "Agentic AI", "AI policy & governance"],
+      "tiers": ["AI Adoption Programme", "Team Training"]
+    },
+    {
+      "id": "single-source-of-truth",
+      "number": "002",
+      "title": "Before you overlay AI, build the single source of truth.",
+      "category": "Data platform · Integration",
+      "date": "2026-06-27",
+      "summary": "A group of 1,400–1,800 sites taking till and app sales, running on disconnected systems and load-bearing spreadsheets — joined up into one governed warehouse (finance, CRM, sales and more), so AI finally had trustworthy data to stand on. With the part nobody publishes: what it costs at every size of business.",
+      "url": "https://ai-sustained.com/case-studies/single-source-of-truth/",
+      "metrics": [
+        { "value": "1,400+", "label": "Sites / stores" },
+        { "value": "£180–300m", "label": "Revenue scale" },
+        { "value": "3 routes", "label": "From £5k to £3m" }
+      ],
+      "capabilities": ["Data platform", "Business intelligence", "Right-sized roadmaps"],
+      "tiers": ["AI Opportunity Audit", "Fractional AI Advisor"]
+    },
+    {
+      "id": "charles-virtual-agent",
+      "number": "003",
+      "title": "Bolster the team — hire a semi-autonomous agent.",
+      "category": "Agentic AI · Virtual agents",
+      "date": "2026-06-30",
+      "summary": "\"Charles\" — my first virtual hire — runs a Jira backlog, drafts meeting notes and books meetings. When the email and Teams connectors turned out read-only, a Power Automate, OneNote and SharePoint bridge did the sending. No engineers required.",
+      "url": "https://ai-sustained.com/case-studies/charles-virtual-agent/",
+      "metrics": [
+        { "value": "001", "label": "First agent" },
+        { "value": "Jira", "label": "Backlog owned" },
+        { "value": "No-code", "label": "Send bridge" }
+      ],
+      "capabilities": ["Agentic AI", "Automation", "Low-code integration"],
+      "tiers": ["Implementation Sprint", "AI Adoption Programme"]
+    }
+  ]
+}
