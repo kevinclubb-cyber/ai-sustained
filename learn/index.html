@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Made Simple — practical AI help for beginners & small business | AI Sustained</title>
+<meta name="description" content="Friendly one-to-one help getting started with ChatGPT and Claude. We start with the work you already do, then hand it over so you can carry on without me. Free 30-minute taster. By Kevin Clubb, AI Sustained." />
+<meta name="author" content="Kevin Clubb" />
+<link rel="canonical" href="https://ai-sustained.com/learn/" />
+<meta name="theme-color" content="#F2ECD9" />
+<link rel="icon" href="ai-made-simple-logo-web.png" type="image/png" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="AI Made Simple — by AI Sustained" />
+<meta property="og:title" content="AI Made Simple — practical AI help, minus the jargon" />
+<meta property="og:description" content="One-to-one and small-group help getting started with ChatGPT and Claude. Free 30-minute taster." />
+<meta property="og:url" content="https://ai-sustained.com/learn/" />
+<!-- TODO: add og:image (1200x630) -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<!-- Fonts: Fraunces (headlines) + Inter (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<!-- Service schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "AI Made Simple",
+  "serviceType": "AI training and enablement for beginners and small businesses",
+  "provider": { "@type": "Person", "name": "Kevin Clubb", "brand": "AI Sustained" },
+  "areaServed": "United Kingdom",
+  "url": "https://ai-sustained.com/learn/",
+  "description": "One-to-one and small-group help getting started with ChatGPT and Claude, starting from your real everyday tasks."
+}
+</script>
+
+<style>
+  :root{
+    --forest:#1B4332;
+    --lime:#E8FF3A;
+    --cream:#F2ECD9;
+    --midgreen:#2E6B4F;
+    --ink:#14261C;
+    --sand:#FBF8EF;
+    --line:#D8CFB4;
+    --maxw:1080px;
+    --radius:12px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    font-size:18px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif; color:var(--forest); line-height:1.15; font-weight:600; margin:0 0 .4em;}
+  h1{font-size:clamp(2.1rem,5vw,3.4rem);}
+  h2{font-size:clamp(1.6rem,3.5vw,2.3rem); margin-top:0;}
+  h3{font-size:1.2rem;}
+  p{margin:0 0 1rem;}
+  a{color:var(--midgreen); text-decoration:underline; text-underline-offset:2px;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 22px;}
+  section{padding:64px 0;}
+  .eyebrow{font-family:'Inter'; font-weight:600; letter-spacing:.08em; text-transform:uppercase; font-size:.78rem; color:var(--midgreen); margin-bottom:12px;}
+
+  .btn{display:inline-block; font-weight:600; text-decoration:none; border-radius:999px; padding:15px 28px; font-size:1.02rem; transition:transform .08s ease, background .15s ease;}
+  .btn-primary{background:var(--lime); color:var(--forest); border:2px solid var(--forest);}
+  .btn-primary:hover{transform:translateY(-1px);}
+  .btn-ghost{background:transparent; color:var(--forest); border:2px solid var(--forest);}
+  .btn-lg{padding:17px 34px; font-size:1.08rem;}
+
+  .topbar{border-bottom:1px solid var(--line);}
+  .topbar .wrap{display:flex; align-items:center; justify-content:space-between; padding-top:16px; padding-bottom:16px;}
+  .brand{display:flex; align-items:center; gap:12px; font-family:'Fraunces'; font-weight:600; color:var(--forest); font-size:1.25rem; text-decoration:none;}
+  .brand .logo{height:58px; width:auto; display:block;}
+  .brand .brand-text{line-height:1.05;}
+  .brand small{display:block; font-family:'Inter'; font-weight:500; font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--midgreen);}
+  .topnav a{margin-left:22px; font-size:.95rem; font-weight:500; color:var(--forest); text-decoration:none;}
+  .topnav a:hover{color:var(--midgreen); text-decoration:underline;}
+  @media (max-width:520px){ .topnav a{margin-left:14px; font-size:.86rem;} }
+
+  .hero{padding:72px 0 56px;}
+  .hero-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:44px; align-items:center;}
+  .hero p.lede{font-size:1.22rem;}
+  .hero .cta-row{display:flex; gap:14px; flex-wrap:wrap; margin-top:8px;}
+  .hero .microcopy{font-size:.92rem; color:var(--midgreen); margin-top:16px;}
+  .hero-card{background:var(--forest); color:var(--cream); border-radius:16px; padding:30px;}
+  .hero-card h3{color:var(--lime); font-size:1.15rem;}
+  .hero-card ul{margin:0; padding-left:0; list-style:none;}
+  .hero-card li{padding:9px 0; border-bottom:1px solid rgba(242,236,217,.18); display:flex; gap:10px; align-items:flex-start;}
+  .hero-card li:last-child{border-bottom:none;}
+  .hero-card li b{color:var(--cream);}
+  .tick{color:var(--lime); font-weight:700;}
+
+  .strip{background:var(--forest); color:var(--cream); text-align:center; padding:26px 0;}
+  .strip p{margin:0; font-size:1.1rem;}
+  .strip b{color:var(--lime);}
+
+  .cards{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .card{background:var(--sand); border:1px solid var(--line); border-radius:var(--radius); padding:26px;}
+  .card h3{margin-top:6px;}
+
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .step{background:var(--sand); border:1px solid var(--line); border-radius:var(--radius); padding:26px; position:relative;}
+  .step .num{display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:999px; background:var(--lime); color:var(--forest); font-weight:700; font-family:'Fraunces'; margin-bottom:12px;}
+  .step .price{font-weight:600; color:var(--midgreen);}
+
+  .tools{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .tool{background:var(--sand); border:1px solid var(--line); border-radius:var(--radius); padding:26px;}
+
+  .pricegrid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+  .price-item{background:var(--sand); border:1px solid var(--line); border-radius:var(--radius); padding:22px; text-align:center;}
+  .price-item .amt{font-family:'Fraunces'; font-size:1.7rem; color:var(--forest); font-weight:600;}
+  .price-item .lbl{font-size:.95rem; color:var(--ink);}
+  .price-note{text-align:center; color:var(--midgreen); margin-top:18px; font-size:.95rem;}
+
+  .about-grid{display:grid; grid-template-columns:200px 1fr; gap:32px; align-items:center;}
+  .headshot{width:200px; height:220px; border-radius:16px; object-fit:cover; object-position:center top; display:block; border:1px solid var(--line);}
+
+  .quotes{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .quote{background:var(--sand); border:1px solid var(--line); border-left:4px solid var(--lime); border-radius:0; padding:22px; font-style:italic; margin:0;}
+  .quote span{display:block; margin-top:12px; font-style:normal; font-weight:600; color:var(--midgreen); font-size:.9rem;}
+
+  .faq details{background:var(--sand); border:1px solid var(--line); border-radius:var(--radius); padding:16px 20px; margin-bottom:12px;}
+  .faq summary{font-weight:600; cursor:pointer; color:var(--forest); font-size:1.05rem;}
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq details[open] summary{margin-bottom:10px;}
+
+  .final{background:var(--forest); color:var(--cream); border-radius:16px; padding:40px; text-align:center;}
+  .final h2{color:var(--cream);}
+  .final p{color:var(--cream);}
+  .leadform{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:20px;}
+  .leadform input[type=email]{padding:14px 16px; border-radius:999px; border:none; min-width:280px; font-size:1rem;}
+  .consent{font-size:.82rem; color:rgba(242,236,217,.85); margin-top:14px; display:inline-block;}
+  .consent input{margin-right:6px;}
+
+  footer{background:var(--forest); color:var(--cream); padding:40px 0;}
+  footer a{color:var(--cream);}
+  .footrow{display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center;}
+  .footlinks a{margin-left:18px; font-size:.92rem;}
+  .footnote{font-size:.82rem; color:rgba(242,236,217,.7); margin-top:14px;}
+
+  .cookie{background:var(--forest); color:var(--cream); padding:14px 18px; border-radius:12px; margin:16px auto; max-width:var(--maxw); display:flex; gap:14px; align-items:center; justify-content:space-between; flex-wrap:wrap;}
+  .cookie p{margin:0; font-size:.88rem;}
+  .cookie button{background:var(--lime); color:var(--forest); border:none; border-radius:999px; padding:8px 18px; font-weight:600; cursor:pointer;}
+
+  @media (max-width:860px){
+    .hero-grid,.about-grid{grid-template-columns:1fr;}
+    .cards,.steps,.quotes{grid-template-columns:1fr;}
+    .tools,.pricegrid{grid-template-columns:1fr 1fr;}
+    .headshot{width:100%; height:180px;}
+  }
+  @media (max-width:520px){
+    .pricegrid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<div class="topbar">
+  <div class="wrap">
+    <a class="brand" href="/learn/"><img class="logo" src="ai-made-simple-logo-web.png" alt="AI Made Simple — by AI Sustained" /><span class="brand-text"><small>by AI Sustained</small></span></a>
+    <nav class="topnav" aria-label="Page sections">
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">ChatGPT &amp; Claude · for real people</p>
+      <h1>AI made simple — starting with the work you already do.</h1>
+      <p class="lede">Friendly, one-to-one help to get going with ChatGPT and Claude. I set it up with you, on your real tasks, then hand it over so you can carry on without me.</p>
+      <div class="cta-row">
+        <!-- TODO: replace # with your Calendly booking link -->
+        <a class="btn btn-primary btn-lg" href="#book">Book a free 30-minute taster</a>
+        <a class="btn btn-ghost btn-lg" href="#how">How it works</a>
+      </div>
+      <p class="microcopy">No jargon. No pressure. No silly questions.</p>
+    </div>
+    <aside class="hero-card">
+      <h3>What you'll walk away with</h3>
+      <ul>
+        <li><span class="tick">&#10003;</span><span>One real task done faster, live in front of you</span></li>
+        <li><span class="tick">&#10003;</span><span>A simple setup you can repeat on your own</span></li>
+        <li><span class="tick">&#10003;</span><span>A plain-English written summary after every session</span></li>
+        <li><span class="tick">&#10003;</span><span>Honest guidance on the right tool for your job</span></li>
+      </ul>
+    </aside>
+  </div>
+</header>
+
+<!-- ============ REASSURANCE STRIP ============ -->
+<div class="strip">
+  <div class="wrap">
+    <p>New to all this? <b>You can't get it wrong.</b> If you get stuck setting up, we do it together in the first few minutes — free.</p>
+  </div>
+</div>
+
+<!-- ============ WHAT IS THIS ============ -->
+<section id="what">
+  <div class="wrap">
+    <p class="eyebrow">What this is</p>
+    <h2>Actually using AI — not just hearing about it.</h2>
+    <p style="max-width:760px; font-size:1.1rem;">AI Made Simple is one-to-one and small-group coaching for people who want practical results. Whether you've never opened ChatGPT or you run a small business and want to save hours a week, we start with your real work and build from there — at your pace.</p>
+  </div>
+</section>
+
+<!-- ============ WHO IT'S FOR ============ -->
+<section id="who" style="padding-top:0;">
+  <div class="wrap">
+    <p class="eyebrow">Who it's for</p>
+    <h2>Three kinds of people I help.</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Curious beginners</h3>
+        <p>Never used it? Perfect. We start from the very beginning, in plain English, with zero assumptions.</p>
+      </div>
+      <div class="card">
+        <h3>Small businesses &amp; sole traders</h3>
+        <p>Save real time on the jobs you do every day — quotes, emails, admin, social posts, summaries.</p>
+      </div>
+      <div class="card">
+        <h3>Charities &amp; community groups</h3>
+        <p>Practical, budget-friendly sessions. Ask about free and discounted community slots.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2>Start free. Get a win. Keep going.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>Free 30-min taster</h3>
+        <p>A relaxed intro. Watch AI solve one of your real tasks, live. No pressure to book anything.</p>
+        <p class="price">£0</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>First working session</h3>
+        <p>90 minutes together on your real work. One visible win, set up so you can repeat it yourself.</p>
+        <p class="price">£30 — 50% off your first session</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>Keep going</h3>
+        <p>Pay-as-you-go sessions or small-group workshops. We advance until you don't need me anymore.</p>
+        <p class="price">£40/hour · workshops from £39/seat</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHATGPT VS CLAUDE ============ -->
+<section id="tools" style="padding-top:0;">
+  <div class="wrap">
+    <p class="eyebrow">Use the right tool for the task</p>
+    <h2>There isn't one "best" AI. There's the right one for the job.</h2>
+    <p style="max-width:760px;">I'm a guide, not a salesperson for either. Both are free to start, and I'll show you both so you can feel the difference — then we pick what fits your work.</p>
+    <div class="tools">
+      <div class="tool">
+        <h3>ChatGPT — the friendly all-rounder</h3>
+        <p>The name most people know. It can make images, search the web and even talk to you. The easiest place to start, with generous free use.</p>
+      </div>
+      <div class="tool">
+        <h3>Claude — the thoughtful writer</h3>
+        <p>Tends to write and reason more naturally, and keeps your conversations private by default. Brilliant for documents and clear thinking; a little stricter on free limits.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing">
+  <div class="wrap">
+    <p class="eyebrow">Simple, honest pricing</p>
+    <h2>No packages to decode.</h2>
+    <div class="pricegrid">
+      <div class="price-item"><div class="amt">£0</div><div class="lbl">Free 30-min taster</div></div>
+      <div class="price-item"><div class="amt">£30</div><div class="lbl">First 90-min session<br><small>(50% off £40/hr)</small></div></div>
+      <div class="price-item"><div class="amt">£40</div><div class="lbl">Per hour after that</div></div>
+      <div class="price-item"><div class="amt">£39+</div><div class="lbl">Per seat, group workshop</div></div>
+    </div>
+    <p class="price-note">Online anywhere in the UK. In-person available locally after your first session — just ask, and I'll quote any travel upfront.</p>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" style="padding-top:0;">
+  <div class="wrap">
+    <p class="eyebrow">Who's teaching you</p>
+    <div class="about-grid">
+      <img class="headshot" src="profilepic-web.jpg" alt="Kevin Clubb, AI Made Simple" />
+      <div>
+        <h2>Hi, I'm Kevin.</h2>
+        <p>I'm a senior business analyst who's spent the last year putting AI to work in real businesses — proper production systems, not demos. AI Made Simple is where I help individuals and small teams get the same results, minus the jargon.</p>
+        <p>I'm a guide, not a salesperson. I'll always point you to the right tool for the job, and my aim is to make myself unnecessary — you leave able to do it yourself.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS (placeholders) ============ -->
+<section id="proof" style="padding-top:0;">
+  <div class="wrap">
+    <p class="eyebrow">What people say</p>
+    <h2>Early words from real sessions.</h2>
+    <div class="quotes">
+      <blockquote class="quote">"You were right, Kevin — it is super addictive."<span>— Nitin, Operations Director</span></blockquote>
+      <blockquote class="quote">"I expected to be underwhelmed. Twenty minutes in, I'd rebuilt a report that normally eats my whole Friday afternoon."<span>— Duncan, Principal Architect</span></blockquote>
+      <blockquote class="quote">"Kevin didn't just show me the tool — he set it up around my actual data and left me able to do it myself."<span>— David, Data Analyst</span></blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="wrap">
+    <p class="eyebrow">Good questions</p>
+    <h2>Before you book.</h2>
+    <div class="faq">
+      <details><summary>Do I need to pay for ChatGPT or Claude?</summary><p>No. We start on the free versions. I'll only ever suggest a paid plan once it's clearly saving you time and paying for itself.</p></details>
+      <details><summary>What do I need to get started?</summary><p>A computer or laptop and an internet connection — that's it. I send a simple setup guide beforehand, and if anything's fiddly we sort it together at the start of your free session.</p></details>
+      <details><summary>I'm really not techy. Is this for me?</summary><p>Especially for you. Every session is jargon-free and goes entirely at your pace. There are no silly questions.</p></details>
+      <details><summary>Is my information safe?</summary><p>Yes. I'll show you simple, sensible rules to keep personal and confidential information out of AI tools from day one.</p></details>
+      <details><summary>Will I get anything to keep?</summary><p>Always a plain-English written summary after every session, plus the prompts we set up. Paid sessions also include a free recording and transcript, with your consent.</p></details>
+      <details><summary>Can we meet in person?</summary><p>The free taster is online. After that, in-person is available for longer sessions and workshops in the local area — I'll quote any travel clearly upfront.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA + LEAD MAGNET ============ -->
+<section id="book">
+  <div class="wrap">
+    <div class="final">
+      <h2>Ready when you are.</h2>
+      <p>Book your free 30-minute taster — or grab the free starter pack and come back when you're ready.</p>
+      <!-- TODO: replace # with your Calendly booking link -->
+      <a class="btn btn-primary btn-lg" href="#" style="margin-top:6px;">Book a free 30-minute taster</a>
+
+      <p style="margin-top:34px; font-weight:600;">Not ready? Get the free starter pack:</p>
+      <p style="margin-top:-6px;">Inside: what your first session covers, 10 prompts you can use today, and a simple setup guide.</p>
+      <!-- TODO: when HubSpot is ready, also POST this email to your HubSpot form (or swap this for the HubSpot embed) so the lead is captured. The download only unlocks after a valid email + consent. -->
+      <form id="starterForm" class="leadform">
+        <input id="starterEmail" type="email" placeholder="Your email address" aria-label="Your email address" required />
+        <button type="submit" class="btn btn-primary">Get the starter pack</button>
+      </form>
+      <label class="consent"><input id="starterConsent" type="checkbox" required /> Yes, email me the starter pack and the occasional useful tip. Unsubscribe any time.</label>
+      <div id="starterDownload" style="display:none; margin-top:20px;">
+        <p style="font-weight:600; margin-bottom:10px;">Thanks — your starter pack is ready:</p>
+        <a class="btn btn-primary btn-lg" href="AI-Made-Simple-Starter-Pack.pdf" download>Download the PDF</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footrow">
+      <div>
+        <strong>AI Made Simple</strong> — part of AI Sustained.<br>
+        <span class="footnote">Practical AI help by Kevin Clubb.</span>
+      </div>
+      <div class="footlinks">
+        <a href="https://ai-sustained.com/">Editorial</a>
+        <!-- TODO: point to your live privacy page -->
+        <a href="https://ai-sustained.com/privacy/">Privacy</a>
+      </div>
+    </div>
+    <p class="footnote">© 2026 Kevin Clubb · AI Sustained. Online sessions UK-wide; in-person available locally.</p>
+  </div>
+</footer>
+
+<!-- ============ COOKIE BANNER (simple) ============ -->
+<div class="cookie" id="cookieBanner" style="display:none;">
+  <p>This site uses privacy-friendly analytics to see what's useful. Nothing creepy.</p>
+  <button onclick="document.getElementById('cookieBanner').style.display='none';">Got it</button>
+</div>
+<script>
+  (function(){ var b=document.getElementById('cookieBanner'); if(b){ b.style.display='flex'; } })();
+
+  (function(){
+    var f=document.getElementById('starterForm');
+    if(!f) return;
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      var email=document.getElementById('starterEmail');
+      var consent=document.getElementById('starterConsent');
+      if(!email.checkValidity()){ email.reportValidity(); return; }
+      if(consent && !consent.checked){ consent.focus(); return; }
+      /* TODO: send email to HubSpot here before revealing the download. */
+      f.style.display='none';
+      var d=document.getElementById('starterDownload');
+      if(d){ d.style.display='block'; d.scrollIntoView({behavior:'smooth', block:'center'}); }
+    });
+  })();
+</script>
+
+</body>
+</html>
