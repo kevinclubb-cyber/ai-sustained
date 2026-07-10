@@ -10,6 +10,11 @@
 <meta name="theme-color" content="#F2ECD9" />
 <link rel="icon" href="ai-made-simple-logo-web.png" type="image/png" />
 
+<!-- Calendly (popup) + HubSpot (forms) -->
+<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" />
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script src="https://js-eu1.hsforms.net/forms/embed/v2.js"></script>
+
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="AI Made Simple — by AI Sustained" />
@@ -138,6 +143,16 @@
   .consent{font-size:.82rem; color:rgba(242,236,217,.85); margin-top:14px; display:inline-block;}
   .consent input{margin-right:6px;}
 
+  /* HubSpot form, styled to match the brand */
+  .hs-embed{max-width:520px; margin:20px auto 0; text-align:left;}
+  .hs-embed label{color:var(--cream); font-size:.9rem; font-weight:500; display:block; margin-bottom:4px;}
+  .hs-embed .hs-input{width:100%; padding:13px 15px; border-radius:10px; border:none; font-size:1rem; margin:2px 0 12px; font-family:inherit;}
+  .hs-embed .hs-form-required{color:var(--lime); margin-left:2px;}
+  .hs-embed .hs-button{background:var(--lime); color:var(--forest); border:none; border-radius:999px; padding:14px 30px; font-weight:600; font-size:1rem; cursor:pointer; font-family:inherit;}
+  .hs-embed .legal-consent-container, .hs-embed .hs-richtext{color:rgba(242,236,217,.85); font-size:.8rem; margin:6px 0 12px;}
+  .hs-embed .hs-error-msgs{list-style:none; padding:0; margin:0 0 8px; color:#ffe08a; font-size:.8rem;}
+  .hs-embed .inputs-list{list-style:none; padding:0; margin:0;}
+
   footer{background:var(--forest); color:var(--cream); padding:40px 0;}
   footer a{color:var(--cream);}
   .footrow{display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center;}
@@ -181,8 +196,7 @@
       <h1>AI made simple — starting with the work you already do.</h1>
       <p class="lede">Friendly, one-to-one help to get going with ChatGPT and Claude. I set it up with you, on your real tasks, then hand it over so you can carry on without me.</p>
       <div class="cta-row">
-        <!-- TODO: replace # with your Calendly booking link -->
-        <a class="btn btn-primary btn-lg" href="#book">Book a free 30-minute taster</a>
+        <a class="btn btn-primary btn-lg book-btn" href="#">Book a free 30-minute taster</a>
         <a class="btn btn-ghost btn-lg" href="#how">How it works</a>
       </div>
       <p class="microcopy">No jargon. No pressure. No silly questions.</p>
@@ -349,17 +363,12 @@
     <div class="final">
       <h2>Ready when you are.</h2>
       <p>Book your free 30-minute taster — or grab the free starter pack and come back when you're ready.</p>
-      <!-- TODO: replace # with your Calendly booking link -->
-      <a class="btn btn-primary btn-lg" href="#" style="margin-top:6px;">Book a free 30-minute taster</a>
+      <a class="btn btn-primary btn-lg book-btn" href="#" style="margin-top:6px;">Book a free 30-minute taster</a>
 
       <p style="margin-top:34px; font-weight:600;">Not ready? Get the free starter pack:</p>
       <p style="margin-top:-6px;">Inside: what your first session covers, 10 prompts you can use today, and a simple setup guide.</p>
-      <!-- TODO: when HubSpot is ready, also POST this email to your HubSpot form (or swap this for the HubSpot embed) so the lead is captured. The download only unlocks after a valid email + consent. -->
-      <form id="starterForm" class="leadform">
-        <input id="starterEmail" type="email" placeholder="Your email address" aria-label="Your email address" required />
-        <button type="submit" class="btn btn-primary">Get the starter pack</button>
-      </form>
-      <label class="consent"><input id="starterConsent" type="checkbox" required /> Yes, email me the starter pack and the occasional useful tip. Unsubscribe any time.</label>
+      <!-- HubSpot form renders here (captures the lead + consent). On submit it reveals the download below, and HubSpot's follow-up email sends the PDF. -->
+      <div id="hubspotForm" class="hs-embed"></div>
       <div id="starterDownload" style="display:none; margin-top:20px;">
         <p style="font-weight:600; margin-bottom:10px;">Thanks — your starter pack is ready:</p>
         <a class="btn btn-primary btn-lg" href="AI-Made-Simple-Starter-Pack.pdf" download>Download the PDF</a>
@@ -392,23 +401,48 @@
   <button onclick="document.getElementById('cookieBanner').style.display='none';">Got it</button>
 </div>
 <script>
+  /* ============================================================
+     FILL IN YOUR DETAILS  (or paste them to Claude to drop in)
+     ============================================================ */
+  var CALENDLY_URL      = "https://calendly.com/ai-sustained-ops/30min"; // your event link
+  var HUBSPOT_REGION    = "eu1";
+  var HUBSPOT_PORTAL_ID = "148698319";
+  var HUBSPOT_FORM_ID   = "dcae9bea-c3c6-431b-983c-6467dfff5d07";
+  /* ============================================================ */
+
   (function(){ var b=document.getElementById('cookieBanner'); if(b){ b.style.display='flex'; } })();
 
-  (function(){
-    var f=document.getElementById('starterForm');
-    if(!f) return;
-    f.addEventListener('submit', function(e){
+  // Calendly popup on every "Book a taster" button
+  document.querySelectorAll('.book-btn').forEach(function(btn){
+    btn.addEventListener('click', function(e){
       e.preventDefault();
-      var email=document.getElementById('starterEmail');
-      var consent=document.getElementById('starterConsent');
-      if(!email.checkValidity()){ email.reportValidity(); return; }
-      if(consent && !consent.checked){ consent.focus(); return; }
-      /* TODO: send email to HubSpot here before revealing the download. */
-      f.style.display='none';
-      var d=document.getElementById('starterDownload');
-      if(d){ d.style.display='block'; d.scrollIntoView({behavior:'smooth', block:'center'}); }
+      if(window.Calendly && CALENDLY_URL.indexOf('REPLACE') === -1){
+        Calendly.initPopupWidget({ url: CALENDLY_URL });
+      } else {
+        console.warn('Set CALENDLY_URL to your booking link to enable the popup.');
+      }
     });
-  })();
+  });
+
+  // Reveal the download once the HubSpot form is submitted
+  function revealStarterDownload(){
+    var d=document.getElementById('starterDownload');
+    if(d){ d.style.display='block'; d.scrollIntoView({behavior:'smooth', block:'center'}); }
+  }
+
+  // Build the HubSpot form (captures lead + consent). Its follow-up email delivers the PDF too.
+  if(window.hbspt && HUBSPOT_PORTAL_ID.indexOf('REPLACE') === -1){
+    hbspt.forms.create({
+      region: HUBSPOT_REGION,
+      portalId: HUBSPOT_PORTAL_ID,
+      formId: HUBSPOT_FORM_ID,
+      target: '#hubspotForm',
+      onFormSubmitted: revealStarterDownload
+    });
+  } else {
+    var hf=document.getElementById('hubspotForm');
+    if(hf){ hf.innerHTML = '<p style="color:rgba(242,236,217,.75); font-size:.9rem;">[ HubSpot form loads here once your portal &amp; form IDs are added. ]</p>'; }
+  }
 </script>
 
 </body>
