@@ -143,23 +143,9 @@
   .consent{font-size:.82rem; color:rgba(242,236,217,.85); margin-top:14px; display:inline-block;}
   .consent input{margin-right:6px;}
 
-  /* HubSpot form, styled to match the brand (HubSpot's own CSS loads late, so these need !important) */
-  .hs-embed{max-width:520px; margin:20px auto 0; text-align:left;}
-  .hs-embed, .hs-embed .hs-form__description, .hs-embed .hs-richtext, .hs-embed .hs-richtext p,
-  .hs-embed label, .hs-embed .hs-form-field label, .hs-embed .hs-field-desc,
-  .hs-embed .legal-consent-container, .hs-embed .legal-consent-container *,
-  .hs-embed .hs-form-booleancheckbox-display, .hs-embed .hs-form-booleancheckbox-display span,
-  .hs-embed p, .hs-embed span, .hs-embed .submitted-message, .hs-embed .submitted-message *{
-    color:#F2ECD9 !important;
-  }
-  .hs-embed .hs-form__description, .hs-embed .hs-richtext{font-size:.95rem; margin-bottom:14px;}
-  .hs-embed label{font-weight:500; margin-bottom:4px;}
-  .hs-embed .hs-input{width:100%; padding:13px 15px; border-radius:10px; border:none; font-size:1rem; margin:4px 0 12px; font-family:inherit; color:#14261C !important; background:#FBF8EF !important;}
-  .hs-embed input[type=checkbox]{width:auto !important; margin:2px 8px 0 0; vertical-align:top;}
-  .hs-embed .hs-form-required{color:#E8FF3A !important; margin-left:2px;}
-  .hs-embed .hs-button, .hs-embed input.hs-button{background:#E8FF3A !important; color:#1B4332 !important; border:none !important; border-radius:999px !important; padding:14px 32px !important; font-weight:600 !important; font-size:1rem !important; cursor:pointer; font-family:inherit; box-shadow:none !important;}
-  .hs-embed .hs-error-msgs, .hs-embed .hs-error-msgs *{list-style:none !important; padding:0; margin:0 0 8px; color:#ffe08a !important; font-size:.8rem;}
-  .hs-embed .inputs-list{list-style:none; padding:0; margin:0;}
+  /* HubSpot renders the form inside an isolated shadow DOM, so page CSS can't recolour its
+     text. Instead we give the wrapper a light card, so HubSpot's default dark text is readable. */
+  .hs-embed{background:#FBF8EF; border:1px solid var(--line); border-radius:16px; padding:26px 26px 14px; max-width:540px; margin:22px auto 0; text-align:left;}
 
   footer{background:var(--forest); color:var(--cream); padding:40px 0;}
   footer a{color:var(--cream);}
