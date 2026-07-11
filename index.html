@@ -766,6 +766,13 @@
     font-style: italic;
     font-weight: 500;
   }
+  .about-photo {
+    display: block;
+    width: min(300px, 70%);
+    margin-top: 32px;
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  }
   .about-body {
     font-family: 'Inter', sans-serif;
     font-size: 17px;
@@ -1372,6 +1379,7 @@
       <div>
         <div class="about-label">About the author</div>
         <h2>Senior business analyst. <em>AI super-adopter</em>. Still learning.</h2>
+        <img class="about-photo" src="/author-kevin.png" alt="Kevin Clubb — senior business analyst and author of AI Sustained." />
       </div>
       <div class="about-body">
         <p>I've spent twenty years bridging business and technical teams across retail, fashion, finance and now hospitality &amp; catering. The last twelve months have been almost entirely about putting AI to work — properly, in real production systems, not as a demo.</p>
