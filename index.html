@@ -725,12 +725,21 @@
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
+    grid-template-columns: 0.85fr 1.15fr;
+    column-gap: 80px;
+    row-gap: 48px;
+    align-items: end;
+  }
+  .about-head { grid-column: 1 / -1; }
+  .about-photo-col {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 100%;
   }
   @media (max-width: 880px) {
-    .about-inner { grid-template-columns: 1fr; gap: 40px; }
+    .about-inner { grid-template-columns: 1fr; row-gap: 40px; align-items: start; }
+    .about-photo-col { justify-content: flex-start; }
   }
   .about-label {
     font-family: 'JetBrains Mono', monospace;
@@ -768,10 +777,9 @@
   }
   .about-photo {
     display: block;
-    width: min(300px, 70%);
-    margin-top: 32px;
-    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    width: min(340px, 80%);
+    -webkit-mask-image: linear-gradient(to bottom, black 82%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 82%, transparent 100%);
   }
   .about-body {
     font-family: 'Inter', sans-serif;
@@ -1376,9 +1384,11 @@
   </section>
   <section class="about" id="about">
     <div class="about-inner">
-      <div>
+      <div class="about-head">
         <div class="about-label">About the author</div>
         <h2>Senior business analyst. <em>AI super-adopter</em>. Still learning.</h2>
+      </div>
+      <div class="about-photo-col">
         <img class="about-photo" src="/author-kevin.png" alt="Kevin Clubb — senior business analyst and author of AI Sustained." />
       </div>
       <div class="about-body">
