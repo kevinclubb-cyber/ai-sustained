@@ -69,6 +69,9 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 /* uniform paired buttons */
 .btn-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
 .btn-row .btn{min-width:264px;max-width:100%;text-align:center;font-size:15px;padding:14px 22px}
+/* hero brand image (replaces the AI Made Simple kicker) -
+   multiply blend sinks the cream background into the forest page */
+.hero-brand{display:block;margin:0 auto 32px;width:100%;max-width:640px;height:auto;mix-blend-mode:multiply;filter:brightness(1.06)}
 .meta-row{display:flex;gap:26px;margin-top:26px;flex-wrap:wrap}
 .meta-item{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--sage)}
 .meta-item b{color:var(--acid);font-weight:700}
@@ -125,7 +128,7 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4.5vw,40px)
 
 <!-- HERO -->
 <main>
-<p class="kicker">AI Made Simple</p>
+<img class="hero-brand" src="/learn/ai-made-simple-hero.png" alt="AI Made Simple &#x2014; practical AI, by AI Sustained" width="1920" height="1080">
 <h1>Learn AI that <span class="accent">survives Monday morning.</span></h1>
 <p class="deck">Everyone's "using AI". Most are using ChatGPT like a search engine from 2009 &#x2014; and every experiment dies the moment the real job starts. AI Made Simple fixes that, one habit at a time. It starts with a number.</p>
 <div style="text-align:center"><a class="btn" href="/learn/score/" onclick="gtag('event','cta_click',{location:'hero'})">Get my AI Survival Score</a></div>
