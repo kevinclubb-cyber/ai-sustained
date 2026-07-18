@@ -66,6 +66,9 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 .btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(232,255,58,.25)}
 .btn-ghost{background:transparent;color:var(--acid);border:1px solid var(--acid);font-size:15px;padding:14px 28px}
 .btn-ghost:hover{box-shadow:none;background:rgba(232,255,58,.08)}
+/* uniform paired buttons */
+.btn-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.btn-row .btn{min-width:264px;max-width:100%;text-align:center;font-size:15px;padding:14px 22px}
 .meta-row{display:flex;gap:26px;margin-top:26px;flex-wrap:wrap}
 .meta-item{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--sage)}
 .meta-item b{color:var(--acid);font-weight:700}
@@ -166,7 +169,7 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4.5vw,40px)
     <div class="step"><span class="num">RUNG 3 &#xB7; &#xA3;30</span><h3>90-minute working session</h3><p>Half price when booked on your taster (usually &#xA3;60). We build the fix together on your actual work &#x2014; you leave with it running.</p></div>
     <div class="step"><span class="num">RUNG 4 &#xB7; &#xA3;40/HR</span><h3>Ongoing 60-minute sessions</h3><p>Keep climbing, as and when it's useful. Personal or work efficiencies, one improvement per session, no contract.</p></div>
   </div>
-  <div style="margin-top:28px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center"><a class="btn btn-ghost" href="/learn/programme/" onclick="gtag('event','cta_click',{location:'offer_ladder_programme'})">See the full programme &amp; prices</a><a class="btn btn-ghost" href="https://meetings-eu1.hubspot.com/ai-sustained-ops" onclick="gtag('event','booking_click',{location:'offer_ladder'})">BOOK FREE SESSION NOW</a></div>
+  <div class="btn-row" style="margin-top:28px"><a class="btn btn-ghost" href="/learn/programme/" onclick="gtag('event','cta_click',{location:'offer_ladder_programme'})">See the full programme &amp; prices</a><a class="btn btn-ghost" href="https://meetings-eu1.hubspot.com/ai-sustained-ops" onclick="gtag('event','booking_click',{location:'offer_ladder'})">Book Free Taster Session</a></div>
 </section>
 
 <!-- FOR TEAMS -->
@@ -175,8 +178,8 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4.5vw,40px)
     <h3>Doing this for a team?</h3>
     <p>Group sessions run at &#xA3;35 per seat, per hour &#x2014; same material, on your team's real work. On site can be catered for, and if you don't have a room I can arrange a venue for an additional cost. Book a free session to scope it, or email <a href="mailto:kevin@ai-sustained.com" style="color:var(--acid)">kevin@ai-sustained.com</a> directly.</p>
   </div>
-  <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
-    <a class="btn btn-ghost" href="https://meetings-eu1.hubspot.com/ai-sustained-ops" onclick="gtag('event','booking_click',{location:'teams_bridge'})">BOOK FREE SESSION NOW</a>
+  <div class="btn-row">
+    <a class="btn btn-ghost" href="https://meetings-eu1.hubspot.com/ai-sustained-ops" onclick="gtag('event','booking_click',{location:'teams_bridge'})">Arrange an appointment</a>
     <a class="btn btn-ghost" href="mailto:kevin@ai-sustained.com?subject=Team%20sessions%20-%20AI%20Made%20Simple" onclick="gtag('event','cta_click',{location:'teams_email'})">Email me directly</a>
   </div>
 </div>
@@ -216,7 +219,7 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4.5vw,40px)
     <h3>Not ready for a verdict?</h3>
     <p>Fair. Subscribe instead &#x2014; new editorials and case studies in your inbox as they're published, and the score will still be here when you're curious.</p>
   </div>
-  <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
+  <div class="btn-row">
     <a class="btn btn-ghost" href="https://ai-sustained.com/#subscribe" onclick="gtag('event','cta_click',{location:'not_ready_subscribe'})">Subscribe</a>
     <a class="btn btn-ghost" href="https://ai-sustained.com/#editorial">Read the editorial</a>
   </div>
