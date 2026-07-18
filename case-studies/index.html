@@ -11,20 +11,20 @@
   gtag('config', 'G-L3WZNV09BB');
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI &amp; Data Case Studies — Real Builds, Plainly Explained | AI Sustained</title>
-<meta name="description" content="Real-world AI and data case studies from Kevin Clubb — data platforms, business intelligence, CRM rollouts and right-sized AI adoption across retail, hospitality and education. The problem, the approach, what shipped, and what it changed.">
+<title>AI &amp; Data Case Studies &#x2014; Real Builds, Plainly Explained | AI Sustained</title>
+<meta name="description" content="Real-world AI and data case studies from Kevin Clubb &#x2014; data platforms, business intelligence, CRM rollouts and right-sized AI adoption across retail, hospitality and education. The problem, the approach, what shipped, and what it changed.">
 <meta name="keywords" content="AI case studies, AI case study UK, data platform case study, Snowflake case study, Power BI case study, CRM rollout case study, business intelligence case study, AI adoption case study, hospitality data, education catering data, Kevin Clubb, AI Sustained">
 <meta name="author" content="Kevin Clubb">
 <link rel="canonical" href="https://ai-sustained.com/case-studies/">
 <meta name="robots" content="index, follow">
-<meta property="og:title" content="AI &amp; Data Case Studies — Real Builds, Plainly Explained">
-<meta property="og:description" content="Data platforms, BI, CRM and right-sized AI adoption — written up as the problem, the approach, what shipped, and what it changed.">
+<meta property="og:title" content="AI &amp; Data Case Studies &#x2014; Real Builds, Plainly Explained">
+<meta property="og:description" content="Data platforms, BI, CRM and right-sized AI adoption &#x2014; written up as the problem, the approach, what shipped, and what it changed.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://ai-sustained.com/favicon-512.png">
 <meta property="og:url" content="https://ai-sustained.com/case-studies/">
 <meta property="og:site_name" content="AI Sustained">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="AI &amp; Data Case Studies — AI Sustained">
+<meta name="twitter:title" content="AI &amp; Data Case Studies &#x2014; AI Sustained">
 <meta name="twitter:description" content="Real builds, plainly explained: data platforms, BI, CRM and right-sized AI adoption.">
 <meta name="twitter:image" content="/favicon-512.png">
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -66,8 +66,10 @@
   /* NAV */
   nav.brand-nav { background: rgba(27,67,50,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--paper-30); border-top: 4px solid var(--acid); position: sticky; top: 0; z-index: 50; }
   .nav-inner { max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mint); }
-  .nav-brand { color: var(--paper); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: -0.01em; }
-  .nav-brand em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .nav-brand { display: flex; align-items: center; gap: 12px; }
+  .nav-brand img.mark { height: 34px; width: auto; display: block; }
+  .nav-brand img.word { height: 20px; width: auto; display: block; }
+  @media (max-width: 560px) { .nav-brand img.word { display: none; } }
   .nav-links { display: flex; gap: 22px; }
   .nav-links a { color: var(--mint); border-bottom: 1px solid transparent; padding-bottom: 2px; transition: all 0.15s; }
   .nav-links a:hover, .nav-links a.active { color: var(--acid); border-bottom-color: var(--acid); }
@@ -84,6 +86,9 @@
   .hero h1 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--acid); }
   .hero .deck { position: relative; z-index: 1; font-family: 'Fraunces', serif; font-style: italic; font-size: 22px; line-height: 1.45; color: var(--mint); max-width: 720px; }
   .hero .deck strong { color: var(--paper); font-weight: 500; }
+  /* HERO ART (the three builds, drawn in brand) */
+  .hero-art { position: relative; z-index: 1; display: block; width: 100%; max-width: 980px; margin: 48px auto 0; }
+  .hero-art text { font-family: 'JetBrains Mono', monospace; letter-spacing: 0.18em; text-transform: uppercase; }
   /* GRID */
   .cs-grid { max-width: 1280px; margin: 0 auto; padding: 40px 32px 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 28px; }
   @media (min-width: 1080px) { .cs-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -102,18 +107,17 @@
   .cs-metric .m-lab { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--acid); margin-top: 6px; }
   .cs-card .c-cta { margin-top: 24px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); display: flex; align-items: center; gap: 8px; transition: gap 0.15s; }
   a.cs-card:hover .c-cta { gap: 14px; }
-  .cs-card .c-cta::after { content: '→'; }
+  .cs-card .c-cta::after { content: '\2192 '; }
   .cs-card.soon { border-style: dashed; }
   .cs-card.soon .c-meta { color: var(--paper-60); }
   .cs-card.soon h2 { color: var(--paper-60); }
-  /* WORK-WITH-ME (soft CTA — points to email/LinkedIn for now; swap to consulting.ai-sustained.com when ready) */
+  /* WORK-WITH-ME (centred contact band) */
   .work { max-width: 1280px; margin: 0 auto; padding: 16px 32px 8px; }
-  .work-inner { background: var(--acid); color: var(--ink); border-radius: 8px; padding: 44px 40px; display: flex; justify-content: space-between; align-items: center; gap: 28px; flex-wrap: wrap; }
-  .work-inner .w-text { flex: 1 1 360px; }
+  .work-inner { background: var(--acid); color: var(--ink); border-radius: 8px; padding: 44px 40px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 26px; }
   .work-inner .kicker { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink); margin-bottom: 10px; }
   .work-inner h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(24px, 3vw, 34px); color: var(--ink); letter-spacing: -0.015em; margin-bottom: 8px; }
   .work-inner h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--forest); }
-  .work-inner p { font-family: 'Inter', sans-serif; color: var(--ink); font-size: 15px; line-height: 1.5; margin: 0; max-width: 560px; }
+  .work-inner p { font-family: 'Inter', sans-serif; color: var(--ink); font-size: 15px; line-height: 1.5; margin: 0 auto; max-width: 560px; }
   .work-btn { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; background: var(--ink); color: var(--acid); padding: 16px 26px; border-radius: 4px; border: 1px solid var(--ink); transition: all 0.15s; white-space: nowrap; }
   .work-btn:hover { background: var(--forest); color: var(--acid); border-color: var(--forest); }
   /* FOOTER */
@@ -126,10 +130,14 @@
 <body>
 <nav class="brand-nav">
   <div class="nav-inner">
-    <a href="/" class="nav-brand">AI Sustained</a>
+    <a href="/" class="nav-brand">
+      <img class="mark" src="/learn/logo_mark_white.png" alt="AI Sustained">
+      <img class="word" src="/learn/wordmark_white.png" alt="AI Sustained &#x2014; AI that survives Monday morning.">
+    </a>
     <div class="nav-links">
       <a href="/#editorial">Editorial</a>
       <a href="/case-studies/" class="active">Case studies</a>
+      <a href="/learn/">Learn</a>
       <a href="/#subscribe" class="opt">Subscribe</a>
       <a href="https://aisustained.substack.com" class="opt" target="_blank" rel="noopener">Substack</a>
     </div>
@@ -138,23 +146,140 @@
 
 <header class="hero">
   <div class="breadcrumb"><a href="/">Home</a> &nbsp;/&nbsp; Case studies</div>
-  <div class="hero-kicker">Case studies · From the build</div>
+  <div class="hero-kicker">Case studies &#xB7; From the build</div>
   <h1>Real builds, <em>plainly explained</em>.</h1>
-  <p class="deck">Data platforms, business intelligence, CRM rollouts and right-sized AI adoption — written up the way I'd want to read them: <strong>the problem, the approach, what shipped, and what it actually changed</strong>. No vendor gloss, no vanity metrics.</p>
+  <p class="deck">Data platforms, business intelligence, CRM rollouts and right-sized AI adoption &#x2014; written up the way I'd want to read them: <strong>the problem, the approach, what shipped, and what it actually changed</strong>. No vendor gloss, no vanity metrics.</p>
+
+  <!-- Hero art: the three real builds, drawn in brand (inline SVG, nothing to host) -->
+  <svg class="hero-art" viewBox="0 0 1200 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The three case studies: an anonymous workforce AI survey, many source systems joined into one governed warehouse feeding dashboards, and a semi-autonomous agent running a work board.">
+    <!-- ===== Panel 1: Shadow AI survey ===== -->
+    <g>
+      <rect x="20" y="20" width="340" height="250" rx="8" fill="rgba(242,236,217,0.06)" stroke="rgba(242,236,217,0.18)"/>
+      <!-- survey card -->
+      <rect x="60" y="55" width="180" height="150" rx="6" fill="#0A0F0C" stroke="rgba(242,236,217,0.30)"/>
+      <rect x="76" y="75" width="80" height="8" rx="2" fill="#E8FF3A"/>
+      <g stroke="rgba(242,236,217,0.35)" fill="none">
+        <rect x="76" y="98" width="12" height="12" rx="2"/>
+        <rect x="76" y="122" width="12" height="12" rx="2"/>
+        <rect x="76" y="146" width="12" height="12" rx="2"/>
+        <rect x="76" y="170" width="12" height="12" rx="2"/>
+      </g>
+      <path d="M78 103 l3.5 4 6-8" stroke="#E8FF3A" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M78 127 l3.5 4 6-8" stroke="#E8FF3A" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M78 151 l3.5 4 6-8" stroke="#E8FF3A" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <g fill="rgba(242,236,217,0.35)">
+        <rect x="98" y="100" width="120" height="7" rx="2"/>
+        <rect x="98" y="124" width="104" height="7" rx="2"/>
+        <rect x="98" y="148" width="112" height="7" rx="2"/>
+        <rect x="98" y="172" width="88" height="7" rx="2"/>
+      </g>
+      <!-- the anonymous crowd -->
+      <g fill="#D8F3DC" opacity="0.9">
+        <circle cx="280" cy="90" r="9"/><path d="M266 118 a14 12 0 0 1 28 0 z"/>
+        <circle cx="312" cy="90" r="9"/><path d="M298 118 a14 12 0 0 1 28 0 z"/>
+        <circle cx="280" cy="150" r="9"/><path d="M266 178 a14 12 0 0 1 28 0 z"/>
+        <circle cx="312" cy="150" r="9"/><path d="M298 178 a14 12 0 0 1 28 0 z"/>
+      </g>
+      <text x="190" y="243" text-anchor="middle" font-size="11" fill="#E8FF3A">CS 001 &#183; Ask the workforce</text>
+      <text x="190" y="261" text-anchor="middle" font-size="10" fill="rgba(242,236,217,0.60)">~150 shadow AI users surveyed</text>
+    </g>
+
+    <!-- ===== Panel 2: Single source of truth ===== -->
+    <g>
+      <rect x="430" y="20" width="340" height="250" rx="8" fill="rgba(242,236,217,0.06)" stroke="rgba(242,236,217,0.18)"/>
+      <!-- source systems -->
+      <g font-size="9" fill="#D8F3DC">
+        <rect x="455" y="52" width="72" height="26" rx="4" fill="#0A0F0C" stroke="rgba(242,236,217,0.30)"/>
+        <text x="491" y="69" text-anchor="middle">FINANCE</text>
+        <rect x="455" y="92" width="72" height="26" rx="4" fill="#0A0F0C" stroke="rgba(242,236,217,0.30)"/>
+        <text x="491" y="109" text-anchor="middle">CRM</text>
+        <rect x="455" y="132" width="72" height="26" rx="4" fill="#0A0F0C" stroke="rgba(242,236,217,0.30)"/>
+        <text x="491" y="149" text-anchor="middle">TILLS</text>
+        <rect x="455" y="172" width="72" height="26" rx="4" fill="#0A0F0C" stroke="rgba(242,236,217,0.30)"/>
+        <text x="491" y="189" text-anchor="middle">APPS</text>
+      </g>
+      <!-- flow lines -->
+      <g stroke="#E8FF3A" stroke-width="1.5" fill="none" opacity="0.85">
+        <path d="M527 65 C 560 65 560 118 590 120"/>
+        <path d="M527 105 C 555 105 560 118 590 120"/>
+        <path d="M527 145 C 555 145 560 128 590 126"/>
+        <path d="M527 185 C 560 185 560 130 590 126"/>
+      </g>
+      <!-- warehouse cylinder -->
+      <g>
+        <path d="M592 85 h84 a0 0 0 0 1 0 0 v110 a42 12 0 0 1 -84 0 v-110 z" fill="#0A0F0C" stroke="rgba(242,236,217,0.30)"/>
+        <ellipse cx="634" cy="85" rx="42" ry="12" fill="#0A0F0C" stroke="#E8FF3A"/>
+        <ellipse cx="634" cy="122" rx="42" ry="12" fill="none" stroke="rgba(242,236,217,0.25)"/>
+        <ellipse cx="634" cy="159" rx="42" ry="12" fill="none" stroke="rgba(242,236,217,0.25)"/>
+      </g>
+      <!-- dashboard -->
+      <g>
+        <rect x="700" y="80" width="52" height="120" rx="5" fill="#0A0F0C" stroke="rgba(242,236,217,0.30)"/>
+        <rect x="708" y="150" width="8" height="40" fill="#E8FF3A"/>
+        <rect x="720" y="130" width="8" height="60" fill="#D8F3DC"/>
+        <rect x="732" y="110" width="8" height="80" fill="#E8FF3A"/>
+        <path d="M708 100 l10 -8 10 4 14 -12" stroke="#E8FF3A" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </g>
+      <path d="M676 140 h20" stroke="#E8FF3A" stroke-width="1.5"/>
+      <text x="600" y="243" text-anchor="middle" font-size="11" fill="#E8FF3A">CS 002 &#183; One source of truth</text>
+      <text x="600" y="261" text-anchor="middle" font-size="10" fill="rgba(242,236,217,0.60)">1,400+ sites &#8594; one governed warehouse</text>
+    </g>
+
+    <!-- ===== Panel 3: Agent 'Charles' ===== -->
+    <g>
+      <rect x="840" y="20" width="340" height="250" rx="8" fill="rgba(242,236,217,0.06)" stroke="rgba(242,236,217,0.18)"/>
+      <!-- agent head -->
+      <g>
+        <circle cx="930" cy="115" r="38" fill="#0A0F0C" stroke="#E8FF3A"/>
+        <circle cx="916" cy="108" r="6" fill="#E8FF3A"/>
+        <circle cx="944" cy="108" r="6" fill="#E8FF3A"/>
+        <path d="M914 132 q16 12 32 0" stroke="#D8F3DC" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M930 77 v-14" stroke="#E8FF3A" stroke-width="2"/>
+        <circle cx="930" cy="58" r="5" fill="#E8FF3A"/>
+      </g>
+      <!-- link to board -->
+      <path d="M968 115 h34" stroke="#E8FF3A" stroke-width="1.5"/>
+      <!-- kanban board -->
+      <g>
+        <rect x="1002" y="60" width="150" height="140" rx="6" fill="#0A0F0C" stroke="rgba(242,236,217,0.30)"/>
+        <g fill="rgba(242,236,217,0.35)">
+          <rect x="1014" y="76" width="38" height="10" rx="2"/>
+          <rect x="1058" y="76" width="38" height="10" rx="2"/>
+          <rect x="1102" y="76" width="38" height="10" rx="2"/>
+        </g>
+        <g fill="rgba(242,236,217,0.18)">
+          <rect x="1014" y="96" width="38" height="22" rx="3"/>
+          <rect x="1014" y="124" width="38" height="22" rx="3"/>
+          <rect x="1058" y="96" width="38" height="22" rx="3"/>
+        </g>
+        <rect x="1058" y="124" width="38" height="22" rx="3" fill="#E8FF3A"/>
+        <rect x="1102" y="96" width="38" height="22" rx="3" fill="rgba(232,255,58,0.45)"/>
+      </g>
+      <text x="1010" y="243" text-anchor="middle" font-size="11" fill="#E8FF3A">CS 003 &#183; Agent "Charles"</text>
+      <text x="1010" y="261" text-anchor="middle" font-size="10" fill="rgba(242,236,217,0.60)">A semi-autonomous virtual hire</text>
+    </g>
+
+    <!-- connecting baseline -->
+    <g stroke="rgba(242,236,217,0.25)" stroke-dasharray="4 6">
+      <path d="M360 145 h70"/>
+      <path d="M770 145 h70"/>
+    </g>
+    <text x="600" y="315" text-anchor="middle" font-size="11" fill="rgba(242,236,217,0.60)">Three real builds &#183; retail, hospitality &amp; education catering &#183; no vendor gloss</text>
+  </svg>
 </header>
 
 <section class="cs-grid">
-  <!-- CASE STUDY 001 — Shadow AI / ask the workforce (live) -->
+  <!-- CASE STUDY 001 &#x2014; Shadow AI / ask the workforce (live) -->
   <a class="cs-card" href="/case-studies/shadow-ai-ask-the-workforce/">
     <div class="c-meta">
       <span>Case study 001</span>
       <span class="dot"></span>
-      <span>Agentic AI · Shadow AI</span>
+      <span>Agentic AI &#xB7; Shadow AI</span>
       <span class="dot"></span>
       <span class="muted">AI adoption</span>
     </div>
     <h2>Before you write an AI policy, <em>ask the people already using it</em>.</h2>
-    <p>The workforce is already using AI on personal and business accounts. Rather than a policy written in the dark, we ran an anonymous workforce survey — and handed the build to an AI agent that designed and configured it through a browser in about fifteen minutes.</p>
+    <p>The workforce is already using AI on personal and business accounts. Rather than a policy written in the dark, we ran an anonymous workforce survey &#x2014; and handed the build to an AI agent that designed and configured it through a browser in about fifteen minutes.</p>
     <div class="cs-metrics">
       <div class="cs-metric"><div class="m-val">~150</div><div class="m-lab">Shadow AI users</div></div>
       <div class="cs-metric"><div class="m-val">~15 min</div><div class="m-lab">Agent build time</div></div>
@@ -163,36 +288,36 @@
     <span class="c-cta">Read the case study</span>
   </a>
 
-  <!-- CASE STUDY 002 — Single source of truth (live) -->
+  <!-- CASE STUDY 002 &#x2014; Single source of truth (live) -->
   <a class="cs-card" href="/case-studies/single-source-of-truth/">
     <div class="c-meta">
       <span>Case study 002</span>
       <span class="dot"></span>
-      <span>Data platform · Integration</span>
+      <span>Data platform &#xB7; Integration</span>
       <span class="dot"></span>
-      <span class="muted">Multi-site · 1,400–1,800 sites</span>
+      <span class="muted">Multi-site &#xB7; 1,400&#x2013;1,800 sites</span>
     </div>
     <h2>Before you overlay AI, build the <em>single source of truth</em>.</h2>
-    <p>A group of 1,400–1,800 sites taking till and app sales, running on disconnected systems and load-bearing spreadsheets — joined up into one governed warehouse (finance, CRM, sales and more), so AI finally had trustworthy data to stand on.</p>
+    <p>A group of 1,400&#x2013;1,800 sites taking till and app sales, running on disconnected systems and load-bearing spreadsheets &#x2014; joined up into one governed warehouse (finance, CRM, sales and more), so AI finally had trustworthy data to stand on.</p>
     <div class="cs-metrics">
       <div class="cs-metric"><div class="m-val">1,400+</div><div class="m-lab">Sites/stores</div></div>
-      <div class="cs-metric"><div class="m-val">£180–300m</div><div class="m-lab">Revenue</div></div>
-      <div class="cs-metric"><div class="m-val">~£2–3m</div><div class="m-lab">To one source</div></div>
+      <div class="cs-metric"><div class="m-val">&#xA3;180&#x2013;300m</div><div class="m-lab">Revenue</div></div>
+      <div class="cs-metric"><div class="m-val">~&#xA3;2&#x2013;3m</div><div class="m-lab">To one source</div></div>
     </div>
     <span class="c-cta">Read the case study</span>
   </a>
 
-  <!-- CASE STUDY 003 — Meet Charles / virtual agent team (live) -->
+  <!-- CASE STUDY 003 &#x2014; Meet Charles / virtual agent team (live) -->
   <a class="cs-card" href="/case-studies/charles-virtual-agent/">
     <div class="c-meta">
       <span>Case study 003</span>
       <span class="dot"></span>
-      <span>Agentic AI · Virtual agents</span>
+      <span>Agentic AI &#xB7; Virtual agents</span>
       <span class="dot"></span>
       <span class="muted">AI adoption</span>
     </div>
-    <h2>Bolster the team — <em>hire a semi-autonomous agent</em>.</h2>
-    <p>"Charles" — named after Charles Babbage — is my first virtual hire: he runs my Jira backlog, drafts meeting notes and books meetings. When the email and Teams connectors turned out read-only, a Power Automate, OneNote and SharePoint bridge did the sending. No engineers required.</p>
+    <h2>Bolster the team &#x2014; <em>hire a semi-autonomous agent</em>.</h2>
+    <p>"Charles" &#x2014; named after Charles Babbage &#x2014; is my first virtual hire: he runs my Jira backlog, drafts meeting notes and books meetings. When the email and Teams connectors turned out read-only, a Power Automate, OneNote and SharePoint bridge did the sending. No engineers required.</p>
     <div class="cs-metrics">
       <div class="cs-metric"><div class="m-val">001</div><div class="m-lab">First agent</div></div>
       <div class="cs-metric"><div class="m-val">Jira</div><div class="m-lab">Backlog owned</div></div>
@@ -202,22 +327,22 @@
   </a>
 </section>
 
-<!-- Discreet contact CTA. Email shown as visible text so it works even without a default mail app. To capture into HubSpot instead, point the button at a /contact/ page or HubSpot form. -->
+<!-- Discreet contact CTA, centred. Email shown as visible text so it works even without a default mail app. -->
 <section class="work">
   <div class="work-inner">
     <div class="w-text">
       <div class="kicker">Get in touch</div>
       <h2>Would you like to <em>find out more</em>?</h2>
-      <p>Happy to talk through any of this in more detail, or answer a question about the work — drop me a line at <a href="mailto:ai.sustained.ops@gmail.com" style="color:var(--ink);text-decoration:underline;text-underline-offset:2px;">ai.sustained.ops@gmail.com</a>.</p>
+      <p>Happy to talk through any of this in more detail, or answer a question about the work &#x2014; drop me a line at <a href="mailto:kevin@ai-sustained.com" style="color:var(--ink);text-decoration:underline;text-underline-offset:2px;">kevin@ai-sustained.com</a>.</p>
     </div>
-    <a class="work-btn" href="mailto:ai.sustained.ops@gmail.com?subject=Enquiry%20via%20ai-sustained.com">Contact me →</a>
+    <a class="work-btn" href="mailto:kevin@ai-sustained.com?subject=Enquiry%20via%20ai-sustained.com">Contact me &#x2192;</a>
   </div>
 </section>
 
 <footer class="brand-footer">
   <div class="footer-inner">
-    <div>AI Sustained · Case studies · 2026</div>
-    <div><a href="/">ai-sustained.com</a> · <a href="https://aisustained.substack.com" target="_blank" rel="noopener">Substack</a> · <a href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener">LinkedIn</a></div>
+    <div>AI Sustained &#xB7; <a href="/case-studies/">Case studies</a> &#xB7; 2026</div>
+    <div><a href="/">ai-sustained.com</a> &#xB7; <a href="/learn/">Learn</a> &#xB7; <a href="https://aisustained.substack.com" target="_blank" rel="noopener">Substack</a> &#xB7; <a href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener">LinkedIn</a></div>
   </div>
 </footer>
 </body>
