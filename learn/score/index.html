@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What's Your AI Survival Score? | AI Sustained</title>
+<meta name="description" content="Find out in 3 minutes whether your AI habits would survive Monday morning. A free 12-question assessment from AI Sustained.">
+<meta name="keywords" content="AI assessment, AI skills score, AI readiness, AI Sustained, AI habits, prompting skills">
+<meta name="author" content="Kevin Clubb — AI Sustained">
+<meta property="og:title" content="What's Your AI Survival Score?">
+<meta property="og:description" content="Find out in 3 minutes whether your AI habits would survive Monday morning.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ai-sustained.com/learn/score">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What's Your AI Survival Score?">
+<meta name="twitter:description" content="12 questions. 3 minutes. Would your AI habits survive Monday morning?">
+<meta property="og:image" content="https://ai-sustained.com/learn/og-learn.png">
+<link rel="canonical" href="https://ai-sustained.com/learn/score/">
+<meta name="robots" content="index, follow">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-L3WZNV09BB');
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Quiz","name":"AI Survival Score","description":"A 12-question assessment scoring whether your AI habits would survive Monday morning.","author":{"@type":"Person","name":"Kevin Clubb"},"publisher":{"@type":"Organization","name":"AI Sustained"}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --forest:#1B4332; --cream:#F2ECD9; --acid:#E8FF3A; --coral:#FF5A3C;
+  --ink:#0A0F0C; --sage:#9DB8A8; --card:#153627;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--forest);color:var(--cream);font-family:'Inter',sans-serif;min-height:100vh;line-height:1.6}
+body::before{content:"";display:block;height:3px;background:var(--acid);position:fixed;top:0;left:0;right:0;z-index:100}
+.wrap{max-width:680px;margin:0 auto;padding:48px 24px 80px}
+.masthead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:56px;flex-wrap:wrap;gap:8px}
+.wordmark{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--acid);letter-spacing:-0.01em}
+.tagline{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--sage)}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:0.18em;color:var(--acid);margin-bottom:20px}
+h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(34px,6vw,52px);line-height:1.12;letter-spacing:-0.02em;margin-bottom:20px}
+h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
+.deck{font-family:'Fraunces',serif;font-style:italic;font-size:21px;line-height:1.45;color:var(--cream);opacity:0.9;margin-bottom:36px}
+.meta-row{display:flex;gap:24px;margin-bottom:40px;flex-wrap:wrap}
+.meta-item{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:var(--sage)}
+.meta-item b{color:var(--acid);font-weight:700}
+.btn{display:inline-block;background:var(--acid);color:var(--ink);font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;padding:16px 36px;border:none;border-radius:4px;cursor:pointer;letter-spacing:0.01em;transition:transform .15s ease, box-shadow .15s ease;text-decoration:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(232,255,58,.25)}
+.btn:focus-visible{outline:3px solid var(--cream);outline-offset:3px}
+.btn-ghost{background:transparent;color:var(--acid);border:1px solid var(--acid)}
+.btn-ghost:hover{box-shadow:none;background:rgba(232,255,58,.08)}
+.screen{display:none;animation:fadeUp .45s ease}
+.screen.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.screen{animation:none}.btn:hover{transform:none}}
+/* progress */
+.progress-track{height:3px;background:rgba(242,236,217,.15);border-radius:2px;margin-bottom:12px}
+.progress-fill{height:100%;background:var(--acid);border-radius:2px;width:0;transition:width .3s ease}
+.progress-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage);margin-bottom:36px}
+.pillar-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--acid);margin-bottom:14px}
+.q-text{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(24px,4.5vw,32px);line-height:1.25;margin-bottom:32px;letter-spacing:-0.01em}
+.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--cream);border:1px solid rgba(242,236,217,.14);border-radius:6px;padding:16px 18px;margin-bottom:12px;font-family:'Inter',sans-serif;font-size:15.5px;line-height:1.5;cursor:pointer;transition:border-color .15s ease, background .15s ease}
+.opt:hover{border-color:var(--acid);background:#17402e}
+.opt:focus-visible{outline:2px solid var(--acid);outline-offset:2px}
+.back-link{background:none;border:none;color:var(--sage);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;margin-top:16px}
+.back-link:hover{color:var(--cream)}
+/* gate */
+.gate-panel{background:var(--ink);border-radius:8px;padding:36px 32px;margin-top:8px}
+.gate-panel h2{font-family:'Fraunces',serif;font-weight:600;font-size:28px;line-height:1.2;margin-bottom:12px}
+.gate-panel h2 em{color:var(--acid);font-style:italic;font-weight:500}
+.gate-sub{font-size:15px;color:var(--sage);margin-bottom:26px}
+.field{margin-bottom:16px}
+.field label{display:block;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sage);margin-bottom:7px}
+.field input{width:100%;background:var(--forest);border:1px solid rgba(242,236,217,.18);border-radius:5px;padding:14px 15px;color:var(--cream);font-family:'Inter',sans-serif;font-size:16px}
+.field input:focus{outline:none;border-color:var(--acid)}
+.gate-note{font-size:12.5px;color:var(--sage);margin-top:16px;line-height:1.55}
+.err{color:var(--coral);font-size:13px;margin-top:10px;display:none}
+/* results */
+.score-hero{text-align:center;margin:12px 0 44px}
+.score-dial{position:relative;width:230px;height:230px;margin:0 auto 22px}
+.score-dial svg{transform:rotate(-90deg)}
+.dial-bg{fill:none;stroke:rgba(242,236,217,.12);stroke-width:10}
+.dial-arc{fill:none;stroke:var(--acid);stroke-width:10;stroke-linecap:round;stroke-dasharray:628;stroke-dashoffset:628;transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)}
+.score-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-num .n{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:64px;color:var(--acid);line-height:1}
+.score-num .d{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;color:var(--sage);text-transform:uppercase;margin-top:6px}
+.tier-name{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,5vw,38px);letter-spacing:-0.01em}
+.tier-name.warn{color:var(--coral)}
+.tier-name.ok{color:var(--acid)}
+.verdict-stamp{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;border:1px solid currentColor;border-radius:3px;padding:6px 12px;margin-top:14px}
+.tier-copy{font-family:'Fraunces',serif;font-style:italic;font-size:19px;line-height:1.5;text-align:center;max-width:540px;margin:0 auto 44px;opacity:.92}
+.pillars{margin-bottom:44px}
+.pillars h3, .next h3{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:20px}
+.pillar-row{margin-bottom:18px}
+.pillar-head{display:flex;justify-content:space-between;font-size:14px;margin-bottom:7px}
+.pillar-head .pv{font-family:'JetBrains Mono',monospace;color:var(--acid);font-weight:700}
+.pillar-bar{height:6px;background:rgba(242,236,217,.12);border-radius:3px;overflow:hidden}
+.pillar-bar i{display:block;height:100%;background:var(--acid);border-radius:3px;width:0;transition:width .9s ease .3s}
+.pillar-bar i.low{background:var(--coral)}
+/* takeaway */
+.next{background:var(--ink);border-radius:8px;padding:34px 30px;margin-bottom:40px}
+.next h3{color:var(--acid)}
+.tk-point{display:flex;gap:16px;margin-bottom:18px}
+.tk-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--acid);white-space:nowrap;padding-top:4px}
+.tk-text{font-family:'Fraunces',serif;font-style:italic;font-size:16.5px;line-height:1.5}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:40px}
+.share-box{border:1px dashed rgba(242,236,217,.25);border-radius:8px;padding:24px;text-align:center}
+.share-box p{font-size:13.5px;color:var(--sage);margin-bottom:16px}
+.footer{margin-top:64px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage)}
+.footer a{color:var(--acid);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <span class="wordmark">AI Sustained.</span>
+  <span class="tagline">AI that survives Monday morning</span>
+</header>
+
+<!-- SCREEN: LANDING -->
+<section class="screen active" id="s-landing" aria-label="Start the assessment">
+  <p class="kicker">Free 3-minute assessment</p>
+  <h1>What's your <span class="accent">AI Survival Score?</span></h1>
+  <p class="deck">Most people's AI habits die by Monday morning. Twelve questions will tell you whether yours would survive — and exactly where they'd fail.</p>
+  <div class="meta-row">
+    <span class="meta-item"><b>12</b> questions</span>
+    <span class="meta-item"><b>3</b> minutes</span>
+    <span class="meta-item"><b>4</b> skill pillars scored</span>
+  </div>
+  <button class="btn" onclick="startQuiz()">Get my score</button>
+</section>
+
+<!-- SCREEN: QUIZ -->
+<section class="screen" id="s-quiz" aria-label="Assessment questions">
+  <div class="progress-track"><div class="progress-fill" id="prog"></div></div>
+  <p class="progress-label" id="prog-label">Question 1 of 12</p>
+  <p class="pillar-tag" id="q-pillar"></p>
+  <h2 class="q-text" id="q-text"></h2>
+  <div id="q-opts"></div>
+  <button class="back-link" id="back-btn" onclick="goBack()" style="display:none">&larr; Previous question</button>
+</section>
+
+<!-- SCREEN: EMAIL GATE -->
+<section class="screen" id="s-gate" aria-label="Get your results">
+  <div class="gate-panel">
+    <h2>Your score is ready. <em>Where should we send the breakdown?</em></h2>
+    <p class="gate-sub">You'll see your score instantly, plus get your full pillar-by-pillar report and one practical fix per week from AI Sustained.</p>
+    <div class="field">
+      <label for="f-name">First name</label>
+      <input type="text" id="f-name" autocomplete="given-name">
+    </div>
+    <div class="field">
+      <label for="f-email">Email</label>
+      <input type="email" id="f-email" autocomplete="email" required>
+    </div>
+    <button class="btn" onclick="submitGate()">Show my score</button>
+    <p class="err" id="gate-err">That email doesn't look right — check and try again.</p>
+    <p class="gate-note">No spam, no AI hype. Unsubscribe anytime. Your answers are only used to build your report.</p>
+  </div>
+</section>
+
+<!-- SCREEN: RESULTS -->
+<section class="screen" id="s-results" aria-label="Your results">
+  <div class="score-hero">
+    <div class="score-dial">
+      <svg width="230" height="230" viewBox="0 0 230 230" aria-hidden="true">
+        <circle class="dial-bg" cx="115" cy="115" r="100"></circle>
+        <circle class="dial-arc" id="dial" cx="115" cy="115" r="100"></circle>
+      </svg>
+      <div class="score-num"><span class="n" id="score-n">0</span><span class="d">out of 100</span></div>
+    </div>
+    <h2 class="tier-name" id="tier-name"></h2>
+    <span class="verdict-stamp" id="verdict"></span>
+  </div>
+  <p class="tier-copy" id="tier-copy"></p>
+
+  <div class="pillars">
+    <h3>Pillar breakdown</h3>
+    <div id="pillar-rows"></div>
+  </div>
+
+  <div class="next">
+    <h3>Tactical Takeaway</h3>
+    <div id="tk-points"></div>
+  </div>
+
+  <div class="cta-row">
+    <a class="btn" id="cta-main" href="https://ai-sustained.com/learn">Fix it with AI Made Simple</a>
+    <a class="btn btn-ghost" href="https://aisustained.substack.com">Get the newsletter</a>
+  </div>
+
+  <div class="share-box">
+    <p>Know someone whose AI habits wouldn't survive Monday? Challenge them.</p>
+    <div class="cta-row" style="margin-bottom:0">
+      <button class="btn btn-ghost" onclick="shareLinkedIn()">Share on LinkedIn</button>
+      <button class="btn btn-ghost" id="copy-btn" onclick="copyChallenge()">Copy my result</button>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <span>&copy; 2026 <a href="https://ai-sustained.com">AI Sustained</a> &middot; ai-sustained.com/learn</span>
+</footer>
+</div>
+
+<script>
+// ============ CONFIG ============
+const HUBSPOT_URL = "https://api-eu1.hsforms.com/submissions/v3/integration/submit/148698319/0ba16edc-d31f-4c93-ae58-38d8813f34d6";
+const QUIZ_URL    = "https://ai-sustained.com/learn/score/";
+// ================================
+
+const PILLARS = ["Prompting","Workflow Integration","Tool Selection","Sustained Habits"];
+
+const QUESTIONS = [
+ // Pillar 0: Prompting
+ {p:0,q:"When you ask AI for something, your typical prompt looks like…",o:[
+  "A few words, like a Google search",
+  "A sentence or two of context",
+  "Role, context, constraints and an example of what good looks like",
+  "A saved, reusable template I've refined over time"]},
+ {p:0,q:"The AI gives you a mediocre answer. You…",o:[
+  "Take it or leave it — it is what it is",
+  "Rephrase the question once and hope",
+  "Iterate: tell it what's wrong and push it to improve",
+  "Rarely get mediocre answers — I pre-empt the failure in the prompt"]},
+ {p:0,q:"Does the AI know who it's writing for — your role, audience, tone?",o:[
+  "Never occurred to me",
+  "Sometimes, if I remember",
+  "Usually — I include audience and purpose",
+  "Always — it's baked into saved context or custom instructions"]},
+ // Pillar 1: Workflow
+ {p:1,q:"Honestly, where does AI sit in your working week?",o:[
+  "It's a novelty I poke at occasionally",
+  "A few times a week when I remember",
+  "Daily, for real tasks",
+  "Embedded in repeatable workflows — some run without me"]},
+ {p:1,q:"How many tasks do you have where AI is the default first step?",o:[
+  "None yet","One","Several","Most of my routine work starts with AI"]},
+ {p:1,q:"Have you connected AI to the tools you actually work in?",o:[
+  "No — it lives in a separate tab",
+  "I copy and paste between them",
+  "Some direct integrations (email, docs, data)",
+  "Automated pipelines move work without me touching it"]},
+ // Pillar 2: Tools
+ {p:2,q:"Your AI toolkit is…",o:[
+  "Whatever's free and nearest",
+  "One tool for everything",
+  "Two or three, each chosen for a reason",
+  "A deliberate stack — matched tool to job, tested against alternatives"]},
+ {p:2,q:"How do you decide which AI tool to use for a task?",o:[
+  "Whichever tab is already open",
+  "Habit — same one every time",
+  "A rough sense of each tool's strengths",
+  "I've actually compared them on my own tasks"]},
+ {p:2,q:"A major new model launches. You…",o:[
+  "Wouldn't notice",
+  "Read the headlines, change nothing",
+  "Try it on a couple of my real tasks",
+  "Re-run my benchmark tasks and re-evaluate my stack"]},
+ // Pillar 3: Habits
+ {p:3,q:"The Monday morning test: did last month's AI experiment survive into this week's routine?",o:[
+  "What experiment?",
+  "It was exciting for a week, then died",
+  "One or two things genuinely stuck",
+  "Several are now just how I work"]},
+ {p:3,q:"Do you keep anything reusable — a prompt library, saved workflows?",o:[
+  "Nothing — I start from scratch every time",
+  "Scattered notes I can never find",
+  "An organised personal library",
+  "A library I maintain and share with others"]},
+ {p:3,q:"If your favourite AI tool vanished tomorrow…",o:[
+  "I'd barely notice",
+  "Mildly annoying for a day",
+  "Genuinely disruptive to my week",
+  "I'd rebuild the workflow elsewhere within days — the skill is mine, not the tool's"]}
+];
+
+const TIERS = [
+ {min:0,max:40,name:"The AI Tourist",cls:"warn",verdict:"Would not survive Monday",copy:"You visit AI — you don't live there. Right now it's a curiosity, not a capability, and the gap between you and colleagues who've built real habits is compounding weekly. The good news: tourists convert fastest, because everything you add is new ground.",
+  tk:[["01 · TRUTH","Your biggest cost isn't bad prompts — it's that AI isn't in your week at all."],
+      ["02 · FIRST FIX","Pick one recurring task and make AI the default first step for two weeks. Just one."],
+      ["03 · NEXT STEP","AI Made Simple starts exactly here — zero jargon, one habit at a time."]]},
+ {min:41,max:70,name:"Monday Morning Casualty",cls:"warn",verdict:"Survives the demo, dies by Monday",copy:"You're capable and curious — your experiments work. Then Monday arrives, the real job takes over, and the experiment quietly dies. Your problem isn't skill, it's systems: nothing you learn is wired into the way you actually work.",
+  tk:[["01 · TRUTH","You don't need more AI knowledge. You need fewer, stickier habits."],
+      ["02 · FIRST FIX","Take your one best prompt and turn it into a saved template today — that's a habit's skeleton."],
+      ["03 · NEXT STEP","AI Made Simple is built around habits that survive contact with a real Monday."]]},
+ {min:71,max:100,name:"AI Sustained",cls:"ok",verdict:"Survives Monday morning",copy:"Your habits survive Monday morning — you're in the small minority who've turned AI from a toy into infrastructure. Your next multiplier isn't personal skill: it's scale. Workflows, automation, and bringing the people around you up the curve.",
+  tk:[["01 · TRUTH","At your level the constraint is leverage, not knowledge — automate and delegate to AI."],
+      ["02 · FIRST FIX","Take your most valuable manual AI workflow and automate one step of it this week."],
+      ["03 · NEXT STEP","You're the person others will ask. AI Made Simple gives you the language to teach it."]]}
+];
+
+let idx = 0;
+let answers = new Array(QUESTIONS.length).fill(null);
+let finalScore = 0, pillarPct = [0,0,0,0], tier = null;
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function startQuiz(){ idx = 0; renderQ(); show('s-quiz'); if(typeof gtag==='function') gtag('event','quiz_start'); }
+
+function renderQ(){
+  const q = QUESTIONS[idx];
+  document.getElementById('prog').style.width = ((idx)/QUESTIONS.length*100)+'%';
+  document.getElementById('prog-label').textContent = `Question ${idx+1} of ${QUESTIONS.length}`;
+  document.getElementById('q-pillar').textContent = `Pillar ${q.p+1} · ${PILLARS[q.p]}`;
+  document.getElementById('q-text').textContent = q.q;
+  const box = document.getElementById('q-opts');
+  box.innerHTML = '';
+  q.o.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = opt;
+    b.onclick = ()=>{ answers[idx]=i; next(); };
+    box.appendChild(b);
+  });
+  document.getElementById('back-btn').style.display = idx>0 ? 'inline' : 'none';
+}
+
+function next(){
+  if(idx < QUESTIONS.length-1){ idx++; renderQ(); }
+  else { computeScore(); show('s-gate'); document.getElementById('f-name').focus(); if(typeof gtag==='function') gtag('event','quiz_complete',{score:finalScore}); }
+}
+function goBack(){ if(idx>0){ idx--; renderQ(); } }
+
+function computeScore(){
+  const raw = answers.reduce((a,v)=>a+(v||0),0);           // max 36
+  finalScore = Math.round(raw/36*100);
+  for(let p=0;p<4;p++){
+    const ps = QUESTIONS.map((q,i)=>q.p===p?(answers[i]||0):0).reduce((a,b)=>a+b,0);
+    pillarPct[p] = Math.round(ps/9*100);                   // 3 q × 3 max
+  }
+  tier = TIERS.find(t=>finalScore>=t.min && finalScore<=t.max);
+}
+
+function submitGate(){
+  const email = document.getElementById('f-email').value.trim();
+  const name  = document.getElementById('f-name').value.trim();
+  const err   = document.getElementById('gate-err');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ err.style.display='block'; return; }
+  err.style.display='none';
+  if(typeof gtag==='function') gtag('event','generate_lead',{tier:tier.name,score:finalScore});
+  const payload = {
+    fields: [
+      { objectTypeId: "0-1", name: "firstname", value: name },
+      { objectTypeId: "0-1", name: "email", value: email },
+      { objectTypeId: "0-1", name: "ai_survival_score", value: String(finalScore) },
+      { objectTypeId: "0-1", name: "ai_survival_tier", value: tier.name }
+    ],
+    context: { pageUri: QUIZ_URL, pageName: "AI Survival Score" }
+  };
+  fetch(HUBSPOT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+    .then(r=>{ if(!r.ok) r.json().then(e=>console.warn('HubSpot rejected submission:', e)); })
+    .catch(()=>{});
+  renderResults();
+  show('s-results');
+}
+
+function renderResults(){
+  document.getElementById('tier-name').textContent = tier.name;
+  document.getElementById('tier-name').className = 'tier-name '+tier.cls;
+  const v = document.getElementById('verdict');
+  v.textContent = tier.verdict;
+  v.style.color = tier.cls==='ok' ? 'var(--acid)' : 'var(--coral)';
+  document.getElementById('tier-copy').textContent = tier.copy;
+  // pillar bars
+  const rows = document.getElementById('pillar-rows'); rows.innerHTML='';
+  PILLARS.forEach((p,i)=>{
+    rows.insertAdjacentHTML('beforeend',
+     `<div class="pillar-row"><div class="pillar-head"><span>${p}</span><span class="pv">${pillarPct[i]}</span></div>
+      <div class="pillar-bar"><i class="${pillarPct[i]<50?'low':''}" data-w="${pillarPct[i]}"></i></div></div>`);
+  });
+  // takeaway
+  const tk = document.getElementById('tk-points'); tk.innerHTML='';
+  tier.tk.forEach(([l,t])=>{
+    tk.insertAdjacentHTML('beforeend',`<div class="tk-point"><span class="tk-label">${l}</span><span class="tk-text">${t}</span></div>`);
+  });
+  // animate dial + counter + bars
+  requestAnimationFrame(()=>{ setTimeout(()=>{
+    document.getElementById('dial').style.strokeDashoffset = 628 - (628*finalScore/100);
+    document.querySelectorAll('.pillar-bar i').forEach(el=>el.style.width = el.dataset.w+'%');
+    animateCount(finalScore);
+  },100); });
+}
+
+function animateCount(target){
+  const el = document.getElementById('score-n');
+  const dur = 1100, t0 = performance.now();
+  function step(t){
+    const k = Math.min((t-t0)/dur,1);
+    el.textContent = Math.round(target*(1-Math.pow(1-k,3)));
+    if(k<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function shareLinkedIn(){
+  window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(QUIZ_URL),'_blank','width=600,height=550');
+}
+function copyChallenge(){
+  const txt = `I scored ${finalScore}/100 on the AI Survival Score — verdict: "${tier.verdict}". Would your AI habits survive Monday morning? 3 minutes: ${QUIZ_URL}`;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const b=document.getElementById('copy-btn'); b.textContent='Copied — go challenge them';
+    setTimeout(()=>b.textContent='Copy my result',2500);
+  });
+}
+</script>
+</body>
+</html>
