@@ -12,7 +12,7 @@
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Privacy &amp; Cookies — AI Sustained</title>
-<meta name="description" content="How AI Sustained handles your data: newsletter sign-ups via HubSpot, website analytics via Google Analytics, and your rights under UK GDPR.">
+<meta name="description" content="How AI Sustained handles your data: email subscriptions via HubSpot, the AI Survival Score, website analytics via Google Analytics, and your rights under UK GDPR.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ai-sustained.com/privacy/">
 <meta name="author" content="Kevin Clubb">
@@ -35,7 +35,10 @@
   /* NAV */
   nav.brand-nav { background: rgba(27,67,50,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--paper-30); border-top: 4px solid var(--acid); position: sticky; top: 0; z-index: 50; }
   .nav-inner { max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mint); }
-  .nav-brand { color: var(--paper); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: -0.01em; }
+  .nav-brand { display: flex; align-items: center; gap: 12px; }
+  .nav-brand img.mark { height: 34px; width: auto; display: block; }
+  .nav-brand img.word { height: 20px; width: auto; display: block; }
+  @media (max-width: 560px) { .nav-brand img.word { display: none; } }
   .nav-links { display: flex; gap: 22px; }
   .nav-links a { color: var(--mint); border-bottom: 1px solid transparent; padding-bottom: 2px; transition: all 0.15s; }
   .nav-links a:hover { color: var(--acid); border-bottom-color: var(--acid); }
@@ -58,7 +61,7 @@
   a.inline:hover { border-bottom-color: var(--acid); }
   ul { list-style: none; margin: 0 0 18px; padding: 0; }
   li { color: var(--mint); font-size: 17px; margin-bottom: 12px; padding-left: 28px; position: relative; line-height: 1.55; }
-  li::before { content: '→'; position: absolute; left: 0; top: 0; color: var(--acid); font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+  li::before { content: '\2192'; position: absolute; left: 0; top: 0; color: var(--acid); font-family: 'JetBrains Mono', monospace; font-weight: 600; }
   li strong { color: var(--paper); }
   .note { background: var(--paper-06); border: 1px solid var(--paper-18); border-left: 3px solid var(--acid); border-radius: 4px; padding: 20px 24px; margin: 24px 0; }
   .note p { font-size: 15px; margin: 0; color: var(--mint); }
@@ -71,10 +74,14 @@
 <body>
 <nav class="brand-nav">
   <div class="nav-inner">
-    <a href="/" class="nav-brand">AI Sustained</a>
+    <a href="/" class="nav-brand">
+      <img class="mark" src="/learn/logo_mark_white.png" alt="AI Sustained">
+      <img class="word" src="/learn/wordmark_white.png" alt="AI Sustained — AI that survives Monday morning.">
+    </a>
     <div class="nav-links">
       <a href="/#editorial">Editorial</a>
       <a href="/case-studies/">Case studies</a>
+      <a href="/learn/">Learn</a>
       <a href="/#subscribe" class="opt">Subscribe</a>
     </div>
   </div>
@@ -84,25 +91,35 @@
   <div class="breadcrumb"><a href="/">Home</a> &nbsp;/&nbsp; Privacy</div>
   <div class="kicker">Privacy &amp; cookies</div>
   <h1>The <em>plain-English</em> version.</h1>
-  <div class="updated">Last updated · 27 June 2026</div>
+  <div class="updated">Last updated · 18 July 2026</div>
 
   <p>AI Sustained is a personal editorial project run by <strong>Kevin Clubb</strong>. This note explains what data is collected when you visit the site or subscribe, why, and what control you have. It's written to be readable; the short version is that I collect as little as possible and never sell it.</p>
 
   <h2>Who's responsible</h2>
-  <p>The data controller is Kevin Clubb, operating as AI Sustained (ai-sustained.com), United Kingdom. You can reach me at <a class="inline" href="mailto:ai.sustained.ops@gmail.com">ai.sustained.ops@gmail.com</a> for anything in this note.</p>
+  <p>The data controller is Kevin Clubb, operating as AI Sustained (ai-sustained.com), United Kingdom. You can reach me at <a class="inline" href="mailto:kevin@ai-sustained.com">kevin@ai-sustained.com</a> for anything in this note.</p>
 
-  <h2>The newsletter (HubSpot)</h2>
-  <p>When you subscribe, your email address — and anything else you choose to enter — is stored and processed in <strong>HubSpot</strong>, which I use as my CRM and email platform. I use it to send you new issues and occasional updates. The <strong>legal basis is your consent</strong>, given when you submit the form. You can withdraw it at any time using the unsubscribe link in any email, or by emailing me.</p>
+  <h2>Email subscription (HubSpot)</h2>
+  <p>When you subscribe, your email address — and anything else you choose to enter — is stored and processed in <strong>HubSpot</strong>, which I use as my CRM and email platform. I use it to send you new editorials and case studies as they're published, plus occasional updates, promotions and new products. The <strong>legal basis is your consent</strong>, given when you submit the form. You can withdraw it at any time using the unsubscribe link in any email, or by emailing me.</p>
   <p>HubSpot may set cookies to record that you submitted a form and to measure email engagement (opens and clicks). HubSpot, Inc. processes data in line with its own privacy policy and standard data-protection terms.</p>
+
+  <h2>The AI Survival Score (learn hub)</h2>
+  <p>If you take the <strong>AI Survival Score</strong> at ai-sustained.com/learn, your quiz answers are scored in your browser. When you enter your first name and email to see the breakdown, I store in HubSpot: your name, email, your overall score, your result tier and your weakest pillar. I use this to send you your pillar-by-pillar report and the weekly practical-fix emails from AI Sustained.</p>
+  <p>The <strong>legal basis is your consent</strong>, given when you submit the form. Every email has an unsubscribe link; unsubscribing stops the weekly fixes immediately. You can also email me to have your score data deleted entirely.</p>
+
+  <h2>Booking and sessions</h2>
+  <p>If you book a taster or paid session, the booking runs through <strong>HubSpot Meetings</strong>, which stores your name, email and the appointment details alongside your contact record. Session notes I keep are limited to what's needed to prepare for and follow up your sessions, and are never shared. Payment details are handled by the payment provider named at booking — I never see or store card numbers.</p>
 
   <h2>Website analytics (Google Analytics)</h2>
   <p>This site uses <strong>Google Analytics 4</strong> to understand, in aggregate, which articles are read and how people arrive. This sets cookies and collects information such as your approximate location, device, browser and the pages you view. It helps me write more of what's useful and retire what isn't. I do not use it to identify you personally.</p>
+
+  <h2>Advertising</h2>
+  <p>The site currently carries <strong>no advertising</strong>. If that changes, any sponsored content will be clearly labelled, and no advertiser will be given your personal data or allowed to set tracking cookies here. The position on partnerships is set out on the <a class="inline" href="/advertise/">advertising page</a>.</p>
 
   <h2>Cookies</h2>
   <p>In short, the site uses two kinds of cookie:</p>
   <ul>
     <li><strong>Analytics</strong> — set by Google Analytics, to measure traffic.</li>
-    <li><strong>Form/marketing</strong> — set by HubSpot when you interact with the subscribe form.</li>
+    <li><strong>Form/marketing</strong> — set by HubSpot when you interact with the subscribe form, the AI Survival Score or the booking pages.</li>
   </ul>
   <p>You can block or delete cookies in your browser settings; the site will still work. No advertising or cross-site tracking cookies are used.</p>
 
@@ -114,10 +131,10 @@
   </ul>
 
   <h2>How long data is kept</h2>
-  <p>Subscriber data is kept in HubSpot until you unsubscribe or ask me to delete it. Analytics data is retained according to Google Analytics' standard retention window.</p>
+  <p>Subscriber and score data is kept in HubSpot until you unsubscribe or ask me to delete it. Analytics data is retained according to Google Analytics' standard retention window.</p>
 
   <h2>Your rights</h2>
-  <p>Under UK GDPR you can ask to access, correct, export or delete the personal data I hold about you, and object to or restrict its processing. Email <a class="inline" href="mailto:ai.sustained.ops@gmail.com">ai.sustained.ops@gmail.com</a> and I'll action it. If you're unhappy with how I've handled your data, you can complain to the <a class="inline" href="https://ico.org.uk/" target="_blank" rel="noopener">Information Commissioner's Office (ICO)</a>.</p>
+  <p>Under UK GDPR you can ask to access, correct, export or delete the personal data I hold about you, and object to or restrict its processing. Email <a class="inline" href="mailto:kevin@ai-sustained.com">kevin@ai-sustained.com</a> and I'll action it. If you're unhappy with how I've handled your data, you can complain to the <a class="inline" href="https://ico.org.uk/" target="_blank" rel="noopener">Information Commissioner's Office (ICO)</a>.</p>
 
   <div class="note">
     <p>This is a plain-English summary of how the site actually works, not formal legal advice. If your circumstances are specific, take your own professional advice — and tell me if anything here looks wrong.</p>
@@ -127,7 +144,7 @@
 <footer class="brand-footer">
   <div class="footer-inner">
     <div>AI Sustained · Privacy · 2026</div>
-    <div><a href="/">ai-sustained.com</a> · <a href="/case-studies/">Case studies</a></div>
+    <div><a href="/">ai-sustained.com</a> · <a href="/learn/">Learn</a> · <a href="/learn/terms/">Terms</a> · <a href="/advertise/">Advertising</a></div>
   </div>
 </footer>
 </body>

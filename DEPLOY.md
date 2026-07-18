@@ -12,7 +12,7 @@ All HTML files are **pure ASCII** — every special character is an HTML entity 
 | `learn/programme/index.html` | `learn/programme/index.html` (replace) |
 | `learn/terms/index.html` | `learn/terms/index.html` (new) |
 | `advertise/index.html` | `advertise/index.html` (new) |
-| `privacy-learn-section.html` | Paste into existing `privacy/index.html` (instructions in file header) |
+| `privacy/index.html` | `privacy/index.html` | Replace |
 
 ## What changed vs live
 
@@ -24,11 +24,13 @@ All HTML files are **pure ASCII** — every special character is an HTML entity 
 
 **New pages** — `/learn/terms/` (plain-English T&Cs incl. 14-day cooling-off) and `/advertise/` (open-to-partners page, honest early-stage framing, zero invented numbers).
 
+**/privacy/** — full replacement: masthead now carries the logo mark + wordmark and a Learn nav link; contact email is kevin@ai-sustained.com; "The newsletter" section is now "Email subscription" covering new editorials, case studies, updates, promotions and new products; Survival Score, booking and advertising sections merged in; footer links Terms + Advertising.
+
 ## Before you push — 4 TODOs
 
 1. **`HS_SUBSCRIPTION_TYPE_ID = 999`** in `learn/score/index.html` — replace with your real ID (HubSpot: Settings → Marketing → Email → Subscription types). Harmless if wrong: the code falls back to a core-fields submit, but consent then isn't recorded.
 2. **HubSpot property** — create `ai_weakest_pillar` (single-line text, contact property). Same fallback applies until it exists.
-3. **`hello@ai-sustained.com`** — placeholder in `learn/terms/` and `advertise/`. Find/replace with your real address.
+3. **Email** — all pages now use kevin@ai-sustained.com. Make sure that mailbox exists (Cloudflare Email Routing to your real inbox does the job).
 4. **Terms** = plain-English draft, not legal advice. Sanity-check the cooling-off wording (Consumer Contracts Regulations 2013) before taking payments.
 
 ## After deploy — quick smoke test
