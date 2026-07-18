@@ -113,9 +113,14 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 /* takeaway */
 .next{background:var(--ink);border-radius:8px;padding:34px 30px;margin-bottom:40px}
 .next h3{color:var(--acid)}
-.tk-point{display:flex;gap:16px;margin-bottom:18px}
-.tk-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--acid);white-space:nowrap;padding-top:4px}
+.tk-point{display:grid;grid-template-columns:150px 1fr;column-gap:18px;margin-bottom:0;padding:12px 0;border-bottom:1px solid rgba(242,236,217,.08);align-items:start}
+.tk-point:last-of-type{border-bottom:none}
+.tk-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--acid);padding-top:4px}
 .tk-text{font-family:'Fraunces',serif;font-style:italic;font-size:16.5px;line-height:1.5}
+@media(max-width:480px){.tk-point{grid-template-columns:1fr;row-gap:4px}}
+/* uniform buttons on the results screen */
+#s-results .btn{width:100%;max-width:320px;text-align:center;padding:15px 20px;font-size:15px}
+.level-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);margin-bottom:8px}
 .cta-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:40px}
 .share-box{border:1px dashed rgba(242,236,217,.25);border-radius:8px;padding:24px;text-align:center}
 .share-box p{font-size:13.5px;color:var(--sage);margin-bottom:16px}
@@ -186,6 +191,7 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
       </svg>
       <div class="score-num"><span class="n" id="score-n">0</span><span class="d">out of 100</span></div>
     </div>
+    <p class="level-label">Your level</p>
     <h2 class="tier-name" id="tier-name"></h2>
     <span class="verdict-stamp" id="verdict"></span>
   </div>
@@ -206,7 +212,7 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
     <div class="tk-point"><span class="tk-label">FREE &#xB7; 30 MIN</span><span class="tk-text">Book a free 30-minute taster session. We go through your score together and pick the one fix with the biggest payoff for your actual work. No pitch, no slides.</span></div>
     <div class="tk-point"><span class="tk-label">HALF PRICE &#xB7; 90 MIN</span><span class="tk-text">Book the 90-minute working session on that call and it's half price. We build the fix together &#x2014; you leave with it running.</span></div>
     <div style="text-align:center;margin-top:24px">
-      <a class="btn" id="book-btn" href="#" onclick="if(typeof gtag==='function')gtag('event','booking_click',{location:'results',tier:tier?tier.name:''})">Book my free taster session</a>
+      <a class="btn" id="book-btn" href="#" onclick="if(typeof gtag==='function')gtag('event','booking_click',{location:'results',tier:tier?tier.name:''})">BOOK FREE SESSION NOW</a>
     </div>
   </div>
 
