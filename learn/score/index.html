@@ -143,7 +143,7 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 <section class="screen active" id="s-landing" aria-label="Start the assessment">
   <p class="kicker">Free 3-minute assessment</p>
   <h1>What's your <span class="accent">AI Survival Score?</span></h1>
-  <p class="deck">Most people's AI habits die by Monday morning. Twelve questions will tell you whether yours would survive &#x2014; and exactly where they'd fail.</p>
+  <p class="deck">Most people's AI habits die by Monday morning. Twelve questions will tell you whether yours would survive &#x2014; and exactly where they'd fail. No AI experience required &#x2014; honest answers beat impressive ones.</p>
   <div class="meta-row" style="justify-content:center">
     <span class="meta-item"><b>12</b> questions</span>
     <span class="meta-item"><b>3</b> minutes</span>
@@ -252,66 +252,66 @@ const PILLARS = ["Prompting","Workflow Integration","Tool Selection","Sustained 
 
 const QUESTIONS = [
  // Pillar 0: Prompting
- {p:0,q:"When you ask AI for something, your typical prompt looks like\u2026",o:[
-  "A few words, like a Google search",
-  "A sentence or two of context",
-  "Role, context, constraints and an example of what good looks like",
-  "A saved, reusable template I've refined over time"]},
- {p:0,q:"The AI gives you a mediocre answer. You\u2026",o:[
-  "Take it or leave it \u2014 it is what it is",
-  "Rephrase the question once and hope",
-  "Iterate: tell it what's wrong and push it to improve",
-  "Rarely get mediocre answers \u2014 I pre-empt the failure in the prompt"]},
- {p:0,q:"Does the AI know who it's writing for \u2014 your role, audience, tone?",o:[
-  "Never occurred to me",
+ {p:0,q:"When you ask an AI like ChatGPT for something, what do you usually type?",o:[
+  "I've barely used one, or just a few words, like a Google search",
+  "A sentence or two about what I want",
+  "Proper detail: what it's for, who it's for, and what good looks like",
+  "A saved, reusable prompt I've refined over time"]},
+ {p:0,q:"The AI gives you a poor answer. What happens next?",o:[
+  "I give up and do it myself",
+  "I reword the question and hope",
+  "I tell it what's wrong and push it to improve",
+  "Rarely happens: I head the failure off in how I ask"]},
+ {p:0,q:"Does the AI know who the answer is for (you, your boss, your customers)?",o:[
+  "Never thought about it",
   "Sometimes, if I remember",
-  "Usually \u2014 I include audience and purpose",
-  "Always \u2014 it's baked into saved context or custom instructions"]},
+  "Usually: I say who it's for and why",
+  "Always: it's saved in my settings so it never forgets"]},
  // Pillar 1: Workflow
- {p:1,q:"Honestly, where does AI sit in your working week?",o:[
-  "It's a novelty I poke at occasionally",
-  "A few times a week when I remember",
+ {p:1,q:"Honestly, where does AI sit in your week right now, at work or at home?",o:[
+  "Nowhere, or it's a novelty I've poked at once or twice",
+  "A few times a week, when I remember",
   "Daily, for real tasks",
-  "Embedded in repeatable workflows \u2014 some run without me"]},
- {p:1,q:"How many tasks do you have where AI is the default first step?",o:[
-  "None yet","One","Several","Most of my routine work starts with AI"]},
- {p:1,q:"Have you connected AI to the tools you actually work in?",o:[
-  "No \u2014 it lives in a separate tab",
+  "Built into my routines: some run without me"]},
+ {p:1,q:"How many regular tasks (emails, letters, planning, admin) start with AI for you?",o:[
+  "None yet","One","A few","Most of my routine tasks"]},
+ {p:1,q:"Is AI connected to anything you actually use, like email, documents or spreadsheets?",o:[
+  "No: it lives in its own app or tab, if I use it at all",
   "I copy and paste between them",
-  "Some direct integrations (email, docs, data)",
-  "Automated pipelines move work without me touching it"]},
+  "Some direct connections (email, docs, data)",
+  "Automated flows move work along without me touching it"]},
  // Pillar 2: Tools
- {p:2,q:"Your AI toolkit is\u2026",o:[
-  "Whatever's free and nearest",
+ {p:2,q:"Which AI tools do you use?",o:[
+  "None really, or whatever's free and nearest",
   "One tool for everything",
-  "Two or three, each chosen for a reason",
-  "A deliberate stack \u2014 matched tool to job, tested against alternatives"]},
- {p:2,q:"How do you decide which AI tool to use for a task \u2014 ChatGPT, Claude, Gemini, Copilot?",o:[
-  "Whichever tab is already open",
-  "Habit \u2014 same one every time",
-  "A rough sense of each tool's strengths",
+  "Two or three, each picked for a reason",
+  "A deliberate set, tested against alternatives on my own tasks"]},
+ {p:2,q:"How do you pick which AI to use for a job: ChatGPT, Claude, Gemini, Copilot?",o:[
+  "I don't pick: I use whatever's in front of me",
+  "Habit: the same one every time",
+  "A rough sense of what each one is good at",
   "I've actually compared them on my own tasks"]},
- {p:2,q:"A major new model launches. You\u2026",o:[
-  "Wouldn't notice",
+ {p:2,q:"A new AI model is all over the news. What do you do?",o:[
+  "Nothing: it passes me by",
   "Read the headlines, change nothing",
   "Try it on a couple of my real tasks",
-  "Re-run my benchmark tasks and re-evaluate my stack"]},
+  "Re-test my usual tasks on it and switch if it wins"]},
  // Pillar 3: Habits
- {p:3,q:"The Monday morning test: did last month's AI experiment survive into this week's routine?",o:[
-  "What experiment?",
-  "It was exciting for a week, then died",
+ {p:3,q:"Think of the last AI thing you tried. Where is it now?",o:[
+  "What AI thing? I haven't really tried one",
+  "It was fun for a week, then it died",
   "One or two things genuinely stuck",
   "Several are now just how I work"]},
- {p:3,q:"Do you keep anything reusable \u2014 a prompt library, saved workflows?",o:[
-  "Nothing \u2014 I start from scratch every time",
+ {p:3,q:"Do you keep anything reusable: saved prompts, templates, notes on what works?",o:[
+  "Nothing: I start from scratch every time",
   "Scattered notes I can never find",
   "An organised personal library",
   "A library I maintain and share with others"]},
- {p:3,q:"If your favourite AI tool vanished tomorrow\u2026",o:[
+ {p:3,q:"If your favourite AI tool vanished tomorrow, what would it mean for you?",o:[
   "I'd barely notice",
   "Mildly annoying for a day",
   "Genuinely disruptive to my week",
-  "I'd rebuild the workflow elsewhere within days \u2014 the skill is mine, not the tool's"]}
+  "I'd rebuild the workflow elsewhere within days: the skill is mine, not the tool's"]}
 ];
 
 const TIERS = [
@@ -349,10 +349,13 @@ function renderQ(){
   document.getElementById('q-text').textContent = q.q;
   const box = document.getElementById('q-opts');
   box.innerHTML = '';
-  q.o.forEach((opt,i)=>{
+  // display order is shuffled; scoring uses the original index
+  const order = q.o.map((_,i)=>i);
+  for(let j=order.length-1;j>0;j--){ const k=Math.floor(Math.random()*(j+1)); [order[j],order[k]]=[order[k],order[j]]; }
+  order.forEach(i=>{
     const b = document.createElement('button');
     b.className = 'opt';
-    b.textContent = opt;
+    b.textContent = q.o[i];
     b.onclick = ()=>{ answers[idx]=i; next(); };
     box.appendChild(b);
   });
