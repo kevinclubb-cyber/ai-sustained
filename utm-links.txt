@@ -1,0 +1,26 @@
+AI SURVIVAL SCORE - PER-CHANNEL LINKS
+Use the right link per channel so GA4 shows exactly where takers come from.
+(Reports > Acquisition > Traffic acquisition, or filter on campaign "score_launch")
+
+LinkedIn posts/profile:
+https://ai-sustained.com/learn/score/?utm_source=linkedin&utm_medium=social&utm_campaign=score_launch
+
+TikTok bio + video descriptions:
+https://ai-sustained.com/learn/score/?utm_source=tiktok&utm_medium=social&utm_campaign=score_launch
+
+Facebook page + posts:
+https://ai-sustained.com/learn/score/?utm_source=facebook&utm_medium=social&utm_campaign=score_launch
+
+Substack posts:
+https://ai-sustained.com/learn/score/?utm_source=substack&utm_medium=post&utm_campaign=score_launch
+
+Email signature:
+https://ai-sustained.com/learn/score/?utm_source=email&utm_medium=signature&utm_campaign=score_launch
+
+WhatsApp / DMs / anywhere else:
+https://ai-sustained.com/learn/score/?utm_source=direct_share&utm_medium=referral&utm_campaign=score_launch
+
+Already wired in automatically:
+- Article footers: utm_source=editorial (the CTA snippet)
+- LinkedIn share button on results: utm_source=linkedin, campaign survival_score_share
+- "Copy my result" challenge: utm_source=challenge, campaign survival_score_share
