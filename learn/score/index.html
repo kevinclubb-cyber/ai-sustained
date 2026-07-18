@@ -28,6 +28,8 @@ gtag('config', 'G-L3WZNV09BB');
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Quiz","name":"AI Survival Score","description":"A 12-question assessment scoring whether your AI habits would survive Monday morning.","author":{"@type":"Person","name":"Kevin Clubb"},"publisher":{"@type":"Organization","name":"AI Sustained"}}
 </script>
+<!-- HubSpot tracking -->
+<script type="text/javascript" id="hs-script-loader" async defer src="https://js-eu1.hs-scripts.com/148698319.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -41,8 +43,11 @@ html{scroll-behavior:smooth}
 body{background:var(--forest);color:var(--cream);font-family:'Inter',sans-serif;min-height:100vh;line-height:1.6}
 body::before{content:"";display:block;height:3px;background:var(--acid);position:fixed;top:0;left:0;right:0;z-index:100}
 .wrap{max-width:680px;margin:0 auto;padding:48px 24px 80px}
-.masthead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:56px;flex-wrap:wrap;gap:8px}
-.wordmark{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--acid);letter-spacing:-0.01em}
+.masthead{display:flex;justify-content:space-between;align-items:center;margin-bottom:56px;flex-wrap:wrap;gap:10px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img.mark{height:36px;width:auto;display:block}
+.brand img.word{height:22px;width:auto;display:block}
+@media(max-width:520px){.brand img.word{display:none}}
 .tagline{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--sage)}
 .kicker{font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:0.18em;color:var(--acid);margin-bottom:20px}
 h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(34px,6vw,52px);line-height:1.12;letter-spacing:-0.02em;margin-bottom:20px}
@@ -121,7 +126,10 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 <div class="wrap">
 
 <header class="masthead">
-  <span class="wordmark">AI Sustained.</span>
+  <a class="brand" href="https://ai-sustained.com">
+    <img class="mark" src="https://ai-sustained.com/ai_sustained_logo_mark.png" alt="AI Sustained">
+    <img class="word" src="https://ai-sustained.com/ai_sustained_wordmark.png" alt="AI Sustained — AI that survives Monday morning.">
+  </a>
   <span class="tagline">AI that survives Monday morning</span>
 </header>
 
@@ -192,8 +200,17 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
     <div id="tk-points"></div>
   </div>
 
+  <div class="next" style="border-left:3px solid var(--acid)">
+    <h3>Fix it, with help</h3>
+    <div class="tk-point"><span class="tk-label">FREE · 30 MIN</span><span class="tk-text">Book a free 30-minute taster session. We go through your score together and pick the one fix with the biggest payoff for your actual work. No pitch, no slides.</span></div>
+    <div class="tk-point"><span class="tk-label">HALF PRICE · 90 MIN</span><span class="tk-text">Book the 90-minute working session on that call and it's half price. We build the fix together — you leave with it running.</span></div>
+    <div style="text-align:center;margin-top:24px">
+      <a class="btn" id="book-btn" href="#" onclick="if(typeof gtag==='function')gtag('event','booking_click',{location:'results',tier:tier?tier.name:''})">Book my free taster session</a>
+    </div>
+  </div>
+
   <div class="cta-row">
-    <a class="btn" id="cta-main" href="https://ai-sustained.com/learn">Fix it with AI Made Simple</a>
+    <a class="btn btn-ghost" href="https://ai-sustained.com/learn/">AI Made Simple</a>
     <a class="btn btn-ghost" href="https://aisustained.substack.com">Get the newsletter</a>
   </div>
 
@@ -214,6 +231,7 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 <script>
 // ============ CONFIG ============
 const HUBSPOT_URL = "https://api-eu1.hsforms.com/submissions/v3/integration/submit/148698319/0ba16edc-d31f-4c93-ae58-38d8813f34d6";
+const BOOKING_URL = "https://meetings-eu1.hubspot.com/ai-sustained-ops"; // HubSpot meeting scheduler link — free 30-min consult
 const QUIZ_URL    = "https://ai-sustained.com/learn/score/";
 // ================================
 
@@ -351,23 +369,33 @@ function submitGate(){
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ err.style.display='block'; return; }
   err.style.display='none';
   if(typeof gtag==='function') gtag('event','generate_lead',{tier:tier.name,score:finalScore});
-  const payload = {
-    fields: [
-      { objectTypeId: "0-1", name: "firstname", value: name },
-      { objectTypeId: "0-1", name: "email", value: email },
-      { objectTypeId: "0-1", name: "ai_survival_score", value: String(finalScore) },
-      { objectTypeId: "0-1", name: "ai_survival_tier", value: tier.name }
-    ],
-    context: { pageUri: QUIZ_URL, pageName: "AI Survival Score" }
-  };
-  fetch(HUBSPOT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
-    .then(r=>{ if(!r.ok) r.json().then(e=>console.warn('HubSpot rejected submission:', e)); })
-    .catch(()=>{});
+  const coreFields = [
+    { objectTypeId: "0-1", name: "firstname", value: name },
+    { objectTypeId: "0-1", name: "email", value: email }
+  ];
+  const fullFields = coreFields.concat([
+    { objectTypeId: "0-1", name: "ai_survival_score", value: String(finalScore) },
+    { objectTypeId: "0-1", name: "ai_survival_tier", value: tier.name }
+  ]);
+  const ctx = { context: { pageUri: QUIZ_URL, pageName: "AI Survival Score" } };
+  function hsPost(fields){
+    return fetch(HUBSPOT_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(Object.assign({fields}, ctx))});
+  }
+  hsPost(fullFields).then(r=>{
+    if(!r.ok){
+      r.json().then(e=>console.warn('HubSpot rejected full payload, retrying core fields:', e)).catch(()=>{});
+      return hsPost(coreFields).then(r2=>{
+        if(!r2.ok) r2.json().then(e=>console.error('HubSpot rejected core payload:', e)).catch(()=>{});
+      });
+    }
+  }).catch(err=>console.error('HubSpot network error:', err));
   renderResults();
   show('s-results');
 }
 
 function renderResults(){
+  document.getElementById('book-btn').href = BOOKING_URL;
   document.getElementById('tier-name').textContent = tier.name;
   document.getElementById('tier-name').className = 'tier-name '+tier.cls;
   const v = document.getElementById('verdict');

@@ -28,6 +28,8 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-L3WZNV09BB');
 </script>
+<!-- HubSpot tracking -->
+<script type="text/javascript" id="hs-script-loader" async defer src="https://js-eu1.hs-scripts.com/148698319.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -38,8 +40,12 @@ html{scroll-behavior:smooth}
 body{background:var(--forest);color:var(--cream);font-family:'Inter',sans-serif;line-height:1.6}
 body::before{content:"";display:block;height:3px;background:var(--acid);position:fixed;top:0;left:0;right:0;z-index:100}
 .wrap{max-width:960px;margin:0 auto;padding:40px 24px 100px}
-.masthead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:72px;flex-wrap:wrap;gap:12px}
-.wordmark{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--acid);text-decoration:none;letter-spacing:-0.01em}
+.masthead{display:flex;justify-content:space-between;align-items:center;margin-bottom:72px;flex-wrap:wrap;gap:14px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img.mark{height:40px;width:auto;display:block}
+.brand img.word{height:26px;width:auto;display:block}
+.byline{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-left:4px}
+@media(max-width:560px){.brand img.word{display:none}}
 .nav{display:flex;gap:22px}
 .nav a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);text-decoration:none}
 .nav a:hover,.nav a.on{color:var(--acid)}
@@ -91,11 +97,16 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4.5vw,40px)
 <div class="wrap">
 
 <header class="masthead">
-  <a class="wordmark" href="https://ai-sustained.com">AI Sustained.</a>
+  <a class="brand" href="https://ai-sustained.com">
+    <img class="mark" src="https://ai-sustained.com/ai_sustained_logo_mark.png" alt="AI Sustained">
+    <img class="word" src="https://ai-sustained.com/ai_sustained_wordmark.png" alt="AI Sustained — AI that survives Monday morning.">
+    <span class="byline">by Kevin Clubb</span>
+  </a>
   <nav class="nav">
-    <a href="https://ai-sustained.com">Home</a>
+    <a href="https://ai-sustained.com/#editorial">Editorial</a>
+    <a href="https://ai-sustained.com/#case-studies">Case studies</a>
     <a href="https://ai-sustained.com/learn/" class="on">Learn</a>
-    <a href="https://aisustained.substack.com">Newsletter</a>
+    <a href="https://aisustained.substack.com">Substack ↗</a>
   </nav>
 </header>
 
@@ -133,6 +144,18 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4.5vw,40px)
     <div class="pillar-card"><span class="tag">Pillar 03 · Scored in your assessment</span><h3>Tool Selection</h3><p>Building a small, deliberate stack instead of using whatever's nearest. Tested on real tasks, not headlines.</p></div>
     <div class="pillar-card"><span class="tag">Pillar 04 · Scored in your assessment</span><h3>Sustained Habits</h3><p>The pillar everyone fails. Making it stick past the novelty week — because the skill should be yours, not the tool's.</p></div>
   </div>
+</section>
+
+<!-- THE OFFER -->
+<section>
+  <p class="sec-label">The offer</p>
+  <h2>Three rungs. No lock-in.</h2>
+  <div class="steps">
+    <div class="step"><span class="num">RUNG 1 · FREE</span><h3>AI Survival Score</h3><p>Three minutes, twelve questions, an honest verdict. Start here — everything else is built on your result.</p></div>
+    <div class="step"><span class="num">RUNG 2 · FREE</span><h3>30-minute taster session</h3><p>We walk through your score together and pick the single fix with the biggest payoff for your work. No pitch, no slides.</p></div>
+    <div class="step"><span class="num">RUNG 3 · HALF PRICE</span><h3>90-minute working session</h3><p>Book it on the taster session and it's half price. We build the fix together on your actual work — you leave with it running.</p></div>
+  </div>
+  <div style="margin-top:28px"><a class="btn btn-ghost" href="https://meetings-eu1.hubspot.com/ai-sustained-ops" onclick="gtag('event','booking_click',{location:'offer_ladder'})">Skip ahead — book the free taster session</a></div>
 </section>
 
 <!-- MID CTA -->
