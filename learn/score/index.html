@@ -138,12 +138,12 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
   <p class="kicker">Free 3-minute assessment</p>
   <h1>What's your <span class="accent">AI Survival Score?</span></h1>
   <p class="deck">Most people's AI habits die by Monday morning. Twelve questions will tell you whether yours would survive — and exactly where they'd fail.</p>
-  <div class="meta-row">
+  <div class="meta-row" style="justify-content:center">
     <span class="meta-item"><b>12</b> questions</span>
     <span class="meta-item"><b>3</b> minutes</span>
     <span class="meta-item"><b>4</b> skill pillars scored</span>
   </div>
-  <button class="btn" onclick="startQuiz()">Get my score</button>
+  <div style="text-align:center"><button class="btn" onclick="startQuiz()">Get my score</button></div>
 </section>
 
 <!-- SCREEN: QUIZ -->
@@ -169,7 +169,7 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
       <label for="f-email">Email</label>
       <input type="email" id="f-email" autocomplete="email" required>
     </div>
-    <button class="btn" onclick="submitGate()">Show my score</button>
+    <div style="text-align:center"><button class="btn" onclick="submitGate()">Show my score</button></div>
     <p class="err" id="gate-err">That email doesn't look right — check and try again.</p>
     <p class="gate-note">No spam, no AI hype. Unsubscribe anytime. Your answers are only used to build your report.</p>
   </div>
