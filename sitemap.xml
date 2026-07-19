@@ -6,24 +6,6 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://ai-sustained.com/learn/</loc>
-    <lastmod>2026-07-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://ai-sustained.com/learn/score/</loc>
-    <lastmod>2026-07-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://ai-sustained.com/learn/programme/</loc>
-    <lastmod>2026-07-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://ai-sustained.com/case-studies/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -47,20 +29,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ai-sustained.com/advertise/</loc>
-    <lastmod>2026-07-18</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://ai-sustained.com/learn/terms/</loc>
-    <lastmod>2026-07-18</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
     <loc>https://ai-sustained.com/privacy/</loc>
-    <lastmod>2026-07-18</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -127,6 +96,12 @@
   <url>
     <loc>https://ai-sustained.com/articles/gpt-56-sol-vs-fable-5/</loc>
     <lastmod>2026-07-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-sustained.com/articles/kimi-k3-open-vs-frontier/</loc>
+    <lastmod>2026-07-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
