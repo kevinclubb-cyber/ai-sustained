@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<!--
+    AI Sustained · Issue 012 · The Free One That Scared the Expensive Ones
+    Published: 19th July 2026
+    Live URL: https://ai-sustained.com/articles/kimi-k3-open-vs-frontier/
+-->
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L3WZNV09BB');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open vs Frontier: The Free AI That Scared the Expensive Ones — AI Sustained · Issue 012</title>
+    <meta name="description" content="China's Moonshot AI just released Kimi K3 — the biggest 'open' AI model ever built, at a fraction of the price of ChatGPT's Sol and Claude's Fable 5. What 'open' vs 'frontier' actually means, in plain English.">
+    <meta name="keywords" content="Kimi K3, Moonshot AI, open weights, open model, frontier model, GPT-5.6 Sol, Claude Fable 5, AI pricing, open source AI, AI Sustained, Kevin Clubb">
+    <meta name="author" content="Kevin Clubb">
+    <link rel="canonical" href="https://ai-sustained.com/articles/kimi-k3-open-vs-frontier/">
+    <meta property="og:title" content="Open vs Frontier: The Free AI That Scared the Expensive Ones — AI Sustained · Issue 012">
+    <meta property="og:description" content="Kimi K3 is the biggest open AI model ever — at roughly half the price of ChatGPT's Sol and a third of Claude's Fable 5. Here's what 'open' vs 'frontier' means, in plain English.">
+    <meta property="og:url" content="https://ai-sustained.com/articles/kimi-k3-open-vs-frontier/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AI Sustained">
+    <meta property="og:image" content="https://ai-sustained.com/articles/kimi-k3-open-vs-frontier/cover.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Open vs Frontier: The Free AI That Scared the Expensive Ones — AI Sustained · Issue 012">
+    <meta name="twitter:description" content="Kimi K3: the biggest open AI model ever, at a fraction of frontier prices. What 'open' vs 'frontier' actually means, in plain English.">
+    <meta name="twitter:image" content="https://ai-sustained.com/articles/kimi-k3-open-vs-frontier/cover.png">
+    <meta name="theme-color" content="#1B4332">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Open vs Frontier: The Free AI That Scared the Expensive Ones",
+      "alternativeHeadline": "China's Moonshot AI just shipped the biggest open model ever built — at a fraction of the price of the closed frontier. Here's what 'open' actually means.",
+      "author": { "@type": "Person", "name": "Kevin Clubb", "jobTitle": "Senior Business Analyst" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "AI Sustained",
+        "logo": { "@type": "ImageObject", "url": "https://ai-sustained.com/ai_sustained_logo_mark.png" }
+      },
+      "datePublished": "2026-07-19",
+      "dateModified": "2026-07-19",
+      "description": "China's Moonshot AI released Kimi K3, the largest open-weight AI model to date, priced far below ChatGPT's Sol and Claude's Fable 5. A plain-English guide to open vs frontier models and what the price gap means for ordinary users.",
+      "keywords": "Kimi K3, Moonshot AI, open weights, frontier model, GPT-5.6 Sol, Claude Fable 5, AI pricing, open source AI",
+      "image": "https://ai-sustained.com/articles/kimi-k3-open-vs-frontier/cover.png",
+      "articleSection": "Open Models",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ai-sustained.com/articles/kimi-k3-open-vs-frontier/" }
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1B4332;
+            --paper: #F2ECD9;
+            --acid: #E8FF3A;
+            --mint: #D8F3DC;
+            --ink: #0A0F0C;
+            --coral: #FF8C61;
+            --sky: #7DD3FC;
+            --paper-06: rgba(242, 236, 217, 0.06);
+            --paper-10: rgba(242, 236, 217, 0.10);
+            --paper-18: rgba(242, 236, 217, 0.18);
+            --paper-30: rgba(242, 236, 217, 0.30);
+            --paper-60: rgba(242, 236, 217, 0.60);
+            --paper-80: rgba(242, 236, 217, 0.80);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--forest);
+            color: var(--paper);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: inherit; text-decoration: none; }
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            color: var(--paper);
+            letter-spacing: -0.015em;
+        }
+        em, .italic { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--acid); }
+        p { color: var(--mint); margin-bottom: 1.1em; }
+        p strong { color: var(--paper); font-weight: 600; }
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+        .wide { max-width: 1280px; }
+
+        /* ===== NAV ===== */
+        nav.brand-nav {
+            background: rgba(27, 67, 50, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--paper-30);
+            border-top: 4px solid var(--acid);
+            position: sticky; top: 0; z-index: 50;
+        }
+        .nav-inner {
+            max-width: 1280px; margin: 0 auto;
+            padding: 14px 32px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--mint);
+        }
+        .nav-brand { color: var(--paper); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: -0.01em; }
+        .nav-brand em { font-size: 16px; }
+        .nav-links { display: flex; gap: 22px; }
+        .nav-links a { color: var(--mint); border-bottom: 1px solid transparent; padding-bottom: 2px; transition: all 0.15s; }
+        .nav-links a:hover { color: var(--acid); border-bottom-color: var(--acid); }
+        @media (max-width: 720px) { .nav-links { display: none; } }
+
+        /* ===== HERO ===== */
+        .hero { padding: 90px 0 60px; position: relative; overflow: hidden; }
+        .hero::before {
+            content: ''; position: absolute;
+            top: -120px; right: -120px;
+            width: 460px; height: 460px;
+            border: 64px solid var(--paper);
+            border-radius: 50%;
+            opacity: 0.05; z-index: 0;
+        }
+        .hero-inner { position: relative; z-index: 1; }
+        .issue-pill {
+            display: inline-flex; align-items: center; gap: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 12px;
+            letter-spacing: 0.26em; text-transform: uppercase;
+            color: var(--acid); margin-bottom: 24px;
+        }
+        .issue-pill::before { content: ''; width: 44px; height: 2px; background: var(--acid); }
+        .hero h1 { font-size: clamp(44px, 6.6vw, 88px); line-height: 0.99; margin-bottom: 28px; max-width: 960px; }
+        .hero h1 em { font-size: inherit; }
+        .hero-deck {
+            font-family: 'Fraunces', serif; font-style: italic;
+            font-weight: 400; font-size: 23px; line-height: 1.5;
+            color: var(--mint); max-width: 740px;
+        }
+        .hero-deck strong { color: var(--paper); font-weight: 500; }
+        .hero-figure { margin-top: 44px; border: 1px solid var(--paper-18); border-radius: 8px; overflow: hidden; max-width: 1016px; }
+        .hero-figure img { width: 100%; display: block; }
+        .byline {
+            margin-top: 40px;
+            display: flex; gap: 22px; flex-wrap: wrap; align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px; font-weight: 600;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--mint);
+        }
+        .byline strong { color: var(--acid); font-weight: 600; }
+        .byline .dot { width: 5px; height: 5px; background: var(--acid); border-radius: 50%; }
+
+        /* ===== STAT GRID ===== */
+        .stats { padding: 24px 0 64px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+        @media (max-width: 880px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+        .stat { background: var(--paper-06); border: 1px solid var(--paper-18); border-radius: 6px; padding: 24px 22px; position: relative; overflow: hidden; }
+        .stat::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--acid); }
+        .stat-value { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 34px; color: var(--paper); line-height: 1; letter-spacing: -0.01em; margin-bottom: 10px; }
+        .stat-label { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); }
+        .stat-sub { color: var(--mint); font-size: 13px; margin-top: 10px; line-height: 1.4; }
+
+        /* ===== SECTIONS ===== */
+        section.body-section { padding: 64px 0; border-top: 1px solid var(--paper-30); }
+        section.body-section h2 { font-size: clamp(32px, 4vw, 48px); margin-bottom: 18px; max-width: 880px; }
+        section.body-section h2 em { font-size: inherit; }
+        section.body-section .section-kicker { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--acid); margin-bottom: 14px; }
+        section.body-section h3 { font-size: 22px; margin: 32px 0 12px; color: var(--paper); }
+        section.body-section p { max-width: 760px; font-size: 17px; }
+        section.body-section ul { max-width: 760px; padding-left: 0; list-style: none; margin-bottom: 1.1em; }
+        section.body-section li { color: var(--mint); font-size: 17px; margin-bottom: 12px; padding-left: 28px; position: relative; line-height: 1.55; }
+        section.body-section li::before { content: '→'; position: absolute; left: 0; top: 0; color: var(--acid); font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+        section.body-section li strong { color: var(--paper); }
+
+        /* ===== ANALOGY CARDS (two columns) ===== */
+        .twin { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 32px 0; max-width: 980px; }
+        @media (max-width: 720px) { .twin { grid-template-columns: 1fr; } }
+        .twin-card { background: var(--paper-06); border: 1px solid var(--paper-18); border-radius: 6px; padding: 26px; position: relative; }
+        .twin-card .tag { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+        .twin-card h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 21px; color: var(--paper); margin: 0 0 14px; }
+        .twin-card p { color: var(--mint); font-size: 15px; max-width: none; margin-bottom: 0; }
+        .twin-card p strong { color: var(--paper); }
+
+        /* ===== MEET-THREE GRID ===== */
+        .buys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 32px 0; max-width: 980px; }
+        @media (max-width: 720px) { .buys { grid-template-columns: 1fr; } }
+        .buy { background: var(--paper-06); border: 1px solid var(--paper-18); border-radius: 6px; padding: 22px; position: relative; }
+        .buy-num { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 10px; }
+        .buy-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px; color: var(--paper); margin-bottom: 6px; }
+        .buy-price { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--sky); margin-bottom: 14px; }
+        .buy-list { list-style: none; padding: 0; margin: 0; }
+        .buy-list li { color: var(--mint); font-size: 14px; line-height: 1.5; padding-left: 18px; position: relative; margin-bottom: 8px; }
+        .buy-list li::before { content: '·'; position: absolute; left: 0; top: 0; color: var(--acid); font-weight: 700; }
+        .buy-list li strong { color: var(--paper); }
+
+        /* ===== COMPARE TABLE ===== */
+        .compare { margin: 28px 0; max-width: 980px; border: 1px solid var(--paper-18); border-radius: 6px; overflow: hidden; }
+        .compare-row { display: grid; grid-template-columns: 1.3fr 1fr 1fr 2fr; border-bottom: 1px solid var(--paper-18); }
+        .compare-row:last-child { border-bottom: none; }
+        .compare-row.header { background: var(--paper-10); font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--acid); }
+        .compare-cell { padding: 16px 18px; border-right: 1px solid var(--paper-18); font-size: 15px; color: var(--mint); line-height: 1.45; }
+        .compare-cell:last-child { border-right: none; }
+        .compare-cell strong { color: var(--paper); }
+        .compare-cell .win { color: var(--acid); }
+        @media (max-width: 720px) {
+            .compare-row { grid-template-columns: 1fr; }
+            .compare-cell { border-right: none; border-bottom: 1px solid var(--paper-18); }
+            .compare-row.header { display: none; }
+            .compare-cell:first-child { background: var(--paper-10); color: var(--acid); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
+        }
+
+        /* ===== PULL QUOTE ===== */
+        .pull { margin: 56px auto; max-width: 820px; padding: 36px 24px; border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid); text-align: center; }
+        .pull blockquote { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: clamp(24px, 3.2vw, 34px); line-height: 1.3; color: var(--paper); }
+        .pull blockquote em { color: var(--acid); }
+        .pull cite { display: block; margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-style: normal; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); }
+
+        /* ===== TACTICAL TAKEAWAY ===== */
+        .takeaway { margin: 64px 0; background: var(--ink); border: 1px solid var(--paper-18); border-radius: 8px; padding: 56px 48px; max-width: 980px; position: relative; overflow: hidden; }
+        .takeaway::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--acid); }
+        .takeaway-kicker { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--acid); margin-bottom: 18px; }
+        .takeaway h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(28px, 3.4vw, 40px); color: var(--paper); margin-bottom: 36px; letter-spacing: -0.015em; }
+        .takeaway h3 em { color: var(--acid); }
+        .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        @media (max-width: 720px) { .takeaway-grid { grid-template-columns: 1fr; } }
+        .takeaway-item .label { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+        .takeaway-item p { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: 18px; line-height: 1.45; color: var(--paper); max-width: none; }
+
+        /* ===== SURVIVAL SCORE CTA ===== */
+        .score-cta { margin: 48px auto 8px; max-width: 980px; background: var(--paper-06); border: 1px solid var(--acid); border-radius: 8px; padding: 32px 36px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 20px; flex-wrap: wrap; }
+        .score-cta .kicker { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px; }
+        .score-cta h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(22px, 2.6vw, 28px); color: var(--paper); letter-spacing: -0.015em; margin-bottom: 6px; }
+        .score-cta h3 em { color: var(--acid); }
+        .score-cta p { color: var(--mint); font-size: 15px; margin: 0 auto; max-width: 520px; }
+        .score-cta a.btn { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; background: var(--acid); color: var(--ink); padding: 16px 24px; border-radius: 4px; white-space: nowrap; transition: all 0.15s; }
+        .score-cta a.btn:hover { transform: translateY(-2px); }
+
+        /* ===== SUBSTACK CTA ===== */
+        .substack-cta { margin: 24px auto 16px; max-width: 980px; background: var(--acid); color: var(--ink); border-radius: 8px; padding: 32px 36px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 20px; flex-wrap: wrap; }
+        .substack-cta-text { flex: 1 1 320px; }
+        .substack-cta .kicker { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink); margin-bottom: 8px; }
+        .substack-cta h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(22px, 2.6vw, 30px); color: var(--ink); letter-spacing: -0.015em; margin-bottom: 6px; }
+        .substack-cta h3 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--forest); }
+        .substack-cta p { font-family: 'Inter', sans-serif; color: var(--ink); font-size: 15px; line-height: 1.5; margin: 0; max-width: none; }
+        .substack-cta a.btn { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; background: var(--ink); color: var(--acid); padding: 16px 24px; border-radius: 4px; border: 1px solid var(--ink); transition: all 0.15s; white-space: nowrap; }
+        .substack-cta a.btn:hover { background: var(--forest); color: var(--acid); border-color: var(--forest); }
+
+        /* ===== FOOTER ===== */
+        footer.brand-footer { border-top: 1px solid var(--paper-30); margin-top: 60px; padding: 48px 0; }
+        .footer-inner { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-60); }
+        .footer-inner a { color: var(--mint); }
+        .footer-inner a:hover { color: var(--acid); }
+        .hashtags { margin-top: 22px; max-width: 880px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--paper-60); letter-spacing: 0.06em; line-height: 1.7; word-spacing: 6px; }
+        .hashtags span { color: var(--acid); }
+        .disclaimer { max-width: 760px; margin-top: 20px; font-size: 12.5px; color: var(--paper-60); line-height: 1.55; }
+    </style>
+</head>
+<body>
+
+<nav class="brand-nav">
+    <div class="nav-inner">
+        <div style="display:flex;align-items:center;">
+            <span class="nav-brand">AI Sustained <em>·</em> Issue 012</span>
+        </div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/articles/">Articles</a>
+            <a href="https://aisustained.substack.com" target="_blank" rel="noopener">Substack</a>
+        </div>
+    </div>
+</nav>
+
+<article>
+
+<header class="hero">
+    <div class="container hero-inner">
+        <div class="issue-pill">Issue 012 · 19 July 2026 · Open Models</div>
+        <h1>The free one that <em>scared</em> the expensive ones.</h1>
+        <p class="hero-deck">China's <strong>Moonshot AI</strong> just released <strong>Kimi K3</strong> — the biggest "open" AI model ever built, and it's roughly <strong>half the price of ChatGPT's Sol</strong> and <strong>a third of Claude's Fable 5</strong>. Two words explain the whole story: <em>open</em> and <em>frontier</em>. Nobody tells you what they mean. Let's fix that.</p>
+        <figure class="hero-figure">
+            <img src="cover.png" alt="AI Sustained Issue 012 cover: a bright open padlock spilling particles of light, with two dim locked padlocks beside it — the open model set free next to the closed frontier models.">
+        </figure>
+        <div class="byline">
+            <span>By <strong>Kevin Clubb</strong></span>
+            <span class="dot"></span>
+            <span>Senior Business Analyst</span>
+            <span class="dot"></span>
+            <span>Reading time <strong>9 min</strong></span>
+            <span class="dot"></span>
+            <span>Tier <strong>Open Models</strong></span>
+        </div>
+    </div>
+</header>
+
+<section class="container">
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-value">$3 / $15</div>
+            <div class="stat-label">Kimi K3 price · per M in/out</div>
+            <div class="stat-sub">The number the other two didn't want you to see</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">~½ &amp; ⅓</div>
+            <div class="stat-label">vs Sol &amp; Fable</div>
+            <div class="stat-sub">Half the price of Sol, a third of Fable, on output</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">2.8T</div>
+            <div class="stat-label">Parameters</div>
+            <div class="stat-sub">The largest open-weight model shipped to date</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">1M</div>
+            <div class="stat-label">Context window</div>
+            <div class="stat-sub">Holds ~8 novels in its head at once</div>
+        </div>
+    </div>
+</section>
+
+<section class="body-section">
+    <div class="container">
+        <div class="section-kicker">01 · What happened</div>
+        <h2>A Chinese lab gave away its <em>best model</em>.</h2>
+        <p>On <strong>16 July 2026</strong>, a Beijing-based lab called <strong>Moonshot AI</strong> released <strong>Kimi K3</strong> — and then said it would hand over the actual model, free, for anyone to download. The full files are due by the end of the month.</p>
+        <p>It is, by a distance, the biggest "open" AI model anyone has released: <strong>2.8 trillion parameters</strong> (the industry's rough measure of size), a memory that holds about <strong>eight novels' worth</strong> of text at once, and early scores that <strong>match or beat the best American models on some coding tasks</strong>.</p>
+        <p>The part that made OpenAI and Anthropic sit up wasn't the size. It was the price. Kimi K3 does frontier-grade work for <strong>a fraction of what the closed models charge</strong>. To understand why that matters, you need the two words in the headline.</p>
+    </div>
+</section>
+
+<section class="body-section">
+    <div class="container">
+        <div class="section-kicker">02 · The one idea to take away</div>
+        <h2>"Open" vs "frontier", in <em>plain English</em>.</h2>
+        <p>These aren't opposites — a model can be both. But in everyday chat, people use them as shorthand for two very different ways of buying AI. Here's the simplest version.</p>
+        <div class="twin">
+            <div class="twin-card">
+                <div class="tag">Frontier = the restaurant</div>
+                <h3>You rent access. Never the recipe.</h3>
+                <p><strong>A frontier model</strong> is one of the newest, cleverest models going. The company keeps it locked on its own computers and lets you pay to use it — through an app or a subscription. You get the meal; you never see the kitchen. <strong>ChatGPT's Sol and Claude's Fable 5</strong> work this way. Brilliant, convenient, and you pay per visit — forever.</p>
+            </div>
+            <div class="twin-card">
+                <div class="tag">Open = the recipe</div>
+                <h3>They hand you the actual model.</h3>
+                <p><strong>An open model</strong> (properly, "open-weight") is one where the company gives away the finished model file itself. You can download it, run it on your own computers, look inside it, and change it — no per-use fee if you host it yourself. <strong>Kimi K3</strong> works this way. You're handed the recipe <em>and</em> the ingredients. Your kitchen, your rules.</p>
+            </div>
+        </div>
+        <p>That's the whole distinction. Frontier is a service you rent. Open is a thing you own. Kimi K3's trick is being <strong>open</strong> while performing close to the rented <strong>frontier</strong> — which, until recently, was meant to be impossible.</p>
+        <p>One honest caveat: "open-weight" isn't quite the same as fully "open-source". You get the finished model, but not always the recipe notes — the exact data and code used to train it. Close enough for almost everyone; worth knowing if a purist corrects you at a party.</p>
+    </div>
+</section>
+
+<section class="body-section">
+    <div class="container">
+        <div class="section-kicker">03 · The price</div>
+        <h2>How much <em>cheaper</em>, exactly?</h2>
+        <p>AI is sold by the <strong>"token"</strong> — a chunk of text worth roughly three-quarters of a word. <strong>"In" (input)</strong> is everything you send the model: your question, plus any document, email thread or chat history you paste in. <strong>"Out" (output)</strong> is everything it writes back. You're billed for both, quoted per <strong>million tokens</strong> — and output almost always costs more, because writing is harder work for the machine than reading.</p>
+        <p>Whether that price tag matters to you at all depends entirely on <em>how</em> you use these models:</p>
+        <div class="twin">
+            <div class="twin-card">
+                <div class="tag">If you just use the app</div>
+                <h3>You'll probably never see a token.</h3>
+                <p>On a normal <strong>£20-a-month ChatGPT, Claude or Kimi subscription</strong>, the per-token price is hidden — your flat fee covers it. These numbers live behind the scenes. As a beginner, treat "in/out per M" as <strong>trivia</strong>: handy for understanding the news, irrelevant to your actual bill.</p>
+            </div>
+            <div class="twin-card">
+                <div class="tag">If you're building or "vibing" apps</div>
+                <h3>Now every word has a meter running.</h3>
+                <p>The moment you wire a model into your own tool or script — through its <strong>API</strong> — the subscription vanishes and you pay per token instead. Every prompt you send and every answer it writes is metered. Paste a big document into a loop that runs a thousand times and <strong>output is where the bill lands</strong>. This is exactly where Kimi being half-price stops being trivia and becomes real money.</p>
+            </div>
+        </div>
+        <p>Here are the three, side by side.</p>
+        <div class="compare">
+            <div class="compare-row header">
+                <div class="compare-cell">Model</div>
+                <div class="compare-cell">In (per M)</div>
+                <div class="compare-cell">Out (per M)</div>
+                <div class="compare-cell">In one line</div>
+            </div>
+            <div class="compare-row">
+                <div class="compare-cell"><strong>Kimi K3</strong> <span class="win">· open</span></div>
+                <div class="compare-cell"><strong>$3</strong></div>
+                <div class="compare-cell"><strong>$15</strong></div>
+                <div class="compare-cell">The cheap, download-it-yourself one. Frontier-adjacent work at value prices.</div>
+            </div>
+            <div class="compare-row">
+                <div class="compare-cell"><strong>GPT-5.6 Sol</strong> <span style="color:var(--paper-60)">· frontier</span></div>
+                <div class="compare-cell">$5</div>
+                <div class="compare-cell">$30</div>
+                <div class="compare-cell">ChatGPT's new big model. Fast, polished. Twice Kimi's price on output.</div>
+            </div>
+            <div class="compare-row">
+                <div class="compare-cell"><strong>Claude Fable 5</strong> <span style="color:var(--paper-60)">· frontier</span></div>
+                <div class="compare-cell">$10</div>
+                <div class="compare-cell">$50</div>
+                <div class="compare-cell">The premium brain. Top-tier on the hardest jobs — and priced like it.</div>
+            </div>
+        </div>
+        <p>Put simply: on the output you actually pay for, <strong>Kimi K3 is about half the price of Sol and roughly a third of the price of Fable</strong>. In money you can picture — a full novel's worth of AI writing (about 100,000 words) costs roughly <strong>$2 on Kimi K3, $4 on Sol, and nearly $7 on Fable</strong>. And if you run Kimi on your own kit, the per-use fee drops to <strong>your electricity bill</strong>.</p>
+    </div>
+</section>
+
+<div class="pull">
+    <div class="container">
+        <blockquote>"Frontier is a service you <em>rent</em>. Open is a thing you <em>own</em>. Kimi K3 is the first time owning came this close to renting."</blockquote>
+        <cite>— AI Sustained · Issue 012</cite>
+    </div>
+</div>
+
+<section class="body-section">
+    <div class="container">
+        <div class="section-kicker">04 · Meet the three</div>
+        <h2>The whole field, on <em>one page</em>.</h2>
+        <p>If you remember nothing else, remember these three sentences.</p>
+        <div class="buys">
+            <div class="buy">
+                <div class="buy-num">01 · The open one</div>
+                <div class="buy-name">Kimi K3</div>
+                <div class="buy-price">Moonshot AI · China · $3 / $15</div>
+                <ul class="buy-list">
+                    <li><strong>What it is:</strong> the biggest give-it-away model ever made.</li>
+                    <li><strong>Why it matters:</strong> near-frontier quality at pocket-money prices.</li>
+                    <li><strong>The catch:</strong> it's a Chinese model — mind where your data goes.</li>
+                    <li><strong>Best for:</strong> high volume, tight budgets, running your own setup.</li>
+                </ul>
+            </div>
+            <div class="buy">
+                <div class="buy-num">02 · The all-rounder</div>
+                <div class="buy-name">GPT-5.6 Sol</div>
+                <div class="buy-price">OpenAI · USA · $5 / $30</div>
+                <ul class="buy-list">
+                    <li><strong>What it is:</strong> ChatGPT's newest large model.</li>
+                    <li><strong>Why it matters:</strong> fast, polished, huge memory, mid-priced.</li>
+                    <li><strong>The catch:</strong> rented only — you never hold the model.</li>
+                    <li><strong>Best for:</strong> most people, most days. The safe default.</li>
+                </ul>
+            </div>
+            <div class="buy">
+                <div class="buy-num">03 · The specialist</div>
+                <div class="buy-name">Claude Fable 5</div>
+                <div class="buy-price">Anthropic · USA · $10 / $50</div>
+                <ul class="buy-list">
+                    <li><strong>What it is:</strong> the premium, top-of-the-range brain.</li>
+                    <li><strong>Why it matters:</strong> still the best at genuinely hard work.</li>
+                    <li><strong>The catch:</strong> the dearest of the three — when you can get it.*</li>
+                    <li><strong>Best for:</strong> the tricky jobs where being right is worth the money.</li>
+                </ul>
+            </div>
+        </div>
+        <p style="font-size:13.5px;color:var(--paper-60);max-width:760px;">*Fable 5 has been under a US export-control suspension since mid-June — see our earlier issue. Prices shown are its list rate; availability comes and goes.</p>
+    </div>
+</section>
+
+<section class="body-section">
+    <div class="container">
+        <div class="section-kicker">05 · The "run it yourself" question</div>
+        <h2>Can I run Kimi on my <em>laptop</em>?</h2>
+        <p>Short answer: <strong>no — and it's not close.</strong> This is the bit that gets lost when people say "open means free to run yourself."</p>
+        <p>A basic HP or Dell laptop — even a nice, new, expensive one — cannot run Kimi K3. The model is <strong>2.8 trillion parameters</strong>. To run it you'd need its full brain loaded across a rack of specialist data-centre chips — the kind that cost more than a car <em>each</em>, and you'd need dozens of them — plus terabytes of fast memory. In practice that's a <strong>cluster worth hundreds of thousands of pounds</strong>, humming away in a server room. Not a laptop. Not a gaming PC. Not even a single powerful server.</p>
+        <h3>So what can a normal laptop run?</h3>
+        <p>Smaller open models — and only those. With free tools like <strong>Ollama</strong> or <strong>LM Studio</strong>, a modern laptop with a decent graphics chip (or a Mac with plenty of memory) can happily run open models in the <strong>8-to-20-billion</strong> range: fine for private, offline tinkering, drafting and note-summarising. That's <em>billion</em>. Kimi K3 is 2,800 billion. Different sport, different stadium.</p>
+        <p>So for you, in real life, "open" doesn't mean you download Kimi and run it at home. It means you <strong>still rent it online</strong> — through Moonshot's own site and apps, or a reseller like OpenRouter — the same way you'd use ChatGPT. "Download it and run it yourself" is a headline for cloud companies and big IT departments, not people with laptops.</p>
+    </div>
+</section>
+
+<section class="body-section">
+    <div class="container">
+        <div class="section-kicker">06 · Your data</div>
+        <h2>Can I feed it my <em>company data</em>?</h2>
+        <p>Careful here — this is the question that actually matters, and it splits into two: <strong>where does my data go</strong>, and <strong>will it be used to train the model</strong>?</p>
+        <ul>
+            <li><strong>Frontier models (ChatGPT, Claude), on paid business or API plans:</strong> by default they <strong>don't</strong> train on your data, and you get retention controls and a proper contract. You have a paper trail and a company to hold to account. (Free consumer tiers can be different — there's usually a training toggle worth checking.)</li>
+            <li><strong>Kimi via Moonshot's site or API:</strong> it's a Chinese company, so your data travels to and sits on their servers, under their policies and their country's laws. What they do with it — training, retention — is theirs to set and change. <strong>Verify their terms before sending anything sensitive, and assume less control by default.</strong> Plenty of UK and EU firms won't send company data there on principle, whatever the price.</li>
+        </ul>
+        <p>Here's the twist, and the one genuine data advantage of "open": <strong>if</strong> a company self-hosts the weights on its own machines (that expensive cluster from the last section), the data never leaves the building. Nothing is sent to anyone. Total control. But you only get that prize if you can afford the hardware to claim it — which rules out almost everyone reading this.</p>
+        <p style="font-size:13.5px;color:var(--paper-60);max-width:760px;">Data policies change often and vary by plan and region — this is general guidance, not a substitute for reading the provider's current terms. When in doubt, don't paste it in.</p>
+    </div>
+</section>
+
+<section class="body-section">
+    <div class="container">
+        <div class="section-kicker">07 · Does this matter to you yet?</div>
+        <h2>Should a beginner care — or <em>steer clear</em>?</h2>
+        <p>If you're just starting out, the honest truth is that open vs frontier <strong>barely matters to you yet</strong> — and that's a relief, not a gap in your knowledge.</p>
+        <p>Stick with the polished frontier apps: ChatGPT, Claude, Gemini. They're the safe default — reliable, well-explained, sensible data terms on a paid plan, and you never have to think about tokens or hardware. Open models like Kimi K3 only start to matter when one of three things becomes true:</p>
+        <ul>
+            <li><strong>You're building something</strong> and the per-token bill starts to hurt.</li>
+            <li><strong>Your data legally can't leave your own systems</strong>, so you need to host the model yourself.</li>
+            <li><strong>You genuinely want to tinker</strong> under the bonnet.</li>
+        </ul>
+        <p>None of those are day-one concerns. So is it "safer to stay away"? Not because open models are dangerous — a model is a model. The real safety question was never open vs frontier; it's <strong>who sees your data</strong>. Don't paste sensitive or company information into <em>any</em> model — open or closed, Chinese or American — until you've checked what the provider does with it. Get that one habit right and you can walk up to any of them with confidence.</p>
+    </div>
+</section>
+
+<section class="body-section">
+    <div class="container">
+        <div class="section-kicker">08 · The bigger picture</div>
+        <h2>What this does to the <em>market</em>.</h2>
+        <p>You probably won't switch to Kimi K3 tomorrow — and that's fine. But the release changes the weather, and the weather reaches your subscription.</p>
+        <ul>
+            <li><strong>Prices only go one way now.</strong> When a give-it-away model performs this close to the paid ones, the paid ones have to justify the gap — usually by getting cheaper or more generous. Good news for your bill.</li>
+            <li><strong>"Which is best?" matters less every month.</strong> The top few models are now separated by a coat of paint. Pick the app whose answers you enjoy reading. That's a fair way to choose.</li>
+            <li><strong>The free tiers get better too.</strong> To compete with "free and nearly as good," the polished apps you already use tend to widen their free allowances. You benefit without lifting a finger.</li>
+        </ul>
+        <p>And the usual health warning: most of this week's "beats the Americans" claims are <strong>early and largely self-reported</strong>. Independent testers take a couple of weeks to catch up. Believe the charts then, not now.</p>
+    </div>
+</section>
+
+<section class="container">
+    <div class="takeaway">
+        <div class="takeaway-kicker">Tactical Takeaway · for normal people</div>
+        <h3>Three things <em>worth doing</em> this week.</h3>
+        <div class="takeaway-grid">
+            <div class="takeaway-item">
+                <div class="label">01 · Learn the two words</div>
+                <p>"Open" means you can hold the model; "frontier" means you rent the newest one. That single distinction explains 90% of the AI news you'll read this year.</p>
+            </div>
+            <div class="takeaway-item">
+                <div class="label">02 · Don't auto-renew</div>
+                <p>Before your next AI subscription renews, spend one afternoon trying a rival on your real work. The gap is smaller than the marketing — and so might be your bill.</p>
+            </div>
+            <div class="takeaway-item">
+                <div class="label">03 · Wait a fortnight</div>
+                <p>Every launch-week "we beat everyone" chart is the maker marking its own homework. Independent results land in about two weeks. Judge it then.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container">
+    <div class="score-cta">
+        <div>
+            <div class="kicker">Before you go</div>
+            <h3>Would your AI habits <em>survive Monday</em>?</h3>
+            <p>Twelve questions, three minutes. Find out whether you're getting your money's worth from the AI you already pay for — whichever one you picked.</p>
+        </div>
+        <a class="btn" href="https://ai-sustained.com/learn/score" target="_blank" rel="noopener">Get my score →</a>
+    </div>
+</section>
+
+<section class="body-section">
+    <div class="container">
+        <div class="section-kicker">Sources</div>
+        <h2>The <em>evidence</em> trail.</h2>
+        <ul>
+            <li>Moonshot AI — Kimi K3 release, 16 July 2026 (model card, pricing)</li>
+            <li>MarkTechPost, VentureBeat, Tom's Hardware — Kimi K3 launch coverage, July 2026</li>
+            <li>OpenAI — GPT-5.6 (Luna / Terra / Sol) pricing, July 2026</li>
+            <li>Anthropic — Claude Fable 5 pricing and availability, June 2026</li>
+            <li>OpenRouter — public per-token pricing, July 2026</li>
+        </ul>
+        <p class="disclaimer">Launch-week performance claims are largely the makers' own and not yet independently verified — treat them as directional. Pricing is accurate to publication and changes often; check the providers' live pages before budgeting.</p>
+    </div>
+</section>
+
+<section class="container">
+    <div class="substack-cta">
+        <div class="substack-cta-text">
+            <div class="kicker">Companion long-form</div>
+            <h3>Read the <em>technical Substack</em> version.</h3>
+            <p>Same story with the engineering under the bonnet — the mixture-of-experts trick, the export-control backdrop, and the full price maths.</p>
+        </div>
+        <a class="btn" href="https://aisustained.substack.com" target="_blank" rel="noopener">Read on Substack →</a>
+    </div>
+</section>
+
+<footer class="brand-footer">
+    <div class="container wide">
+        <div class="footer-inner">
+            <div>AI Sustained · Issue 012 · 19 July 2026</div>
+            <div><a href="https://aisustained.substack.com" target="_blank" rel="noopener">Read this issue on Substack</a> · <a href="/">ai-sustained.com</a></div>
+        </div>
+        <div class="hashtags">
+            <span>#KimiK3</span> <span>#MoonshotAI</span> <span>#OpenWeights</span> <span>#OpenSourceAI</span> <span>#FrontierModels</span> <span>#GPT56</span> <span>#ClaudeFable5</span> <span>#AIPricing</span> <span>#AIEconomics</span> <span>#OpenVsClosed</span> <span>#FutureOfWork</span> <span>#AIForEveryone</span> <span>#UKTech</span> <span>#AISustained</span> <span>#KevinClubb</span>
+        </div>
+    </div>
+</footer>
+
+</article>
+
+</body>
+</html>
