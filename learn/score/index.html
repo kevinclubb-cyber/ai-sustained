@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>What's Your AI Survival Score? | AI Sustained</title>
 <meta name="description" content="Find out in 3 minutes whether your AI habits would survive Monday morning. A free 12-question assessment from AI Sustained.">
-<meta name="keywords" content="AI assessment, AI skills score, AI readiness, ChatGPT skills, Claude AI, Gemini, AI Sustained, AI habits, prompting skills">
-<meta name="author" content="Kevin Clubb &#x2014; AI Sustained">
+<meta name="keywords" content="AI assessment, AI skills score, AI readiness, AI Sustained, AI habits, prompting skills">
+<meta name="author" content="Kevin Clubb — AI Sustained">
 <meta property="og:title" content="What's Your AI Survival Score?">
 <meta property="og:description" content="Find out in 3 minutes whether your AI habits would survive Monday morning.">
 <meta property="og:type" content="website">
@@ -17,6 +17,22 @@
 <meta property="og:image" content="https://ai-sustained.com/learn/og-learn.png">
 <link rel="canonical" href="https://ai-sustained.com/learn/score/">
 <meta name="robots" content="index, follow">
+<!-- Research mode detection — must run before render -->
+<script>
+const RESEARCH_SOURCES = ['li','rd','sub','share'];
+function getQuizSource(){
+  try{
+    const fromUrl = new URLSearchParams(location.search).get('src');
+    if(fromUrl && RESEARCH_SOURCES.includes(fromUrl)){
+      sessionStorage.setItem('quiz_src', fromUrl);
+      return fromUrl;
+    }
+    return sessionStorage.getItem('quiz_src') || '';
+  }catch(e){ return ''; }
+}
+const quizSource = getQuizSource();
+if(quizSource) document.documentElement.classList.add('research-mode');
+</script>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
 <script>
@@ -86,7 +102,6 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 .field input{width:100%;background:var(--forest);border:1px solid rgba(242,236,217,.18);border-radius:5px;padding:14px 15px;color:var(--cream);font-family:'Inter',sans-serif;font-size:16px}
 .field input:focus{outline:none;border-color:var(--acid)}
 .gate-note{font-size:12.5px;color:var(--sage);margin-top:16px;line-height:1.55}
-.gate-note a{color:var(--acid)}
 .err{color:var(--coral);font-size:13px;margin-top:10px;display:none}
 /* results */
 .score-hero{text-align:center;margin:12px 0 44px}
@@ -113,19 +128,18 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 /* takeaway */
 .next{background:var(--ink);border-radius:8px;padding:34px 30px;margin-bottom:40px}
 .next h3{color:var(--acid)}
-.tk-point{display:grid;grid-template-columns:150px 1fr;column-gap:18px;margin-bottom:0;padding:12px 0;border-bottom:1px solid rgba(242,236,217,.08);align-items:start}
-.tk-point:last-of-type{border-bottom:none}
-.tk-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--acid);padding-top:4px}
+.tk-point{display:flex;gap:16px;margin-bottom:18px}
+.tk-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--acid);white-space:nowrap;padding-top:4px}
 .tk-text{font-family:'Fraunces',serif;font-style:italic;font-size:16.5px;line-height:1.5}
-@media(max-width:480px){.tk-point{grid-template-columns:1fr;row-gap:4px}}
-/* uniform buttons on the results screen */
-#s-results .btn{width:100%;max-width:320px;text-align:center;padding:15px 20px;font-size:15px}
-.level-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);margin-bottom:8px}
 .cta-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:40px}
 .share-box{border:1px dashed rgba(242,236,217,.25);border-radius:8px;padding:24px;text-align:center}
 .share-box p{font-size:13.5px;color:var(--sage);margin-bottom:16px}
 .footer{margin-top:64px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage)}
 .footer a{color:var(--acid);text-decoration:none}
+/* research mode */
+.research-mode .commercial{display:none !important}
+.research-note{display:none}
+.research-mode .research-note{display:block}
 </style>
 </head>
 <body>
@@ -134,7 +148,7 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 <header class="masthead">
   <a class="brand" href="https://ai-sustained.com">
     <img class="mark" src="/learn/logo_mark_white.png" alt="AI Sustained">
-    <img class="word" src="/learn/wordmark_white.png" alt="AI Sustained &#x2014; AI that survives Monday morning.">
+    <img class="word" src="/learn/wordmark_white.png" alt="AI Sustained — AI that survives Monday morning.">
   </a>
   <span class="tagline">AI that survives Monday morning</span>
 </header>
@@ -143,7 +157,7 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 <section class="screen active" id="s-landing" aria-label="Start the assessment">
   <p class="kicker">Free 3-minute assessment</p>
   <h1>What's your <span class="accent">AI Survival Score?</span></h1>
-  <p class="deck">Most people's AI habits die by Monday morning. Twelve questions will tell you whether yours would survive &#x2014; and exactly where they'd fail. No AI experience required &#x2014; honest answers beat impressive ones.</p>
+  <p class="deck">Most people's AI habits die by Monday morning. Twelve questions will tell you whether yours would survive — and exactly where they'd fail.</p>
   <div class="meta-row" style="justify-content:center">
     <span class="meta-item"><b>12</b> questions</span>
     <span class="meta-item"><b>3</b> minutes</span>
@@ -176,8 +190,8 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
       <input type="email" id="f-email" autocomplete="email" required>
     </div>
     <div style="text-align:center"><button class="btn" onclick="submitGate()">Show my score</button></div>
-    <p class="err" id="gate-err">That email doesn't look right &#x2014; check and try again.</p>
-    <p class="gate-note">No spam, no AI hype. Submitting gets you your full report plus one practical fix per week from AI Sustained. Unsubscribe anytime, first click. Your answers, score and email are stored as described in the <a href="https://ai-sustained.com/privacy/">privacy note</a>.</p>
+    <p class="err" id="gate-err">That email doesn't look right — check and try again.</p>
+    <p class="gate-note">No spam, no AI hype. Unsubscribe anytime. Your answers are only used to build your report.</p>
   </div>
 </section>
 
@@ -191,7 +205,6 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
       </svg>
       <div class="score-num"><span class="n" id="score-n">0</span><span class="d">out of 100</span></div>
     </div>
-    <p class="level-label">Your level</p>
     <h2 class="tier-name" id="tier-name"></h2>
     <span class="verdict-stamp" id="verdict"></span>
   </div>
@@ -207,17 +220,23 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
     <div id="tk-points"></div>
   </div>
 
-  <div class="next" style="border-left:3px solid var(--acid)">
+  <div class="next commercial" style="border-left:3px solid var(--acid)">
     <h3>Fix it, with help</h3>
-    <div class="tk-point"><span class="tk-label">FREE &#xB7; 30 MIN</span><span class="tk-text">Book a free 30-minute taster session. We go through your score together and pick the one fix with the biggest payoff for your actual work. No pitch, no slides.</span></div>
-    <div class="tk-point"><span class="tk-label">HALF PRICE &#xB7; 90 MIN</span><span class="tk-text">Book the 90-minute working session on that call and it's half price. We build the fix together &#x2014; you leave with it running.</span></div>
+    <div class="tk-point"><span class="tk-label">FREE · 30 MIN</span><span class="tk-text">Book a free 30-minute taster session. We go through your score together and pick the one fix with the biggest payoff for your actual work. No pitch, no slides.</span></div>
+    <div class="tk-point"><span class="tk-label">HALF PRICE · 90 MIN</span><span class="tk-text">Book the 90-minute working session on that call and it's half price. We build the fix together — you leave with it running.</span></div>
     <div style="text-align:center;margin-top:24px">
-      <a class="btn" id="book-btn" href="#" onclick="if(typeof gtag==='function')gtag('event','booking_click',{location:'results',tier:tier?tier.name:''})">BOOK FREE SESSION NOW</a>
+      <a class="btn" id="book-btn" href="#" onclick="if(typeof gtag==='function')gtag('event','booking_click',{location:'results',tier:tier?tier.name:''})">Book my free taster session</a>
     </div>
   </div>
 
+  <div class="next research-note" style="border-left:3px solid var(--acid)">
+    <h3>What happens next</h3>
+    <div class="tk-point"><span class="tk-label">THE DEAL</span><span class="tk-text">This is the research version of the quiz. I'm collecting 50+ responses and publishing the full findings on AI Sustained — pillar by pillar, no names attached.</span></div>
+    <div class="tk-point"><span class="tk-label">YOU GET</span><span class="tk-text">Your pillar-by-pillar report by email now, plus the full write-up when it lands. That's it — nothing to buy here.</span></div>
+  </div>
+
   <div class="cta-row">
-    <a class="btn btn-ghost" href="/learn/programme/">Full programme &amp; prices</a>
+    <a class="btn btn-ghost commercial" href="/learn/programme/">Full programme &amp; prices</a>
     <a class="btn btn-ghost" href="https://ai-sustained.com/#editorial">Read the editorial</a>
   </div>
 
@@ -231,102 +250,98 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 </section>
 
 <footer class="footer">
-  <span>&copy; 2026 <a href="https://ai-sustained.com">AI Sustained</a> &middot; <a href="/learn/">Learn</a> &middot; <a href="https://ai-sustained.com/privacy/">Privacy</a> &middot; <a href="/learn/terms/">Terms</a> &middot; <a href="/advertise/">Advertising</a></span>
+  <span>&copy; 2026 <a href="https://ai-sustained.com">AI Sustained</a><span class="commercial"> &middot; ai-sustained.com/learn</span></span>
 </footer>
 </div>
 
 <script>
 // ============ CONFIG ============
 const HUBSPOT_URL = "https://api-eu1.hsforms.com/submissions/v3/integration/submit/148698319/0ba16edc-d31f-4c93-ae58-38d8813f34d6";
-const BOOKING_URL = "https://meetings-eu1.hubspot.com/ai-sustained-ops"; // HubSpot meeting scheduler link (free 30-min consult)
+const BOOKING_URL = "https://meetings-eu1.hubspot.com/ai-sustained-ops"; // HubSpot meeting scheduler link — free 30-min consult
 const QUIZ_URL    = "https://ai-sustained.com/learn/score/";
-// Share links carry UTMs so the challenge loop is measurable in GA4
-const SHARE_URL_LI   = "https://ai-sustained.com/learn/score/?utm_source=linkedin&utm_medium=social&utm_campaign=survival_score_share";
-const SHARE_URL_COPY = "https://ai-sustained.com/learn/score/?utm_source=challenge&utm_medium=referral&utm_campaign=survival_score_share";
-// TODO: replace 999 with your HubSpot marketing-email subscription type ID
-// (HubSpot: Settings -> Marketing -> Email -> Subscription types)
-const HS_SUBSCRIPTION_TYPE_ID = 999;
+// Research mode: shares from research mode carry ?src=share so recipients also get the clean version.
+const SHARE_URL   = QUIZ_URL + (quizSource ? '?src=share' : '');
 // ================================
 
 const PILLARS = ["Prompting","Workflow Integration","Tool Selection","Sustained Habits"];
 
 const QUESTIONS = [
  // Pillar 0: Prompting
- {p:0,q:"When you ask an AI like ChatGPT for something, what do you usually type?",o:[
-  "I've barely used one, or just a few words, like a Google search",
-  "A sentence or two about what I want",
-  "Proper detail: what it's for, who it's for, and what good looks like",
-  "A saved, reusable prompt I've refined over time"]},
- {p:0,q:"The AI gives you a poor answer. What happens next?",o:[
-  "I give up and do it myself",
-  "I reword the question and hope",
-  "I tell it what's wrong, or ask it what went wrong, and push it to improve",
-  "Rarely happens: I head the failure off in how I ask"]},
- {p:0,q:"Does the AI know who the answer is for (you, your boss, your customers)?",o:[
-  "Never thought about it",
+ {p:0,q:"When you ask AI for something, your typical prompt looks like…",o:[
+  "A few words, like a Google search",
+  "A sentence or two of context",
+  "Role, context, constraints and an example of what good looks like",
+  "A saved, reusable template I've refined over time"]},
+ {p:0,q:"The AI gives you a mediocre answer. You…",o:[
+  "Take it or leave it — it is what it is",
+  "Rephrase the question once and hope",
+  "Iterate: tell it what's wrong and push it to improve",
+  "Rarely get mediocre answers — I pre-empt the failure in the prompt"]},
+ {p:0,q:"Does the AI know who it's writing for — your role, audience, tone?",o:[
+  "Never occurred to me",
   "Sometimes, if I remember",
-  "Usually: I say who it's for and why",
-  "Always: it's saved in my settings so it never forgets"]},
+  "Usually — I include audience and purpose",
+  "Always — it's baked into saved context or custom instructions"]},
  // Pillar 1: Workflow
- {p:1,q:"Honestly, where does AI sit in your week right now, at work or at home?",o:[
-  "Nowhere, or it's a novelty I've poked at once or twice",
-  "A few times a week, when I remember",
+ {p:1,q:"Honestly, where does AI sit in your working week?",o:[
+  "It's a novelty I poke at occasionally",
+  "A few times a week when I remember",
   "Daily, for real tasks",
-  "Built into my routines: some run without me"]},
- {p:1,q:"How many regular tasks (emails, letters, planning, admin) start with AI for you?",o:[
-  "None yet","One","A few","Most of my routine tasks"]},
- {p:1,q:"Is AI connected to anything you actually use, like email, documents or spreadsheets?",o:[
-  "No: it lives in its own app or tab, if I use it at all",
-  "I move work between them by hand: copy, paste, saved templates",
-  "Some direct connections (email, docs, data)",
-  "Automated flows move work along without me touching it"]},
+  "Embedded in repeatable workflows — some run without me"]},
+ {p:1,q:"How many tasks do you have where AI is the default first step?",o:[
+  "None yet","One","Several","Most of my routine work starts with AI"]},
+ {p:1,q:"Have you connected AI to the tools you actually work in?",o:[
+  "No — it lives in a separate tab",
+  "I copy and paste between them",
+  "Some direct integrations (email, docs, data)",
+  "Automated pipelines move work without me touching it"]},
  // Pillar 2: Tools
- {p:2,q:"Which AI tools do you use?",o:[
-  "None really, or whatever's free and nearest",
+ {p:2,q:"Your AI toolkit is…",o:[
+  "Whatever's free and nearest",
   "One tool for everything",
-  "Two or three, each picked for a reason",
-  "A deliberate set, tested against alternatives on my own tasks"]},
- {p:2,q:"How do you pick which AI to use for a job: ChatGPT, Claude, Gemini, Copilot?",o:[
-  "I don't pick: I use whatever's in front of me",
-  "The same one every time: habit, or the one my workplace approves",
-  "A rough sense of what each one is good at",
+  "Two or three, each chosen for a reason",
+  "A deliberate stack — matched tool to job, tested against alternatives"]},
+ {p:2,q:"How do you decide which AI tool to use for a task?",o:[
+  "Whichever tab is already open",
+  "Habit — same one every time",
+  "A rough sense of each tool's strengths",
   "I've actually compared them on my own tasks"]},
- {p:2,q:"A new AI model is all over the news. What do you do?",o:[
-  "Nothing: it passes me by",
-  "Read the headlines and wait for it to turn up in the tools I already use",
+ {p:2,q:"A major new model launches. You…",o:[
+  "Wouldn't notice",
+  "Read the headlines, change nothing",
   "Try it on a couple of my real tasks",
-  "Re-test my usual tasks on it and switch if it wins"]},
+  "Re-run my benchmark tasks and re-evaluate my stack"]},
  // Pillar 3: Habits
- {p:3,q:"Think of the last AI thing you tried. Where is it now?",o:[
-  "What AI thing? I haven't really tried one",
-  "It was fun for a week, then it died",
+ {p:3,q:"The Monday morning test: did last month's AI experiment survive into this week's routine?",o:[
+  "What experiment?",
+  "It was exciting for a week, then died",
   "One or two things genuinely stuck",
   "Several are now just how I work"]},
- {p:3,q:"Do you keep anything reusable: saved prompts, templates, notes on what works?",o:[
-  "Nothing: I start from scratch every time",
+ {p:3,q:"Do you keep anything reusable — a prompt library, saved workflows?",o:[
+  "Nothing — I start from scratch every time",
   "Scattered notes I can never find",
   "An organised personal library",
   "A library I maintain and share with others"]},
- {p:3,q:"If your favourite AI tool vanished tomorrow, what would it mean for you?",o:[
+ {p:3,q:"If your favourite AI tool vanished tomorrow…",o:[
   "I'd barely notice",
   "Mildly annoying for a day",
   "Genuinely disruptive to my week",
-  "I'd rebuild the workflow elsewhere within days: the skill is mine, not the tool's"]}
+  "I'd rebuild the workflow elsewhere within days — the skill is mine, not the tool's"]}
 ];
 
 const TIERS = [
- {min:0,max:40,name:"The AI Tourist",cls:"warn",verdict:"Would not survive Monday",copy:"You visit AI \u2014 you don't live there. Right now it's a curiosity, not a capability, and the gap between you and colleagues who've built real habits is compounding weekly. The good news: tourists convert fastest, because everything you add is new ground.",
-  tk:[["01 \u00b7 TRUTH","Your biggest cost isn't bad prompts \u2014 it's that AI isn't in your week at all."],
-      ["02 \u00b7 FIRST FIX","Pick one recurring task and make AI the default first step for two weeks. Just one."],
-      ["03 \u00b7 NEXT STEP","AI Made Simple starts exactly here \u2014 zero jargon, one habit at a time."]]},
- {min:41,max:70,name:"Monday Morning Casualty",cls:"warn",verdict:"Survives the demo, dies by Monday",copy:"You're capable and curious \u2014 your experiments work. Then Monday arrives, the real job takes over, and the experiment quietly dies. Your problem isn't skill, it's systems: nothing you learn is wired into the way you actually work.",
-  tk:[["01 \u00b7 TRUTH","You don't need more AI knowledge. You need fewer, stickier habits."],
-      ["02 \u00b7 FIRST FIX","Take your one best prompt and turn it into a saved template today \u2014 that's a habit's skeleton."],
-      ["03 \u00b7 NEXT STEP","AI Made Simple is built around habits that survive contact with a real Monday."]]},
- {min:71,max:100,name:"AI Sustained",cls:"ok",verdict:"Survives Monday morning",copy:"Your habits survive Monday morning \u2014 you're in the small minority who've turned AI from a toy into infrastructure. Your next multiplier isn't personal skill: it's scale. Workflows, automation, and bringing the people around you up the curve.",
-  tk:[["01 \u00b7 TRUTH","At your level the constraint is leverage, not knowledge \u2014 automate and delegate to AI."],
-      ["02 \u00b7 FIRST FIX","Take your most valuable manual AI workflow and automate one step of it this week."],
-      ["03 \u00b7 NEXT STEP","You're the person others will ask. AI Made Simple gives you the language to teach it."]]}
+ {min:0,max:40,name:"The AI Tourist",cls:"warn",verdict:"Would not survive Monday",copy:"You visit AI — you don't live there. Right now it's a curiosity, not a capability, and the gap between you and colleagues who've built real habits is compounding weekly. The good news: tourists convert fastest, because everything you add is new ground.",
+  tk:[["01 · TRUTH","Your biggest cost isn't bad prompts — it's that AI isn't in your week at all."],
+      ["02 · FIRST FIX","Pick one recurring task and make AI the default first step for two weeks. Just one."],
+      ["03 · NEXT STEP","AI Made Simple starts exactly here — zero jargon, one habit at a time."]]},
+ {min:41,max:70,name:"Monday Morning Casualty",cls:"warn",verdict:"Survives the demo, dies by Monday",copy:"You're capable and curious — your experiments work. Then Monday arrives, the real job takes over, and the experiment quietly dies. Your problem isn't skill, it's systems: nothing you learn is wired into the way you actually work.",
+  tk:[["01 · TRUTH","You don't need more AI knowledge. You need fewer, stickier habits."],
+      ["02 · FIRST FIX","Take your one best prompt and turn it into a saved template today — that's a habit's skeleton."],
+      ["03 · NEXT STEP","AI Made Simple is built around habits that survive contact with a real Monday."]]},
+ {min:71,max:100,name:"AI Sustained",cls:"ok",verdict:"Survives Monday morning",copy:"Your habits survive Monday morning — you're in the small minority who've turned AI from a toy into infrastructure. Your next multiplier isn't personal skill: it's scale. Workflows, automation, and bringing the people around you up the curve.",
+  tk:[["01 · TRUTH","At your level the constraint is leverage, not knowledge — automate and delegate to AI."],
+      ["02 · FIRST FIX","Take your most valuable manual AI workflow and automate one step of it this week."],
+      ["03 · NEXT STEP","You're the person others will ask. AI Made Simple gives you the language to teach it."]]}
 ];
 
 let idx = 0;
@@ -339,33 +354,29 @@ function show(id){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function startQuiz(){ idx = 0; renderQ(); show('s-quiz'); if(typeof gtag==='function') gtag('event','quiz_start'); }
+function startQuiz(){ idx = 0; renderQ(); show('s-quiz'); if(typeof gtag==='function') gtag('event','quiz_start',{quiz_source:quizSource||'direct'}); }
 
 function renderQ(){
   const q = QUESTIONS[idx];
   document.getElementById('prog').style.width = ((idx)/QUESTIONS.length*100)+'%';
   document.getElementById('prog-label').textContent = `Question ${idx+1} of ${QUESTIONS.length}`;
-  document.getElementById('q-pillar').textContent = `Pillar ${q.p+1} \u00b7 ${PILLARS[q.p]}`;
+  document.getElementById('q-pillar').textContent = `Pillar ${q.p+1} · ${PILLARS[q.p]}`;
   document.getElementById('q-text').textContent = q.q;
   const box = document.getElementById('q-opts');
   box.innerHTML = '';
-  // display order is shuffled; scoring uses the original index
-  const order = q.o.map((_,i)=>i);
-  for(let j=order.length-1;j>0;j--){ const k=Math.floor(Math.random()*(j+1)); [order[j],order[k]]=[order[k],order[j]]; }
-  order.forEach(i=>{
+  q.o.forEach((opt,i)=>{
     const b = document.createElement('button');
     b.className = 'opt';
-    b.textContent = q.o[i];
+    b.textContent = opt;
     b.onclick = ()=>{ answers[idx]=i; next(); };
     box.appendChild(b);
   });
   document.getElementById('back-btn').style.display = idx>0 ? 'inline' : 'none';
-  if(typeof gtag==='function') gtag('event','quiz_progress',{question:idx+1});
 }
 
 function next(){
   if(idx < QUESTIONS.length-1){ idx++; renderQ(); }
-  else { computeScore(); show('s-gate'); document.getElementById('f-name').focus(); if(typeof gtag==='function') gtag('event','quiz_complete',{score:finalScore}); }
+  else { computeScore(); show('s-gate'); document.getElementById('f-name').focus(); if(typeof gtag==='function') gtag('event','quiz_complete',{score:finalScore,quiz_source:quizSource||'direct'}); }
 }
 function goBack(){ if(idx>0){ idx--; renderQ(); } }
 
@@ -374,13 +385,9 @@ function computeScore(){
   finalScore = Math.round(raw/36*100);
   for(let p=0;p<4;p++){
     const ps = QUESTIONS.map((q,i)=>q.p===p?(answers[i]||0):0).reduce((a,b)=>a+b,0);
-    pillarPct[p] = Math.round(ps/9*100);                   // 3 q x 3 max
+    pillarPct[p] = Math.round(ps/9*100);                   // 3 q × 3 max
   }
   tier = TIERS.find(t=>finalScore>=t.min && finalScore<=t.max);
-}
-
-function weakestPillar(){
-  return PILLARS[pillarPct.indexOf(Math.min.apply(null, pillarPct))];
 }
 
 function submitGate(){
@@ -389,7 +396,7 @@ function submitGate(){
   const err   = document.getElementById('gate-err');
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ err.style.display='block'; return; }
   err.style.display='none';
-  if(typeof gtag==='function') gtag('event','generate_lead',{tier:tier.name,score:finalScore});
+  if(typeof gtag==='function') gtag('event','generate_lead',{tier:tier.name,score:finalScore,quiz_source:quizSource||'direct'});
   const coreFields = [
     { objectTypeId: "0-1", name: "firstname", value: name },
     { objectTypeId: "0-1", name: "email", value: email }
@@ -397,45 +404,27 @@ function submitGate(){
   const fullFields = coreFields.concat([
     { objectTypeId: "0-1", name: "ai_survival_score", value: String(finalScore) },
     { objectTypeId: "0-1", name: "ai_survival_tier", value: tier.name },
-    { objectTypeId: "0-1", name: "ai_weakest_pillar", value: weakestPillar() }
+    { objectTypeId: "0-1", name: "quiz_source", value: quizSource || 'direct' }
   ]);
-  // Consent recorded against the contact (GDPR). Text mirrors the on-page gate note.
-  const ctx = {
-    context: { pageUri: QUIZ_URL, pageName: "AI Survival Score" },
-    legalConsentOptions: {
-      consent: {
-        consentToProcess: true,
-        text: "I agree to receive my AI Survival Score report and weekly practical-fix emails from AI Sustained. Unsubscribe anytime.",
-        communications: [{
-          value: true,
-          subscriptionTypeId: HS_SUBSCRIPTION_TYPE_ID,
-          text: "Practical AI emails from AI Sustained."
-        }]
-      }
-    }
-  };
-  const ctxCore = { context: { pageUri: QUIZ_URL, pageName: "AI Survival Score" } };
-  function hsPost(fields, c){
+  const ctx = { context: { pageUri: quizSource ? QUIZ_URL+'?src='+quizSource : QUIZ_URL, pageName: "AI Survival Score" } };
+  function hsPost(fields){
     return fetch(HUBSPOT_URL,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(Object.assign({fields}, c))});
+      body:JSON.stringify(Object.assign({fields}, ctx))});
   }
-  hsPost(fullFields, ctx).then(r=>{
+  hsPost(fullFields).then(r=>{
     if(!r.ok){
       r.json().then(e=>console.warn('HubSpot rejected full payload, retrying core fields:', e)).catch(()=>{});
-      return hsPost(coreFields, ctxCore).then(r2=>{
+      return hsPost(coreFields).then(r2=>{
         if(!r2.ok) r2.json().then(e=>console.error('HubSpot rejected core payload:', e)).catch(()=>{});
       });
     }
   }).catch(err=>console.error('HubSpot network error:', err));
-  renderResults(name, email);
+  renderResults();
   show('s-results');
 }
 
-function renderResults(name, email){
-  // Pre-filled booking link: one less field, and the meeting joins the scored contact
-  document.getElementById('book-btn').href = BOOKING_URL
-    + "?email=" + encodeURIComponent(email || '')
-    + "&firstName=" + encodeURIComponent(name || '');
+function renderResults(){
+  document.getElementById('book-btn').href = BOOKING_URL;
   document.getElementById('tier-name').textContent = tier.name;
   document.getElementById('tier-name').className = 'tier-name '+tier.cls;
   const v = document.getElementById('verdict');
@@ -474,12 +463,12 @@ function animateCount(target){
 }
 
 function shareLinkedIn(){
-  window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(SHARE_URL_LI),'_blank','width=600,height=550');
+  window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(SHARE_URL),'_blank','width=600,height=550');
 }
 function copyChallenge(){
-  const txt = `I scored ${finalScore}/100 on the AI Survival Score \u2014 verdict: "${tier.verdict}". Would your AI habits survive Monday morning? 3 minutes: ${SHARE_URL_COPY}`;
+  const txt = `I scored ${finalScore}/100 on the AI Survival Score — verdict: "${tier.verdict}". Would your AI habits survive Monday morning? 3 minutes: ${SHARE_URL}`;
   navigator.clipboard.writeText(txt).then(()=>{
-    const b=document.getElementById('copy-btn'); b.textContent='Copied \u2014 go challenge them';
+    const b=document.getElementById('copy-btn'); b.textContent='Copied — go challenge them';
     setTimeout(()=>b.textContent='Copy my result',2500);
   });
 }
