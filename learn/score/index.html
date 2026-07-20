@@ -346,7 +346,7 @@ const TIERS = [
 
 let idx = 0;
 let answers = new Array(QUESTIONS.length).fill(null);
-let finalScore = 0, pillarPct = [0,0,0,0], tier = null;
+let finalScore = 0, pillarPct = [0,0,0,0], tier = null, weakestPillar = "";
 
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -388,6 +388,7 @@ function computeScore(){
     pillarPct[p] = Math.round(ps/9*100);                   // 3 q × 3 max
   }
   tier = TIERS.find(t=>finalScore>=t.min && finalScore<=t.max);
+  weakestPillar = PILLARS[pillarPct.indexOf(Math.min(...pillarPct))];
 }
 
 function submitGate(){
@@ -404,6 +405,7 @@ function submitGate(){
   const fullFields = coreFields.concat([
     { objectTypeId: "0-1", name: "ai_survival_score", value: String(finalScore) },
     { objectTypeId: "0-1", name: "ai_survival_tier", value: tier.name },
+    { objectTypeId: "0-1", name: "ai_weakest_pillar", value: weakestPillar },
     { objectTypeId: "0-1", name: "quiz_source", value: quizSource || 'direct' }
   ]);
   const ctx = { context: { pageUri: quizSource ? QUIZ_URL+'?src='+quizSource : QUIZ_URL, pageName: "AI Survival Score" } };
