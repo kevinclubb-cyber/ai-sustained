@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Made Simple: How Normal People Actually Start Using AI | AI Sustained</title>
+<meta name="description" content="AI Made Simple: why most people stall at the empty text box, what everyday users really do with AI, and the simplest way to start with one boring job.">
+<meta name="keywords" content="AI made simple, how to start using AI, AI for beginners, how to use ChatGPT for beginners, prompt vs search bar, what to ask AI, everyday AI, AI adoption, AI for non-technical people, replacing search with AI">
+<meta name="author" content="Kevin Clubb">
+<meta property="og:title" content="AI Made Simple: How Normal People Actually Start Using AI">
+<meta property="og:description" content="Most people don't fear AI, they just don't know what to type. Here's what everyday users really do with it, and the simplest way in.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://ai-sustained.com/articles/ai-made-simple/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Made Simple: How Normal People Actually Start Using AI">
+<meta name="twitter:description" content="Most people don't fear AI, they just don't know what to type. The blank-box problem, and the simplest way in.">
+<meta name="twitter:image" content="https://ai-sustained.com/articles/ai-made-simple/cover.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "AI Made Simple: How Normal People Actually Start Using AI",
+  "author": { "@type": "Person", "name": "Kevin Clubb" },
+  "datePublished": "2026-07-22",
+  "description": "Why most people stall at the empty text box, what everyday users really do with AI, and the simplest way to start with one boring job.",
+  "keywords": "AI made simple, how to start using AI, AI for beginners, how to use ChatGPT for beginners, prompt vs search bar, what to ask AI, everyday AI, AI adoption",
+  "image": "https://ai-sustained.com/articles/ai-made-simple/cover.png",
+  "publisher": { "@type": "Organization", "name": "AI Sustained" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --ink-soft: #2A3530;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
+    --acid: #E8FF3A;
+    --coral: #FF5A3C;
+    --moss: #2D6A4F;
+    --sage: #74C69D;
+    --mint: #D8F3DC;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --rule-soft: rgba(242,236,217,0.09);
+    --panel: rgba(242,236,217,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--forest);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    border-top: 3px solid var(--acid);
+  }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ HERO (centred) ============ */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+  }
+  .kicker::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    background: var(--acid);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(46px, 7vw, 84px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin: 0 auto 26px;
+    max-width: 14ch;
+  }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--paper-2);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+
+  /* ============ STAT GRID ============ */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 44px 0 48px;
+  }
+  .stat-box {
+    background: var(--panel);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 10px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px; font-weight: 600;
+    color: var(--acid); line-height: 1; display: block;
+  }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  /* ============ BODY CONTENT ============ */
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 33px; line-height: 1.15;
+    color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em;
+  }
+  .content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px;
+  }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+  .content li::marker { color: var(--acid); }
+
+  .inline-highlight { color: var(--acid); font-weight: 500; }
+
+  /* ============ PULL QUOTE ============ */
+  .pull-quote {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 30px; line-height: 1.3; color: var(--paper);
+    margin: 60px auto; padding: 40px 0;
+    border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid);
+    text-align: center; max-width: 720px; letter-spacing: -0.01em;
+  }
+  .pull-quote::before {
+    content: '"'; display: block; font-size: 56px; color: var(--acid);
+    line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif;
+  }
+
+  /* ============ TACTICAL TAKEAWAY (ink panel, signature) ============ */
+  .takeaway {
+    background: var(--ink); color: var(--paper);
+    padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .takeaway::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--acid);
+    border-radius: 50%; opacity: 0.14;
+  }
+  .takeaway-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .takeaway h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 32px; line-height: 1.22; color: var(--paper);
+    margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em;
+  }
+  .takeaway h2 em { color: var(--acid); font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
+  .takeaway-point-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .takeaway-point-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 16px; line-height: 1.45; color: var(--paper-2);
+  }
+  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
+
+  /* ============ TOC ============ */
+  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
+  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
+  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 320px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
+  .hashtag-list span { font-weight: 500; }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 44px; }
+    .deck { font-size: 19px; }
+  }
+
+  @media print {
+    @page { size: A3; margin: 14mm; }
+    body { background: var(--forest); padding: 0; }
+    .page { max-width: none; padding: 0; }
+    .page-break { page-break-before: always; break-before: page; }
+    .stat-box, .takeaway-point, .pull-quote { page-break-inside: avoid; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<article class="page">
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <span class="wordmark">AI Sustained.</span>
+      <span>AI Made Simple</span>
+    </div>
+    <div class="masthead-right">
+      <span>22 Jul 2026</span>
+      <span>Essay / Adoption</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">The empty box problem</div>
+    <h1>Most people don't fear AI. They just don't know <span class="accent">what to type</span>.</h1>
+    <p class="deck">The tools got clever faster than the rest of us got comfortable. Here's what ordinary people actually do with AI, why the blank box freezes them, and the <span class="accent">least intimidating way in</span>.</p>
+  </section>
+
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">Scale</div>
+      <span class="stat-value">~1<span class="unit">bn</span></span>
+      <div class="stat-note">Reported monthly users of the biggest AI chat app by mid-2026. Reach isn't the problem.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Habit</div>
+      <span class="stat-value">56<span class="unit">%</span></span>
+      <div class="stat-note">Still start a search in a search engine. Only ~16% start in a chatbot.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">The prompt</div>
+      <span class="stat-value">4</span>
+      <div class="stat-note">Plain-English lines make a good prompt: Persona, Task, Context, Format.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">To start</div>
+      <span class="stat-value">0</span>
+      <div class="stat-note">Clever ideas required. Bring one boring job you already resent instead.</div>
+    </div>
+  </section>
+
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-label">In this piece</div>
+    <ol>
+      <li><span class="toc-num">01</span><a href="#section-1">The most powerful tool with the worst front door</a></li>
+      <li><span class="toc-num">02</span><a href="#section-2">The revolution looks boring</a></li>
+      <li><span class="toc-num">03</span><a href="#section-3">The search bar isn't going quietly</a></li>
+      <li><span class="toc-num">04</span><a href="#section-4">Whose job is it to fix this?</a></li>
+      <li><span class="toc-num">05</span><a href="#section-5">The on-ramp: one boring job</a></li>
+      <li><span class="toc-num">06</span><a href="#section-6">Draft, then iterate</a></li>
+      <li><span class="toc-num">07</span><a href="#section-7">The sceptics aren't wrong</a></li>
+    </ol>
+  </nav>
+
+  <section class="content" id="section-1">
+    <p><strong>Here's the strange thing about AI in 2026.</strong> The technology is, by almost any measure, extraordinary. The onboarding is roughly on par with being handed a microphone at a wedding and told to say a few words. Everyone can see the mic. Very few know what to say into it.</p>
+
+    <p>We've arrived at a genuinely odd moment. The most capable general-purpose tool most people will ever touch sits behind a front door that is, essentially, a blank rectangle and a blinking cursor. No menu. No buttons. No hint. Just a polite "How can I help you today?" and the crushing silence of infinite possibility.</p>
+
+    <p>Designers have a name for the thing that's missing. They call it an <em>affordance</em>: the visual cue that tells you what a thing does. A door handle says pull. A slider says drag. A big blue button says, reassuringly, click me and something sensible will happen. The chat box says nothing. It offers everything and suggests nothing, which for a nervous first-timer amounts to the same as offering nothing at all.</p>
+
+    <h2 id="section-2">The revolution looks boring</h2>
+
+    <p>Forget the launch keynotes for a second. Watch anyone who's actually crossed over, who now reaches for AI without thinking, and you'll notice they're almost never doing anything grand. They're not building apps. They're not replacing their search engine. They're rewording the email they've already rewritten four times. Softening a reply to a complaint. Wrestling a spreadsheet formula that won't behave, while the eternal war of VLOOKUP versus XLOOKUP claims another generation. Turning eight pages nobody wants to read into five lines somebody will.</p>
+
+    <p><span class="inline-highlight">"Make it sound more professional"</span> is, quietly, the killer app of the age. Not because it's clever, but because it clears a small daily friction everyone recognises and nobody enjoys. The genuinely useful stuff is specific and unglamorous. A photo of some barcodes turned into a spreadsheet. Six pages of handwriting turned into typed notes. A messy project talked out of someone's head and onto a page.</p>
+
+    <p>It goes deeper than convenience, too. For someone who's always found writing a slog, whether through dyslexia or just a brain that never clicked with grammar, a quiet check before hitting send isn't a party trick. It's confidence. That's what this technology is for, and it tends to turn up in the least impressive corner of the feature list.</p>
+
+    <blockquote class="pull-quote">The revolution, for most people, looks like a tidier inbox. And that's completely fine.</blockquote>
+
+    <p>Which points to the real reason so many people stall on the doorstep. They assume they need a big, clever reason to start. They don't. They need a small, annoying one. The distance between what AI can do and what people do with it comes down to confidence far more than technology.</p>
+
+    <h2 id="section-3">The search bar isn't going quietly</h2>
+
+    <p>The tidiest story we tell ourselves is that the chat box will simply eat the search bar, that prompt input will replace search input the way search once replaced the phone book. The data is more stubborn than the story.</p>
+
+    <p>By mid-2026, the largest AI chat app is reported to have around a billion monthly users, a scale reached faster than any app in history. Yet when researchers ask people how they <em>start</em> looking for something, most still open a search engine. In one 2026 survey, <span class="inline-highlight">56%</span> said they mostly or always start with a search engine, and only around <span class="inline-highlight">16%</span> start with a chatbot. More awkwardly, some surveys found the share of people usually using AI chat for research actually fell year on year, while search ticked back up.</p>
+
+    <p>That's not a rejection of AI, it's muscle memory. Thirty years of "I don't know, Google it" doesn't evaporate because a cleverer box turned up. The search bar has one big advantage the chat box lacks. You already know exactly how to use it. Two or three keywords, hit enter, scan the blue links. It asks nothing of you. The prompt box quietly demands that you know what you want, phrase it well, and trust a confident paragraph over a familiar list. For a lot of people that's more work, not less, and people are sensibly allergic to more work.</p>
+
+    <h2 id="section-4">Whose job is it to fix this?</h2>
+
+    <p>So here's the real question, the one the whole industry is dancing around. If the tools are this good and adoption is this shallow, whose problem is that to solve? Do the model makers need to fix the front door, with better design, better marketing, better onboarding? Or do the rest of us simply need to grow into it, the way we grew into email, smartphones and self-checkout?</p>
+
+    <p>Honestly, it's both, though the bigger share of the blame sits with the makers.</p>
+
+    <h3>The case against the model makers</h3>
+
+    <p>The blank box is, bluntly, a design failure dressed up as minimalism. An entire profession, UX design, exists to make complicated systems usable by showing you what's possible. The industry spent decades learning that lesson, then met AI and cheerfully handed everyone an empty text field and a shrug. The blank prompt problem is now a real phrase in design circles, because the first session is where people quietly decide the thing isn't for them and never come back.</p>
+
+    <p>The marketing hasn't helped either. The pitch has been relentlessly grand, all reinvention and transformation and the end of work as we know it, which is precisely the wrong register for a nervous beginner who just wants to fix a formula. Tell someone this tool will change civilisation and they'll assume it isn't for the likes of them. Tell them it'll rescue the email they've rewritten four times and they'll actually open it. The category got sold as a spaceship when most people needed a bicycle.</p>
+
+    <h3>The case for evolving into it</h3>
+
+    <p>And yet. Some of this is just the ordinary, unglamorous business of a new tool becoming normal. We were baffled by the mouse. We distrusted online banking. We swore we'd never put our card details into a website, and now we buy sofas from our phones on the toilet. Adoption of anything new runs on the same slow fuel. One person shows another person the one thing that actually helped, and the habit spreads sideways, desk to desk, rather than down from a keynote.</p>
+
+    <p>The makers can and should build better doors. But no amount of clever onboarding replaces the moment a real person solves a real, annoying problem and thinks, <em>oh, that's what this is for</em>. You can't market that moment. It has to be lived. Which is why the most useful thing anyone can do isn't wait for a better interface. It's find their one boring job.</p>
+
+    <h2 id="section-5">The on-ramp: one boring job</h2>
+
+    <p>If you take one thing from this, take this. <strong>Don't start with a blank box and an open mind.</strong> That's how you freeze. Start with a task you already do, already understand, and already resent a little. The resentment matters. It's the fuel.</p>
+
+    <p>The pattern from earlier holds. Real wins are small and specific. Nobody's breakthrough is "I asked it about the meaning of life." It's "I had six pages of handwriting and no time." Specific beats clever every time.</p>
+
+    <p>When you do type something, there's a simple shape that works far better than a bare command. Think <span class="inline-highlight">Persona, Task, Context, Format</span>:</p>
+
+    <ul>
+      <li><strong>Persona</strong>. Who you want it to be. "You're a careful copy editor."</li>
+      <li><strong>Task</strong>. What you want done. "Rewrite this email so it's polite but firm."</li>
+      <li><strong>Context</strong>. The bit people skip. "It's to a client who's three weeks late paying, and we want to keep them."</li>
+      <li><strong>Format</strong>. What good looks like. "Keep it under 120 words, no grovelling."</li>
+    </ul>
+
+    <p>That's it. No prompt-engineering course, no secret syntax, no incantations. Four plain-English lines and you've gone from a blank rectangle to a genuinely useful reply.</p>
+
+    <h2 id="section-6">Draft, then iterate</h2>
+
+    <p>Here's the part almost every beginner's guide skips, and the single habit that separates the people who get value from the people who give up. <strong>The first answer is a draft, not a verdict.</strong> AI is a conversation, not a slot machine. You don't pull the lever, get a disappointing result, and wander off muttering that it's overhyped. You push back.</p>
+
+    <p>Put your version in, then react to what comes out. "Too formal, warm it up." "Shorter." "You've lost my point in the second paragraph, put it back." "Now give me one I'd actually send to my boss." Three or four rounds of that and you land somewhere you couldn't have written cold. The skill isn't clever prompting, it's <em>refusing to accept the first draft</em>, the same instinct any decent editor has always had.</p>
+
+    <p>This is why <span class="inline-highlight">draft and iterate</span> matters more than any prompt template. The template gets you a sensible first pass. The iteration gets you something good. People who treat AI as a one-shot oracle stay permanently underwhelmed. People who treat it as a fast, tireless, sometimes wrong colleague they can argue with get results the one-shot crowd never sees.</p>
+
+    <blockquote class="pull-quote">Stop trying to think of something clever to ask. Ask it to do the thing you were dreading, then tell it what's wrong.</blockquote>
+
+    <p>Do that once a day for a week, one dreaded task handed over and then nudged into shape, and something shifts. The box stops being a void and starts being that colleague. That's the whole move. Less a leap, more a habit, built one boring job at a time.</p>
+
+    <h2 id="section-7">The sceptics aren't wrong</h2>
+
+    <p>It'd be a poor piece that pretended everyone's thrilled. They're not, and their reasons deserve better than a pat on the head. Plenty of people still don't touch it, and the sharpest objections aren't laziness. They're judgement.</p>
+
+    <p>Some worry it's being sold faster than it's being governed, that accuracy and privacy haven't caught up with the hype. Fair. AI still invents things with total confidence, and check anything that matters is still the only sane rule. Some feel it makes people lazy, hollowing out the very skills it claims to help with. Also fair. A tool that drafts your thinking can quietly stop you doing any. And some object on principle, uneasy about what automation does to creative work and to jobs. That's not technophobia, it's a values position, and a reasonable one.</p>
+
+    <p>None of that is a reason to stay frightened of a text box. All of it is a reason to stay <em>awake</em> at it. The healthy posture isn't wide-eyed adoption or arms-folded refusal. It's the one you'd take with any confident, fast-talking new colleague. Useful, sometimes wrong, and never trusted blindly on anything that counts. Use it for the boring jobs, and keep your judgement for the ones that matter.</p>
+
+    <p>AI made simple, in the end, isn't really about the AI. It's about lowering the stakes of the first go. The tools will keep getting cleverer whether or not we're ready. The only question worth answering is a small one. <em>What's the one job you'd happily never do again?</em> Start there, draft it, fix it, and the rest is just practice.</p>
+  </section>
+
+  <section class="takeaway" aria-label="Tactical takeaway for readers">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2>The gap isn't intelligence. It's the <em>empty box</em>, and you close it one dull task at a time.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 · START</div>
+        <div class="takeaway-point-text">Skip the blank-page panic. Pick <strong>one boring job you already resent</strong> and hand that over first.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 · METHOD</div>
+        <div class="takeaway-point-text">Use <strong>Persona, Task, Context, Format</strong> for a first draft, then treat it as something to argue with, not accept.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 · GUARDRAIL</div>
+        <div class="takeaway-point-text">Stay awake, not scared. <strong>Check anything that matters</strong> and keep your judgement for the jobs that count.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta"><strong>What's the one job you'd happily never do again?</strong> Start there.</p>
+    </div>
+    <div class="sources">
+      Sources · Pew Research Center, "Why don't people use chatbots?" (Jun 2026) · Orbit Media, AI-Search Adoption Survey (2026) · First Page Sage, Google vs ChatGPT market share (2026) · UI for AI / design-community writing on the "blank prompt problem". Reach and market figures are as reported, so verify before quoting.
+    </div>
+  </footer>
+
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#AIMadeSimple</span> <span>#AIforBeginners</span> <span>#EverydayAI</span> <span>#PromptTips</span> <span>#AIAdoption</span> <span>#FutureOfWork</span>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span><span class="wordmark">AI Sustained.</span> · By Kevin Clubb</span>
+    <span>2026</span>
+  </div>
+
+</article>
+</body>
+</html>
