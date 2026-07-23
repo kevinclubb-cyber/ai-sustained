@@ -2,14 +2,14 @@
 <html lang="en-GB">
 <head>
 <meta charset="UTF-8">
-  
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-L3WZNV09BB');
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-L3WZNV09BB');
 </script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,397 +25,413 @@
 <meta name="twitter:title" content="The AI competency pyramid: where 20.6m UK workers sit">
 <meta name="twitter:description" content="95% of UK computer users sit at Levels 0–3. A 14-level map of AI adoption.">
 <meta name="twitter:image" content="cover-v3.png">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "The AI competency pyramid: where 20.6 million UK workers sit",
-  "author": { "@type": "Person", "name": "Kevin Clubb", "jobTitle": "Senior Business Analyst" },
-  "datePublished": "2026-04-20",
-  "description": "Mapping 20.6 million UK computer users across 14 levels of AI competency. 95% sit at the bottom four. The jump that matters most costs nothing.",
-  "keywords": "AI adoption, AI competency, generative AI UK, AI strategy, AI agents, AI safety, future of work",
-  "image": "cover-v3.png",
-  "publisher": { "@type": "Organization", "name": "AI Sustained" }
-}
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --base: #F7FCF9;
-    --accent: #1B4332;
-    --accent-mid: #2D6A4F;
-    --secondary: #40916C;
-    --highlight: #D8F3DC;
-    --highlight-soft: #E8F7EC;
-    --text: #081C15;
-    --text-soft: #3A4A42;
-    --muted: #6B7A72;
-    --pale-mint: #B7E4C7;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--base); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
-  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
+:root {
+--base: #F7FCF9;
+--accent: #1B4332;
+--accent-mid: #2D6A4F;
+--secondary: #40916C;
+--highlight: #D8F3DC;
+--highlight-soft: #E8F7EC;
+--text: #081C15;
+--text-soft: #3A4A42;
+--muted: #6B7A72;
+--pale-mint: #B7E4C7;
+--acid: #E8FF3A;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--base); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+.page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
 
-  .masthead { border-top: 4px solid var(--accent); padding: 14px 0 10px; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid rgba(27, 67, 50, 0.15); }
-  .masthead-left, .masthead-right { display: flex; gap: 18px; }
+.masthead { border-top: 4px solid var(--accent); padding: 14px 0 10px; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid rgba(27, 67, 50, 0.15); }
+.masthead-left, .masthead-right { display: flex; gap: 18px; }
 
-  .hero { padding: 56px 0 40px; border-bottom: 1px solid rgba(27, 67, 50, 0.15); }
-  .kicker { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--secondary); margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
-  .kicker::before { content: ''; width: 36px; height: 2px; background: var(--secondary); }
-  .hero h1 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; font-size: clamp(40px, 6.5vw, 68px); line-height: 1.02; letter-spacing: -0.02em; color: var(--accent); margin-bottom: 22px; }
-  .deck { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 21px; font-weight: 400; line-height: 1.45; color: var(--secondary); max-width: 680px; }
+.hero { padding: 56px 0 40px; border-bottom: 1px solid rgba(27, 67, 50, 0.15); }
+.kicker { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--secondary); margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
+.kicker::before { content: ''; width: 36px; height: 2px; background: var(--secondary); }
+.hero h1 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; font-size: clamp(40px, 6.5vw, 68px); line-height: 1.02; letter-spacing: -0.02em; color: var(--accent); margin-bottom: 22px; }
+.deck { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 21px; font-weight: 400; line-height: 1.45; color: var(--secondary); max-width: 680px; }
 
-  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 40px 0 48px; }
-  .stat-box { background: var(--highlight); padding: 22px 24px; border-radius: 4px; border-bottom: 3px solid var(--accent); }
-  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent-mid); margin-bottom: 8px; }
-  .stat-value { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 600; color: var(--accent); line-height: 1; display: block; }
-  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--secondary); margin-left: 3px; }
-  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 40px 0 48px; }
+.stat-box { background: var(--highlight); padding: 22px 24px; border-radius: 4px; border-bottom: 3px solid var(--accent); }
+.stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent-mid); margin-bottom: 8px; }
+.stat-value { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 600; color: var(--accent); line-height: 1; display: block; }
+.stat-value .unit { font-size: 14px; font-weight: 500; color: var(--secondary); margin-left: 3px; }
+.stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
 
-  .toc { background: var(--highlight-soft); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
-  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--secondary); margin-bottom: 12px; }
-  .toc ol { list-style: none; margin: 0; padding: 0; }
-  .toc li { margin: 6px 0; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; }
-  .toc a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
-  .toc a:hover { border-bottom-color: var(--secondary); }
-  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--secondary); margin-right: 10px; }
+/* ============================================================
+   DEPTH SLIDER  ·  Clinical Green  ·  vanilla JS, no dependency
+   ============================================================ */
+.depth { position: sticky; top: 0; z-index: 20; background: rgba(247,252,249,0.94); backdrop-filter: blur(8px); border: 1px solid rgba(27,67,50,0.15); border-radius: 6px; padding: 18px 20px 20px; margin: 8px 0 40px; }
+.depth-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.depth-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+.depth-label span { color: var(--secondary); }
+.depth-hint { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: var(--muted); }
+.ticks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px; }
+.tick { appearance: none; border: 1px solid rgba(27,67,50,0.2); background: transparent; color: var(--accent-mid); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; font-size: 12.5px; padding: 9px 6px; border-radius: 4px; cursor: pointer; transition: all .18s ease; }
+.tick:hover { border-color: var(--secondary); color: var(--accent); }
+.tick.active { background: var(--accent); color: var(--base); border-color: var(--accent); font-weight: 600; }
+input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 5px; border-radius: 5px; background: var(--highlight); outline: none; cursor: pointer; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); border: 3px solid var(--base); box-shadow: 0 0 0 2px var(--secondary); cursor: pointer; transition: transform .15s ease; }
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.12); }
+input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--accent); border: 3px solid var(--base); box-shadow: 0 0 0 2px var(--secondary); cursor: pointer; }
+.reading-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 26px; display: flex; gap: 16px; flex-wrap: wrap; text-transform: uppercase; }
+.reading-meta b { color: var(--secondary); font-weight: 600; }
+#reading { transition: opacity .26s ease; }
+#reading.swapping { opacity: 0; }
 
-  .content { font-size: 18px; line-height: 1.7; color: var(--text); max-width: 680px; margin: 48px 0; }
-  .content p { margin-bottom: 20px; }
-  .content p strong { font-weight: 600; color: var(--accent); }
-  .content p em { font-style: italic; color: var(--accent-mid); }
-  .content h2 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 36px; line-height: 1.15; color: var(--accent); margin: 56px 0 20px; letter-spacing: -0.01em; }
-  .content h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 22px; color: var(--accent); margin: 36px 0 6px; }
-  .content h3 .pct { font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 14px; color: var(--secondary); margin-left: 6px; letter-spacing: 0.06em; }
-  .content .whos-here { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; color: var(--accent-mid); font-style: italic; background: var(--highlight-soft); border-left: 3px solid var(--secondary); padding: 12px 16px; margin: 8px 0 16px; border-radius: 0 3px 3px 0; }
-  .inline-highlight { background: var(--highlight); padding: 1px 4px; border-radius: 2px; font-weight: 500; }
+.content { font-size: 18px; line-height: 1.7; color: var(--text); max-width: 680px; margin: 0 0 48px; }
+.content p { margin-bottom: 20px; }
+.content p strong { font-weight: 600; color: var(--accent); }
+.content p em { font-style: italic; color: var(--accent-mid); }
+.content h2 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 36px; line-height: 1.15; color: var(--accent); margin: 56px 0 20px; letter-spacing: -0.01em; }
+.content h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 22px; color: var(--accent); margin: 36px 0 6px; }
+.content h3 .pct { font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 14px; color: var(--secondary); margin-left: 6px; letter-spacing: 0.06em; }
+.content .whos-here { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; color: var(--accent-mid); font-style: italic; background: var(--highlight-soft); border-left: 3px solid var(--secondary); padding: 12px 16px; margin: 8px 0 16px; border-radius: 0 3px 3px 0; }
+.inline-highlight { background: var(--highlight); padding: 1px 4px; border-radius: 2px; font-weight: 500; }
+.content ul { margin: 0 0 20px 22px; }
+.content li { margin-bottom: 8px; }
+.content code { font-family: 'JetBrains Mono', monospace; font-size: 14px; background: var(--highlight-soft); padding: 2px 6px; border-radius: 3px; color: var(--accent); }
 
-  .tier-band { background: var(--accent); color: var(--base); padding: 32px 36px; border-radius: 4px; margin: 56px 0 32px; position: relative; overflow: hidden; }
-  .tier-band::before { content: ''; position: absolute; top: -40px; right: -40px; width: 180px; height: 180px; border: 32px solid var(--secondary); border-radius: 50%; opacity: 0.22; }
-  .tier-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; color: var(--pale-mint); margin-bottom: 12px; position: relative; z-index: 1; }
-  .tier-band h2 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 36px; line-height: 1.15; color: var(--base); margin: 0; position: relative; z-index: 1; letter-spacing: -0.01em; }
-  .tier-band h2 em { color: var(--pale-mint); font-style: italic; }
-  .tier-band .tier-deck { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; line-height: 1.5; color: var(--highlight); margin-top: 12px; position: relative; z-index: 1; max-width: 600px; }
+.tier-band { background: var(--accent); color: var(--base); padding: 32px 36px; border-radius: 4px; margin: 56px 0 32px; position: relative; overflow: hidden; }
+.tier-band::before { content: ''; position: absolute; top: -40px; right: -40px; width: 180px; height: 180px; border: 32px solid var(--secondary); border-radius: 50%; opacity: 0.22; }
+.tier-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; color: var(--pale-mint); margin-bottom: 12px; position: relative; z-index: 1; }
+.tier-band h2 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 36px; line-height: 1.15; color: var(--base); margin: 0; position: relative; z-index: 1; letter-spacing: -0.01em; }
+.tier-band h2 em { color: var(--pale-mint); font-style: italic; }
+.tier-band .tier-deck { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; line-height: 1.5; color: var(--highlight); margin-top: 12px; position: relative; z-index: 1; max-width: 600px; }
 
-  .pull-quote { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; font-size: 30px; line-height: 1.3; color: var(--accent); margin: 60px auto; padding: 40px 0; border-top: 1px solid var(--highlight); border-bottom: 1px solid var(--highlight); text-align: center; max-width: 720px; letter-spacing: -0.01em; }
-  .pull-quote::before { content: '"'; display: block; font-size: 48px; color: var(--secondary); line-height: 0.5; margin-bottom: 12px; }
+.pull-quote { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; font-size: 30px; line-height: 1.3; color: var(--accent); margin: 60px auto; padding: 40px 0; border-top: 1px solid var(--highlight); border-bottom: 1px solid var(--highlight); text-align: center; max-width: 720px; letter-spacing: -0.01em; }
+.pull-quote::before { content: '"'; display: block; font-size: 48px; color: var(--secondary); line-height: 0.5; margin-bottom: 12px; }
 
-  .takeaway { background: var(--accent); color: var(--base); padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px; position: relative; overflow: hidden; }
-  .takeaway::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border: 36px solid var(--secondary); border-radius: 50%; opacity: 0.22; }
-  .takeaway-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--highlight); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; position: relative; z-index: 1; }
-  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(216, 243, 220, 0.25); }
-  .takeaway h2 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 32px; line-height: 1.22; color: var(--base); margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em; }
-  .takeaway h2 em { color: var(--pale-mint); font-style: italic; }
-  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
-  .takeaway-point { border-top: 1px solid rgba(216, 243, 220, 0.35); padding-top: 14px; }
-  .takeaway-point-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pale-mint); margin-bottom: 8px; }
-  .takeaway-point-text { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400; font-size: 16px; line-height: 1.45; color: var(--highlight); }
-  .takeaway-point-text strong { color: var(--base); font-weight: 600; font-style: normal; }
+.takeaway { background: var(--accent); color: var(--base); padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px; position: relative; overflow: hidden; }
+.takeaway::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border: 36px solid var(--secondary); border-radius: 50%; opacity: 0.22; }
+.takeaway-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--highlight); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; position: relative; z-index: 1; }
+.takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(216, 243, 220, 0.25); }
+.takeaway h2 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 32px; line-height: 1.22; color: var(--base); margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em; }
+.takeaway h2 em { color: var(--pale-mint); font-style: italic; }
+.takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+.takeaway-point { border-top: 1px solid rgba(216, 243, 220, 0.35); padding-top: 14px; }
+.takeaway-point-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pale-mint); margin-bottom: 8px; }
+.takeaway-point-text { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400; font-size: 16px; line-height: 1.45; color: var(--highlight); }
+.takeaway-point-text strong { color: var(--base); font-weight: 600; font-style: normal; }
 
-  .footer { padding: 36px 0 24px; border-top: 1px solid rgba(27, 67, 50, 0.2); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
-  .footer-left { flex: 1; min-width: 280px; }
-  .footer-cta { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--accent); margin-bottom: 14px; }
-  .footer-cta strong { font-style: normal; font-weight: 600; background: var(--highlight); padding: 0 4px; }
-  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 300px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+.footer { padding: 36px 0 24px; border-top: 1px solid rgba(27, 67, 50, 0.2); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+.footer-left { flex: 1; min-width: 280px; }
+.footer-cta { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--accent); margin-bottom: 14px; }
+.footer-cta strong { font-style: normal; font-weight: 600; background: var(--highlight); padding: 0 4px; }
+.sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 300px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+.colophon { margin-top: 20px; padding-top: 16px; border-top: 4px solid var(--accent); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
 
-  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 0.5px solid rgba(27, 67, 50, 0.2); }
-  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--secondary); }
-  .hashtag-list span { font-weight: 500; }
-
-  .colophon { margin-top: 20px; padding-top: 16px; border-top: 4px solid var(--accent); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
-
-  @media (max-width: 720px) {
-    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
-    .takeaway { padding: 32px 26px; }
-    .pull-quote { font-size: 22px; padding: 28px 0; }
-    .hero h1 { font-size: 40px; }
-    .deck { font-size: 18px; }
-    .tier-band { padding: 24px 26px; }
-    .tier-band h2 { font-size: 28px; }
-  }
-
-  @media print {
-    @page { size: A3; margin: 14mm; }
-    body { background: var(--base); }
-    .page { max-width: none; padding: 0; }
-    .page-break { page-break-before: always; break-before: page; }
-    .stat-box, .takeaway-point, .pull-quote, .toc, .tier-band { page-break-inside: avoid; break-inside: avoid; }
-  }
+@media (max-width: 720px) {
+.takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+.takeaway { padding: 32px 26px; }
+.pull-quote { font-size: 22px; padding: 28px 0; }
+.hero h1 { font-size: 40px; }
+.deck { font-size: 18px; }
+.tier-band { padding: 24px 26px; }
+.tier-band h2 { font-size: 28px; }
+}
 </style>
 </head>
 <body>
 <article class="page">
 
-  <header class="masthead">
-    <div class="masthead-left">
-      <span>AI Sustained</span>
-      <span>Issue 001</span>
-    </div>
-    <div class="masthead-right">
-      <span>2026.04.20</span>
-      <span>Adoption</span>
-    </div>
-  </header>
+<header class="masthead">
+<div class="masthead-left">
+<span>AI Sustained</span>
+<span>Issue 001</span>
+</div>
+<div class="masthead-right">
+<span>2026.04.20</span>
+<span>Adoption</span>
+</div>
+</header>
 
-  <section class="hero">
-    <div class="kicker">The AI adoption curve · 2026 · 12-minute read</div>
-    <h1>The AI competency pyramid.</h1>
-    <p class="deck">Where 20.6 million UK workers actually sit. 14 distinct levels, from the people who've never knowingly used AI to the few hundred who build the models themselves.</p>
-  </section>
+<section class="hero">
+<div class="kicker">The AI adoption curve · 2026 · 12-minute read</div>
+<h1>The AI competency pyramid.</h1>
+<p class="deck">Where 20.6 million UK workers actually sit. 14 distinct levels, from the people who've never knowingly used AI to the few hundred who build the models themselves.</p>
+</section>
 
-  <section class="stat-grid" aria-label="Headline figures">
-    <div class="stat-box">
-      <div class="stat-label">Employed · ONS</div>
-      <span class="stat-value">34.31<span class="unit">m</span></span>
-      <div class="stat-note">Nov 2025 – Jan 2026</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-label">Computer users</div>
-      <span class="stat-value">20.6<span class="unit">m</span></span>
-      <div class="stat-note">Estimate · 60% of workforce</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-label">At Levels 0–3</div>
-      <span class="stat-value">95<span class="unit">%</span></span>
-      <div class="stat-note">~19.57m people</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-label">Frontier cohort</div>
-      <span class="stat-value">&lt;10<span class="unit">k</span></span>
-      <div class="stat-note">Fits a stadium</div>
-    </div>
-  </section>
+<section class="stat-grid" aria-label="Headline figures">
+<div class="stat-box">
+<div class="stat-label">Employed · ONS</div>
+<span class="stat-value">34.31<span class="unit">m</span></span>
+<div class="stat-note">Nov 2025 – Jan 2026</div>
+</div>
+<div class="stat-box">
+<div class="stat-label">Computer users</div>
+<span class="stat-value">20.6<span class="unit">m</span></span>
+<div class="stat-note">Estimate · 60% of workforce</div>
+</div>
+<div class="stat-box">
+<div class="stat-label">At Levels 0–3</div>
+<span class="stat-value">95<span class="unit">%</span></span>
+<div class="stat-note">~19.57m people</div>
+</div>
+<div class="stat-box">
+<div class="stat-label">Frontier cohort</div>
+<span class="stat-value">&lt;10<span class="unit">k</span></span>
+<div class="stat-note">Fits a stadium</div>
+</div>
+</section>
 
-  <nav class="toc" aria-label="Table of contents">
-    <div class="toc-label">In this issue</div>
-    <ol>
-      <li><span class="toc-num">01</span><a href="#general-workforce">Levels 0–4 · The general workforce</a></li>
-      <li><span class="toc-num">02</span><a href="#builders">Level 5 · The builders</a></li>
-      <li><span class="toc-num">03</span><a href="#operators">Level 6 · The operators</a></li>
-      <li><span class="toc-num">04</span><a href="#architects">Level 7 · The architects</a></li>
-      <li><span class="toc-num">05</span><a href="#frontier">Levels 8–9 · The frontier</a></li>
-      <li><span class="toc-num">06</span><a href="#numbers-tell-us">What the numbers tell us</a></li>
-      <li><span class="toc-num">07</span><a href="#strategic-question">The strategic question</a></li>
-    </ol>
-  </nav>
-
-  <section class="content">
-    <p>According to the ONS, <strong>34.31 million people</strong> are in employment in the UK. An estimated <strong>20.6 million</strong> of them use a computer every day. That's the entire addressable market for AI in the workplace — and it splits across 14 distinct levels of AI competency, from people who've never knowingly used it to the few hundred who build the models themselves.</p>
-
-    <p>I mapped every level. The distribution is uncomfortable.</p>
-
-    <p><span class="inline-highlight">95% of UK computer users sit in the bottom four levels.</span> Everything above Level 4 combined — every automation builder, every agent operator, every AI safety engineer in the country — adds up to less than 5%.</p>
-
-    <p>Here's what each level actually means, who's there, and why it matters.</p>
-  </section>
-
-  <!-- ============ TIER 1 ============ -->
-  <div class="tier-band" id="general-workforce">
-    <div class="tier-label">Tier one · 98% of UK computer users</div>
-    <h2>Levels 0–4: <em>The general workforce.</em></h2>
-    <p class="tier-deck">Five levels covering 98% of the UK's computer-using workforce. If you work in an office, sit in front of a laptop, or send emails for a living, you are almost certainly somewhere in this group.</p>
-  </div>
-
-  <section class="content">
-
-    <h3>Level 0 — Non-user <span class="pct">25% · ~5.15m people</span></h3>
-    <p>Doesn't use AI deliberately. May encounter it via autocomplete or spam filters but distrusts or ignores it. Some actively opt out; others simply haven't been given a reason to start.</p>
-    <p class="whos-here"><strong>Who's here:</strong> older demographics, sceptics, heavily regulated roles, and anyone who's decided AI isn't relevant to their work. A full quarter of UK computer users.</p>
-
-    <h3>Level 1 — Passive consumer <span class="pct">40% · ~8.24m people</span></h3>
-    <p>Uses AI baked into everyday tools without thinking of it as "AI". Accepts Copilot's email suggestions in Outlook, lets Gemini summarise the top of a Gmail thread, hits tab on Grammarly's rewrites. Doesn't seek AI out — but doesn't refuse it either.</p>
-    <p class="whos-here"><strong>Who's here:</strong> the average UK office worker. The single largest band. This is where most of the country actually lives.</p>
-
-    <h3>Level 2 — Casual questioner <span class="pct">20% · ~4.12m people</span></h3>
-    <p>Uses ChatGPT, Claude or Gemini as a better search engine. Quick answers, definitions, explanations. Single-turn, throwaway prompts. Doesn't save chats, doesn't build on previous conversations.</p>
-    <p class="whos-here"><strong>Who's here:</strong> students, curious professionals, the growing mainstream who've tried it and found it useful for quick questions.</p>
-
-    <h3>Level 3 — Practical user <span class="pct">10% · ~2.06m people</span></h3>
-    <p>Feeds documents and data into AI for specific tasks. Proofreading reports, rewriting a CV, summarising a long PDF, drafting emails to a specific audience. Treats AI as a capable assistant — useful, but still a tool that does one job at a time.</p>
-    <p class="whos-here"><strong>Who's here:</strong> knowledge workers, marketers, admin staff, teachers. Anyone who's realised AI can save them an hour a day if they invest five minutes in a good prompt.</p>
-
-    <h3>Level 4 — Applied reasoner <span class="pct">3% · ~618k people</span></h3>
-    <p>The mindset shift. Uses AI to compare, reconcile and analyse across multiple sources. Iterates on prompts, understands context windows, extracts structured outputs. Treats AI as a collaborator rather than a tool.</p>
-    <p class="whos-here"><strong>Who's here:</strong> business analysts, finance teams, researchers, journalists. The first level where AI changes how you think, not just what you produce.</p>
-
-    <blockquote class="pull-quote">The jump from Level 3 to Level 4 is free. No budget, no platform, no IT approval — just a change in how you approach the machine. And yet only 3% of UK computer users have made it.</blockquote>
-
-  </section>
-
-  <!-- ============ TIER 2 ============ -->
-  <div class="tier-band" id="builders">
-    <div class="tier-label">Tier two · 1.6% · ~330,000 people</div>
-    <h2>Level 5: <em>The builders.</em></h2>
-    <p class="tier-deck">Where AI stops being an assistant and starts being infrastructure. Three distinct specialisms, all at the same competency level, each bringing something the others can't.</p>
-  </div>
-
-  <section class="content">
-
-    <h3>Level 5a — Automation builder <span class="pct">0.8% · ~165k people</span></h3>
-    <p>Chains AI into repeatable workflows using n8n, Zapier, Make or Power Automate. Defined inputs, defined outputs, human-in-the-loop checkpoints. AI becomes a step in a pipeline, not a one-off query.</p>
-    <p class="whos-here"><strong>Who's here:</strong> operations specialists, technical analysts, automation leads. People who've looked at a 40-step manual process and thought "this could run itself."</p>
-
-    <h3>Level 5b — Integration engineer <span class="pct">0.5% · ~103k people</span></h3>
-    <p>Connects AI to enterprise systems via APIs, MCP servers and middleware. Manages authentication, data flow and error handling between platforms. Makes sure the AI can read the CRM, write to the data warehouse, and post to Teams without breaking.</p>
-    <p class="whos-here"><strong>Who's here:</strong> integration developers, solutions engineers, platform engineers. The plumbers of the AI era.</p>
-
-    <h3>Level 5c — Security practitioner <span class="pct">0.3% · ~62k people</span></h3>
-    <p>Assesses AI tools for data leakage, prompt injection, shadow IT and compliance risk. Writes acceptable-use policies, reviews vendor AI, and works out how to say "no, but..." rather than just "no."</p>
-    <p class="whos-here"><strong>Who's here:</strong> InfoSec analysts, GRC teams, CISOs and their reports. Arguably the most under-supplied specialism on this pyramid.</p>
-
-    <p style="margin-top: 32px;">The jump from Level 4 to Level 5 is <em>technical plumbing</em>. APIs, authentication, orchestration. Most analysts can learn it in a quarter if they're given the time. Most aren't.</p>
-
-  </section>
-
-  <!-- ============ TIER 3 ============ -->
-  <div class="tier-band" id="operators">
-    <div class="tier-label">Tier three · 0.25% · ~50,000 people</div>
-    <h2>Level 6: <em>The operators.</em></h2>
-    <p class="tier-deck">Where things get philosophically uncomfortable. At this level you stop telling AI exactly what to do — and start letting it work out the steps for itself.</p>
-  </div>
-
-  <section class="content">
-
-    <h3>Level 6a — Agent operator <span class="pct">0.2% · ~41k people</span></h3>
-    <p>Deploys agents that plan, use tools and act semi-autonomously across systems. Comfortable with non-determinism and multi-step reasoning. Accepts that the agent might take three different paths to the same answer, and that's fine.</p>
-    <p class="whos-here"><strong>Who's here:</strong> forward-leaning engineering teams, AI-native startups, small cohorts inside large enterprises.</p>
-
-    <h3>Level 6b — Red teamer <span class="pct">0.05% · ~8–12k people</span></h3>
-    <p>Actively probes AI systems for weaknesses. Jailbreaks, prompt injection, data exfiltration, model misuse. Adversarial mindset applied to AI. For every organisation deploying agents at Level 6a, someone needs to be trying to break them.</p>
-    <p class="whos-here"><strong>Who's here:</strong> AI red teams, penetration testers, specialist security consultancies. There are barely any of them, and the demand is about to explode.</p>
-
-    <p style="margin-top: 32px;">The jump from Level 5 to Level 6 is <em>cultural, not technical</em>. It requires tolerating non-determinism — accepting that the same input might produce a slightly different output tomorrow. This clashes with forty years of enterprise IT governance, which is precisely why most organisations stall here.</p>
-
-  </section>
-
-  <!-- ============ TIER 4 ============ -->
-  <div class="tier-band" id="architects">
-    <div class="tier-label">Tier four · 0.1% · ~21,000 people</div>
-    <h2>Level 7: <em>The architects.</em></h2>
-    <p class="tier-deck">Designs AI-native products and platforms. AI is infrastructure at this level, not a feature.</p>
-  </div>
-
-  <section class="content">
-
-    <h3>Level 7 — AI systems architect <span class="pct">0.1% · ~18–24k people</span></h3>
-    <p>Designs AI-native products and platforms. RAG pipelines, fine-tuned models, eval frameworks, observability. These are the people deciding which model, which vector database, which orchestration layer, which evaluation suite.</p>
-    <p class="whos-here"><strong>Who's here:</strong> ML engineers, AI platform teams, senior engineers at tech firms. A small, well-paid cohort mostly clustered in London, Cambridge, Edinburgh and a handful of scale-up hubs.</p>
-
-  </section>
-
-  <!-- ============ TIER 5 ============ -->
-  <div class="tier-band" id="frontier">
-    <div class="tier-label">Tier five · 0.035% · &lt;10,000 people</div>
-    <h2>Levels 8–9: <em>The frontier.</em></h2>
-    <p class="tier-deck">Fewer than 10,000 UK workers combined. Most of them could fit in a single football stadium, with room left over.</p>
-  </div>
-
-  <section class="content">
-
-    <h3>Level 8a — AI safety engineer <span class="pct">0.01% · ~1.5–2.5k people</span></h3>
-    <p>Builds guardrails, alignment techniques, interpretability tools and evaluation suites. Works out why models behave the way they do and how to make them behave better. Answers the question "is this model safe to deploy?"</p>
-    <p class="whos-here"><strong>Who's here:</strong> safety teams at Anthropic, OpenAI, DeepMind and the UK AI Safety Institute. The stakes of their work are enormous. The headcount is not.</p>
-
-    <h3>Level 8b — Frontier problem solver <span class="pct">0.02% · ~3–5k people</span></h3>
-    <p>Uses AI to attack previously unsolved problems. Drug discovery, protein folding, mathematical proofs, rare disease diagnosis, climate modelling. Treats AI as a research collaborator on problems that matter at a civilisational scale.</p>
-    <p class="whos-here"><strong>Who's here:</strong> Isomorphic Labs, DeepMind's science teams, academic labs, specialist medical research groups.</p>
-
-    <h3>Level 9 — Model researcher <span class="pct">0.005% · ~800–1.2k people</span></h3>
-    <p>Builds and pushes the frontier itself. Trains foundation models, develops new architectures, advances capability and alignment research. Writes the papers everyone else reads three weeks later.</p>
-    <p class="whos-here"><strong>Who's here:</strong> a few hundred UK-based researchers spread across Anthropic, DeepMind, Meta FAIR, Mistral, and top universities. If you assembled every Level 9 researcher in the UK into one room, it would fit comfortably in a corporate townhall.</p>
-
-  </section>
-
-  <!-- ============ ANALYSIS ============ -->
-  <section class="content" id="numbers-tell-us">
-
-    <h2>What the numbers actually tell us.</h2>
-
-    <p>Let's return to the statistic I opened with: <strong>95% of UK computer users sit at Levels 0–3</strong>.</p>
-
-    <p>That's <strong>19.57 million people</strong>. It's more than the populations of London, Birmingham, Manchester and Leeds combined. And almost none of them are getting meaningful value from AI beyond auto-complete and summarisation.</p>
-
-    <p>Meanwhile, everything above Level 4 combined — the entire builder, operator, architect, safety and researcher cohort — is about <strong>1 million people</strong>. Less than 5% of the workforce. Of those, the people actually designing, safeguarding or advancing AI at the frontier number in the low thousands.</p>
-
-    <p>Three things jump out when you sit with the distribution.</p>
-
-    <p><strong>First, the 3-to-4 jump is free and almost nobody is taking it.</strong> The shift from "AI as tool" to "AI as collaborator" costs nothing. No licences, no platforms, no approvals. Just a change in how you approach the machine. And yet 97% of computer-using workers haven't made it.</p>
-
-    <p><strong>Second, the 5-to-6 jump is where enterprise transformation projects die.</strong> Not because the technology isn't ready, but because the culture isn't. Forty years of deterministic IT governance — "the system must produce the same output for the same input" — collides head-on with the reality of autonomous agents. Most organisations discover this the first time an agent takes an unexpected route to a correct answer.</p>
-
-    <p><strong>Third, the safety cohort is dangerously small.</strong> For every ten thousand people deploying AI at work, there are roughly three people whose job is to make sure AI behaves safely at scale. That ratio doesn't inspire confidence.</p>
-
-    <h2 id="strategic-question">The strategic question.</h2>
-
-    <p>If you're a leader, here's the question that should keep you awake: <em>which level is your organisation operating at, and which level do you need it to be at in two years' time?</em></p>
-
-    <p>For most UK enterprises, the honest answer is "Level 2 or 3, and we need to be at Level 5 by 2027." That's a two-level leap across a workforce of hundreds or thousands. It's not a training problem. It's a mindset, infrastructure and culture problem all at once.</p>
-
-    <p>The organisations that pull it off won't be the ones that buy the most AI tooling. They'll be the ones that deliberately move their median employee one level up the pyramid every year — from passive consumer to casual questioner, from questioner to practical user, from practical user to applied reasoner. <strong>Small shifts, compounded, across tens of thousands of people.</strong></p>
-
-    <p>That's the game. And right now, most UK organisations aren't even playing it.</p>
-
-  </section>
-
-  <!-- ============ TACTICAL TAKEAWAY ============ -->
-  <section class="takeaway" aria-label="Tactical takeaway for leaders">
-    <div class="takeaway-label">Tactical takeaway</div>
-    <h2>Move your median employee <em>one level up the pyramid</em> every year. That is the game.</h2>
-    <div class="takeaway-grid">
-      <div class="takeaway-point">
-        <div class="takeaway-point-num">01 · MINDSET</div>
-        <div class="takeaway-point-text">The <strong>3→4 jump</strong> is free. Run a Level 4 mindset workshop for every analyst on your team this quarter.</div>
-      </div>
-      <div class="takeaway-point">
-        <div class="takeaway-point-num">02 · PLUMBING</div>
-        <div class="takeaway-point-text">The <strong>4→5 jump</strong> needs APIs, auth, orchestration. Budget for n8n, MCP, and one integration engineer per 50 staff.</div>
-      </div>
-      <div class="takeaway-point">
-        <div class="takeaway-point-num">03 · CULTURE</div>
-        <div class="takeaway-point-text">The <strong>5→6 jump</strong> is cultural. Hire a red teamer before deploying your first agent. Without exception.</div>
-      </div>
-    </div>
-  </section>
-
-  <!--
-  ARTICLE FOOTER CTA -> AI Survival Score  (v3 - self-constraining, fully centred)
-  WHERE: in each article's index.html, paste this block on a new line
-  immediately AFTER the closing </footer> tag (before the Tags block).
-  Constrains its own width and centres itself, so it renders correctly on
-  mobile, desktop and widescreen even if pasted outside the page container.
-  Uses only fonts the articles already load. No CSS changes needed.
--->
-<div style="max-width:820px;margin:48px auto 8px;background:#1B4332;color:#F7FCF9;padding:40px 34px;border-radius:4px;text-align:center">
-  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:#D8F3DC;margin-bottom:14px">The 3-minute test</div>
-  <p style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:24px;line-height:1.3;color:#F7FCF9;margin:0 auto 10px;max-width:560px">Reading about AI is the easy bit. Would <em style="color:#B7E4C7">your</em> habits survive Monday morning?</p>
-  <p style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;line-height:1.6;color:#D8F3DC;margin:0 auto 24px;max-width:560px">Twelve questions, an honest verdict, no experience required.</p>
-  <a href="https://ai-sustained.com/learn/score/?utm_source=editorial&amp;utm_medium=article_footer&amp;utm_campaign=score_internal" style="display:inline-block;background:#E8FF3A;color:#081C15;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:15px;padding:13px 26px;border-radius:4px;text-decoration:none">Get my AI Survival Score</a>
+<!-- ============ DEPTH SLIDER CONTROL ============ -->
+<div class="depth" aria-label="Reading depth control">
+<div class="depth-top">
+<div class="depth-label">Reading depth · <span id="levelName">Curious</span></div>
+<div class="depth-hint">Drag, or tap a level ↓</div>
+</div>
+<div class="ticks" id="ticks">
+<button class="tick" data-level="0">Explain like I'm 5</button>
+<button class="tick active" data-level="1">Curious</button>
+<button class="tick" data-level="2">Practitioner</button>
+<button class="tick" data-level="3">Expert</button>
+</div>
+<input type="range" id="slider" min="0" max="3" step="1" value="1" aria-label="Reading depth slider">
 </div>
 
-  <footer class="footer">
-    <div class="footer-left">
-      <p class="footer-cta">Which level are you at — <strong>and which level is your organisation operating at</strong>? They're rarely the same number.</p>
-    </div>
-    <div class="sources">
-      Sources · ONS Labour Market Statistics (Nov 2025 – Jan 2026). The 60% / 20.6m computer-user figure is a directional estimate based on sector composition reasoning, not a published ONS statistic. All level distributions are directional estimates, not precise survey data.
-    </div>
-  </footer>
+<!-- ============ SWAPPABLE READING COLUMN ============ -->
+<div id="reading"></div>
 
-  <div class="hashtags">
-    <div class="hashtag-label">Tags</div>
-    <div class="hashtag-list">
-      <span>#ArtificialIntelligence</span> <span>#AIAdoption</span> <span>#FutureOfWork</span> <span>#DigitalTransformation</span> <span>#AIStrategy</span> <span>#GenerativeAI</span> <span>#MachineLearning</span> <span>#AIinBusiness</span> <span>#UKTech</span> <span>#WorkforceTransformation</span> <span>#BusinessAnalyst</span> <span>#Automation</span> <span>#AIAgents</span> <span>#AISafety</span> <span>#Leadership</span> <span>#AISkills</span> <span>#Copilot</span> <span>#PromptEngineering</span> <span>#DataStrategy</span> <span>#Management</span>
-    </div>
-  </div>
+<!-- ============ TACTICAL TAKEAWAY (fixed across depths) ============ -->
+<section class="takeaway" aria-label="Tactical takeaway for leaders">
+<div class="takeaway-label">Tactical takeaway</div>
+<h2>Move your median employee <em>one level up the pyramid</em> every year. That is the game.</h2>
+<div class="takeaway-grid">
+<div class="takeaway-point">
+<div class="takeaway-point-num">01 · MINDSET</div>
+<div class="takeaway-point-text">The <strong>3→4 jump</strong> is free. Run a Level 4 mindset workshop for every analyst on your team this quarter.</div>
+</div>
+<div class="takeaway-point">
+<div class="takeaway-point-num">02 · PLUMBING</div>
+<div class="takeaway-point-text">The <strong>4→5 jump</strong> needs APIs, auth, orchestration. Budget for n8n, MCP, and one integration engineer per 50 staff.</div>
+</div>
+<div class="takeaway-point">
+<div class="takeaway-point-num">03 · CULTURE</div>
+<div class="takeaway-point-text">The <strong>5→6 jump</strong> is cultural. Hire a red teamer before deploying your first agent. Without exception.</div>
+</div>
+</div>
+</section>
 
-  <div class="colophon">
-    <span>AI Sustained · By Kevin Clubb</span>
-    <span>2026 · Issue 001</span>
-  </div>
+<footer class="footer">
+<div class="footer-left">
+<p class="footer-cta">Which level are you at — <strong>and which level is your organisation operating at</strong>? They're rarely the same number.</p>
+</div>
+<div class="sources">
+Sources · ONS Labour Market Statistics (Nov 2025 – Jan 2026). The 60% / 20.6m computer-user figure is a directional estimate based on sector composition reasoning, not a published ONS statistic. All level distributions are directional estimates, not precise survey data.
+</div>
+</footer>
+
+<div class="colophon">
+<span>AI Sustained · By Kevin Clubb</span>
+<span>2026 · Issue 001</span>
+</div>
 
 </article>
+
+<!-- ============================================================
+     DEPTH VARIANTS + SLIDER LOGIC
+     Content lives in the DEPTHS object below. In production these
+     four variants are generated at publish time and pasted in.
+     ============================================================ -->
+<script>
+const DEPTHS = [
+/* 0 · ELI5 ------------------------------------------------------ */
+{
+  name: "Explain like I'm 5",
+  meta: "≈220 words · 1 min",
+  html: `
+    <section class="content">
+      <p>Imagine everyone in the country who uses a computer for work — about <strong>20.6 million people</strong>. Now imagine sorting them by how well they use AI, like stairs.</p>
+      <p>Most people are on the bottom few steps. <span class="inline-highlight">95 out of every 100 are near the bottom</span> — they let AI finish their sentences or tidy an email, but not much more.</p>
+      <p>A few people climb higher. They give AI harder jobs, join it up to other computer systems, or even let it work things out on its own. Right at the very top, a tiny group — small enough to fit in one football stadium — actually <em>builds</em> the AI everyone else uses.</p>
+      <h3>The surprising bit</h3>
+      <p>Going up one of the early steps — from "AI does one job for me" to "AI helps me think" — <strong>costs nothing</strong>. No money, no special tools. You just change how you talk to it. Yet almost nobody takes that free step.</p>
+      <p>The higher steps are harder. Some need real computer skills. The hardest ones need a change of attitude: being okay with AI that doesn't always do the exact same thing twice.</p>
+      <p>The whole point: if a company nudged every person up just one step a year, it would quietly become brilliant at AI.</p>
+    </section>`
+},
+/* 1 · CURIOUS (default / close to published) -------------------- */
+{
+  name: "Curious",
+  meta: "≈650 words · 4 min",
+  html: `
+    <section class="content">
+      <p>According to the ONS, <strong>34.31 million people</strong> are in employment in the UK. An estimated <strong>20.6 million</strong> of them use a computer every day. That's the entire addressable market for AI at work — and it splits across 14 levels of competency, from people who've never knowingly used it to the few hundred who build the models themselves.</p>
+      <p>I mapped every level. The distribution is uncomfortable: <span class="inline-highlight">95% of UK computer users sit in the bottom four levels.</span> Everything above Level 4 combined adds up to less than 5%.</p>
+    </section>
+
+    <div class="tier-band">
+      <div class="tier-label">Tier one · 98% of UK computer users</div>
+      <h2>Levels 0–4: <em>The general workforce.</em></h2>
+      <p class="tier-deck">If you work in an office and send emails for a living, you're almost certainly here.</p>
+    </div>
+    <section class="content">
+      <h3>Level 0 — Non-user <span class="pct">25%</span></h3>
+      <p>Doesn't use AI deliberately. Encounters it via autocomplete or spam filters but ignores or distrusts it.</p>
+      <h3>Level 1 — Passive consumer <span class="pct">40%</span></h3>
+      <p>Uses AI baked into everyday tools without calling it "AI" — accepts Copilot's email suggestions, lets Gemini summarise a thread. The single largest band; where most of the country lives.</p>
+      <h3>Level 2 — Casual questioner <span class="pct">20%</span></h3>
+      <p>Uses ChatGPT, Claude or Gemini as a better search engine. Quick, throwaway, single-turn prompts.</p>
+      <h3>Level 3 — Practical user <span class="pct">10%</span></h3>
+      <p>Feeds documents into AI for specific tasks: proofreading, summarising a PDF, drafting to an audience. Treats AI as a capable assistant.</p>
+      <h3>Level 4 — Applied reasoner <span class="pct">3%</span></h3>
+      <p>The mindset shift. Uses AI to compare and reconcile across sources, iterates on prompts, treats it as a collaborator rather than a tool.</p>
+      <blockquote class="pull-quote">The jump from Level 3 to Level 4 is free. No budget, no platform, no IT approval — just a change in how you approach the machine. Only 3% have made it.</blockquote>
+    </section>
+
+    <div class="tier-band">
+      <div class="tier-label">Tiers two–five · under 5% combined</div>
+      <h2>Levels 5–9: <em>Builders to frontier.</em></h2>
+      <p class="tier-deck">Where AI stops being an assistant and starts being infrastructure.</p>
+    </div>
+    <section class="content">
+      <p><strong>Level 5 — Builders (~1.6%).</strong> Automation builders chain AI into workflows (n8n, Zapier, Power Automate); integration engineers wire it to enterprise systems via APIs and MCP; security practitioners assess it for data-leakage and compliance risk.</p>
+      <p><strong>Level 6 — Operators (~0.25%).</strong> Deploy agents that plan and act semi-autonomously — and the red teamers who try to break them. The jump here is cultural, not technical: tolerating non-determinism.</p>
+      <p><strong>Level 7 — Architects (~0.1%).</strong> Design AI-native platforms: RAG pipelines, fine-tuned models, eval frameworks.</p>
+      <p><strong>Levels 8–9 — Frontier (&lt;10k people).</strong> Safety engineers, frontier problem-solvers and model researchers. Most of the UK's Level 9 cohort would fit in a single townhall.</p>
+      <h2>What the numbers tell us</h2>
+      <p>95% at Levels 0–3 is <strong>19.57 million people</strong> — more than London, Birmingham, Manchester and Leeds combined — getting little from AI beyond autocomplete. The 3→4 jump is free and almost nobody takes it. The 5→6 jump is where enterprise transformation projects die, because culture, not technology, is the blocker.</p>
+    </section>`
+},
+/* 2 · PRACTITIONER (full published depth) ---------------------- */
+{
+  name: "Practitioner",
+  meta: "≈1,000 words · 7 min",
+  html: `
+    <section class="content">
+      <p>According to the ONS, <strong>34.31 million people</strong> are in employment in the UK. An estimated <strong>20.6 million</strong> of them use a computer every day. That's the entire addressable market for AI in the workplace — and it splits across 14 distinct levels of AI competency.</p>
+      <p>I mapped every level. <span class="inline-highlight">95% of UK computer users sit in the bottom four levels.</span> Everything above Level 4 combined adds up to less than 5%.</p>
+    </section>
+
+    <div class="tier-band">
+      <div class="tier-label">Tier one · 98% of UK computer users</div>
+      <h2>Levels 0–4: <em>The general workforce.</em></h2>
+      <p class="tier-deck">Five levels covering 98% of the UK's computer-using workforce.</p>
+    </div>
+    <section class="content">
+      <h3>Level 0 — Non-user <span class="pct">25% · ~5.15m</span></h3>
+      <p>Doesn't use AI deliberately. May encounter it via autocomplete or spam filters but distrusts or ignores it.</p>
+      <p class="whos-here"><strong>Who's here:</strong> older demographics, sceptics, heavily regulated roles.</p>
+      <h3>Level 1 — Passive consumer <span class="pct">40% · ~8.24m</span></h3>
+      <p>Uses AI baked into everyday tools without thinking of it as "AI". Accepts Copilot's suggestions, hits tab on Grammarly's rewrites.</p>
+      <p class="whos-here"><strong>Who's here:</strong> the average UK office worker. The single largest band.</p>
+      <h3>Level 2 — Casual questioner <span class="pct">20% · ~4.12m</span></h3>
+      <p>Uses ChatGPT, Claude or Gemini as a better search engine. Single-turn, throwaway prompts.</p>
+      <h3>Level 3 — Practical user <span class="pct">10% · ~2.06m</span></h3>
+      <p>Feeds documents and data into AI for specific tasks. Treats AI as a capable assistant — useful, but a tool doing one job at a time.</p>
+      <h3>Level 4 — Applied reasoner <span class="pct">3% · ~618k</span></h3>
+      <p>The mindset shift. Compares, reconciles and analyses across multiple sources. Understands context windows, extracts structured outputs. Treats AI as a collaborator.</p>
+      <blockquote class="pull-quote">The jump from Level 3 to Level 4 is free. And yet only 3% of UK computer users have made it.</blockquote>
+    </section>
+
+    <div class="tier-band">
+      <div class="tier-label">Tier two · ~1.6% · ~330,000 people</div>
+      <h2>Level 5: <em>The builders.</em></h2>
+      <p class="tier-deck">Where AI stops being an assistant and starts being infrastructure.</p>
+    </div>
+    <section class="content">
+      <h3>Level 5a — Automation builder <span class="pct">0.8%</span></h3>
+      <p>Chains AI into repeatable workflows using n8n, Zapier, Make or Power Automate. Defined inputs, defined outputs, human-in-the-loop checkpoints.</p>
+      <h3>Level 5b — Integration engineer <span class="pct">0.5%</span></h3>
+      <p>Connects AI to enterprise systems via APIs, MCP servers and middleware. Manages auth, data flow and error handling. The plumbers of the AI era.</p>
+      <h3>Level 5c — Security practitioner <span class="pct">0.3%</span></h3>
+      <p>Assesses AI tools for data leakage, prompt injection, shadow IT and compliance risk. Arguably the most under-supplied specialism on the pyramid.</p>
+      <p style="margin-top:32px;">The jump from Level 4 to Level 5 is <em>technical plumbing</em> — most analysts can learn it in a quarter if given the time. Most aren't.</p>
+    </section>
+
+    <div class="tier-band">
+      <div class="tier-label">Tier three · ~0.25% · ~50,000 people</div>
+      <h2>Level 6: <em>The operators.</em></h2>
+      <p class="tier-deck">You stop telling AI exactly what to do — and start letting it work out the steps itself.</p>
+    </div>
+    <section class="content">
+      <h3>Level 6a — Agent operator <span class="pct">0.2%</span></h3>
+      <p>Deploys agents that plan, use tools and act semi-autonomously. Comfortable with non-determinism and multi-step reasoning.</p>
+      <h3>Level 6b — Red teamer <span class="pct">0.05%</span></h3>
+      <p>Actively probes AI systems for weaknesses — jailbreaks, prompt injection, data exfiltration. Barely any of them exist; demand is about to explode.</p>
+      <p style="margin-top:32px;">The jump from Level 5 to Level 6 is <em>cultural, not technical</em>. Tolerating non-determinism clashes with forty years of enterprise IT governance — which is exactly why most organisations stall here.</p>
+    </section>
+
+    <div class="tier-band">
+      <div class="tier-label">Tiers four–five · ~0.14% combined</div>
+      <h2>Levels 7–9: <em>Architects &amp; frontier.</em></h2>
+      <p class="tier-deck">Fewer than 10,000 UK workers at the frontier — most would fit in one stadium.</p>
+    </div>
+    <section class="content">
+      <h3>Level 7 — AI systems architect <span class="pct">0.1%</span></h3>
+      <p>Designs AI-native products and platforms: RAG pipelines, fine-tuned models, eval frameworks, observability.</p>
+      <h3>Levels 8–9 — The frontier <span class="pct">&lt;0.04%</span></h3>
+      <p>Safety engineers building guardrails and interpretability tools; frontier problem-solvers attacking drug discovery and protein folding; and a few hundred model researchers who push the frontier itself.</p>
+      <h2>What the numbers actually tell us</h2>
+      <p>95% at Levels 0–3 is <strong>19.57 million people</strong> — more than London, Birmingham, Manchester and Leeds combined. Three things stand out: the <strong>3→4 jump is free</strong> and almost nobody takes it; the <strong>5→6 jump is where transformation projects die</strong> on culture, not tech; and the <strong>safety cohort is dangerously small</strong> — roughly three safety people per ten thousand deploying AI.</p>
+      <h2>The strategic question</h2>
+      <p>Which level is your organisation operating at, and which level do you need it at in two years? For most UK enterprises the honest answer is "Level 2–3, and we need Level 5 by 2027." That's a two-level leap across a whole workforce — a mindset, infrastructure and culture problem at once.</p>
+    </section>`
+},
+/* 3 · EXPERT --------------------------------------------------- */
+{
+  name: "Expert",
+  meta: "≈900 words · 6 min · assumes fluency",
+  html: `
+    <section class="content">
+      <p>Baseline: ONS puts UK employment at <strong>34.31m</strong>; the <strong>20.6m</strong> daily computer-user figure is a directional 60% derivation from sector composition, not a published series — treat it as a modelling assumption, not a citation. On that denominator, ~95% cluster at Levels 0–3. The interesting analysis isn't the distribution; it's the <em>transition costs</em> between levels and where they're structural versus cultural.</p>
+      <p>I'll skip the level-by-level taxonomy (0–4 general workforce, 5 builders, 6 operators, 7 architects, 8–9 frontier) and go straight to the three transitions that actually gate enterprise value.</p>
+
+      <h2>Transition 1 · L3→L4 — zero marginal cost, near-zero adoption</h2>
+      <p>The shift from tool-use to collaborative reasoning (multi-source reconciliation, context-window management, structured extraction) requires <strong>no capex</strong> — no licences, no platform, no IT approval. Yet only ~3% clear it. That's the strongest signal in the whole dataset: when a free capability sees &lt;3% uptake, the bottleneck is <em>mental model</em>, not access. Training spend aimed below this line is largely wasted; the ROI is in reframing, not tooling.</p>
+
+      <h2>Transition 2 · L4→L5 — solvable engineering</h2>
+      <p>Automation (n8n/Make/Power Automate), integration (<code>API</code> + <code>MCP</code> + middleware, auth, error handling) and security assessment (prompt injection, exfiltration, shadow-IT governance). This is bounded, teachable plumbing — a competent analyst clears it in a quarter with allocated time. The constraint is org design: who's given the time, and whether security headcount scales with deployment (it doesn't — ~3 safety-adjacent staff per 10k deployers).</p>
+
+      <h2>Transition 3 · L5→L6 — the governance collision</h2>
+      <p>This is where transformation programmes die, and it's not a skills gap. Agentic operation demands tolerance of <strong>non-determinism</strong>: the same input may yield a different-but-valid trajectory. That directly contradicts ~40 years of deterministic IT governance ("same input → same output"), change-control and audit assumptions. You can't train your way past it; you re-architect assurance — eval suites over unit tests, behavioural bounds over fixed outputs, red-teaming as a standing function rather than a phase.</p>
+
+      <h3>Implications for a transformation roadmap</h3>
+      <ul>
+        <li><strong>Instrument the median, not the ceiling.</strong> The value lever is moving the median employee one level per year — L1→L2→L3→L4 compounding across tens of thousands beats a small L6 elite.</li>
+        <li><strong>Sequence assurance before agents.</strong> Stand up red-teaming and eval frameworks <em>before</em> L6 deployment, not after the first incident.</li>
+        <li><strong>Treat the free transition as a change programme, not a course.</strong> L3→L4 is behavioural; run it as adoption, with reinforcement and manager modelling, not a one-off workshop.</li>
+      </ul>
+
+      <h2>The strategic question</h2>
+      <p>Most UK enterprises are honestly at L2–3 and need L5 by 2027 — a two-level shift across the whole distribution, spanning a behavioural transition (L3→L4), an engineering one (L4→L5) and, if agents are in scope, a governance rewrite (L5→L6). Budgeting these as a single "AI training" line item is the category error. They're three different problems with three different owners.</p>
+    </section>`
+}
+];
+
+// ---- Slider logic --------------------------------------------------
+const KEY = "aisustained_reading_depth";
+const slider    = document.getElementById('slider');
+const ticks     = [...document.querySelectorAll('.tick')];
+const reading   = document.getElementById('reading');
+const levelName = document.getElementById('levelName');
+
+function render(level, animate){
+  const d = DEPTHS[level];
+  const paint = () => {
+    reading.innerHTML =
+      `<div class="reading-meta"><span>Depth · <b>${d.name}</b></span><span>${d.meta}</span></div>` + d.html;
+    reading.classList.remove('swapping');
+  };
+  if(animate){ reading.classList.add('swapping'); setTimeout(paint, 190); }
+  else { paint(); }
+  levelName.textContent = d.name;
+  ticks.forEach(t => t.classList.toggle('active', +t.dataset.level === level));
+  slider.value = level;
+  try { localStorage.setItem(KEY, level); } catch(e){}
+}
+
+slider.addEventListener('input', e => render(+e.target.value, true));
+ticks.forEach(t => t.addEventListener('click', () => render(+t.dataset.level, true)));
+
+let start = 1;
+try { const s = localStorage.getItem(KEY); if(s !== null) start = +s; } catch(e){}
+render(start, false);
+</script>
 </body>
 </html>
