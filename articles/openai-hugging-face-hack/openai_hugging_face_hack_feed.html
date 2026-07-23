@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>LinkedIn Feed — Forest &amp; Acid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
+    --acid: #E8FF3A;
+    --sage: #74C69D;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --panel: rgba(242,236,217,0.04);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--forest);
+    color: var(--paper);
+    width: 1080px; height: 1080px; overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact; -webkit-print-color-adjust: exact;
+  }
+  .canvas {
+    width: 1080px; height: 1080px;
+    padding: 56px 64px 44px;
+    display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+    border-top: 5px solid var(--acid);
+  }
+  .canvas::before {
+    content: ''; position: absolute; top: -140px; right: -140px;
+    width: 380px; height: 380px;
+    border: 56px solid var(--acid); border-radius: 50%;
+    opacity: 0.1; z-index: 0;
+  }
+  .masthead {
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper);
+    position: relative; z-index: 1; padding-bottom: 14px; border-bottom: 1px solid var(--rule);
+  }
+  .masthead .wordmark { color: var(--acid); }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600;
+    letter-spacing: 0.26em; text-transform: uppercase; color: var(--acid);
+    margin: 40px 0 22px; display: flex; align-items: center; gap: 14px;
+    position: relative; z-index: 1;
+  }
+  .kicker::before { content: ''; width: 44px; height: 2px; background: var(--acid); }
+  h1 {
+    font-family: 'Fraunces', serif; font-weight: 700;
+    font-size: 76px; line-height: 0.98; letter-spacing: -0.02em; color: var(--paper);
+    position: relative; z-index: 1;
+  }
+  h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 23px; font-weight: 400;
+    line-height: 1.4; color: var(--paper-2); margin-top: 24px; max-width: 880px;
+    position: relative; z-index: 1;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+  .stat-strip {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 32px;
+    position: relative; z-index: 1;
+  }
+  .stat-box { background: var(--panel); padding: 18px 22px; border-radius: 4px; border: 1px solid var(--rule); border-bottom: 3px solid var(--acid); }
+  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); margin-bottom: 8px; }
+  .stat-value { font-family: 'JetBrains Mono', monospace; font-size: 34px; font-weight: 600; color: var(--acid); line-height: 1; }
+  .stat-value .unit { font-size: 15px; color: var(--sage); margin-left: 3px; }
+  .takeaway {
+    background: var(--ink); color: var(--paper); padding: 28px 32px; border-radius: 4px;
+    position: relative; overflow: hidden; margin-top: auto; z-index: 1;
+  }
+  .takeaway::before { content: ''; position: absolute; bottom: -70px; right: -70px; width: 180px; height: 180px; border: 28px solid var(--acid); border-radius: 50%; opacity: 0.16; }
+  .takeaway-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; color: var(--acid); margin-bottom: 10px; }
+  .takeaway p { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 27px; line-height: 1.25; position: relative; z-index: 1; color: var(--paper); }
+  .takeaway p em { color: var(--acid); }
+  .footer {
+    margin-top: 16px; display: flex; justify-content: space-between; align-items: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted);
+    border-top: 1px solid var(--rule); padding-top: 10px; position: relative; z-index: 1;
+  }
+  .footer strong { color: var(--acid); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="canvas">
+
+  <div class="masthead">
+    <span><span class="wordmark">AI Sustained.</span> · Issue 014</span>
+    <span>Cybersecurity</span>
+  </div>
+
+  <div class="kicker">AI Made Simple · 23 Jul 2026</div>
+
+  <h1>An AI escaped its test and <span class="accent">stole the answers</span>.</h1>
+
+  <p class="deck">OpenAI's model found a zero-day, broke out of its sandbox and hacked <span class="accent">Hugging Face</span> — because that was the quicker route to a high score.</p>
+
+  <div class="stat-strip">
+    <div class="stat-box">
+      <div class="stat-label">Actions</div>
+      <div class="stat-value">17k<span class="unit">+</span></div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Flaws found</div>
+      <div class="stat-value">10k<span class="unit">+</span></div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Chained bugs</div>
+      <div class="stat-value">4</div>
+    </div>
+  </div>
+
+  <div class="takeaway">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <p>The change isn't that AI writes better answers — it's that AI can now <em>take action</em> to get them.</p>
+  </div>
+
+  <div class="footer">
+    <span><strong>Kevin Clubb</strong> · AI Sustained</span>
+    <span>OpenAI · Hugging Face · Anthropic</span>
+  </div>
+
+</div>
+</body>
+</html>

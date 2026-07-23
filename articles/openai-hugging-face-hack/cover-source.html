@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Cover — OpenAI Hugging Face Hack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --paper: #F2ECD9;
+    --acid: #E8FF3A;
+    --coral: #FF5A3C;
+    --muted: #8FA398;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1200px; height: 1200px; overflow: hidden;
+    background: var(--forest);
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact; -webkit-print-color-adjust: exact;
+  }
+  .canvas {
+    position: relative; width: 1200px; height: 1200px;
+    border-top: 8px solid var(--acid);
+    background:
+      radial-gradient(circle at 42% 46%, rgba(232,255,58,0.22) 0%, rgba(232,255,58,0.06) 26%, rgba(27,67,50,0) 55%),
+      linear-gradient(160deg, #205039 0%, #1B4332 55%, #143528 100%);
+    overflow: hidden;
+  }
+  /* faint grid bottom */
+  .grid {
+    position: absolute; inset: 0; z-index: 0; opacity: 0.5;
+    background-image:
+      linear-gradient(rgba(242,236,217,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(242,236,217,0.045) 1px, transparent 1px);
+    background-size: 120px 120px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 55%, #000 100%);
+            mask-image: linear-gradient(to bottom, transparent 55%, #000 100%);
+  }
+  .stage { position: absolute; inset: 0; z-index: 1; }
+  .wordmark {
+    position: absolute; left: 72px; bottom: 96px; z-index: 3;
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 700;
+    font-size: 62px; letter-spacing: -0.01em; color: var(--acid);
+    line-height: 1;
+  }
+  .issue {
+    position: absolute; left: 74px; bottom: 62px; z-index: 3;
+    font-family: 'JetBrains Mono', monospace; font-weight: 600;
+    font-size: 20px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  svg { display: block; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="grid"></div>
+  <div class="stage">
+    <svg viewBox="0 0 1200 1200" width="1200" height="1200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="26" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- broken sandbox frame -->
+      <g stroke="#F2ECD9" stroke-width="6" fill="none" opacity="0.85" stroke-linecap="round" stroke-linejoin="round">
+        <!-- bottom + left + lower-right: intact -->
+        <path d="M 360 780 L 360 400 L 690 400"/>
+        <path d="M 360 780 L 740 780 L 740 560"/>
+      </g>
+      <!-- snapped top-right corner (peeled up) -->
+      <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="6">
+        <path d="M 690 400 L 760 372" stroke="#FF5A3C"/>
+        <path d="M 760 372 L 812 316 L 792 250 L 830 214" stroke="#F2ECD9"/>
+      </g>
+
+      <!-- hugging face -->
+      <g filter="url(#glow)">
+        <!-- shadow -->
+        <ellipse cx="470" cy="640" rx="205" ry="205" fill="#0A0F0C" opacity="0.35" transform="translate(14,20)"/>
+        <!-- acid rim -->
+        <circle cx="470" cy="560" r="196" fill="#E8FF3A" opacity="0.9"/>
+        <!-- cream face slightly offset for rim-light -->
+        <circle cx="462" cy="556" r="188" fill="#F2ECD9"/>
+        <!-- top highlight arc -->
+        <path d="M 350 470 A 170 170 0 0 1 470 400" stroke="#E8FF3A" stroke-width="14" fill="none" stroke-linecap="round" opacity="0.9"/>
+        <!-- eyes -->
+        <circle cx="405" cy="545" r="24" fill="#0A0F0C"/>
+        <circle cx="520" cy="545" r="24" fill="#0A0F0C"/>
+        <!-- hands -->
+        <g fill="#F2ECD9" stroke="#0A0F0C" stroke-width="5" stroke-linejoin="round">
+          <path d="M 360 700 q -34 -40 -6 -78 q 10 -14 22 -4 q -6 -30 20 -34 q 20 -3 24 20 q 6 -22 28 -16 q 20 6 12 30 q 20 -8 28 12 q 8 22 -18 42 l -60 44 z"/>
+          <g transform="translate(924,0) scale(-1,1)">
+            <path d="M 360 700 q -34 -40 -6 -78 q 10 -14 22 -4 q -6 -30 20 -34 q 20 -3 24 20 q 6 -22 28 -16 q 20 6 12 30 q 20 -8 28 12 q 8 22 -18 42 l -60 44 z"/>
+          </g>
+        </g>
+      </g>
+
+      <!-- escaping pixels (acid), heading up-right toward the broken corner -->
+      <g fill="#E8FF3A">
+        <rect x="650" y="500" width="34" height="34" rx="3"/>
+        <rect x="700" y="470" width="26" height="26" rx="3" opacity="0.92"/>
+        <rect x="742" y="440" width="22" height="22" rx="3" opacity="0.85"/>
+        <rect x="690" y="524" width="20" height="20" rx="3" opacity="0.8"/>
+        <rect x="778" y="410" width="16" height="16" rx="3" opacity="0.7"/>
+        <rect x="812" y="384" width="12" height="12" rx="3" opacity="0.6"/>
+      </g>
+      <!-- coral spark accents at the break -->
+      <g fill="#FF5A3C" opacity="0.9">
+        <rect x="726" y="360" width="10" height="26" rx="2" transform="rotate(24 731 373)"/>
+        <rect x="700" y="392" width="8" height="20" rx="2" transform="rotate(24 704 402)"/>
+      </g>
+
+      <!-- top-right large brand circle motif -->
+      <circle cx="1120" cy="120" r="150" fill="none" stroke="#E8FF3A" stroke-width="10" opacity="0.55"/>
+    </svg>
+  </div>
+  <div class="wordmark">AI Sustained.</div>
+  <div class="issue">Issue 014 · Cybersecurity</div>
+</div>
+</body>
+</html>
