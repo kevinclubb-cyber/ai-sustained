@@ -3,7 +3,7 @@
 **Feature:** Adaptive reading-depth slider ("AI Slider")
 **Product:** ai-sustained.com editorial / learn
 **Owner:** Kevin Clubb
-**Status:** Pilot built, not yet live
+**Status:** Staged on two articles (001, 014), awaiting commit
 **Last updated:** 24 Jul 2026
 
 > Keep this file current. Every time the slider is applied to (or removed from) an article, update the **Deployment Log** at the bottom. Plain Markdown — drops cleanly into GitHub, a wiki, Cloudflare, Notion or Google Docs.
@@ -121,12 +121,13 @@ _Update this table on every change. Status values: `planned` · `pilot (staged)`
 
 | Issue | Slug | Skin | Status | Depths authored | Live URL | Notes | Updated |
 |------:|------|------|--------|-----------------|----------|-------|---------|
-| 001 | ai-competency-pyramid | Clinical Green | pilot (staged) | 0–3 ✔ | staged as `pilot-competency-pyramid-index.html` | Not yet merged into `index.html`. Preview only. | 24 Jul 2026 |
-| 014 | openai-hugging-face-hack | Forest & Acid | planned | — | — | Candidate for first Forest & Acid rollout. | 24 Jul 2026 |
+| 001 | ai-competency-pyramid | Forest & Acid | staged (ready) | 0–3 ✔ | https://ai-sustained.com/articles/ai-competency-pyramid/ | Rebuilt from Clinical Green to Forest & Acid via ai-s-editorial. Slider + new ridgeline hero + back nav. Awaiting commit to `index.html`. Tiers need Kevin's fact-check. | 24 Jul 2026 |
+| 014 | openai-hugging-face-hack | Forest & Acid | staged (ready) | 0–3 ✔ | https://ai-sustained.com/articles/openai-hugging-face-hack/ | Slider + back nav added to existing article. Also fixed: absolute social images + canonical. Practitioner/Expert tiers need Kevin's fact-check. | 24 Jul 2026 |
 
 ### Rollout backlog (agreed scope: all articles, editorials included)
 Suggested order — evergreen/explainer pieces first, then editorials:
 1. `ai-made-simple` (013)
 2. `ai-curious`
-3. `ai-competency-pyramid` (001) — finish the staged pilot
-4. Remaining editorials as time allows.
+3. Remaining editorials as time allows.
+
+Both 001 and 014 also carry the standard **back-to-articles nav** (added Jul 2026) — consider back-filling it across the rest of the archive independently of the slider.
