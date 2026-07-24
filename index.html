@@ -1041,7 +1041,7 @@
     </div>
     <nav class="topbar-nav">
       <a href="#editorial" class="active">Editorial</a>
-      <a href="#case-studies">Case studies</a>
+      <a href="/case-studies/">Case studies</a>
       <a href="#subscribe">Subscribe</a>
       <a href="#about">About</a>
       <a href="https://aisustained.substack.com/" class="ext" target="_blank" rel="noopener">Substack ↗</a>
@@ -1055,7 +1055,7 @@
       <p class="deck">Practical, evidence-led writing on AI adoption, capability, agentic workflows and sustainability — <strong>by someone who actually uses it</strong>. Plus real case studies from the build. Aimed at people who want answers, not hype.</p>
       <div class="hero-lanes">
         <a class="lane-btn primary" href="#editorial">Read the editorial</a>
-        <a class="lane-btn ghost" href="#case-studies">See the case studies</a>
+        <a class="lane-btn ghost" href="/case-studies/">See the case studies</a>
       </div>
     </div>
   </section>
@@ -1319,40 +1319,103 @@
 
   <!-- ============ CASE STUDIES ============ -->
   <section class="casework" id="case-studies">
-    <div class="casework-inner">
-      <div class="casework-kicker">Case studies · From the build</div>
-      <div class="casework-head">
-        <h2>Proof, not <em>promises</em>.</h2>
-      </div>
-      <p class="casework-lead">The editorial is the thinking. This is the doing — real platform, BI and CRM work, written up plainly: the problem, the approach, what shipped, and what it actually changed.</p>
-      <div class="case-grid">
-        <!-- FEATURED CASE STUDY -->
-        <a class="case-card" href="/case-studies/shadow-ai-ask-the-workforce/">
-          <div class="c-meta">
-            <span>Case study 001</span>
-            <span class="dot"></span>
-            <span>Agentic AI · Shadow AI</span>
-            <span class="dot"></span>
-            <span class="muted">AI adoption</span>
-          </div>
-          <h3>Before you write an AI policy, ask the people already using it.</h3>
-          <p>The workforce is already using AI — on personal and business accounts. Instead of a policy written in the dark, we ran an anonymous workforce survey. The twist: the survey itself was built by an AI agent driving a browser, in about fifteen minutes.</p>
-          <div class="case-metrics">
-            <div class="case-metric"><div class="m-val">~150</div><div class="m-lab">Shadow AI users</div></div>
-            <div class="case-metric"><div class="m-val">~15 min</div><div class="m-lab">Agent build time</div></div>
-            <div class="case-metric"><div class="m-val">12</div><div class="m-lab">Survey questions</div></div>
-          </div>
-          <span class="c-cta">Read the case study</span>
-        </a>
-        <div class="case-aside">
-          <div class="a-kicker">Also live</div>
-          <p><strong style="color:var(--paper);">Before you overlay AI, build the single source of truth.</strong> Connecting finance, CRM, sales, till and app data across 1,400–1,800 sites into one governed warehouse — the groundwork AI actually needs.</p>
-          <p>The thinking behind every case study is public — have a read.</p>
-          <a class="browse" href="/case-studies/single-source-of-truth/">Read case study 002</a>
-        </div>
-      </div>
+<style>
+  .casework .cw-inner { max-width: 1280px; margin: 0 auto; padding: 88px 32px; }
+  .casework .cw-kicker { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; color: var(--acid, #E8FF3A); margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
+  .casework .cw-kicker::before { content: ''; width: 44px; height: 2px; background: var(--acid, #E8FF3A); }
+  .casework .cw-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 14px; }
+  .casework .cw-head h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(34px, 4.4vw, 56px); letter-spacing: -0.02em; color: #F2ECD9; line-height: 1.05; }
+  .casework .cw-head h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--acid, #E8FF3A); }
+  .casework .cw-all { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid, #E8FF3A); text-decoration: none; border-bottom: 1px solid rgba(232,255,58,0.35); padding-bottom: 3px; white-space: nowrap; }
+  .casework .cw-all:hover { border-bottom-color: var(--acid, #E8FF3A); }
+  .casework .cw-lead { font-size: 16px; line-height: 1.6; color: #D8F3DC; max-width: 640px; margin-bottom: 40px; }
+  /* Rail */
+  .casework .cw-rail-wrap { position: relative; }
+  .casework .cw-rail { display: grid; grid-auto-flow: column; grid-auto-columns: min(420px, 82vw); gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 4px 22px; scrollbar-width: thin; scrollbar-color: rgba(232,255,58,0.5) rgba(242,236,217,0.08); -webkit-overflow-scrolling: touch; }
+  .casework .cw-rail::-webkit-scrollbar { height: 6px; }
+  .casework .cw-rail::-webkit-scrollbar-track { background: rgba(242,236,217,0.08); border-radius: 3px; }
+  .casework .cw-rail::-webkit-scrollbar-thumb { background: rgba(232,255,58,0.5); border-radius: 3px; }
+  /* Cards */
+  .casework .cw-card { scroll-snap-align: start; display: flex; flex-direction: column; background: rgba(242,236,217,0.05); border: 1px solid rgba(242,236,217,0.16); border-radius: 6px; overflow: hidden; text-decoration: none; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; }
+  .casework .cw-card:hover { transform: translateY(-4px); border-color: rgba(232,255,58,0.4); box-shadow: 0 18px 40px rgba(0,0,0,0.4); }
+  .casework .cw-img { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-bottom: 2px solid var(--acid, #E8FF3A); }
+  .casework .cw-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease; }
+  .casework .cw-card:hover .cw-img img { transform: scale(1.04); }
+  .casework .cw-num { position: absolute; top: 12px; left: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; background: #0A0F0C; color: var(--acid, #E8FF3A); padding: 6px 11px; border-radius: 3px; }
+  .casework .cw-body { padding: 22px 24px 24px; display: flex; flex-direction: column; flex: 1; }
+  .casework .cw-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid, #E8FF3A); margin-bottom: 10px; }
+  .casework .cw-card h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 21px; line-height: 1.18; color: #F2ECD9; letter-spacing: -0.01em; margin: 0 0 16px; flex: 1; }
+  .casework .cw-card h3 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--acid, #E8FF3A); }
+  .casework .cw-stat { display: flex; align-items: baseline; gap: 10px; padding-top: 14px; border-top: 1px solid rgba(242,236,217,0.16); }
+  .casework .cw-stat .v { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 22px; color: var(--acid, #E8FF3A); line-height: 1; white-space: nowrap; }
+  .casework .cw-stat .l { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(242,236,217,0.6); }
+  .casework .cw-hint { margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(242,236,217,0.45); text-align: right; }
+  @media (max-width: 640px) { .casework .cw-rail { grid-auto-columns: 86vw; } }
+</style>
+  <div class="cw-inner">
+    <div class="cw-kicker">Case studies · From the build</div>
+    <div class="cw-head">
+      <h2>Proof, not <em>promises</em>.</h2>
+      <a class="cw-all" href="/case-studies/">View all case studies &#8594;</a>
     </div>
-  </section>
+    <p class="cw-lead">The editorial is the thinking. This is the doing. Real platform, BI, CRM and AI-skills work, written up plainly: the problem, the approach, what shipped, and what it actually changed.</p>
+
+    <div class="cw-rail-wrap">
+      <div class="cw-rail" aria-label="Case studies carousel">
+
+        <a class="cw-card" href="/case-studies/shadow-ai-ask-the-workforce/">
+          <div class="cw-img">
+            <img src="/case-studies/shadow-ai-ask-the-workforce/tile.png" alt="A cream ballot box with one acid-striped card half-posted into the slot." loading="lazy">
+            <span class="cw-num">Case study 001</span>
+          </div>
+          <div class="cw-body">
+            <div class="cw-tag">Agentic AI · Shadow AI</div>
+            <h3>Before you write an AI policy, <em>ask the people already using it</em>.</h3>
+            <div class="cw-stat"><span class="v">~15 min</span><span class="l">Agent-built survey</span></div>
+          </div>
+        </a>
+
+        <a class="cw-card" href="/case-studies/single-source-of-truth/">
+          <div class="cw-img">
+            <img src="/case-studies/single-source-of-truth/tile.png" alt="Worn mismatched pipes converging into one polished brass manifold with an acid valve handle." loading="lazy">
+            <span class="cw-num">Case study 002</span>
+          </div>
+          <div class="cw-body">
+            <div class="cw-tag">Data platform · Integration</div>
+            <h3>Before you overlay AI, build the <em>single source of truth</em>.</h3>
+            <div class="cw-stat"><span class="v">1,400+</span><span class="l">Sites, one warehouse</span></div>
+          </div>
+        </a>
+
+        <a class="cw-card" href="/case-studies/charles-virtual-agent/">
+          <div class="cw-img">
+            <img src="/case-studies/charles-virtual-agent/tile.png?v=2" alt="An empty new starter's desk at night, finished paperwork in the out-tray, one standby light glowing." loading="lazy">
+            <span class="cw-num">Case study 003</span>
+          </div>
+          <div class="cw-body">
+            <div class="cw-tag">Agentic AI · Virtual agents</div>
+            <h3>Bolster the team: <em>hire a semi-autonomous agent</em>.</h3>
+            <div class="cw-stat"><span class="v">001</span><span class="l">First virtual hire</span></div>
+          </div>
+        </a>
+
+        <a class="cw-card" href="/case-studies/teach-it-once/">
+          <div class="cw-img">
+            <img src="/case-studies/teach-it-once/cover.png" alt="A tabbed binder of written procedures open on a dark desk under a single lamp beam." loading="lazy">
+            <span class="cw-num">Case study 004</span>
+          </div>
+          <div class="cw-body">
+            <div class="cw-tag">Practical AI · Skills</div>
+            <h3>Prompts forget. <em>Skills remember</em>.</h3>
+            <div class="cw-stat"><span class="v">Days&#8594;~5min</span><span class="l">Compliance run</span></div>
+          </div>
+        </a>
+
+      </div>
+      <div class="cw-hint">Scroll &#8594;</div>
+    </div>
+  </div>
+</section>
 
   <section class="subscribe" id="subscribe">
     <div>
