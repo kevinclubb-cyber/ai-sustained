@@ -1,13 +1,4 @@
 <!DOCTYPE html>
-<!--
-    AI Sustained · Case Study 003 · Meet Charles — bolstering a team with semi-autonomous agents
-    BEFORE PUBLISHING — confirm / fact-check:
-      - MCP capability claims (Microsoft 365 / Teams connectors read-only, no send) reflect the author's own
-        setup at time of writing (Jun 2026). Connector permissions change — re-verify before quoting publicly.
-      - Power Automate / OneNote / SharePoint flow is the author's working pattern, described generically.
-      - No client data named. Charles is the author's personal/admin agent for backlog + comms admin.
-    Cover image (cover.png) to be generated from the Omni prompt in COVER-003-PROMPT.md.
--->
 <html lang="en-GB">
 <head>
 <meta charset="UTF-8">
@@ -20,452 +11,366 @@
   gtag('config', 'G-L3WZNV09BB');
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meet Charles: Bolstering a Team With Semi-Autonomous AI Agents | AI Sustained Case Study</title>
-<meta name="description" content="How a business analyst built 'Charles' — a semi-autonomous AI agent that manages a Jira backlog, writes meeting notes and schedules meetings — and solved the read-only MCP problem with Power Automate, OneNote and SharePoint. A no-engineer blueprint for your first virtual hire.">
-<meta name="keywords" content="AI agent, semi-autonomous agent, virtual agent team, AI agent Jira backlog, AI backlog management, MCP read-only email, Power Automate AI agent, OneNote SharePoint flow, agentic workflow, AI administrative assistant, business analyst AI, no-code AI agent, Claude MCP, Microsoft 365 MCP, AI case study UK, Kevin Clubb, AI Sustained">
+<title>AI &amp; Data Case Studies — Real Builds, Plainly Explained | AI Sustained</title>
+<meta name="description" content="Real-world AI and data case studies from Kevin Clubb — data platforms, business intelligence, CRM rollouts and right-sized AI adoption across retail, hospitality and education. The problem, the approach, what shipped, and what it changed.">
+<meta name="keywords" content="AI case studies, AI case study UK, data platform case study, Snowflake case study, Power BI case study, CRM rollout case study, business intelligence case study, AI adoption case study, AI skills case study, hospitality data, education catering data, Kevin Clubb, AI Sustained">
 <meta name="author" content="Kevin Clubb">
-<link rel="canonical" href="https://ai-sustained.com/case-studies/charles-virtual-agent/">
+<link rel="canonical" href="https://ai-sustained.com/case-studies/">
 <meta name="robots" content="index, follow">
-<meta property="og:title" content="Meet Charles: Bolstering a Team With Semi-Autonomous AI Agents">
-<meta property="og:description" content="A Jira-managing, note-taking, meeting-scheduling AI agent — and the Power Automate bridge that beats the read-only MCP wall. My first virtual hire.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://ai-sustained.com/case-studies/charles-virtual-agent/">
+<meta property="og:title" content="AI &amp; Data Case Studies — Real Builds, Plainly Explained">
+<meta property="og:description" content="Data platforms, BI, CRM and right-sized AI adoption — written up as the problem, the approach, what shipped, and what it changed.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://ai-sustained.com/case-studies/cs-hero.png">
+<meta property="og:url" content="https://ai-sustained.com/case-studies/">
 <meta property="og:site_name" content="AI Sustained">
-<meta property="og:image" content="https://ai-sustained.com/case-studies/charles-virtual-agent/cover.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Meet Charles: Bolstering a Team With Semi-Autonomous AI Agents">
-<meta name="twitter:description" content="An AI agent that runs my Jira backlog, takes notes and books meetings — plus the Power Automate workaround for read-only email and Teams.">
-<meta name="twitter:image" content="https://ai-sustained.com/case-studies/charles-virtual-agent/cover.png">
-<meta name="theme-color" content="#1B4332">
+<meta name="twitter:title" content="AI &amp; Data Case Studies — AI Sustained">
+<meta name="twitter:description" content="Real builds, plainly explained: data platforms, BI, CRM, AI skills and right-sized AI adoption.">
+<meta name="twitter:image" content="https://ai-sustained.com/case-studies/cs-hero.png">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+<meta name="theme-color" content="#1B4332">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Meet Charles: Bolstering a Team With Semi-Autonomous AI Agents",
-  "alternativeHeadline": "How to build your first virtual hire — backlog admin, meeting notes and scheduling — and beat the read-only MCP wall.",
+  "@type": "CollectionPage",
+  "name": "AI & Data Case Studies",
+  "url": "https://ai-sustained.com/case-studies/",
+  "description": "Real-world AI and data case studies: data platforms, business intelligence, CRM rollouts, reusable AI skills and right-sized AI adoption.",
+  "isPartOf": { "@type": "WebSite", "name": "AI Sustained", "url": "https://ai-sustained.com" },
   "author": { "@type": "Person", "name": "Kevin Clubb", "jobTitle": "Senior Business Analyst" },
-  "datePublished": "2026-06-30",
-  "dateModified": "2026-06-30",
-  "description": "A semi-autonomous AI agent named Charles that maintains a Jira backlog, drafts meeting notes and schedules meetings — with a Power Automate, OneNote and SharePoint bridge that works around read-only Microsoft 365 and Teams connectors.",
-  "keywords": "AI agent, semi-autonomous agent, virtual agent team, AI Jira backlog, MCP read-only, Power Automate, OneNote, SharePoint, agentic workflow, no-code AI",
-  "image": "https://ai-sustained.com/case-studies/charles-virtual-agent/cover.png",
-  "articleSection": "Case study",
-  "publisher": { "@type": "Organization", "name": "AI Sustained", "logo": { "@type": "ImageObject", "url": "https://ai-sustained.com/ai_sustained_logo_mark.png" } },
-  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ai-sustained.com/case-studies/charles-virtual-agent/" }
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Can an AI agent manage a Jira backlog?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. With a Jira MCP connector an agent can create issues, change status, triage and groom a backlog on instruction or on a schedule — the bog-standard admin a business analyst rarely has time for." }
-    },
-    {
-      "@type": "Question",
-      "name": "Why can't an AI agent send email or Teams messages through MCP?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Many Microsoft 365 and Teams connectors are read-only by design or by tenant policy, so an agent can read but not create and send. A common workaround is to have the agent write a file (e.g. Markdown), drop it where Power Automate is listening, and let the flow do the sending." }
-    },
-    {
-      "@type": "Question",
-      "name": "How do you bridge an AI agent to email and Teams without engineering?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Have the agent generate a Markdown file into OneNote synced to SharePoint, then trigger a Power Automate flow on file change to format and deliver the update to email or Teams — a low-code bridge that needs no in-house software engineers." }
-    }
-  ]
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ai-sustained.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Case studies", "item": "https://ai-sustained.com/case-studies/" }
+    ]
+  }
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --forest: #1B4332; --ink: #0A0F0C; --ink-soft: #2A3530; --paper: #F2ECD9; --paper-2: #E8E1CB;
-    --acid: #E8FF3A; --coral: #FF5A3C; --moss: #2D6A4F; --sage: #74C69D; --mint: #D8F3DC;
-    --muted: #8FA398; --rule: rgba(242,236,217,0.16); --rule-soft: rgba(242,236,217,0.09); --panel: rgba(242,236,217,0.04);
+    --forest: #1B4332; --paper: #F2ECD9; --acid: #E8FF3A; --mint: #D8F3DC; --ink: #0A0F0C;
+    --coral: #FF8C61; --sky: #7DD3FC;
+    --paper-06: rgba(242,236,217,0.06); --paper-10: rgba(242,236,217,0.10);
+    --paper-18: rgba(242,236,217,0.18); --paper-30: rgba(242,236,217,0.30); --paper-60: rgba(242,236,217,0.60);
+    --acid-30: rgba(232,255,58,0.3);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--forest); color: var(--paper); font-family: 'Inter', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
-  a { color: inherit; }
+  body { background: var(--forest); color: var(--paper); font-family: 'Inter', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
 
-  nav.brand-nav { background: rgba(27,67,50,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule); border-top: 4px solid var(--acid); position: sticky; top: 0; z-index: 50; }
-  .nav-inner { max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mint); }
-  .nav-brand { color: var(--paper); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: -0.01em; text-decoration: none; }
-  .nav-links { display: flex; gap: 22px; }
-  .nav-links a { color: var(--mint); text-decoration: none; border-bottom: 1px solid transparent; padding-bottom: 2px; transition: all 0.15s; }
-  .nav-links a:hover, .nav-links a.active { color: var(--acid); border-bottom-color: var(--acid); }
-  @media (max-width: 720px) { .nav-links a.opt { display: none; } }
+  /* ============ TOPBAR — matches the homepage lockup exactly ============ */
+  .topbar-wrap { background: rgba(27,67,50,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 50; border-top: 4px solid var(--acid); border-bottom: 1px solid var(--paper-30); }
+  .topbar {
+    padding: 14px 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper);
+    max-width: 1280px; margin: 0 auto;
+  }
+  .topbar-left { display: flex; gap: 14px; align-items: center; }
+  .topbar-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .topbar-logo img.mark {
+    height: 44px; width: auto; display: block;
+    filter: brightness(0) saturate(100%) invert(96%) sepia(8%) saturate(385%) hue-rotate(5deg) brightness(98%) contrast(89%);
+  }
+  .topbar-logo img.wordmark {
+    height: 36px; width: auto; display: block;
+    filter: brightness(0) saturate(100%) invert(96%) sepia(8%) saturate(385%) hue-rotate(5deg) brightness(98%) contrast(89%);
+  }
+  .topbar-byline {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--acid);
+    padding-left: 14px; border-left: 1px solid var(--paper-30);
+  }
+  .topbar-nav { display: flex; gap: 22px; }
+  .topbar-nav a { color: var(--mint); border-bottom: 1px solid transparent; padding-bottom: 2px; transition: border-color 0.15s, color 0.15s; }
+  .topbar-nav a:hover { color: var(--acid); border-bottom-color: var(--acid); }
+  .topbar-nav a.active { color: var(--acid); border-bottom-color: var(--acid); }
+  @media (max-width: 860px) {
+    .topbar-logo img.mark { height: 36px; }
+    .topbar-logo img.wordmark { display: none; }
+    .topbar-byline { display: none; }
+    .topbar-nav { gap: 14px; font-size: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    .topbar-nav a.ext { display: none; }
+  }
 
-  .page { max-width: 860px; margin: 0 auto; padding: 24px 28px 48px; }
-  .breadcrumb { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); padding: 14px 0 0; }
-  .breadcrumb a { color: var(--mint); text-decoration: none; }
+  /* ============ HERO — two-column: argument left, evidence right ============ */
+  .hero { max-width: 1280px; margin: 0 auto; padding: 72px 32px 28px; position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 56px; align-items: center; }
+  .hero::before { content: ''; position: absolute; top: -140px; right: -140px; width: 480px; height: 480px; border: 64px solid var(--paper); border-radius: 50%; opacity: 0.04; pointer-events: none; }
+  .breadcrumb { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper-60); margin-bottom: 30px; }
+  .breadcrumb a { color: var(--mint); }
   .breadcrumb a:hover { color: var(--acid); }
+  .hero-kicker { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; color: var(--acid); margin-bottom: 24px; display: flex; align-items: center; gap: 14px; }
+  .hero-kicker::before { content: ''; width: 44px; height: 2px; background: var(--acid); }
+  .hero h1 { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(52px, 6.8vw, 96px); line-height: 0.98; letter-spacing: -0.025em; color: var(--paper); margin-bottom: 28px; }
+  .hero h1 em { font-style: italic; font-weight: 600; color: var(--acid); }
+  .hero .deck { font-family: 'Fraunces', serif; font-style: italic; font-size: 21px; line-height: 1.5; color: var(--mint); max-width: 640px; }
+  .hero .deck strong { color: var(--paper); font-weight: 500; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
 
-  .masthead { padding: 14px 0 12px; display: flex; justify-content: space-between; align-items: baseline; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper); border-bottom: 1px solid var(--rule); }
-  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
-  .wordmark { color: var(--acid); font-weight: 600; }
-
-  .hero { padding: 64px 0 48px; border-bottom: 1px solid var(--rule); text-align: center; }
-  .kicker { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--acid); margin-bottom: 24px; display: inline-flex; align-items: center; gap: 14px; justify-content: center; }
-  .kicker::before { content: ''; width: 36px; height: 2px; background: var(--acid); }
-  .hero h1 { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(44px, 6.6vw, 80px); line-height: 1.04; letter-spacing: -0.02em; color: var(--paper); margin: 0 auto 26px; max-width: 16ch; }
-  .hero h1 .accent { font-style: italic; color: var(--acid); }
-  .deck { font-family: 'Fraunces', serif; font-style: italic; font-size: 22px; font-weight: 400; line-height: 1.5; color: var(--paper-2); max-width: 680px; margin: 0 auto; }
-  .deck .accent { color: var(--acid); font-weight: 500; }
-
-  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 44px 0 48px; }
-  .stat-box { background: var(--panel); padding: 22px 24px; border-radius: 4px; border: 1px solid var(--rule); border-bottom: 3px solid var(--acid); }
-  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); margin-bottom: 10px; }
-  .stat-value { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 600; color: var(--acid); line-height: 1.05; display: block; }
-  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
-  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
-
-  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
-  .content p { margin-bottom: 20px; }
-  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
-  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
-  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
-  .content h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 33px; line-height: 1.15; color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em; }
-  .content h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px; }
-  .content ul, .content ol { margin: 16px 0 24px 24px; }
-  .content li { margin-bottom: 10px; }
-  .content li::marker { color: var(--acid); }
-  .inline-highlight { color: var(--acid); font-weight: 500; }
-
-  /* flow table — sectioned, acid section-headers, two columns (label/value) */
-  table.routes { width: 100%; border-collapse: collapse; margin: 28px 0 10px; }
-  table.routes tr.rhead th {
-    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.01em;
-    color: var(--ink); background: var(--acid); text-align: left; padding: 11px 16px;
+  /* Proof strip — the aggregate receipts, straight off the cards below */
+  .proof-strip { display: grid; grid-template-columns: repeat(4, minmax(0, auto)); justify-content: start; column-gap: 24px; margin-top: 40px; border-top: 1px solid var(--paper-18); border-bottom: 1px solid var(--paper-18); }
+  .proof { padding: 18px 24px 18px 0; border-right: 1px solid var(--paper-18); min-width: 0; }
+  .proof:last-child { border-right: none; padding-right: 0; }
+  .proof .p-val { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: clamp(17px, 1.6vw, 22px); color: var(--acid); line-height: 1; white-space: nowrap; }
+  .proof .p-lab { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper-60); margin-top: 7px; }
+  @media (max-width: 560px) {
+    .proof-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 0; }
+    .proof:nth-child(2) { border-right: none; }
+    .proof:nth-child(n+3) { border-top: 1px solid var(--paper-18); }
   }
-  table.routes tr.rhead th .rh-tag { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); opacity: 0.7; }
-  table.routes tr.rhead.gap th { border-top: 14px solid var(--forest); }
-  table.routes th[scope="row"] { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sage); text-align: left; vertical-align: top; padding: 11px 16px; width: 32%; white-space: nowrap; border-bottom: 1px solid var(--rule); }
-  table.routes td { font-size: 14px; color: var(--mint); padding: 11px 16px; vertical-align: top; line-height: 1.5; border-bottom: 1px solid var(--rule); }
-  table.routes .fig { font-family: 'JetBrains Mono', monospace; color: var(--paper); }
-  @media (max-width: 520px) { table.routes th[scope="row"] { white-space: normal; width: 38%; } }
-  .caption { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; margin: 10px 0 0; line-height: 1.6; }
 
-  .callout { background: var(--panel); border: 1px solid var(--rule); border-left: 3px solid var(--acid); border-radius: 4px; padding: 22px 26px; margin: 32px 0; }
-  .callout p { font-size: 16px; color: var(--mint); margin: 0; max-width: none; }
-  .callout p strong { color: var(--paper); }
-
-  .pull-quote { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 30px; line-height: 1.3; color: var(--paper); margin: 60px auto; padding: 40px 0; border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid); text-align: center; max-width: 720px; letter-spacing: -0.01em; }
-  .pull-quote::before { content: '"'; display: block; font-size: 56px; color: var(--acid); line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif; }
-
-  .takeaway { background: var(--ink); color: var(--paper); padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px; position: relative; overflow: hidden; }
-  .takeaway::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border: 36px solid var(--acid); border-radius: 50%; opacity: 0.14; }
-  .takeaway-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; position: relative; z-index: 1; }
-  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
-  .takeaway h2 { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; font-size: 32px; line-height: 1.22; color: var(--paper); margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em; }
-  .takeaway h2 em { color: var(--acid); font-style: italic; }
-  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
-  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
-  .takeaway-point-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px; }
-  .takeaway-point-text { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: 16px; line-height: 1.45; color: var(--paper-2); }
-  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
-
-  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
-  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
-  .toc ol { list-style: none; margin: 0; padding: 0; }
-  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
-  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
-  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
-  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
-
-  .cta { margin: 56px 0 8px; background: var(--acid); color: var(--ink); border-radius: 6px; padding: 36px 40px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
-  .cta-text { flex: 1 1 340px; }
-  .cta .cta-kicker { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink); margin-bottom: 8px; }
-  .cta h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(22px, 2.6vw, 30px); color: var(--ink); letter-spacing: -0.015em; margin-bottom: 6px; }
-  .cta h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--forest); }
-  .cta p { color: var(--ink); font-size: 15px; line-height: 1.5; margin: 0; }
-  .cta a.btn { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; background: var(--ink); color: var(--acid); padding: 16px 24px; border-radius: 4px; border: 1px solid var(--ink); text-decoration: none; transition: all 0.15s; white-space: nowrap; }
-  .cta a.btn:hover { background: var(--forest); color: var(--acid); border-color: var(--forest); }
-
-  .cta-form { flex: 1 1 320px; display: flex; flex-direction: column; gap: 10px; min-width: 280px; }
-  .cta-form label { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); }
-  .cta-form .row { display: flex; gap: 10px; flex-wrap: wrap; }
-  .cta-form input[type="email"] { flex: 1 1 180px; font-family: 'Inter', sans-serif; font-size: 15px; color: var(--ink); background: rgba(10,15,12,0.06); border: 1px solid var(--ink); border-radius: 4px; padding: 14px 16px; }
-  .cta-form input[type="email"]::placeholder { color: rgba(10,15,12,0.5); }
-  .cta-form input[type="email"]:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
-  .cta-form input[type="submit"] { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; background: var(--ink); color: var(--acid); padding: 14px 24px; border-radius: 4px; border: 1px solid var(--ink); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
-  .cta-form input[type="submit"]:hover { background: var(--forest); color: var(--acid); border-color: var(--forest); }
-  .cta-form .consent { font-family: 'Inter', sans-serif; font-size: 12px; line-height: 1.5; color: rgba(10,15,12,0.78); margin: 2px 0 0; }
-  .cta-form .consent a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
-  .cta-form .form-status { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.04em; color: var(--ink); min-height: 16px; }
-  .cta-form .form-status.ok { color: var(--forest); font-weight: 600; }
-  .cta-form .form-status.err { color: var(--coral); font-weight: 600; }
-
-  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
-  .footer-left { flex: 1; min-width: 280px; }
-  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
-  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
-  .sources { font-size: 11px; color: var(--muted); line-height: 1.7; max-width: 360px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
-  .sources a { color: var(--sage); text-decoration: none; }
-  .sources a:hover { color: var(--acid); }
-  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
-  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
-  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
-  .colophon a { color: var(--muted); text-decoration: none; }
-  .colophon a:hover { color: var(--acid); }
-  .colophon .wordmark { color: var(--acid); font-weight: 600; }
-
-  @media (max-width: 720px) {
-    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
-    .takeaway { padding: 32px 26px; }
-    .pull-quote { font-size: 22px; padding: 28px 0; }
-    .hero h1 { font-size: 42px; }
-    .deck { font-size: 19px; }
+  /* Hero figure — drops in the moment cs-hero.png exists */
+  .hero-figure { position: relative; margin: 0 auto; max-width: 480px; width: 100%; text-align: center; }
+  .hero-figure img { width: 100%; display: block; margin: 0 auto; border-radius: 6px; border-top: 3px solid var(--acid); }
+  .hero-figure figcaption { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-60); margin-top: 12px; }
+  @media (max-width: 980px) {
+    .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 56px; }
+    .hero-figure { max-width: 560px; }
+    .hero-figure img { aspect-ratio: 16 / 10; object-fit: cover; }
   }
+
+  /* ============ THE LOOP — thinking → doing → proof ============ */
+  .loop { max-width: 1280px; margin: 0 auto; padding: 36px 32px 8px; }
+  .loop-inner { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--paper-18); border-radius: 6px; overflow: hidden; }
+  .loop-step { padding: 26px 30px; border-right: 1px solid var(--paper-18); background: var(--paper-06); position: relative; }
+  .loop-step:last-child { border-right: none; }
+  .loop-step .l-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 10px; }
+  .loop-step h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px; color: var(--paper); margin-bottom: 6px; letter-spacing: -0.01em; }
+  .loop-step p { font-size: 13.5px; color: var(--mint); line-height: 1.5; }
+  .loop-step p a { color: var(--acid); border-bottom: 1px solid var(--acid-30); }
+  .loop-step p a:hover { border-bottom-color: var(--acid); }
+  .loop-step.active { background: rgba(232,255,58,0.07); }
+  .loop-step.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--acid); }
+  @media (max-width: 860px) { .loop-inner { grid-template-columns: 1fr; } .loop-step { border-right: none; border-bottom: 1px solid var(--paper-18); } .loop-step:last-child { border-bottom: none; } }
+
+  /* ============ GRID — image-led evidence cards ============ */
+  .cs-grid { max-width: 1280px; margin: 0 auto; padding: 40px 32px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+  @media (max-width: 940px) { .cs-grid { grid-template-columns: 1fr; } }
+  .cs-card { background: var(--paper-06); border: 1px solid var(--paper-18); border-radius: 6px; display: flex; flex-direction: column; position: relative; overflow: hidden; transition: transform 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s; }
+  a.cs-card:hover { transform: translateY(-4px); border-color: var(--acid-30); background: var(--paper-10); box-shadow: 0 18px 40px rgba(10,15,12,0.35); }
+  .c-img { position: relative; aspect-ratio: 21 / 9; overflow: hidden; border-bottom: 2px solid var(--acid); }
+  .c-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease; }
+  a.cs-card:hover .c-img img { transform: scale(1.035); }
+  .c-img .c-num {
+    position: absolute; top: 14px; left: 14px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    background: var(--ink); color: var(--acid);
+    padding: 7px 12px; border-radius: 3px;
+  }
+  .c-body { padding: 28px 32px 30px; display: flex; flex-direction: column; flex: 1; }
+  .c-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 14px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .c-meta .dot { width: 4px; height: 4px; background: var(--acid); border-radius: 50%; opacity: 0.6; }
+  .c-meta .muted { color: var(--paper-60); }
+  .cs-card h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 27px; line-height: 1.12; color: var(--paper); letter-spacing: -0.015em; margin-bottom: 13px; }
+  .cs-card h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--acid); }
+  .cs-card p.blurb { font-family: 'Inter', sans-serif; font-size: 14.5px; color: var(--mint); line-height: 1.55; flex: 1; }
+  .cs-metrics { display: flex; gap: 26px; margin: 22px 0 4px; flex-wrap: wrap; padding-top: 18px; border-top: 1px solid var(--paper-18); }
+  .cs-metric .m-val { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 26px; color: var(--acid); line-height: 1; }
+  .cs-metric .m-lab { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-60); margin-top: 6px; }
+  .c-cta { margin-top: 22px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); display: flex; align-items: center; gap: 8px; transition: gap 0.15s; }
+  a.cs-card:hover .c-cta { gap: 14px; }
+  .c-cta::after { content: '→'; }
+
+  /* ============ WORK-WITH-ME ============ */
+  .work { max-width: 1280px; margin: 0 auto; padding: 16px 32px 8px; }
+  .work-inner { background: var(--acid); color: var(--ink); border-radius: 8px; padding: 44px 40px; display: flex; justify-content: space-between; align-items: center; gap: 28px; flex-wrap: wrap; position: relative; overflow: hidden; }
+  .work-inner::before { content: ''; position: absolute; bottom: -70px; left: -40px; width: 200px; height: 200px; border: 36px solid var(--ink); border-radius: 50%; opacity: 0.08; }
+  .work-inner .w-text { flex: 1 1 360px; position: relative; z-index: 1; }
+  .work-inner .kicker { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink); margin-bottom: 10px; }
+  .work-inner h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(24px, 3vw, 34px); color: var(--ink); letter-spacing: -0.015em; margin-bottom: 8px; }
+  .work-inner h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--forest); }
+  .work-inner p { font-family: 'Inter', sans-serif; color: var(--ink); font-size: 15px; line-height: 1.5; margin: 0; max-width: 560px; }
+  .work-btn { position: relative; z-index: 1; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; background: var(--ink); color: var(--acid); padding: 16px 26px; border-radius: 4px; border: 1px solid var(--ink); transition: all 0.15s; white-space: nowrap; }
+  .work-btn:hover { background: var(--forest); color: var(--acid); border-color: var(--forest); }
+
+  /* ============ FOOTER ============ */
+  footer.brand-footer { border-top: 1px solid var(--paper-30); margin-top: 48px; padding: 48px 0; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; padding: 0 32px; display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-60); }
+  .footer-inner a { color: var(--mint); }
+  .footer-inner a:hover { color: var(--acid); }
 </style>
 </head>
 <body>
 
-<nav class="brand-nav">
-  <div class="nav-inner">
-    <a href="/" class="nav-brand">AI Sustained</a>
-    <div class="nav-links">
+<div class="topbar-wrap">
+  <header class="topbar">
+    <div class="topbar-left">
+      <a href="/" class="topbar-logo" aria-label="AI Sustained — AI that survives Monday morning">
+        <img src="/ai_sustained_logo_mark.png" alt="AI Sustained" class="mark">
+        <img src="/ai_sustained_wordmark.png" alt="AI Sustained — AI that survives Monday morning." class="wordmark">
+      </a>
+      <span class="topbar-byline">by Kevin Clubb</span>
+    </div>
+    <nav class="topbar-nav">
       <a href="/#editorial">Editorial</a>
       <a href="/case-studies/" class="active">Case studies</a>
-      <a href="https://aisustained.substack.com" class="opt" target="_blank" rel="noopener">Substack</a>
-    </div>
-  </div>
-</nav>
-
-<article class="page">
-
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="/">Home</a> &nbsp;/&nbsp; <a href="/case-studies/">Case studies</a> &nbsp;/&nbsp; Meet Charles
-  </nav>
-
-  <header class="masthead">
-    <div class="masthead-left">
-      <span class="wordmark">AI Sustained.</span>
-      <span>Case Study 003</span>
-    </div>
-    <div class="masthead-right">
-      <span>Agentic AI · 30 Jun 2026</span>
-    </div>
+      <a href="/learn/">Learn</a>
+      <a href="/#subscribe">Subscribe</a>
+      <a href="https://aisustained.substack.com/" class="ext" target="_blank" rel="noopener">Substack ↗</a>
+    </nav>
   </header>
+</div>
 
-  <section class="hero">
-    <div class="kicker">Agentic AI · Case Study</div>
-    <h1>Meet <span class="accent">Charles</span> &mdash; my first virtual hire.</h1>
-    <p class="deck">Not a chatbot. A semi-autonomous agent that <span class="accent">runs my backlog, takes the notes and books the meetings</span> &mdash; and the low-code bridge I used to get round the read-only wall.</p>
-  </section>
-
-  <section class="stat-grid" aria-label="Headline facts">
-    <div class="stat-box">
-      <div class="stat-label">The hire</div>
-      <span class="stat-value">Agent 001</span>
-      <div class="stat-note">"Charles" — after Charles Babbage</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-label">Core remit</div>
-      <span class="stat-value">Backlog</span>
-      <div class="stat-note">Jira: create, triage, status, groom</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-label">The wall</div>
-      <span class="stat-value">Read-only</span>
-      <div class="stat-note">Email &amp; Teams connectors can't send</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-label">The bridge</div>
-      <span class="stat-value">Low-code</span>
-      <div class="stat-note">MD → OneNote → SharePoint → Power Automate</div>
-    </div>
-  </section>
-
-  <nav class="toc" aria-label="Table of contents">
-    <div class="toc-label">In this study</div>
-    <ol>
-      <li><span class="toc-num">01</span><a href="#section-1">Bolster the team — don't just add a chatbot</a></li>
-      <li><span class="toc-num">02</span><a href="#section-2">Why "Charles" — and what he actually does</a></li>
-      <li><span class="toc-num">03</span><a href="#section-3">The job nobody has time for: the backlog</a></li>
-      <li><span class="toc-num">04</span><a href="#section-4">The wall: an agent that can read but can't send</a></li>
-      <li><span class="toc-num">05</span><a href="#section-5">The bridge: Power Automate, OneNote &amp; SharePoint</a></li>
-      <li><span class="toc-num">06</span><a href="#section-6">Charles is agent 001 — the team to come</a></li>
-    </ol>
-  </nav>
-
-  <section class="content" id="section-1">
-    <p>Every team has the work that matters and the work that just has to happen. For a business analyst, the second pile is enormous and oddly invisible: grooming a backlog, writing up meeting notes, chasing statuses, booking the next session. None of it is hard. All of it is relentless. And it's the first thing to slip when the real work lands &mdash; which, for me, was constantly.</p>
-
-    <p>So rather than wait for headcount, I built some. The idea isn't a clever chatbot bolted onto the side of the team; it's a <strong>semi-autonomous agent that takes a standing slice of the admin off everyone's plate</strong> &mdash; supervised, correctable, but doing the legwork. One agent now, more to follow. This is the story of the first one, and the genuinely annoying obstacle I hit halfway through.</p>
-
-    <h2 id="section-2">Why "Charles" — and what he actually does.</h2>
-
-    <p>I named him <strong>Charles</strong>, after <strong>Charles Babbage</strong> &mdash; widely credited as the father of the computer for his Analytical Engine. It's a small thing, but naming an agent matters more than it sounds: it turns an abstract "AI integration" into a <em>colleague with a remit</em>, which makes it far easier to reason about what he should and shouldn't be allowed to touch.</p>
-
-    <p>Charles is an <strong>administrative assistant</strong>, plainly. His job description started where you'd expect &mdash; <strong>drafting meeting notes and summaries</strong>, and <strong>scheduling meetings</strong> &mdash; and then grew the part I actually needed most: <strong>owning my Jira backlog</strong>, and helping with my team's.</p>
-
-    <h2 id="section-3">The job nobody has time for: the backlog.</h2>
-
-    <p>Backlog management is textbook BA admin, and I have tried, repeatedly, to stay on top of mine by hand. I keep slipping behind. Tickets go stale, statuses drift from reality, the grooming session becomes an archaeology dig. It is exactly the kind of bounded, rules-based, repetitive work an agent is good at &mdash; and exactly the kind of work I am bad at finding time for.</p>
-
-    <p>With a <strong>Jira connector</strong>, Charles does the unglamorous middle of the job: <em>creating, updating and triaging</em>. He drafts new issues from a note or a message, sets and changes status as work moves, tidies fields, flags what's gone quiet, and keeps my backlog &mdash; and a view of the team's &mdash; honest. I still decide priority and direction. He does the keeping-it-true.</p>
-
-    <table class="routes">
-      <tbody>
-        <tr class="rhead"><th colspan="2">What Charles does <span class="rh-tag">&nbsp;· supervised, on instruction or schedule</span></th></tr>
-        <tr><th scope="row">Meeting notes</th><td>Drafts <span class="fig">summaries &amp; actions</span> from a transcript or rough notes, ready to circulate.</td></tr>
-        <tr><th scope="row">Scheduling</th><td>Proposes and books <span class="fig">meetings</span> against availability.</td></tr>
-        <tr><th scope="row">Backlog — create</th><td>Turns a note or request into a <span class="fig">structured Jira issue</span>.</td></tr>
-        <tr><th scope="row">Backlog — maintain</th><td><span class="fig">Status changes</span>, field tidy-ups, stale-ticket flags, grooming prep.</td></tr>
-        <tr><th scope="row">Team updates</th><td>Writes the <span class="fig">update</span> &mdash; then hands it to the bridge below to deliver.</td></tr>
-      </tbody>
-    </table>
-    <p class="caption">Charles operates semi-autonomously: I set the remit and the guardrails, he does the legwork, I approve anything that leaves the building.</p>
-
-    <h2 id="section-4">The wall: an agent that can read but can't send.</h2>
-
-    <p>Here's where it got interesting. The natural next step was for Charles to <em>deliver</em> his updates &mdash; email the team, post in Teams. In <strong>my</strong> case I ran into a wall: the connectors I had available were <strong>read-only</strong>, so Charles could <em>read</em> mail and messages but couldn't <strong>create and send</strong> them. An assistant who can read your inbox but never reply is, generously, a very expensive notepad &mdash; so I needed a way round it.</p>
-
-    <div class="callout">
-      <p><strong>Worth saying plainly:</strong> this was <strong>a hurdle in my own setup</strong>, not a verdict on the tools. Connector and MCP permissions vary by vendor, version and &mdash; crucially &mdash; how your own tenant and admin policy are configured, and they change often. Your stack may well let an agent send straight out of the box. <strong>Check your own configuration first</strong>; if you hit the same wall I did, the bridge below is how I got past it.</p>
-    </div>
-
-    <blockquote class="pull-quote">An agent that can read your inbox but never reply is just a very expensive notepad.</blockquote>
-
-    <h2 id="section-5">The bridge: Power Automate, OneNote &amp; SharePoint.</h2>
-
-    <p>The fix didn't need an engineer &mdash; which suits me, because I'm a business analyst who can vibe-code and wire up simple integrations, not build software. It needed <strong>Power Automate</strong>, Microsoft's low-code automation tool, and a file as the hand-off point.</p>
-
-    <p>The pattern is deliberately dull, which is why it works:</p>
-
-    <table class="routes">
-      <tbody>
-        <tr class="rhead"><th colspan="2">The delivery bridge <span class="rh-tag">&nbsp;· no software engineering required</span></th></tr>
-        <tr><th scope="row">01 · Generate</th><td>Charles writes the update as a <span class="fig">Markdown file</span> &mdash; the thing he's allowed to do.</td></tr>
-        <tr><th scope="row">02 · Drop</th><td>The file lands in <span class="fig">OneNote</span>, which syncs to <span class="fig">SharePoint</span>.</td></tr>
-        <tr><th scope="row">03 · Listen</th><td><span class="fig">Power Automate</span> watches that SharePoint location for new or changed files.</td></tr>
-        <tr><th scope="row">04 · Deliver</th><td>The flow formats the content and <span class="fig">sends it</span> to the team by email or Teams.</td></tr>
-      </tbody>
-    </table>
-    <p class="caption">The agent only ever writes a file. The sanctioned, governed tool (Power Automate) does the sending — which keeps the "send" capability inside Microsoft's own permissions, not the agent's.</p>
-
-    <p>There's a neat side-benefit to routing it this way. The agent never holds the keys to your outbound comms; it just produces content. The <strong>send stays inside a tool your IT function already governs</strong>. That's a far easier conversation with security than "let the AI email people," and it gave me a clean, auditable trail of what went out and when.</p>
-
-    <p>If you want to build the same thing, this is squarely a job you can do with an assistant like Claude alongside you &mdash; drafting the agent's instructions, shaping the Markdown template, and talking you through the Power Automate flow step by step. No in-house software engineers needed.</p>
-
-    <h2 id="section-6">Charles is agent 001 — the team to come.</h2>
-
-    <p>Charles isn't the destination; he's the proof. One bounded, supervised agent, doing real admin, with a sensible bridge for the bits the connectors won't do. The moment that works, the question stops being <em>"can an agent help?"</em> and becomes <em>"who do I hire next?"</em></p>
-
-    <p>That's the genuinely exciting part. A <strong>team of virtual agents to complement the team of humans</strong> &mdash; each with a narrow remit, each supervised, each taking a slice of the work that was quietly drowning us. Charles is 001. He won't be the last.</p>
-  </section>
-
-  <section class="takeaway" aria-label="Tactical takeaway for leaders">
-    <div class="takeaway-label">Tactical takeaway</div>
-    <h2>Your first agent should be a <em>bounded colleague</em>, not a clever chatbot.</h2>
-    <div class="takeaway-grid">
-      <div class="takeaway-point">
-        <div class="takeaway-point-num">01 · START NARROW</div>
-        <div class="takeaway-point-text">Give one agent <strong>one repetitive remit</strong> — backlog admin, notes, scheduling. Name it. Supervise it. Bounded beats clever.</div>
-      </div>
-      <div class="takeaway-point">
-        <div class="takeaway-point-num">02 · MIND THE GAP</div>
-        <div class="takeaway-point-text">Assume some connectors are <strong>read-only</strong>. When an agent can't send, have it <strong>write a file</strong> and let a governed tool deliver it.</div>
-      </div>
-      <div class="takeaway-point">
-        <div class="takeaway-point-num">03 · KEEP THE KEYS</div>
-        <div class="takeaway-point-text">Route "send" through <strong>Power Automate</strong>, not the agent. Easier on security, auditable, and no engineers required.</div>
-      </div>
-    </div>
-  </section>
-
-  <!--
-    REGISTER INTEREST CTA — submits to HubSpot Forms API (CRM capture), same portal/form as the site newsletter.
-    To point at a dedicated "register interest" form instead, swap HS_FORM_GUID below for that form's GUID.
-  -->
-  <section class="cta">
-    <div class="cta-text">
-      <div class="cta-kicker">Register your interest</div>
-      <h2>Want to <em>hire your own Charles</em>?</h2>
-      <p>Leave your email and I'll be in touch about how this was built, the read-only workaround, or where a first agent might take a slice of work off your team.</p>
-    </div>
-    <form id="interest-form" class="cta-form" novalidate>
-      <label for="hs-email">Your email</label>
-      <div class="row">
-        <input type="email" name="email" id="hs-email" placeholder="you@company.com" required />
-        <input type="submit" value="Register interest" />
-      </div>
-      <p class="consent">I'll only use this to reply about AI Sustained / agent work. Unsubscribe any time — see the <a href="/privacy/">privacy note</a>.</p>
-      <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
-    </form>
-  </section>
-  <script>
-    (function () {
-      // Same HubSpot portal/form as the site newsletter. Swap the GUID for a dedicated form if desired.
-      var HS_PORTAL_ID = "148698319";
-      var HS_FORM_GUID = "fb5e2a95-a0e8-44c1-9529-571631ff2843";
-      var form = document.getElementById("interest-form");
-      var statusEl = document.getElementById("form-status");
-      if (!form) return;
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        var email = document.getElementById("hs-email").value.trim();
-        if (!email) { statusEl.className = "form-status err"; statusEl.textContent = "Please enter your email."; return; }
-        statusEl.className = "form-status"; statusEl.textContent = "Sending…";
-        var endpoint = "https://api.hsforms.com/submissions/v3/integration/submit/" + HS_PORTAL_ID + "/" + HS_FORM_GUID;
-        var payload = {
-          fields: [{ objectTypeId: "0-1", name: "email", value: email }],
-          context: { pageUri: window.location.href, pageName: "Case Study 003 — Charles (register interest)" }
-        };
-        fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        })
-        .then(function (r) {
-          if (r.ok) {
-            statusEl.className = "form-status ok";
-            statusEl.textContent = "Thanks — you're registered. I'll be in touch.";
-            form.reset();
-          } else {
-            statusEl.className = "form-status err";
-            statusEl.textContent = "Something went wrong — please try again.";
-          }
-        })
-        .catch(function () {
-          statusEl.className = "form-status err";
-          statusEl.textContent = "Network error — please try again.";
-        });
-      });
-    })();
-  </script>
-
-  <footer class="footer">
-    <div class="footer-left">
-      <p class="footer-cta">Don't wait for headcount. <strong>Build some.</strong></p>
-    </div>
-    <div class="sources">
-      Author's own project. The read-only email &amp; Teams limitation was <strong>a hurdle in the author's own setup (Jun 2026)</strong>, not a fixed limitation of the tools &mdash; capabilities vary by vendor, version and tenant/admin policy and may not apply to you. Verify your own configuration with
-      <a href="https://learn.microsoft.com/en-us/power-automate/" target="_blank" rel="noopener">Power Automate docs</a> and
-      <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener">the MCP spec</a> before building.
-      Charles is named after <a href="https://en.wikipedia.org/wiki/Charles_Babbage" target="_blank" rel="noopener">Charles Babbage</a>.
-    </div>
-  </footer>
-
-  <div class="hashtags">
-    <div class="hashtag-label">Tags</div>
-    <div class="hashtag-list">
-      <span>#AIAgents</span> <span>#AgenticAI</span> <span>#VirtualAgents</span> <span>#Jira</span> <span>#PowerAutomate</span> <span>#MCP</span> <span>#FutureOfWork</span> <span>#BusinessAnalysis</span>
+<header class="hero">
+  <div class="hero-copy">
+    <div class="breadcrumb"><a href="/">Home</a> &nbsp;/&nbsp; Case studies</div>
+    <div class="hero-kicker">Case studies · From the build</div>
+    <h1>Proof, not <em>promises</em>.</h1>
+    <p class="deck">The editorial is the thinking. This is the doing. The same methods, run against real systems: <strong>data platforms, BI, CRM rollouts, reusable AI skills and right-sized adoption</strong>. Each one written up plainly: the problem, the approach, what shipped, and what it actually changed. No vendor gloss, no vanity metrics.</p>
+    <div class="proof-strip" aria-label="Across the case studies">
+      <div class="proof"><div class="p-val">04</div><div class="p-lab">Real builds</div></div>
+      <div class="proof"><div class="p-val">1,400+</div><div class="p-lab">Sites, one warehouse</div></div>
+      <div class="proof"><div class="p-val">~150</div><div class="p-lab">Shadow AI users heard</div></div>
+      <div class="proof"><div class="p-val">Days→min</div><div class="p-lab">Compliance run</div></div>
     </div>
   </div>
+  <figure class="hero-figure">
+    <img src="/case-studies/cs-hero.png"
+         alt="A drafting desk at night: a cream systems schematic unrolled across it, four tabbed binders standing behind, one route across the drawing marked in acid-lime under a single lamp."
+         onerror="this.closest('figure').style.display='none'">
+    <figcaption>From the build · AI Sustained</figcaption>
+  </figure>
+</header>
 
-  <div class="colophon">
-    <span><span class="wordmark">AI Sustained.</span> · By Kevin Clubb · <a href="/case-studies/">All case studies</a></span>
-    <span>2026</span>
+<section class="loop" aria-label="How the editorial becomes a case study">
+  <div class="loop-inner">
+    <div class="loop-step">
+      <div class="l-num">01 · Think</div>
+      <h3>The editorial.</h3>
+      <p>Every method starts as a written argument, tested against evidence rather than enthusiasm. <a href="/#editorial">Read the issues</a>.</p>
+    </div>
+    <div class="loop-step">
+      <div class="l-num">02 · Apply</div>
+      <h3>The day job.</h3>
+      <p>The idea gets run in a real business, on real systems, with real constraints and no demo data.</p>
+    </div>
+    <div class="loop-step active">
+      <div class="l-num">03 · Prove</div>
+      <h3>The case study.</h3>
+      <p>What shipped, what it cost, what broke, what changed. The receipts, written up below.</p>
+    </div>
   </div>
+</section>
 
-</article>
+<section class="cs-grid">
+  <!-- CASE STUDY 001 — Shadow AI / ask the workforce (live) -->
+  <a class="cs-card" href="/case-studies/shadow-ai-ask-the-workforce/">
+    <div class="c-img">
+      <img src="/case-studies/shadow-ai-ask-the-workforce/tile.png" alt="Tile art for case study 001, asking the workforce about shadow AI use." loading="lazy" onerror="this.onerror=null;this.src='/case-studies/shadow-ai-ask-the-workforce/cover.png'">
+      <span class="c-num">Case study 001</span>
+    </div>
+    <div class="c-body">
+      <div class="c-meta">
+        <span>Agentic AI · Shadow AI</span>
+        <span class="dot"></span>
+        <span class="muted">AI adoption</span>
+      </div>
+      <h2>Before you write an AI policy, <em>ask the people already using it</em>.</h2>
+      <p class="blurb">The workforce is already using AI on personal and business accounts. Rather than a policy written in the dark, we ran an anonymous workforce survey, and handed the build to an AI agent that designed and configured it through a browser in about fifteen minutes.</p>
+      <div class="cs-metrics">
+        <div class="cs-metric"><div class="m-val">~150</div><div class="m-lab">Shadow AI users</div></div>
+        <div class="cs-metric"><div class="m-val">~15 min</div><div class="m-lab">Agent build time</div></div>
+        <div class="cs-metric"><div class="m-val">12</div><div class="m-lab">Survey questions</div></div>
+      </div>
+      <span class="c-cta">Read the case study</span>
+    </div>
+  </a>
+
+  <!-- CASE STUDY 002 — Single source of truth (live) -->
+  <a class="cs-card" href="/case-studies/single-source-of-truth/">
+    <div class="c-img">
+      <img src="/case-studies/single-source-of-truth/tile.png" alt="Tile art for case study 002, many source systems joined into one governed warehouse." loading="lazy" onerror="this.onerror=null;this.src='/case-studies/single-source-of-truth/cover.png'">
+      <span class="c-num">Case study 002</span>
+    </div>
+    <div class="c-body">
+      <div class="c-meta">
+        <span>Data platform · Integration</span>
+        <span class="dot"></span>
+        <span class="muted">Multi-site · 1,400–1,800 sites</span>
+      </div>
+      <h2>Before you overlay AI, build the <em>single source of truth</em>.</h2>
+      <p class="blurb">A group of 1,400–1,800 sites taking till and app sales, running on disconnected systems and load-bearing spreadsheets, joined up into one governed warehouse (finance, CRM, sales and more), so AI finally had trustworthy data to stand on.</p>
+      <div class="cs-metrics">
+        <div class="cs-metric"><div class="m-val">1,400+</div><div class="m-lab">Sites/stores</div></div>
+        <div class="cs-metric"><div class="m-val">£180–300m</div><div class="m-lab">Revenue</div></div>
+        <div class="cs-metric"><div class="m-val">~£2–3m</div><div class="m-lab">To one source</div></div>
+      </div>
+      <span class="c-cta">Read the case study</span>
+    </div>
+  </a>
+
+  <!-- CASE STUDY 003 — Meet Charles / virtual agent team (live) -->
+  <a class="cs-card" href="/case-studies/charles-virtual-agent/">
+    <div class="c-img">
+      <img src="/case-studies/charles-virtual-agent/tile.png?v=2" alt="Tile art for case study 003, Charles, a semi-autonomous virtual agent." loading="lazy" onerror="this.onerror=null;this.src='/case-studies/charles-virtual-agent/cover.png'">
+      <span class="c-num">Case study 003</span>
+    </div>
+    <div class="c-body">
+      <div class="c-meta">
+        <span>Agentic AI · Virtual agents</span>
+        <span class="dot"></span>
+        <span class="muted">AI adoption</span>
+      </div>
+      <h2>Bolster the team: <em>hire a semi-autonomous agent</em>.</h2>
+      <p class="blurb">"Charles", named after Charles Babbage, is my first virtual hire: he runs my Jira backlog, drafts meeting notes and books meetings. When the email and Teams connectors turned out read-only, a Power Automate, OneNote and SharePoint bridge did the sending. No engineers required.</p>
+      <div class="cs-metrics">
+        <div class="cs-metric"><div class="m-val">001</div><div class="m-lab">First agent</div></div>
+        <div class="cs-metric"><div class="m-val">Jira</div><div class="m-lab">Backlog owned</div></div>
+        <div class="cs-metric"><div class="m-val">No-code</div><div class="m-lab">Send bridge</div></div>
+      </div>
+      <span class="c-cta">Read the case study</span>
+    </div>
+  </a>
+
+  <!-- CASE STUDY 004 — Teach it once / skills library (live) -->
+  <a class="cs-card" href="/case-studies/teach-it-once/">
+    <div class="c-img">
+      <img src="/case-studies/teach-it-once/cover.png" alt="Cover art for case study 004 — a tabbed binder of written procedures under a single desk lamp." loading="lazy">
+      <span class="c-num">Case study 004</span>
+    </div>
+    <div class="c-body">
+      <div class="c-meta">
+        <span>Practical AI · Skills</span>
+        <span class="dot"></span>
+        <span class="muted">AI adoption</span>
+      </div>
+      <h2>Prompts forget. <em>Skills remember</em>.</h2>
+      <p class="blurb">Twelve reusable skills, written in plain English by an analyst with no engineering background, turned repeat work into one-line commands. That includes a safety-critical compliance run that went from days to minutes, and once refused to proceed when the source contradicted the instruction.</p>
+      <div class="cs-metrics">
+        <div class="cs-metric"><div class="m-val">12</div><div class="m-lab">Skills, no code</div></div>
+        <div class="cs-metric"><div class="m-val">Days→~5min</div><div class="m-lab">Compliance run</div></div>
+        <div class="cs-metric"><div class="m-val">30–60 min</div><div class="m-lab">To build one</div></div>
+      </div>
+      <span class="c-cta">Read the case study</span>
+    </div>
+  </a>
+</section>
+
+<!-- Discreet contact CTA. Email shown as visible text so it works even without a default mail app. To capture into HubSpot instead, point the button at a /contact/ page or HubSpot form. -->
+<section class="work">
+  <div class="work-inner">
+    <div class="w-text">
+      <div class="kicker">Get in touch</div>
+      <h2>Do you want to <em>hear more</em>?</h2>
+      <p>Every build here was done inside a normal working week, without an engineering team. Happy to talk through how any of it was done. Drop me a line at <a href="mailto:kevin@ai-sustained.com" style="color:var(--ink);text-decoration:underline;text-underline-offset:2px;">kevin@ai-sustained.com</a>.</p>
+    </div>
+    <a class="work-btn" href="mailto:kevin@ai-sustained.com?subject=Enquiry%20via%20ai-sustained.com">Contact me →</a>
+  </div>
+</section>
+
+<footer class="brand-footer">
+  <div class="footer-inner">
+    <div>AI Sustained · Case studies · 2026</div>
+    <div><a href="/">ai-sustained.com</a> · <a href="https://aisustained.substack.com" target="_blank" rel="noopener">Substack</a> · <a href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener">LinkedIn</a></div>
+  </div>
+</footer>
 </body>
 </html>
