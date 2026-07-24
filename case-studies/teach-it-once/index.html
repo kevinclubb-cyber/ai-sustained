@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Analytics — site-wide ID, leave as-is -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+
+<!-- SLOT: seo_meta -->
+<title>Prompts Forget. Skills Remember. | AI Sustained Case Study</title>
+<meta name="description" content="How a business analyst with no engineering background turned a days-long compliance job into a five-minute run by writing reusable AI skills in plain English.">
+<meta name="keywords" content="AI skills, reusable AI workflows, practical AI, agentic AI, AI case study, business analyst AI, AI guardrails, standard operating procedures, custom GPTs, AI at work">
+<meta name="author" content="Kevin Clubb">
+<link rel="canonical" href="https://ai-sustained.com/case-studies/teach-it-once/">
+<meta property="og:title" content="Prompts forget. Skills remember.">
+<meta property="og:description" content="Twelve reusable AI skills, no code, built in under an hour each. A days-long compliance job now runs in minutes, and the best moment was the machine refusing to guess.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ai-sustained.com/case-studies/teach-it-once/">
+<meta property="og:site_name" content="AI Sustained">
+<!-- Social image URLs must be ABSOLUTE — relative paths break link previews -->
+<meta property="og:image" content="https://ai-sustained.com/case-studies/teach-it-once/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Prompts forget. Skills remember.">
+<meta name="twitter:description" content="A field note on turning repeat work into one-line commands, and on the day the machine argued back.">
+<meta name="twitter:image" content="https://ai-sustained.com/case-studies/teach-it-once/cover.png">
+<meta name="theme-color" content="#1B4332">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Prompts forget. Skills remember.",
+  "author": { "@type": "Person", "name": "Kevin Clubb" },
+  "datePublished": "2026-07-24",
+  "url": "https://ai-sustained.com/case-studies/teach-it-once/",
+  "description": "How a business analyst with no engineering background turned a days-long compliance job into a five-minute run by writing reusable AI skills in plain English.",
+  "keywords": "AI skills, reusable AI workflows, practical AI, agentic AI, AI case study, AI guardrails",
+  "image": "https://ai-sustained.com/case-studies/teach-it-once/cover.png",
+  "publisher": { "@type": "Organization", "name": "AI Sustained" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --ink-soft: #2A3530;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
+    --acid: #E8FF3A;
+    --coral: #FF5A3C;
+    --moss: #2D6A4F;
+    --sage: #74C69D;
+    --mint: #D8F3DC;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --rule-soft: rgba(242,236,217,0.09);
+    --panel: rgba(242,236,217,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--forest);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    border-top: 3px solid var(--acid);
+  }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
+
+  /* ============ BREADCRUMB ============ */
+  .breadcrumb {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); padding: 4px 0 14px;
+  }
+  .breadcrumb a { color: var(--paper); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--acid); }
+  .breadcrumb .sep { margin: 0 8px; color: var(--muted); }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ HERO (centred) ============ */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+  }
+  .kicker::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    background: var(--acid);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(46px, 7vw, 84px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin: 0 auto 26px;
+    max-width: 14ch;
+  }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--paper-2);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+
+  /* ============ HERO FIGURE (cover art) ============ */
+  .hero-figure { margin: 44px auto 10px; max-width: 860px; text-align: center; }
+  .hero-figure img {
+    width: 100%; display: block; margin: 0 auto;
+    border-top: 3px solid var(--acid);
+    border-radius: 4px;
+  }
+  .hero-figure figcaption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); margin-top: 12px;
+  }
+
+  /* ============ STAT GRID ============ */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 44px 0 48px;
+  }
+  .stat-box {
+    background: var(--panel);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 10px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px; font-weight: 600;
+    color: var(--acid); line-height: 1; display: block;
+  }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  /* ============ BODY CONTENT ============ */
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 33px; line-height: 1.15;
+    color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em;
+  }
+  .content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px;
+  }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+  .content li::marker { color: var(--acid); }
+
+  .inline-highlight { color: var(--acid); font-weight: 500; }
+
+  /* ============ PULL QUOTE ============ */
+  .pull-quote {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 30px; line-height: 1.3; color: var(--paper);
+    margin: 60px auto; padding: 40px 0;
+    border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid);
+    text-align: center; max-width: 720px; letter-spacing: -0.01em;
+  }
+  .pull-quote::before {
+    content: '"'; display: block; font-size: 56px; color: var(--acid);
+    line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif;
+  }
+
+  /* ============ TACTICAL TAKEAWAY (ink panel — signature) ============ */
+  .takeaway {
+    background: var(--ink); color: var(--paper);
+    padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .takeaway::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--acid);
+    border-radius: 50%; opacity: 0.14;
+  }
+  .takeaway-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .takeaway h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 32px; line-height: 1.22; color: var(--paper);
+    margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em;
+  }
+  .takeaway h2 em { color: var(--acid); font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
+  .takeaway-point-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .takeaway-point-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 16px; line-height: 1.45; color: var(--paper-2);
+  }
+  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
+
+  /* ============ TOC ============ */
+  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
+  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
+  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
+
+  /* ============ CONTACT SLAB (case-study close) ============ */
+  /* The one deliberate acid fill in the page. */
+  .cta-slab {
+    background: var(--acid); color: var(--ink);
+    border-radius: 4px; padding: 44px 40px; margin: 64px 0 8px;
+    position: relative; overflow: hidden;
+  }
+  .cta-slab::before {
+    content: ''; position: absolute; bottom: -70px; left: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--ink);
+    border-radius: 50%; opacity: 0.08;
+  }
+  .cta-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.72; margin-bottom: 14px;
+    position: relative; z-index: 1;
+  }
+  .cta-slab h2 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+    font-size: 32px; line-height: 1.15; letter-spacing: -0.01em;
+    color: var(--ink); margin-bottom: 14px; position: relative; z-index: 1;
+  }
+  .cta-slab h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; }
+  .cta-slab p {
+    font-size: 16px; line-height: 1.6; color: var(--ink); opacity: 0.84;
+    max-width: 540px; margin-bottom: 26px; position: relative; z-index: 1;
+  }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .cta-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
+    padding: 14px 22px; border-radius: 3px;
+    border: 1.5px solid var(--ink); color: var(--ink);
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: background 0.15s ease;
+  }
+  .cta-btn:hover { background: rgba(10,15,12,0.08); }
+  .cta-btn.primary { background: var(--ink); color: var(--acid); }
+  .cta-btn.primary:hover { background: #000; }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 300px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
+  .hashtag-list span { font-weight: 500; }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+  .colophon a { color: var(--muted); text-decoration: none; }
+  .colophon a:hover { color: var(--acid); }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 44px; }
+    .deck { font-size: 19px; }
+    .cta-slab { padding: 32px 26px; }
+    .cta-slab h2 { font-size: 26px; }
+    .cta-btn { width: 100%; justify-content: space-between; }
+  }
+
+  @media print {
+    @page { size: A3; margin: 14mm; }
+    body { background: var(--forest); padding: 0; }
+    .page { max-width: none; padding: 0; }
+    .stat-box, .takeaway-point, .pull-quote, .takeaway, .cta-slab { page-break-inside: avoid; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<article class="page">
+
+  <!-- SLOT: breadcrumb -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="https://ai-sustained.com/">Home</a><span class="sep">/</span><a href="https://ai-sustained.com/case-studies/">Case studies</a><span class="sep">/</span>Teach it once
+  </nav>
+
+  <!-- SLOT: masthead -->
+  <header class="masthead">
+    <div class="masthead-left">
+      <span class="wordmark">AI Sustained.</span>
+      <span>Case Study 004</span>
+    </div>
+    <div class="masthead-right">
+      <span>Practical AI</span>
+      <span>24 Jul 2026</span>
+    </div>
+  </header>
+
+  <!-- SLOT: hero -->
+  <section class="hero">
+    <div class="kicker">Practical AI · Case study</div>
+    <h1>Prompts forget. <span class="accent">Skills remember</span>.</h1>
+    <p class="deck">Twelve reusable skills, written in plain English by a business analyst with no engineering background. A compliance job that took <span class="accent">days now runs in minutes</span>, and the best moment was the machine refusing to guess.</p>
+  </section>
+
+  <!-- SLOT: hero figure (cover art) -->
+  <figure class="hero-figure">
+    <img src="cover.png"
+         alt="A worn green ring binder of tabbed procedures open on a dark desk, one acid-yellow index tab lit by a desk lamp beam, a capped pen and laptop beside it.">
+    <figcaption>Cover · AI Sustained · Case Study 004</figcaption>
+  </figure>
+
+  <!-- SLOT: stats -->
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">The library</div>
+      <span class="stat-value">12</span>
+      <div class="stat-note">Reusable skills, written in plain English. No code deployed.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Build cost</div>
+      <span class="stat-value">30&ndash;60<span class="unit">min</span></span>
+      <div class="stat-note">To teach one skill the rules of a job, tested on a real file.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Before</div>
+      <span class="stat-value">Days</span>
+      <div class="stat-note">One compliance document run, done by hand each cycle.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">After</div>
+      <span class="stat-value">~5<span class="unit">min</span></span>
+      <div class="stat-note">The same run, including the human review at the end.</div>
+    </div>
+  </section>
+
+  <!-- SLOT: toc -->
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-label">In this note</div>
+    <ol>
+      <li><span class="toc-num">01</span><a href="#section-1">The prompt tax</a></li>
+      <li><span class="toc-num">02</span><a href="#section-2">Write it down once</a></li>
+      <li><span class="toc-num">03</span><a href="#section-3">The day it argued back</a></li>
+    </ol>
+  </nav>
+
+  <!-- SLOT: body content -->
+  <section class="content">
+    <p>If you use AI at work, there is a job you have explained to it more than once. Probably more than five times. The same rules, the same exceptions, the same "no, format it like this", typed fresh into an empty box because the chat you trained yesterday has vanished and today's one knows nothing.</p>
+
+    <p>I call it the <em>prompt tax</em>, and for a year I paid it like everyone else. This is a field note on how I stopped: twelve reusable skills, each one a written procedure the AI follows on demand, built in spare half-hours by someone whose job title says <strong>business analyst</strong>, not engineer.</p>
+
+    <h2 id="section-1">The prompt tax.</h2>
+
+    <p>Chat AI is brilliant and forgetful. The memory features that do exist hold preferences, not procedures: they'll remember you like short answers, not the eleven rules and four exceptions that govern a regulated document. So the rules live in your head, and you re-type them under time pressure, and some days you remember ten of the eleven. For casual work that's fine. For work where a wrong tick in a grid has real-world consequences, it is quietly terrifying.</p>
+
+    <p>A skill fixes this by moving the rules out of your head and into a file. It is nothing more exotic than a <strong>standard operating procedure written for a machine</strong>: the job, the rules, the exceptions, the order of operations, what good looks like, and, crucially, when to stop and ask a human. Plain English. The AI reads it whenever that job comes up, every time, without being reminded.</p>
+
+    <p>The pattern is not tied to one vendor. ChatGPT has custom GPTs, Gemini has Gems; I build mine as skills in Claude. The discipline is the point, not the product.</p>
+
+    <h2 id="section-2">Write it down once.</h2>
+
+    <p>The build method is the same every time. Describe the job as if handing it to a competent new starter. Attach a real example file, not a description of one. Run it, correct what it gets wrong, fold the correction back into the instructions, save. That loop takes <span class="inline-highlight">30 to 60 minutes</span>, and you never explain the job again.</p>
+
+    <p>The flagship in my library is a <strong>safety-critical compliance document</strong>, published on a rolling cycle. The manual version took several days per run: cross-checking line items against a rule set, correcting a specific class of false positives, re-paginating so no section splits across a page, stamping the update date, attaching the branded cover. The skill version does all of it in about five minutes, and the human's job shrinks to the part a human should own: reviewing the flags and signing it off.</p>
+
+    <p>Skills also chain. Another sequence in the library takes a working spreadsheet, flattens it into a system-ready format, enriches every line against product master data in the warehouse, then builds the import file for a downstream system, and a separate skill produces the branded, customer-facing output from the same source. That entire chain used to be manual rekeying between four tools. Nobody rekeys it now.</p>
+
+    <blockquote class="pull-quote">The most valuable thing my AI has done all month is refuse to do what I asked.</blockquote>
+
+    <h2 id="section-3">The day it argued back.</h2>
+
+    <p>Here is the run that convinced me this approach belongs in regulated work. I fed the compliance skill a document and told it which rule set to apply. The skill noticed the document's own labelling contradicted my instruction, on a detail I had missed. A blind automation would have carried on and produced something compliant-looking and wrong.</p>
+
+    <p>Instead it stopped. It flagged the mismatch, listed the three exact line items that would change under the other rule set, altered nothing, and asked me to confirm. <strong>That behaviour was not luck.</strong> It was a line in the skill: when the source contradicts the instruction, stop and ask. Guardrails in this pattern are authored, not hoped for.</p>
+
+    <p>This is the part the hype and the doom both miss. The question with AI in serious work is not "can you trust it?", it's <em>what did you write down?</em> The machine carries the checklist so that memory is no longer the control. The human stays accountable, reviews the output and owns the decision. My short-term memory is honestly poor; the skill's is perfect. Between us, the document is safer than it was when it depended on either of us alone.</p>
+  </section>
+
+  <!-- SLOT: tactical takeaway (MANDATORY) -->
+  <section class="takeaway" aria-label="Tactical takeaway for leaders">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2>If you explain the same job to AI twice, <em>write it down once</em>, as a skill.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 · CAPTURE</div>
+        <div class="takeaway-point-text">The rules you keep re-typing are a <strong>standard operating procedure</strong>. Write them once, in plain English, as if for a new starter.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 · GROUND</div>
+        <div class="takeaway-point-text">Build against a <strong>real file and a real system</strong>, not a description. Run, correct, fold the fix back in, save.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 · GUARDRAIL</div>
+        <div class="takeaway-point-text">Tell it when to <strong>stop and ask</strong>. The flag it raises on a bad day is the feature you were actually buying.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLOT: contact slab -->
+  <section class="cta-slab" aria-label="Get in touch">
+    <div class="cta-kicker">Get in touch</div>
+    <h2>Would you like to <em>find out more</em>?</h2>
+    <p>Happy to talk through how the skills were built, what they cost in time, or how the same pattern would map onto your repeat work. No pitch, just the workings.</p>
+    <div class="cta-row">
+      <a class="cta-btn primary" href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener">Contact me on LinkedIn <span aria-hidden="true">&#8599;</span></a>
+      <a class="cta-btn" href="https://ai-sustained.com/case-studies/">All case studies <span aria-hidden="true">&#8594;</span></a>
+    </div>
+  </section>
+
+  <!-- SLOT: footer -->
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">Which job did you explain to AI this week, <strong>for the fifth time?</strong></p>
+    </div>
+    <div class="sources">
+      Sources · Internal build logs · Timings measured on real runs, not estimated · Built as Claude skills; the same pattern exists as ChatGPT custom GPTs and Gemini Gems.
+    </div>
+  </footer>
+
+  <!-- SLOT: hashtags -->
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#PracticalAI</span> <span>#AgenticAI</span> <span>#AISkills</span> <span>#BusinessAnalysis</span> <span>#FutureOfWork</span> <span>#AICaseStudy</span>
+    </div>
+  </div>
+
+  <!-- SLOT: colophon -->
+  <div class="colophon">
+    <span><span class="wordmark">AI Sustained.</span> · By Kevin Clubb · <a href="https://ai-sustained.com/case-studies/">All case studies</a></span>
+    <span>2026</span>
+  </div>
+
+</article>
+</body>
+</html>
