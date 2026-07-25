@@ -1542,5 +1542,198 @@
       <p>Built by hand · Hosted on Cloudflare Pages · <a href="https://github.com/kevinclubb-cyber/ai-sustained" target="_blank" rel="noopener">Source on GitHub ↗</a></p>
     </div>
   </footer>
+<!-- ============ SITE SEARCH (self-contained; paste before </body>) ============ -->
+<div class="ss-root">
+<style>
+  .ss-root .ss-fab {
+    position: fixed; right: 22px; bottom: 22px; z-index: 90;
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #E8FF3A; color: #0A0F0C; border: none; cursor: pointer;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 14px 20px; border-radius: 999px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.45);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .ss-root .ss-fab:hover { transform: translateY(-2px); box-shadow: 0 12px 34px rgba(0,0,0,0.55); }
+  .ss-root .ss-fab svg { width: 14px; height: 14px; }
+  .ss-root .ss-fab .ss-kbd { opacity: 0.55; font-size: 10px; letter-spacing: 0.1em; }
+  @media (max-width: 640px) { .ss-root .ss-fab .ss-kbd { display: none; } }
+
+  .ss-root .ss-overlay {
+    position: fixed; inset: 0; z-index: 100; display: none;
+    background: rgba(10,15,12,0.82);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    padding: 9vh 20px 20px; overflow-y: auto;
+  }
+  .ss-root .ss-overlay.open { display: block; }
+  .ss-root .ss-panel { max-width: 680px; margin: 0 auto; }
+  .ss-root .ss-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.26em; text-transform: uppercase; color: #E8FF3A;
+    margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+  }
+  .ss-root .ss-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .ss-root .ss-box {
+    display: flex; align-items: center; gap: 14px;
+    background: #1B4332; border: 2px solid #E8FF3A; border-radius: 6px;
+    padding: 4px 18px; box-shadow: 0 18px 50px rgba(0,0,0,0.5);
+  }
+  .ss-root .ss-box svg { width: 18px; height: 18px; flex: none; stroke: #E8FF3A; }
+  .ss-root .ss-input {
+    flex: 1; background: transparent; border: none; outline: none;
+    font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 500;
+    color: #F2ECD9; padding: 14px 0; min-width: 0;
+  }
+  .ss-root .ss-input::placeholder { color: rgba(242,236,217,0.45); }
+  .ss-root .ss-close {
+    background: transparent; border: 1px solid rgba(242,236,217,0.3); color: rgba(242,236,217,0.7);
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+    padding: 6px 10px; border-radius: 4px; cursor: pointer;
+  }
+  .ss-root .ss-close:hover { color: #E8FF3A; border-color: #E8FF3A; }
+  .ss-root .ss-results { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+  .ss-root .ss-hit {
+    display: block; text-decoration: none; background: rgba(27,67,50,0.92);
+    border: 1px solid rgba(242,236,217,0.16); border-left: 3px solid #E8FF3A;
+    border-radius: 5px; padding: 14px 18px; transition: background 0.12s, border-color 0.12s;
+  }
+  .ss-root .ss-hit:hover, .ss-root .ss-hit.sel { background: #24523E; border-color: rgba(232,255,58,0.5); }
+  .ss-root .ss-hit .ss-chip {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: #E8FF3A; margin-bottom: 5px;
+  }
+  .ss-root .ss-hit .ss-title {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px;
+    color: #F2ECD9; line-height: 1.25; margin-bottom: 4px;
+  }
+  .ss-root .ss-hit .ss-sum { font-family: 'Inter', sans-serif; font-size: 12.5px; color: #D8F3DC; line-height: 1.45; }
+  .ss-root .ss-empty {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 16px;
+    color: rgba(242,236,217,0.75); padding: 22px 6px; text-align: center;
+  }
+  .ss-root .ss-hint {
+    margin-top: 12px; text-align: center; font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(242,236,217,0.4);
+  }
+</style>
+
+<button class="ss-fab" type="button" aria-label="Search the site" onclick="ssOpen()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.3" y2="16.3"></line></svg>
+  Search <span class="ss-kbd">Ctrl K</span>
+</button>
+
+<div class="ss-overlay" role="dialog" aria-modal="true" aria-label="Site search" onclick="if(event.target===this)ssClose()">
+  <div class="ss-panel">
+    <div class="ss-label">Search AI Sustained</div>
+    <div class="ss-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.3" y2="16.3"></line></svg>
+      <input class="ss-input" type="search" placeholder="Editorials, case studies, topics&hellip;" aria-label="Search query" autocomplete="off">
+      <button class="ss-close" type="button" onclick="ssClose()">ESC</button>
+    </div>
+    <div class="ss-results" aria-live="polite"></div>
+    <div class="ss-hint">&#8593;&#8595; to choose &middot; Enter to open &middot; Esc to close</div>
+  </div>
+</div>
+</div>
+
+<script>
+(function () {
+  var idx = null, sel = -1, hits = [];
+  var root = document.querySelector('.ss-root');
+  var overlay = root.querySelector('.ss-overlay');
+  var input = root.querySelector('.ss-input');
+  var resultsEl = root.querySelector('.ss-results');
+
+  window.ssOpen = function () {
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (!idx) {
+      fetch('/search-index.json').then(function (r) { return r.json(); }).then(function (j) {
+        idx = j.pages.filter(function (p) { return p.url.indexOf('/learn') !== 0; });
+        run(input.value);
+      }).catch(function () {
+        resultsEl.innerHTML = '<div class="ss-empty">Search is having a moment. Try again shortly.</div>';
+      });
+    }
+    setTimeout(function () { input.focus(); }, 30);
+  };
+  window.ssClose = function () {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  function score(p, terms) {
+    var t = p.title.toLowerCase(), g = (p.tags || '').toLowerCase(),
+        s = (p.summary || '').toLowerCase(), rf = (p.ref || '').toLowerCase(), sc = 0;
+    for (var i = 0; i < terms.length; i++) {
+      var w = terms[i]; if (!w) continue;
+      var found = false;
+      if (t.indexOf(w) > -1) { sc += 5; found = true; }
+      if (rf.indexOf(w) > -1) { sc += 4; found = true; }
+      if (g.indexOf(w) > -1) { sc += 3; found = true; }
+      if (s.indexOf(w) > -1) { sc += 1; found = true; }
+      if (!found) return 0; /* every term must match somewhere */
+    }
+    return sc;
+  }
+
+  function run(q) {
+    if (!idx) return;
+    sel = -1;
+    q = (q || '').trim().toLowerCase();
+    if (q.length < 2) {
+      hits = idx.slice(0, 6); /* recent-first default: index is curated in order */
+      render(hits, q ? '' : 'Latest on the site');
+      return;
+    }
+    var terms = q.split(/\s+/);
+    hits = idx.map(function (p) { return { p: p, s: score(p, terms) }; })
+      .filter(function (x) { return x.s > 0; })
+      .sort(function (a, b) { return b.s - a.s; })
+      .slice(0, 10)
+      .map(function (x) { return x.p; });
+    render(hits);
+  }
+
+  function render(list, note) {
+    if (!list.length) {
+      resultsEl.innerHTML = '<div class="ss-empty">Nothing found. Either it does not exist yet, or it is worth an email.</div>';
+      return;
+    }
+    resultsEl.innerHTML = list.map(function (p, i) {
+      return '<a class="ss-hit" data-i="' + i + '" href="' + p.url + '">' +
+        '<div class="ss-chip">' + p.type + ' &middot; ' + p.ref + '</div>' +
+        '<div class="ss-title">' + p.title + '</div>' +
+        '<div class="ss-sum">' + p.summary + '</div></a>';
+    }).join('');
+  }
+
+  input.addEventListener('input', function () { run(input.value); });
+
+  document.addEventListener('keydown', function (e) {
+    var isOpen = overlay.classList.contains('open');
+    if (!isOpen) {
+      var typing = /^(input|textarea|select)$/i.test((e.target.tagName || ''));
+      if (!typing && (e.key === '/' || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k'))) {
+        e.preventDefault(); ssOpen();
+      }
+      return;
+    }
+    if (e.key === 'Escape') { ssClose(); return; }
+    var items = resultsEl.querySelectorAll('.ss-hit');
+    if (!items.length) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      sel = e.key === 'ArrowDown' ? Math.min(sel + 1, items.length - 1) : Math.max(sel - 1, 0);
+      items.forEach(function (el, i) { el.classList.toggle('sel', i === sel); });
+      items[sel].scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'Enter' && sel > -1) {
+      e.preventDefault(); window.location.href = items[sel].getAttribute('href');
+    }
+  });
+})();
+</script>
+<!-- ============ /SITE SEARCH ============ -->
 </body>
 </html>
