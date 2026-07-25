@@ -144,6 +144,8 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 .month-list li::before{content:"→";position:absolute;left:0;color:var(--acid);font-style:normal;font-family:'JetBrains Mono',monospace}
 .needle-note{border-top:1px dashed rgba(242,236,217,.25);margin-top:24px;padding-top:20px;font-size:14.5px;color:var(--sage);line-height:1.6}
 .needle-note b{color:var(--acid)}
+.cal-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;color:var(--cream);margin-bottom:16px}
+.cal-title span{color:var(--acid)}
 .tier-copy{font-family:'Fraunces',serif;font-style:italic;font-size:19px;line-height:1.5;text-align:center;max-width:540px;margin:0 auto 44px;opacity:.92}
 .pillars{margin-bottom:44px}
 .pillars h3, .next h3{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:20px}
@@ -274,9 +276,14 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
     <div id="ma-standing"></div>
     <div id="ma-story"></div>
     <div class="needle-note" id="ma-needle"></div>
-    <div style="text-align:center;margin-top:26px">
-      <button class="btn" id="cal-btn" onclick="addRetakeToCalendar()">Book my rematch</button>
-      <span class="btn-sub" id="cal-sub">Adds the retake to your calendar &middot; 1 month from today</span>
+    <div style="text-align:center;margin-top:28px">
+      <p class="cal-title">Book the rematch <span id="cal-date"></span></p>
+      <div class="cta-row" style="margin-bottom:0">
+        <button class="btn btn-ghost" onclick="calOpen('google')">Google Calendar</button>
+        <button class="btn btn-ghost" onclick="calOpen('outlook')">Outlook</button>
+        <button class="btn btn-ghost" onclick="addRetakeToCalendar()">Apple / other</button>
+      </div>
+      <span class="btn-sub" id="cal-sub">One click &middot; links straight back to the quiz</span>
     </div>
   </div>
 
@@ -569,6 +576,8 @@ function renderMonthAhead(){
   // retake date, one month out
   const d = new Date(); d.setMonth(d.getMonth()+1);
   const retake = d.toLocaleDateString('en-GB',{day:'numeric',month:'long'});
+  const calDate = document.getElementById('cal-date');
+  if(calDate) calDate.textContent = '· '+retake;
 
   // last visit comparison (stored locally in this browser only)
   let lastVisit = '';
@@ -632,23 +641,54 @@ function animateCount(target){
   requestAnimationFrame(step);
 }
 
-// ===== "Book my rematch" — .ics file opens the reader's calendar app =====
-function addRetakeToCalendar(){
+// ===== "Book the rematch" — calendar deep-links + .ics fallback =====
+function retakeEvent(){
   const d = new Date(); d.setMonth(d.getMonth()+1);
+  const end = new Date(d); end.setDate(end.getDate()+1);
   const pad = n => String(n).padStart(2,'0');
   const ymd = x => `${x.getFullYear()}${pad(x.getMonth()+1)}${pad(x.getDate())}`;
-  const end = new Date(d); end.setDate(end.getDate()+1);
-  const stamp = new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+  const iso = x => `${x.getFullYear()}-${pad(x.getMonth()+1)}-${pad(x.getDate())}`;
   const rankBit = rankInfo ? ` and rank #${rankInfo.rank} of ${rankInfo.total+1}` : '';
+  return {
+    ymdStart: ymd(d), ymdEnd: ymd(end), isoStart: iso(d), isoEnd: iso(end),
+    title: 'Retake the AI Survival Score — has the needle moved?',
+    details: 'One month ago you scored '+finalScore+'/100'+rankBit+'. Three minutes to see whether the needle — and your rank — have shifted.\n\nRetake it here: '+QUIZ_URL
+  };
+}
+
+function calOpen(provider){
+  const ev = retakeEvent();
+  let url;
+  if(provider === 'google'){
+    url = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+      + '&text=' + encodeURIComponent(ev.title)
+      + '&dates=' + ev.ymdStart + '/' + ev.ymdEnd
+      + '&details=' + encodeURIComponent(ev.details);
+  } else {
+    url = 'https://outlook.live.com/calendar/0/action/compose?rru=addevent'
+      + '&subject=' + encodeURIComponent(ev.title)
+      + '&body=' + encodeURIComponent(ev.details)
+      + '&startdt=' + ev.isoStart + '&enddt=' + ev.isoEnd + '&allday=true';
+  }
+  window.open(url, '_blank', 'noopener');
+  const sub = document.getElementById('cal-sub');
+  if(sub) sub.textContent = 'Opened in a new tab — hit save and the rematch is booked';
+  if(typeof gtag==='function') gtag('event','retake_calendar_add',{method:provider,score:finalScore});
+}
+
+function addRetakeToCalendar(){
+  const ev = retakeEvent();
+  const ymd = {start: ev.ymdStart, end: ev.ymdEnd};
+  const stamp = new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
   const ics = [
     'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//AI Sustained//AI Survival Score//EN','CALSCALE:GREGORIAN',
     'BEGIN:VEVENT',
     'UID:retake-'+Date.now()+'@ai-sustained.com',
     'DTSTAMP:'+stamp,
-    'DTSTART;VALUE=DATE:'+ymd(d),
-    'DTEND;VALUE=DATE:'+ymd(end),
-    'SUMMARY:Retake the AI Survival Score — has the needle moved?',
-    'DESCRIPTION:One month ago you scored '+finalScore+'/100'+rankBit+'. Three minutes to see whether the needle — and your rank — have shifted.\\n\\nRetake it here: '+QUIZ_URL,
+    'DTSTART;VALUE=DATE:'+ymd.start,
+    'DTEND;VALUE=DATE:'+ymd.end,
+    'SUMMARY:'+ev.title,
+    'DESCRIPTION:'+ev.details.replace(/\n/g,'\\n'),
     'URL:'+QUIZ_URL,
     'BEGIN:VALARM','TRIGGER:-PT9H','ACTION:DISPLAY','DESCRIPTION:Rematch day — retake the AI Survival Score','END:VALARM',
     'END:VEVENT','END:VCALENDAR'
