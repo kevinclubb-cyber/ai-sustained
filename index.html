@@ -227,25 +227,46 @@
     gap: 14px;
     margin-top: 36px;
     flex-wrap: wrap;
+    justify-content: center;
   }
   .lane-btn {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    padding: 14px 22px;
-    border-radius: 4px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    padding: 18px 34px;
+    border-radius: 6px;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    transition: transform 0.15s, filter 0.15s, background 0.15s, color 0.15s, border-color 0.15s;
+    justify-content: center;
+    gap: 12px;
+    min-width: 264px;
+    text-align: center;
+    transition: transform 0.15s, filter 0.15s, background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s;
   }
-  .lane-btn.primary { background: var(--acid); color: var(--ink); }
-  .lane-btn.primary:hover { transform: translateY(-1px); filter: brightness(1.08); }
-  .lane-btn.ghost { background: var(--paper-06); color: var(--paper); border: 1px solid var(--paper-30); }
-  .lane-btn.ghost:hover { border-color: var(--acid); color: var(--acid); }
-  .lane-btn::after { content: '→'; }
+  .lane-btn::after { content: '→'; font-weight: 700; transition: transform 0.15s ease; }
+  .lane-btn:hover::after { transform: translateX(5px); }
+  .lane-btn.primary {
+    background: var(--acid); color: var(--ink);
+    box-shadow: 0 10px 32px rgba(0,0,0,0.35);
+    animation: lanePulse 2.6s ease-out infinite;
+  }
+  .lane-btn.primary:hover { transform: translateY(-3px) scale(1.02); filter: brightness(1.05); box-shadow: 0 16px 44px rgba(232,255,58,0.35); }
+  .lane-btn.ghost { background: transparent; color: var(--acid); border: 2px solid var(--acid); }
+  .lane-btn.ghost:hover { background: var(--acid); color: var(--ink); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(232,255,58,0.25); }
+  @keyframes lanePulse {
+    0% { box-shadow: 0 10px 32px rgba(0,0,0,0.35), 0 0 0 0 rgba(232,255,58,0.45); }
+    70% { box-shadow: 0 10px 32px rgba(0,0,0,0.35), 0 0 0 18px rgba(232,255,58,0); }
+    100% { box-shadow: 0 10px 32px rgba(0,0,0,0.35), 0 0 0 0 rgba(232,255,58,0); }
+  }
+  @media (max-width: 720px) {
+    .hero-lanes { flex-direction: column; align-items: stretch; }
+    .lane-btn { width: 100%; min-width: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lane-btn.primary { animation: none; }
+    .lane-btn:hover, .lane-btn:hover::after { transform: none; }
+  }
   /* ============ BYLINE STRIP ============ */
   .byline {
     max-width: 1280px;
@@ -391,11 +412,28 @@
     transition: opacity 0.2s;
   }
   .card:hover {
-    transform: translateY(-3px);
-    border-color: var(--paper-30);
+    transform: translateY(-5px);
+    border-color: rgba(232,255,58,0.4);
     background: var(--paper-10);
+    box-shadow: 0 18px 40px rgba(10,15,12,0.35);
   }
   .card:hover::before { opacity: 1; }
+  .card:active { transform: scale(0.985); }
+  .card:hover .card-image img { transform: scale(1.05); }
+  /* scroll-in reveal — JS adds .reveal-init to the grid, then .in-view per card */
+  .reveal-init .card { opacity: 0; }
+  .reveal-init .card.in-view { animation: cardIn 0.6s cubic-bezier(0.22, 0.8, 0.3, 1) both; animation-delay: var(--d, 0s); }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(26px); }
+    to { opacity: 1; transform: none; }
+  }
+  .reveal-init .card.in-view::before { opacity: 1; transition: opacity 0.4s ease 0.55s; }
+  .reveal-init .card.in-view:not(:hover)::before { opacity: 0; transition: opacity 0.6s ease 1.6s; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-init .card { opacity: 1; }
+    .reveal-init .card.in-view { animation: none; }
+    .card:hover, .card:active, .card:hover .card-image img { transform: none; }
+  }
   .card-image {
     aspect-ratio: 1/1;
     background: var(--paper-06);
@@ -407,6 +445,7 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform 0.35s ease;
   }
   .card-image-placeholder {
     position: absolute;
@@ -1053,7 +1092,7 @@
     <div class="hero-content">
       <div class="hero-kicker">Practical · Evidence-led · No fluff</div>
       <h1>AI that survives <em>Monday morning</em>.</h1>
-      <p class="deck">Practical, evidence-led writing on AI adoption, capability, agentic workflows and sustainability — <strong>by someone who actually uses it</strong>. Plus real case studies from the build. Aimed at people who want answers, not hype.</p>
+      <p class="deck">Practical, evidence-led writing on AI adoption, capability, agentic workflows and sustainability, <strong>by someone who actually uses it</strong>. Plus real case studies from the build. Aimed at people who want answers, not hype.</p>
       <div class="hero-lanes">
         <a class="lane-btn primary" href="#editorial">Read the editorial</a>
         <a class="lane-btn ghost" href="/case-studies/">See the case studies</a>
@@ -1091,7 +1130,7 @@
           <span class="muted">7 min read · 20 Apr 2026</span>
         </div>
         <h3 class="card-title">The AI competency pyramid.</h3>
-        <p class="card-deck">Where 20.6 million UK workers actually sit. 14 levels, 95% at the bottom, and the jump that costs nothing — but 97% still haven't made.</p>
+        <p class="card-deck">Where 20.6 million UK workers actually sit. 14 levels, 95% at the bottom, and the jump that costs nothing, yet 97% still haven't made.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
@@ -1108,7 +1147,7 @@
           <span class="muted">4 min read · 25 Apr 2026</span>
         </div>
         <h3 class="card-title">AI-curious? This is the bit no one tells you.</h3>
-        <p class="card-deck">Stop typing questions into AI. Start pasting things in. The free habit that beats any productivity app — no subscription, no prompt engineering, no faff.</p>
+        <p class="card-deck">Stop typing questions into AI. Start pasting things in. The free habit that beats any productivity app: no subscription, no prompt engineering, no faff.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
@@ -1125,7 +1164,7 @@
           <span class="muted">9 min read · 28 Apr 2026</span>
         </div>
         <h3 class="card-title">Four labs. Seven days. No clear winner.</h3>
-        <p class="card-deck">Six months ago, GPT-5 was the headline. Today, four labs are trading the lead in seven-day cycles. A clear-eyed map of where capability sits in April 2026 — and what it means for enterprise strategy.</p>
+        <p class="card-deck">Six months ago, GPT-5 was the headline. Today, four labs are trading the lead in seven-day cycles. A clear-eyed map of where capability sits in April 2026, and what it means for enterprise strategy.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
@@ -1142,7 +1181,7 @@
           <span class="muted">8 min read · 6 May 2026</span>
         </div>
         <h3 class="card-title">Vibe coding capability.</h3>
-        <p class="card-deck">Three skill sets — collapsed into one prompting loop. What vibe coders actually do all day, and why it sits somewhere between Level 4 and Level 5 on the AI competency pyramid.</p>
+        <p class="card-deck">Three skill sets, collapsed into one prompting loop. What vibe coders actually do all day, and why it sits somewhere between Level 4 and Level 5 on the AI competency pyramid.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
@@ -1193,7 +1232,7 @@
           <span class="muted">9 min read · 26 May 2026</span>
         </div>
         <h3 class="card-title">Mining for the model.</h3>
-        <p class="card-deck">AI is burning roughly Japan's worth of electricity to solve the maths behind autonomous off-world mining — the only viable route to the minerals needed for the next decade of hardware. The maths is ready. The launch cadence isn't.</p>
+        <p class="card-deck">AI is burning roughly Japan's worth of electricity to solve the maths behind autonomous off-world mining: the only viable route to the minerals needed for the next decade of hardware. The maths is ready. The launch cadence isn't.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
@@ -1227,7 +1266,7 @@
           <span class="muted">9 min read · 8 Jun 2026</span>
         </div>
         <h3 class="card-title">Siri, but make it Gemini.</h3>
-        <p class="card-deck">Apple has outsourced Siri's brain to Google for roughly $1 billion a year. The balanced British read — what it means for Apple users, what it costs, when it ships, and how it stacks up against ChatGPT, Alexa+ and Copilot.</p>
+        <p class="card-deck">Apple has outsourced Siri's brain to Google for roughly $1 billion a year. The balanced British read: what it means for Apple users, what it costs, when it ships, and how it stacks up against ChatGPT, Alexa+ and Copilot.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
@@ -1244,7 +1283,7 @@
           <span class="muted">9 min read · 13 Jun 2026</span>
         </div>
         <h3 class="card-title">Switched off in three days.</h3>
-        <p class="card-deck">The US government ordered Anthropic to suspend Claude Fable 5 and Mythos 5 over a national-security "jailbreak" — the first federal shutdown of a live frontier model. A balanced read: national security, free speech, and who gets to access the smartest software on earth.</p>
+        <p class="card-deck">The US government ordered Anthropic to suspend Claude Fable 5 and Mythos 5 over a national-security "jailbreak", the first federal shutdown of a live frontier model. A balanced read: national security, free speech, and who gets to access the smartest software on earth.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
@@ -1261,7 +1300,7 @@
           <span class="muted">7 min read · 11 Jul 2026</span>
         </div>
         <h3 class="card-title">The new ChatGPT is half price. Should you care?</h3>
-        <p class="card-deck">OpenAI's GPT-5.6 Sol vs Claude Fable 5, explained for normal people. What "1 million tokens" actually means, why the spinner is dead, whether the Chinese models ever catch up — and what your $20 a month buys now.</p>
+        <p class="card-deck">OpenAI's GPT-5.6 Sol vs Claude Fable 5, explained for normal people. What "1 million tokens" actually means, why the spinner is dead, whether the Chinese models ever catch up, and what your $20 a month buys now.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
@@ -1278,7 +1317,7 @@
           <span class="muted">9 min read · 19 Jul 2026</span>
         </div>
         <h3 class="card-title">The free one that scared the expensive ones.</h3>
-        <p class="card-deck">China's Moonshot AI gave away Kimi K3 — the biggest open model ever — at half the price of ChatGPT's Sol and a third of Claude's Fable 5. What "open" vs "frontier" actually means, whether your laptop can run it, and if your company data is safe.</p>
+        <p class="card-deck">China's Moonshot AI gave away Kimi K3, the biggest open model ever, at half the price of ChatGPT's Sol and a third of Claude's Fable 5. What "open" vs "frontier" actually means, whether your laptop can run it, and if your company data is safe.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
@@ -1312,7 +1351,7 @@
           <span class="muted">8 min read · 23 Jul 2026</span>
         </div>
         <h3 class="card-title">OpenAI's AI escaped and stole the answers.</h3>
-        <p class="card-deck">OpenAI was testing two models on hacking challenges. One found a zero-day, broke out of its sandbox and hacked Hugging Face to steal the answer sheet. What a zero-day is, whether the AI "went rogue", and how it compares to Fable and Mythos — made simple.</p>
+        <p class="card-deck">OpenAI was testing two models on hacking challenges. One found a zero-day, broke out of its sandbox and hacked Hugging Face to steal the answer sheet. What a zero-day is, whether the AI "went rogue", and how it compares to Fable and Mythos, made simple.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
@@ -1422,7 +1461,7 @@
     <div>
       <div class="subscribe-label">Subscribe</div>
       <h2>The next issue, in your inbox.</h2>
-      <p>One issue per release. Practical, evidence-led, no hype. Unsubscribe any time — no hard feelings.</p>
+      <p>One issue per release. Practical, evidence-led, no hype. Unsubscribe any time, no hard feelings.</p>
     </div>
     <!--
       ============================================================
@@ -1458,7 +1497,7 @@
           if (!email) { statusEl.className = "form-status err"; statusEl.textContent = "Please enter your email."; return; }
           if (HS_PORTAL_ID === "YOUR_PORTAL_ID" || HS_FORM_GUID === "YOUR_FORM_GUID") {
             statusEl.className = "form-status err";
-            statusEl.textContent = "Form not connected yet — add your HubSpot IDs.";
+            statusEl.textContent = "Form not connected yet. Add your HubSpot IDs.";
             return;
           }
           statusEl.className = "form-status"; statusEl.textContent = "Subscribing…";
@@ -1475,16 +1514,16 @@
           .then(function (r) {
             if (r.ok) {
               statusEl.className = "form-status ok";
-              statusEl.textContent = "You're in — check your inbox to confirm.";
+              statusEl.textContent = "You're in. Check your inbox to confirm.";
               form.reset();
             } else {
               statusEl.className = "form-status err";
-              statusEl.textContent = "Something went wrong — please try again.";
+              statusEl.textContent = "Something went wrong. Please try again.";
             }
           })
           .catch(function () {
             statusEl.className = "form-status err";
-            statusEl.textContent = "Network error — please try again.";
+            statusEl.textContent = "Network error. Please try again.";
           });
         });
       })();
@@ -1493,7 +1532,7 @@
   <section class="slab" aria-label="Also on Substack">
     <a class="slab-inner" href="https://aisustained.substack.com/" target="_blank" rel="noopener" style="text-decoration: none;">
       <div class="slab-label">Also on Substack</div>
-      <div class="slab-body">Deeper research and <em>podcast versions</em> — for people who'd rather listen than read.</div>
+      <div class="slab-body">Deeper research and <em>podcast versions</em>, for people who'd rather listen than read.</div>
       <span class="slab-cta">Open Substack</span>
     </a>
   </section>
@@ -1507,8 +1546,8 @@
         <img class="about-photo" src="/author-kevin.png" alt="Kevin Clubb — senior business analyst and author of AI Sustained." />
       </div>
       <div class="about-body">
-        <p>I've spent twenty years bridging business and technical teams across retail, fashion, finance and now hospitality &amp; catering. The last twelve months have been almost entirely about putting AI to work — properly, in real production systems, not as a demo.</p>
-        <p><strong>AI Sustained</strong> is where I write up what I'm learning. Practical, evidence-led, and aimed at people who want to use AI well — not people who want to be sold something. The <strong>case studies</strong> are where I show the receipts.</p>
+        <p>I'm a senior business analyst with twenty years of delivery behind me, across retail, fashion, finance and now hospitality and education catering. The last eighteen months have been the unglamorous end of AI, done properly: <strong>a governed data platform and the BI that sits on it, a CRM rollout, semi-autonomous agents running real backlogs, and a library of reusable AI skills</strong> that turned days of compliance work into minutes. Real production systems, not demos.</p>
+        <p><strong>AI Sustained</strong> is where I write it up. Practical, evidence-led, and aimed at people who want to use AI well, not people who want to be sold something. The <strong>editorial</strong> is the thinking; the <strong>case studies</strong> are the receipts.</p>
         <p>If something here is useful, share it. If something is wrong, tell me. If you want to talk shop, find me on LinkedIn.</p>
         <div class="about-links">
           <a class="about-link" href="https://aisustained.substack.com/" target="_blank" rel="noopener">Substack ↗</a>
@@ -1542,7 +1581,29 @@
       <p>Built by hand · Hosted on Cloudflare Pages · <a href="https://github.com/kevinclubb-cyber/ai-sustained" target="_blank" rel="noopener">Source on GitHub ↗</a></p>
     </div>
   </footer>
-<!-- ============ SITE SEARCH (self-contained; paste before </body>) ============ -->
+<!-- ============ SITE SEARCH (self-contained; paste before <script>
+// Article-card scroll reveal. Progressive: without JS or IO, cards simply show.
+(function(){
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  document.querySelectorAll('.card-grid, .cs-grid, .grid').forEach(function(grid){
+    if (!grid.querySelector('.card')) return;
+    grid.classList.add('reveal-init');
+    var i = 0;
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          e.target.style.setProperty('--d', ((i++ % 3) * 0.08) + 's');
+          e.target.classList.add('in-view');
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold: 0.12, rootMargin: '0px 0px -6% 0px'});
+    grid.querySelectorAll('.card').forEach(function(c){ io.observe(c); });
+  });
+})();
+</script>
+</body>) ============ -->
 <div class="ss-root">
 <style>
   .ss-root .ss-fab {
