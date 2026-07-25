@@ -1,0 +1,40 @@
+# .github/workflows/update-scores.yml
+# Pulls AI Survival Scores from HubSpot every 6 hours and publishes scores.json
+name: Update AI Survival Scores
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # every 6 hours (UTC)
+  workflow_dispatch:          # lets you run it manually from the Actions tab
+
+permissions:
+  contents: write             # needed to commit scores.json back to the repo
+
+jobs:
+  update-scores:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Fetch scores from HubSpot
+        env:
+          HUBSPOT_TOKEN: ${{ secrets.HUBSPOT_TOKEN }}
+        run: node scripts/fetch-scores.mjs
+
+      - name: Commit scores.json if changed
+        run: |
+          git config user.name "scores-bot"
+          git config user.email "actions@github.com"
+          git add scores.json
+          if git diff --cached --quiet; then
+            echo "No change in scores - nothing to commit"
+          else
+            git commit -m "chore: update scores.json [skip ci]"
+            git push
+          fi
