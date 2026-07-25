@@ -73,7 +73,8 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 .btn:focus-visible{outline:3px solid var(--cream);outline-offset:3px}
 @keyframes btnPulse{0%{box-shadow:0 10px 32px rgba(0,0,0,.35),0 0 0 0 rgba(232,255,58,.45)}70%{box-shadow:0 10px 32px rgba(0,0,0,.35),0 0 0 18px rgba(232,255,58,0)}100%{box-shadow:0 10px 32px rgba(0,0,0,.35),0 0 0 0 rgba(232,255,58,0)}}
 .btn-sub{display:block;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--sage)}
-.btn-ghost{background:transparent;color:var(--acid);border:2px solid var(--acid);font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:15px 26px;animation:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--acid);border:2px solid var(--acid);font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:15px 26px;animation:none;box-shadow:none;min-width:250px;justify-content:center}
+@media(max-width:560px){.btn-ghost{min-width:0;width:100%}}
 .btn-ghost::after{content:"→"}
 .btn-ghost:hover{background:var(--acid);color:var(--ink);transform:translateY(-2px);filter:none;box-shadow:0 10px 28px rgba(232,255,58,.25)}
 @media(prefers-reduced-motion:reduce){.btn{animation:none}.btn:hover{transform:none}.btn:hover::after{transform:none}}
@@ -251,6 +252,9 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
     </div>
     <h2 class="tier-name" id="tier-name"></h2>
     <span class="verdict-stamp" id="verdict"></span>
+    <div style="margin-top:26px">
+      <button class="btn" onclick="calOpen('google')">Book rematch <span id="hero-cal-date"></span></button>
+    </div>
     <div class="rank-banner" id="rank-result" aria-label="Your league position">
       <div class="rb-item"><span class="rb-n" id="rb-pct">&ndash;</span><span class="rb-l">Ahead of<br>the field</span></div>
       <div class="rb-div"></div>
@@ -281,7 +285,6 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
       <div class="cta-row" style="margin-bottom:0">
         <button class="btn btn-ghost" onclick="calOpen('google')">Google Calendar</button>
         <button class="btn btn-ghost" onclick="calOpen('outlook')">Outlook</button>
-        <button class="btn btn-ghost" onclick="addRetakeToCalendar()">Apple / other</button>
       </div>
       <span class="btn-sub" id="cal-sub">One click &middot; links straight back to the quiz</span>
     </div>
@@ -578,6 +581,8 @@ function renderMonthAhead(){
   const retake = d.toLocaleDateString('en-GB',{day:'numeric',month:'long'});
   const calDate = document.getElementById('cal-date');
   if(calDate) calDate.textContent = '· '+retake;
+  const heroCal = document.getElementById('hero-cal-date');
+  if(heroCal) heroCal.textContent = '· '+retake;
 
   // last visit comparison (stored locally in this browser only)
   let lastVisit = '';
@@ -674,34 +679,6 @@ function calOpen(provider){
   const sub = document.getElementById('cal-sub');
   if(sub) sub.textContent = 'Opened in a new tab — hit save and the rematch is booked';
   if(typeof gtag==='function') gtag('event','retake_calendar_add',{method:provider,score:finalScore});
-}
-
-function addRetakeToCalendar(){
-  const ev = retakeEvent();
-  const ymd = {start: ev.ymdStart, end: ev.ymdEnd};
-  const stamp = new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
-  const ics = [
-    'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//AI Sustained//AI Survival Score//EN','CALSCALE:GREGORIAN',
-    'BEGIN:VEVENT',
-    'UID:retake-'+Date.now()+'@ai-sustained.com',
-    'DTSTAMP:'+stamp,
-    'DTSTART;VALUE=DATE:'+ymd.start,
-    'DTEND;VALUE=DATE:'+ymd.end,
-    'SUMMARY:'+ev.title,
-    'DESCRIPTION:'+ev.details.replace(/\n/g,'\\n'),
-    'URL:'+QUIZ_URL,
-    'BEGIN:VALARM','TRIGGER:-PT9H','ACTION:DISPLAY','DESCRIPTION:Rematch day — retake the AI Survival Score','END:VALARM',
-    'END:VEVENT','END:VCALENDAR'
-  ].join('\r\n');
-  const blob = new Blob([ics],{type:'text/calendar;charset=utf-8'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'ai-survival-score-rematch.ics';
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
-  const sub = document.getElementById('cal-sub');
-  if(sub) sub.textContent = 'In your downloads — open it and the rematch is booked';
-  if(typeof gtag==='function') gtag('event','retake_calendar_add',{score:finalScore});
 }
 
 function shareLinkedIn(){
