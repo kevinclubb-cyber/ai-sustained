@@ -128,6 +128,13 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 .tier-name.warn{color:var(--coral)}
 .tier-name.ok{color:var(--acid)}
 .verdict-stamp{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;border:1px solid currentColor;border-radius:3px;padding:6px 12px;margin-top:14px}
+.rank-line{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-top:18px}
+.rank-line b{color:var(--acid);font-weight:700}
+.month-list{list-style:none;margin:14px 0 0}
+.month-list li{position:relative;padding-left:26px;margin-bottom:14px;font-family:'Fraunces',serif;font-style:italic;font-size:16.5px;line-height:1.5}
+.month-list li::before{content:"→";position:absolute;left:0;color:var(--acid);font-style:normal;font-family:'JetBrains Mono',monospace}
+.needle-note{border-top:1px dashed rgba(242,236,217,.25);margin-top:24px;padding-top:20px;font-size:14.5px;color:var(--sage);line-height:1.6}
+.needle-note b{color:var(--acid)}
 .tier-copy{font-family:'Fraunces',serif;font-style:italic;font-size:19px;line-height:1.5;text-align:center;max-width:540px;margin:0 auto 44px;opacity:.92}
 .pillars{margin-bottom:44px}
 .pillars h3, .next h3{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:20px}
@@ -223,6 +230,7 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
     </div>
     <h2 class="tier-name" id="tier-name"></h2>
     <span class="verdict-stamp" id="verdict"></span>
+    <p class="rank-line" id="rank-result"></p>
   </div>
   <p class="tier-copy" id="tier-copy"></p>
 
@@ -234,6 +242,13 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
   <div class="next">
     <h3>Tactical Takeaway</h3>
     <div id="tk-points"></div>
+  </div>
+
+  <div class="next" id="month-ahead" style="border-left:3px solid var(--sage)">
+    <h3>The month ahead</h3>
+    <div id="ma-standing"></div>
+    <div id="ma-story"></div>
+    <div class="needle-note" id="ma-needle"></div>
   </div>
 
   <div class="next" style="border-left:3px solid var(--acid)">
@@ -352,9 +367,30 @@ const TIERS = [
       ["03 · NEXT STEP","You're the person others will ask. AI Made Simple gives you the language to teach it."]]}
 ];
 
+// Subtle, pillar-specific habit shifts for "The month ahead"
+const PILLAR_FIXES = [
+ // Prompting
+ ["Tell it who it's writing for before you tell it what you want. Role, audience, tone. One sentence.",
+  "The moment a prompt works, save it. A saved prompt is a template, and templates are where points hide.",
+  "When an answer's mediocre, don't rephrase and hope. Say what's wrong with it and make it go again."],
+ // Workflow Integration
+ ["Pick one recurring task — the same weekly report, the same type of email — and make AI the first step, every time, for a month.",
+  "Retire the lonely browser tab. Do the AI work inside the doc, inbox or sheet where the job already lives.",
+  "Friday check: name one task AI actually touched this week. If you can't, Monday's habit has just chosen itself."],
+ // Tool Selection
+ ["Run one real task through two different tools this month and keep the winner. That's a benchmark. Now you have taste, not habit.",
+  "Notice every time you use a tool because the tab was already open. That's how bad stacks build themselves.",
+  "Ignore launch-day headlines. A new model matters when it changes your task, not the demo."],
+ // Sustained Habits
+ ["Attach the new habit to something that already survives Monday — the 9am coffee, the weekly plan. Habits piggyback. They rarely stand alone.",
+  "Keep your best prompts somewhere you can find them in ten seconds. Scattered notes are where habits go to die.",
+  "An experiment that died wasn't a failure, it was oversized. Restart the smallest possible version of it this week."]
+];
+
 let idx = 0;
 let answers = new Array(QUESTIONS.length).fill(null);
 let finalScore = 0, pillarPct = [0,0,0,0], tier = null;
+let rankInfo = null;
 let advancing = false;
 
 function show(id){
@@ -477,6 +513,78 @@ function renderResults(){
     document.querySelectorAll('.pillar-bar i').forEach(el=>el.style.width = el.dataset.w+'%');
     animateCount(finalScore);
   },100); });
+  renderMonthAhead();
+  showRank(finalScore);
+}
+
+// ===== The month ahead: personalised story, retake nudge, last-visit delta =====
+function renderMonthAhead(){
+  const story = document.getElementById('ma-story');
+  const needle = document.getElementById('ma-needle');
+  if(!story || !needle) return;
+
+  // weakest pillar = the cheapest points
+  let weak = 0;
+  pillarPct.forEach((v,i)=>{ if(v < pillarPct[weak]) weak = i; });
+
+  story.innerHTML =
+    `<div class="tk-point"><span class="tk-label">THE LEVER</span><span class="tk-text">Your weakest pillar is ${PILLARS[weak]} at ${pillarPct[weak]}. That's not the bad news — it's the lever. The lowest bar on the chart is where the cheapest points live, and none of them need a course. Three subtle shifts:</span></div>
+    <ul class="month-list">${PILLAR_FIXES[weak].map(f=>`<li>${f}</li>`).join('')}</ul>`;
+
+  // points to the next tier
+  let tierLine;
+  if(finalScore <= 40)      tierLine = `You're <b>${41-finalScore} point${41-finalScore===1?'':'s'}</b> from shedding the Tourist label.`;
+  else if(finalScore <= 70) tierLine = `You're <b>${71-finalScore} point${71-finalScore===1?'':'s'}</b> from AI Sustained — the tier most people never reach.`;
+  else                      tierLine = `There's no tier above this one. The only thing left to climb is the <b>rank</b>.`;
+
+  // retake date, one month out
+  const d = new Date(); d.setMonth(d.getMonth()+1);
+  const retake = d.toLocaleDateString('en-GB',{day:'numeric',month:'long'});
+
+  // last visit comparison (stored locally in this browser only)
+  let lastVisit = '';
+  try{
+    const prev = JSON.parse(localStorage.getItem('ais_last_score'));
+    if(prev && typeof prev.score === 'number'){
+      const diff = finalScore - prev.score;
+      const when = new Date(prev.date).toLocaleDateString('en-GB',{day:'numeric',month:'long'});
+      lastVisit = diff === 0
+        ? ` Last time you were here (${when}) you scored ${prev.score}. The needle hasn't moved — yet.`
+        : ` Last time you were here (${when}) you scored ${prev.score}. That's <b>${diff>0?'+':''}${diff}</b> since. ${diff>0?'The boring little habits are working.':'Worth asking which habit quietly died.'}`;
+    }
+    localStorage.setItem('ais_last_score', JSON.stringify({score:finalScore, date:new Date().toISOString()}));
+  }catch(e){ /* private browsing etc. — skip silently */ }
+
+  needle.innerHTML = `${tierLine} Scores here move slowly, which is exactly why they're worth moving. Put <b>${retake}</b> in your diary, retake the twelve questions, and see whether the needle — and your rank — have shifted. One pillar, one month, three small habits. That's the whole game.${lastVisit}`;
+}
+
+// ===== League position from scores.json (published from HubSpot every 6h) =====
+async function showRank(userScore){
+  const el = document.getElementById('rank-result');
+  const standing = document.getElementById('ma-standing');
+  try{
+    const res = await fetch('/scores.json?t='+Date.now());
+    if(!res.ok) throw new Error('scores.json not found');
+    const data = await res.json();
+    const scores = data.scores;
+    const total = scores.length;
+    if(!Array.isArray(scores) || total < 10){ return; }
+
+    const below = scores.filter(s=>s<userScore).length;
+    const pct = Math.round(below/total*100);
+    const rank = scores.filter(s=>s>userScore).length + 1;
+    const avg = Math.round(scores.reduce((a,b)=>a+b,0)/total);
+    rankInfo = {pct, rank, total, avg};
+
+    if(el) el.innerHTML = `Ahead of <b>${pct}%</b> of participants &middot; rank ${rank} of ${total+1}`;
+    if(standing){
+      const vsAvg = userScore===avg ? `dead on the average of ${avg}`
+        : userScore>avg ? `<b>${userScore-avg} points above</b> the average of ${avg}`
+        : `${avg-userScore} points below the average of ${avg}`;
+      standing.innerHTML = `<div class="tk-point"><span class="tk-label">WHERE YOU STAND</span><span class="tk-text">${total} people have taken this so far. You're ${vsAvg}, which puts you ahead of ${pct}% of them. Every retake reshuffles the table — your rank is only ever on loan.</span></div>`;
+    }
+    if(typeof gtag==='function') gtag('event','rank_shown',{percentile:pct,rank:rank});
+  }catch(e){ console.warn('Rank unavailable:',e); /* page works fine without it */ }
 }
 
 function animateCount(target){
@@ -494,7 +602,8 @@ function shareLinkedIn(){
   window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(QUIZ_URL),'_blank','width=600,height=550');
 }
 function copyChallenge(){
-  const txt = `I scored ${finalScore}/100 on the AI Survival Score. Verdict: "${tier.verdict}". Would your AI habits survive Monday morning? 3 minutes: ${QUIZ_URL}`;
+  const rankBit = rankInfo ? ` That puts me ahead of ${rankInfo.pct}% of participants.` : '';
+  const txt = `I scored ${finalScore}/100 on the AI Survival Score. Verdict: "${tier.verdict}".${rankBit} Would your AI habits survive Monday morning? 3 minutes: ${QUIZ_URL}`;
   navigator.clipboard.writeText(txt).then(()=>{
     const b=document.getElementById('copy-btn'); b.textContent='Copied. Go challenge them';
     setTimeout(()=>b.textContent='Copy my result',2500);
