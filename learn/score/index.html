@@ -5,34 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>What's Your AI Survival Score? | AI Sustained</title>
 <meta name="description" content="Find out in 3 minutes whether your AI habits would survive Monday morning. A free 12-question assessment from AI Sustained.">
-<meta name="keywords" content="AI assessment, AI skills score, AI readiness, AI Sustained, AI habits, prompting skills">
+<meta name="keywords" content="AI assessment, AI skills score, AI readiness, AI quiz, AI Sustained, AI habits, prompting skills">
 <meta name="author" content="Kevin Clubb — AI Sustained">
 <meta property="og:title" content="What's Your AI Survival Score?">
 <meta property="og:description" content="Find out in 3 minutes whether your AI habits would survive Monday morning.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://ai-sustained.com/learn/score">
+<meta property="og:url" content="https://ai-sustained.com/learn/score/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="What's Your AI Survival Score?">
 <meta name="twitter:description" content="12 questions. 3 minutes. Would your AI habits survive Monday morning?">
-<meta property="og:image" content="https://ai-sustained.com/learn/og-learn.png">
+<meta property="og:image" content="https://ai-sustained.com/learn/score/hero-score.png">
+<meta name="twitter:image" content="https://ai-sustained.com/learn/score/hero-score.png">
 <link rel="canonical" href="https://ai-sustained.com/learn/score/">
 <meta name="robots" content="index, follow">
-<!-- Research mode detection — must run before render -->
-<script>
-const RESEARCH_SOURCES = ['li','rd','sub','share'];
-function getQuizSource(){
-  try{
-    const fromUrl = new URLSearchParams(location.search).get('src');
-    if(fromUrl && RESEARCH_SOURCES.includes(fromUrl)){
-      sessionStorage.setItem('quiz_src', fromUrl);
-      return fromUrl;
-    }
-    return sessionStorage.getItem('quiz_src') || '';
-  }catch(e){ return ''; }
-}
-const quizSource = getQuizSource();
-if(quizSource) document.documentElement.classList.add('research-mode');
-</script>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
 <script>
@@ -48,7 +33,7 @@ gtag('config', 'G-L3WZNV09BB');
 <script type="text/javascript" id="hs-script-loader" async defer src="https://js-eu1.hs-scripts.com/148698319.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --forest:#1B4332; --cream:#F2ECD9; --acid:#E8FF3A; --coral:#FF5A3C;
@@ -59,50 +44,77 @@ html{scroll-behavior:smooth}
 body{background:var(--forest);color:var(--cream);font-family:'Inter',sans-serif;min-height:100vh;line-height:1.6}
 body::before{content:"";display:block;height:3px;background:var(--acid);position:fixed;top:0;left:0;right:0;z-index:100}
 .wrap{max-width:680px;margin:0 auto;padding:48px 24px 80px}
+
+/* ===== MASTHEAD — sized to match ai-sustained.com ===== */
 .masthead{display:flex;justify-content:space-between;align-items:center;margin-bottom:56px;flex-wrap:wrap;gap:10px}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
-.brand img.mark{height:36px;width:auto;display:block}
-.brand img.word{height:22px;width:auto;display:block}
-@media(max-width:520px){.brand img.word{display:none}}
-.tagline{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--sage)}
-.kicker{font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:0.18em;color:var(--acid);margin-bottom:20px}
+.brand img.mark{height:44px;width:auto;display:block}
+.brand img.word{height:36px;width:auto;display:block}
+.byline{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--acid);padding-left:14px;border-left:1px solid rgba(242,236,217,.3)}
+@media(max-width:560px){.brand img.mark{height:36px}.brand img.word{display:none}.byline{display:none}}
+
+.kicker{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.22em;color:var(--acid);margin-bottom:24px;display:inline-flex;align-items:center;gap:14px}
+.kicker::before,.kicker::after{content:"";width:32px;height:2px;background:var(--acid)}
 h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(34px,6vw,52px);line-height:1.12;letter-spacing:-0.02em;margin-bottom:20px}
 h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
-.deck{font-family:'Fraunces',serif;font-style:italic;font-size:21px;line-height:1.45;color:var(--cream);opacity:0.9;margin-bottom:36px}
-.meta-row{display:flex;gap:24px;margin-bottom:40px;flex-wrap:wrap}
+.deck{font-family:'Fraunces',serif;font-style:italic;font-size:21px;line-height:1.45;color:var(--cream);opacity:0.9;margin-bottom:32px}
+.hero-fig{margin:0 auto 36px;max-width:620px}
+.hero-fig img{width:100%;display:block;border-radius:6px;border-top:3px solid var(--acid);box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.hero-fig figcaption{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);margin-top:11px}
+.meta-row{display:flex;gap:24px;margin-bottom:8px;flex-wrap:wrap}
 .meta-item{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:var(--sage)}
 .meta-item b{color:var(--acid);font-weight:700}
-.btn{display:inline-block;background:var(--acid);color:var(--ink);font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;padding:16px 36px;border:none;border-radius:4px;cursor:pointer;letter-spacing:0.01em;transition:transform .15s ease, box-shadow .15s ease;text-decoration:none}
-.btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(232,255,58,.25)}
+
+/* ===== BUTTONS — same treatment as /learn ===== */
+.btn{position:relative;display:inline-flex;align-items:center;gap:14px;background:var(--acid);color:var(--ink);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;letter-spacing:.01em;padding:20px 42px;border:none;border-radius:6px;cursor:pointer;text-decoration:none;box-shadow:0 10px 32px rgba(0,0,0,.35);animation:btnPulse 2.6s ease-out infinite;transition:transform .15s ease,filter .15s ease,box-shadow .15s ease}
+.btn::after{content:"→";font-weight:700;transition:transform .15s ease}
+.btn:hover{transform:translateY(-3px) scale(1.02);filter:brightness(1.05);box-shadow:0 16px 44px rgba(232,255,58,.35)}
+.btn:hover::after{transform:translateX(5px)}
 .btn:focus-visible{outline:3px solid var(--cream);outline-offset:3px}
-.btn-ghost{background:transparent;color:var(--acid);border:1px solid var(--acid)}
-.btn-ghost:hover{box-shadow:none;background:rgba(232,255,58,.08)}
+@keyframes btnPulse{0%{box-shadow:0 10px 32px rgba(0,0,0,.35),0 0 0 0 rgba(232,255,58,.45)}70%{box-shadow:0 10px 32px rgba(0,0,0,.35),0 0 0 18px rgba(232,255,58,0)}100%{box-shadow:0 10px 32px rgba(0,0,0,.35),0 0 0 0 rgba(232,255,58,0)}}
+.btn-sub{display:block;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--sage)}
+.btn-ghost{background:transparent;color:var(--acid);border:2px solid var(--acid);font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:15px 26px;animation:none;box-shadow:none}
+.btn-ghost::after{content:"→"}
+.btn-ghost:hover{background:var(--acid);color:var(--ink);transform:translateY(-2px);filter:none;box-shadow:0 10px 28px rgba(232,255,58,.25)}
+@media(prefers-reduced-motion:reduce){.btn{animation:none}.btn:hover{transform:none}.btn:hover::after{transform:none}}
+
 .screen{display:none;animation:fadeUp .45s ease}
 .screen.active{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:reduce){.screen{animation:none}.btn:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.screen{animation:none}}
+
 /* progress */
-.progress-track{height:3px;background:rgba(242,236,217,.15);border-radius:2px;margin-bottom:12px}
-.progress-fill{height:100%;background:var(--acid);border-radius:2px;width:0;transition:width .3s ease}
+.progress-track{height:4px;background:rgba(242,236,217,.15);border-radius:2px;margin-bottom:12px}
+.progress-fill{height:100%;background:var(--acid);border-radius:2px;width:0;transition:width .3s ease;box-shadow:0 0 12px rgba(232,255,58,.5)}
 .progress-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage);margin-bottom:36px}
 .pillar-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--acid);margin-bottom:14px}
 .q-text{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(24px,4.5vw,32px);line-height:1.25;margin-bottom:32px;letter-spacing:-0.01em}
-.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--cream);border:1px solid rgba(242,236,217,.14);border-radius:6px;padding:16px 18px;margin-bottom:12px;font-family:'Inter',sans-serif;font-size:15.5px;line-height:1.5;cursor:pointer;transition:border-color .15s ease, background .15s ease}
-.opt:hover{border-color:var(--acid);background:#17402e}
+
+/* answer options — tactile, keyboard-friendly */
+.opt{display:flex;align-items:baseline;gap:14px;width:100%;text-align:left;background:var(--card);color:var(--cream);border:1px solid rgba(242,236,217,.14);border-left:3px solid transparent;border-radius:6px;padding:16px 18px;margin-bottom:12px;font-family:'Inter',sans-serif;font-size:15.5px;line-height:1.5;cursor:pointer;transition:border-color .15s ease,background .15s ease,transform .15s ease}
+.opt .k{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--sage);border:1px solid rgba(242,236,217,.25);border-radius:3px;padding:1px 7px;flex:none;transition:color .15s,border-color .15s}
+.opt:hover{border-color:var(--acid);border-left-color:var(--acid);background:#17402e;transform:translateX(4px)}
+.opt:hover .k{color:var(--acid);border-color:var(--acid)}
+.opt.picked{border-color:var(--acid);border-left-color:var(--acid);background:rgba(232,255,58,.1)}
 .opt:focus-visible{outline:2px solid var(--acid);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.opt:hover{transform:none}}
+.key-hint{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);opacity:.7;margin-top:10px}
 .back-link{background:none;border:none;color:var(--sage);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;margin-top:16px}
-.back-link:hover{color:var(--cream)}
+.back-link:hover{color:var(--acid)}
+
 /* gate */
-.gate-panel{background:var(--ink);border-radius:8px;padding:36px 32px;margin-top:8px}
-.gate-panel h2{font-family:'Fraunces',serif;font-weight:600;font-size:28px;line-height:1.2;margin-bottom:12px}
+.gate-panel{background:var(--ink);border-radius:8px;padding:38px 32px;margin-top:8px;position:relative;overflow:hidden}
+.gate-panel::before{content:'';position:absolute;top:-46px;right:-46px;width:190px;height:190px;border:34px solid var(--acid);border-radius:50%;opacity:.12}
+.gate-panel h2{font-family:'Fraunces',serif;font-weight:600;font-size:28px;line-height:1.2;margin-bottom:12px;position:relative;z-index:1}
 .gate-panel h2 em{color:var(--acid);font-style:italic;font-weight:500}
-.gate-sub{font-size:15px;color:var(--sage);margin-bottom:26px}
-.field{margin-bottom:16px}
+.gate-sub{font-size:15px;color:var(--sage);margin-bottom:26px;position:relative;z-index:1}
+.field{margin-bottom:16px;position:relative;z-index:1}
 .field label{display:block;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sage);margin-bottom:7px}
-.field input{width:100%;background:var(--forest);border:1px solid rgba(242,236,217,.18);border-radius:5px;padding:14px 15px;color:var(--cream);font-family:'Inter',sans-serif;font-size:16px}
-.field input:focus{outline:none;border-color:var(--acid)}
-.gate-note{font-size:12.5px;color:var(--sage);margin-top:16px;line-height:1.55}
+.field input{width:100%;background:var(--forest);border:1px solid rgba(242,236,217,.18);border-radius:5px;padding:14px 15px;color:var(--cream);font-family:'Inter',sans-serif;font-size:16px;transition:border-color .15s,box-shadow .15s}
+.field input:focus{outline:none;border-color:var(--acid);box-shadow:0 0 0 3px rgba(232,255,58,.15)}
+.gate-note{font-size:12.5px;color:var(--sage);margin-top:16px;line-height:1.55;position:relative;z-index:1}
 .err{color:var(--coral);font-size:13px;margin-top:10px;display:none}
+
 /* results */
 .score-hero{text-align:center;margin:12px 0 44px}
 .score-dial{position:relative;width:230px;height:230px;margin:0 auto 22px}
@@ -136,10 +148,6 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 .share-box p{font-size:13.5px;color:var(--sage);margin-bottom:16px}
 .footer{margin-top:64px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage)}
 .footer a{color:var(--acid);text-decoration:none}
-/* research mode */
-.research-mode .commercial{display:none !important}
-.research-note{display:none}
-.research-mode .research-note{display:block}
 </style>
 </head>
 <body>
@@ -149,21 +157,28 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
   <a class="brand" href="https://ai-sustained.com">
     <img class="mark" src="/learn/logo_mark_white.png" alt="AI Sustained">
     <img class="word" src="/learn/wordmark_white.png" alt="AI Sustained — AI that survives Monday morning.">
+    <span class="byline">by Kevin Clubb</span>
   </a>
-  <span class="tagline">AI that survives Monday morning</span>
 </header>
 
 <!-- SCREEN: LANDING -->
-<section class="screen active" id="s-landing" aria-label="Start the assessment">
+<section class="screen active" id="s-landing" aria-label="Start the assessment" style="text-align:center">
   <p class="kicker">Free 3-minute assessment</p>
   <h1>What's your <span class="accent">AI Survival Score?</span></h1>
-  <p class="deck">Most people's AI habits die by Monday morning. Twelve questions will tell you whether yours would survive — and exactly where they'd fail.</p>
-  <div class="meta-row" style="justify-content:center">
+  <p class="deck">Most people's AI habits die by Monday morning. Twelve questions will tell you whether yours would survive, and exactly where they'd fail.</p>
+  <figure class="hero-fig">
+    <img src="/learn/score/hero-score.png"
+         alt="A dark windowsill in morning light: a row of small terracotta pots, four failed, one thriving seedling marked by a single acid-yellow plant label."
+         onerror="this.closest('figure').style.display='none'">
+    <figcaption>The Monday test · AI Sustained</figcaption>
+  </figure>
+  <div><button class="btn" onclick="startQuiz()">Get my score</button>
+  <span class="btn-sub">Free · 3 minutes · brutally honest</span></div>
+  <div class="meta-row" style="justify-content:center;margin-top:26px">
     <span class="meta-item"><b>12</b> questions</span>
     <span class="meta-item"><b>3</b> minutes</span>
     <span class="meta-item"><b>4</b> skill pillars scored</span>
   </div>
-  <div style="text-align:center"><button class="btn" onclick="startQuiz()">Get my score</button></div>
 </section>
 
 <!-- SCREEN: QUIZ -->
@@ -173,6 +188,7 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
   <p class="pillar-tag" id="q-pillar"></p>
   <h2 class="q-text" id="q-text"></h2>
   <div id="q-opts"></div>
+  <p class="key-hint">Tip: press 1&ndash;4 to answer</p>
   <button class="back-link" id="back-btn" onclick="goBack()" style="display:none">&larr; Previous question</button>
 </section>
 
@@ -189,8 +205,8 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
       <label for="f-email">Email</label>
       <input type="email" id="f-email" autocomplete="email" required>
     </div>
-    <div style="text-align:center"><button class="btn" onclick="submitGate()">Show my score</button></div>
-    <p class="err" id="gate-err">That email doesn't look right — check and try again.</p>
+    <div style="text-align:center;position:relative;z-index:1"><button class="btn" onclick="submitGate()">Show my score</button></div>
+    <p class="err" id="gate-err">That email doesn't look right. Check and try again.</p>
     <p class="gate-note">No spam, no AI hype. Unsubscribe anytime. Your answers are only used to build your report.</p>
   </div>
 </section>
@@ -220,23 +236,17 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
     <div id="tk-points"></div>
   </div>
 
-  <div class="next commercial" style="border-left:3px solid var(--acid)">
+  <div class="next" style="border-left:3px solid var(--acid)">
     <h3>Fix it, with help</h3>
     <div class="tk-point"><span class="tk-label">FREE · 30 MIN</span><span class="tk-text">Book a free 30-minute taster session. We go through your score together and pick the one fix with the biggest payoff for your actual work. No pitch, no slides.</span></div>
-    <div class="tk-point"><span class="tk-label">HALF PRICE · 90 MIN</span><span class="tk-text">Book the 90-minute working session on that call and it's half price. We build the fix together — you leave with it running.</span></div>
+    <div class="tk-point"><span class="tk-label">HALF PRICE · 90 MIN</span><span class="tk-text">Book the 90-minute working session on that call and it's half price. We build the fix together, and you leave with it running.</span></div>
     <div style="text-align:center;margin-top:24px">
       <a class="btn" id="book-btn" href="#" onclick="if(typeof gtag==='function')gtag('event','booking_click',{location:'results',tier:tier?tier.name:''})">Book my free taster session</a>
     </div>
   </div>
 
-  <div class="next research-note" style="border-left:3px solid var(--acid)">
-    <h3>What happens next</h3>
-    <div class="tk-point"><span class="tk-label">THE DEAL</span><span class="tk-text">This is the research version of the quiz. I'm collecting 50+ responses and publishing the full findings on AI Sustained — pillar by pillar, no names attached.</span></div>
-    <div class="tk-point"><span class="tk-label">YOU GET</span><span class="tk-text">Your pillar-by-pillar report by email now, plus the full write-up when it lands. That's it — nothing to buy here.</span></div>
-  </div>
-
   <div class="cta-row">
-    <a class="btn btn-ghost commercial" href="/learn/programme/">Full programme &amp; prices</a>
+    <a class="btn btn-ghost" href="/learn/programme/">Full programme &amp; prices</a>
     <a class="btn btn-ghost" href="https://ai-sustained.com/#editorial">Read the editorial</a>
   </div>
 
@@ -250,7 +260,7 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 </section>
 
 <footer class="footer">
-  <span>&copy; 2026 <a href="https://ai-sustained.com">AI Sustained</a><span class="commercial"> &middot; ai-sustained.com/learn</span></span>
+  <span>&copy; 2026 <a href="https://ai-sustained.com">AI Sustained</a> &middot; <a href="https://ai-sustained.com/learn/">ai-sustained.com/learn</a></span>
 </footer>
 </div>
 
@@ -259,8 +269,6 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 const HUBSPOT_URL = "https://api-eu1.hsforms.com/submissions/v3/integration/submit/148698319/0ba16edc-d31f-4c93-ae58-38d8813f34d6";
 const BOOKING_URL = "https://meetings-eu1.hubspot.com/ai-sustained-ops"; // HubSpot meeting scheduler link — free 30-min consult
 const QUIZ_URL    = "https://ai-sustained.com/learn/score/";
-// Research mode: shares from research mode carry ?src=share so recipients also get the clean version.
-const SHARE_URL   = QUIZ_URL + (quizSource ? '?src=share' : '');
 // ================================
 
 const PILLARS = ["Prompting","Workflow Integration","Tool Selection","Sustained Habits"];
@@ -273,25 +281,25 @@ const QUESTIONS = [
   "Role, context, constraints and an example of what good looks like",
   "A saved, reusable template I've refined over time"]},
  {p:0,q:"The AI gives you a mediocre answer. You…",o:[
-  "Take it or leave it — it is what it is",
+  "Take it or leave it. It is what it is",
   "Rephrase the question once and hope",
   "Iterate: tell it what's wrong and push it to improve",
-  "Rarely get mediocre answers — I pre-empt the failure in the prompt"]},
- {p:0,q:"Does the AI know who it's writing for — your role, audience, tone?",o:[
+  "Rarely get mediocre answers. I pre-empt the failure in the prompt"]},
+ {p:0,q:"Does the AI know who it's writing for: your role, audience, tone?",o:[
   "Never occurred to me",
   "Sometimes, if I remember",
-  "Usually — I include audience and purpose",
-  "Always — it's baked into saved context or custom instructions"]},
+  "Usually. I include audience and purpose",
+  "Always. It's baked into saved context or custom instructions"]},
  // Pillar 1: Workflow
  {p:1,q:"Honestly, where does AI sit in your working week?",o:[
   "It's a novelty I poke at occasionally",
   "A few times a week when I remember",
   "Daily, for real tasks",
-  "Embedded in repeatable workflows — some run without me"]},
+  "Embedded in repeatable workflows. Some run without me"]},
  {p:1,q:"How many tasks do you have where AI is the default first step?",o:[
   "None yet","One","Several","Most of my routine work starts with AI"]},
  {p:1,q:"Have you connected AI to the tools you actually work in?",o:[
-  "No — it lives in a separate tab",
+  "No. It lives in a separate tab",
   "I copy and paste between them",
   "Some direct integrations (email, docs, data)",
   "Automated pipelines move work without me touching it"]},
@@ -300,10 +308,10 @@ const QUESTIONS = [
   "Whatever's free and nearest",
   "One tool for everything",
   "Two or three, each chosen for a reason",
-  "A deliberate stack — matched tool to job, tested against alternatives"]},
+  "A deliberate stack, matched tool to job, tested against alternatives"]},
  {p:2,q:"How do you decide which AI tool to use for a task?",o:[
   "Whichever tab is already open",
-  "Habit — same one every time",
+  "Habit. Same one every time",
   "A rough sense of each tool's strengths",
   "I've actually compared them on my own tasks"]},
  {p:2,q:"A major new model launches. You…",o:[
@@ -317,8 +325,8 @@ const QUESTIONS = [
   "It was exciting for a week, then died",
   "One or two things genuinely stuck",
   "Several are now just how I work"]},
- {p:3,q:"Do you keep anything reusable — a prompt library, saved workflows?",o:[
-  "Nothing — I start from scratch every time",
+ {p:3,q:"Do you keep anything reusable: a prompt library, saved workflows?",o:[
+  "Nothing. I start from scratch every time",
   "Scattered notes I can never find",
   "An organised personal library",
   "A library I maintain and share with others"]},
@@ -326,27 +334,28 @@ const QUESTIONS = [
   "I'd barely notice",
   "Mildly annoying for a day",
   "Genuinely disruptive to my week",
-  "I'd rebuild the workflow elsewhere within days — the skill is mine, not the tool's"]}
+  "I'd rebuild the workflow elsewhere within days. The skill is mine, not the tool's"]}
 ];
 
 const TIERS = [
- {min:0,max:40,name:"The AI Tourist",cls:"warn",verdict:"Would not survive Monday",copy:"You visit AI — you don't live there. Right now it's a curiosity, not a capability, and the gap between you and colleagues who've built real habits is compounding weekly. The good news: tourists convert fastest, because everything you add is new ground.",
-  tk:[["01 · TRUTH","Your biggest cost isn't bad prompts — it's that AI isn't in your week at all."],
+ {min:0,max:40,name:"The AI Tourist",cls:"warn",verdict:"Would not survive Monday",copy:"You visit AI. You don't live there. Right now it's a curiosity, not a capability, and the gap between you and colleagues who've built real habits is compounding weekly. The good news: tourists convert fastest, because everything you add is new ground.",
+  tk:[["01 · TRUTH","Your biggest cost isn't bad prompts. It's that AI isn't in your week at all."],
       ["02 · FIRST FIX","Pick one recurring task and make AI the default first step for two weeks. Just one."],
-      ["03 · NEXT STEP","AI Made Simple starts exactly here — zero jargon, one habit at a time."]]},
- {min:41,max:70,name:"Monday Morning Casualty",cls:"warn",verdict:"Survives the demo, dies by Monday",copy:"You're capable and curious — your experiments work. Then Monday arrives, the real job takes over, and the experiment quietly dies. Your problem isn't skill, it's systems: nothing you learn is wired into the way you actually work.",
+      ["03 · NEXT STEP","AI Made Simple starts exactly here: zero jargon, one habit at a time."]]},
+ {min:41,max:70,name:"Monday Morning Casualty",cls:"warn",verdict:"Survives the demo, dies by Monday",copy:"You're capable and curious, and your experiments work. Then Monday arrives, the real job takes over, and the experiment quietly dies. Your problem isn't skill, it's systems: nothing you learn is wired into the way you actually work.",
   tk:[["01 · TRUTH","You don't need more AI knowledge. You need fewer, stickier habits."],
-      ["02 · FIRST FIX","Take your one best prompt and turn it into a saved template today — that's a habit's skeleton."],
+      ["02 · FIRST FIX","Take your one best prompt and turn it into a saved template today. That's a habit's skeleton."],
       ["03 · NEXT STEP","AI Made Simple is built around habits that survive contact with a real Monday."]]},
- {min:71,max:100,name:"AI Sustained",cls:"ok",verdict:"Survives Monday morning",copy:"Your habits survive Monday morning — you're in the small minority who've turned AI from a toy into infrastructure. Your next multiplier isn't personal skill: it's scale. Workflows, automation, and bringing the people around you up the curve.",
-  tk:[["01 · TRUTH","At your level the constraint is leverage, not knowledge — automate and delegate to AI."],
+ {min:71,max:100,name:"AI Sustained",cls:"ok",verdict:"Survives Monday morning",copy:"Your habits survive Monday morning. You're in the small minority who've turned AI from a toy into infrastructure. Your next multiplier isn't personal skill: it's scale. Workflows, automation, and bringing the people around you up the curve.",
+  tk:[["01 · TRUTH","At your level the constraint is leverage, not knowledge. Automate and delegate to AI."],
       ["02 · FIRST FIX","Take your most valuable manual AI workflow and automate one step of it this week."],
       ["03 · NEXT STEP","You're the person others will ask. AI Made Simple gives you the language to teach it."]]}
 ];
 
 let idx = 0;
 let answers = new Array(QUESTIONS.length).fill(null);
-let finalScore = 0, pillarPct = [0,0,0,0], tier = null, weakestPillar = "";
+let finalScore = 0, pillarPct = [0,0,0,0], tier = null;
+let advancing = false;
 
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -354,7 +363,7 @@ function show(id){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function startQuiz(){ idx = 0; renderQ(); show('s-quiz'); if(typeof gtag==='function') gtag('event','quiz_start',{quiz_source:quizSource||'direct'}); }
+function startQuiz(){ idx = 0; renderQ(); show('s-quiz'); if(typeof gtag==='function') gtag('event','quiz_start'); }
 
 function renderQ(){
   const q = QUESTIONS[idx];
@@ -367,18 +376,38 @@ function renderQ(){
   q.o.forEach((opt,i)=>{
     const b = document.createElement('button');
     b.className = 'opt';
-    b.textContent = opt;
-    b.onclick = ()=>{ answers[idx]=i; next(); };
+    b.innerHTML = '<span class="k">'+(i+1)+'</span><span>'+opt+'</span>';
+    b.onclick = ()=>pick(i,b);
     box.appendChild(b);
   });
   document.getElementById('back-btn').style.display = idx>0 ? 'inline' : 'none';
+  advancing = false;
+}
+
+function pick(i, el){
+  if(advancing) return;
+  advancing = true;
+  answers[idx]=i;
+  if(el) el.classList.add('picked');
+  setTimeout(next, 170);
 }
 
 function next(){
   if(idx < QUESTIONS.length-1){ idx++; renderQ(); }
-  else { computeScore(); show('s-gate'); document.getElementById('f-name').focus(); if(typeof gtag==='function') gtag('event','quiz_complete',{score:finalScore,quiz_source:quizSource||'direct'}); }
+  else { computeScore(); show('s-gate'); document.getElementById('f-name').focus(); if(typeof gtag==='function') gtag('event','quiz_complete',{score:finalScore}); }
 }
 function goBack(){ if(idx>0){ idx--; renderQ(); } }
+
+// keyboard answers 1-4 while quiz screen is active
+document.addEventListener('keydown', function(e){
+  if(!document.getElementById('s-quiz').classList.contains('active')) return;
+  if(/^(input|textarea)$/i.test(e.target.tagName)) return;
+  const n = parseInt(e.key,10);
+  if(n>=1 && n<=4){
+    const btns = document.querySelectorAll('#q-opts .opt');
+    if(btns[n-1]) pick(n-1, btns[n-1]);
+  }
+});
 
 function computeScore(){
   const raw = answers.reduce((a,v)=>a+(v||0),0);           // max 36
@@ -388,7 +417,6 @@ function computeScore(){
     pillarPct[p] = Math.round(ps/9*100);                   // 3 q × 3 max
   }
   tier = TIERS.find(t=>finalScore>=t.min && finalScore<=t.max);
-  weakestPillar = PILLARS[pillarPct.indexOf(Math.min(...pillarPct))];
 }
 
 function submitGate(){
@@ -397,18 +425,16 @@ function submitGate(){
   const err   = document.getElementById('gate-err');
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ err.style.display='block'; return; }
   err.style.display='none';
-  if(typeof gtag==='function') gtag('event','generate_lead',{tier:tier.name,score:finalScore,quiz_source:quizSource||'direct'});
+  if(typeof gtag==='function') gtag('event','generate_lead',{tier:tier.name,score:finalScore});
   const coreFields = [
     { objectTypeId: "0-1", name: "firstname", value: name },
     { objectTypeId: "0-1", name: "email", value: email }
   ];
   const fullFields = coreFields.concat([
     { objectTypeId: "0-1", name: "ai_survival_score", value: String(finalScore) },
-    { objectTypeId: "0-1", name: "ai_survival_tier", value: tier.name },
-    { objectTypeId: "0-1", name: "ai_weakest_pillar", value: weakestPillar },
-    { objectTypeId: "0-1", name: "quiz_source", value: quizSource || 'direct' }
+    { objectTypeId: "0-1", name: "ai_survival_tier", value: tier.name }
   ]);
-  const ctx = { context: { pageUri: quizSource ? QUIZ_URL+'?src='+quizSource : QUIZ_URL, pageName: "AI Survival Score" } };
+  const ctx = { context: { pageUri: QUIZ_URL, pageName: "AI Survival Score" } };
   function hsPost(fields){
     return fetch(HUBSPOT_URL,{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify(Object.assign({fields}, ctx))});
@@ -465,12 +491,12 @@ function animateCount(target){
 }
 
 function shareLinkedIn(){
-  window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(SHARE_URL),'_blank','width=600,height=550');
+  window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(QUIZ_URL),'_blank','width=600,height=550');
 }
 function copyChallenge(){
-  const txt = `I scored ${finalScore}/100 on the AI Survival Score — verdict: "${tier.verdict}". Would your AI habits survive Monday morning? 3 minutes: ${SHARE_URL}`;
+  const txt = `I scored ${finalScore}/100 on the AI Survival Score. Verdict: "${tier.verdict}". Would your AI habits survive Monday morning? 3 minutes: ${QUIZ_URL}`;
   navigator.clipboard.writeText(txt).then(()=>{
-    const b=document.getElementById('copy-btn'); b.textContent='Copied — go challenge them';
+    const b=document.getElementById('copy-btn'); b.textContent='Copied. Go challenge them';
     setTimeout(()=>b.textContent='Copy my result',2500);
   });
 }
