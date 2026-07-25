@@ -505,9 +505,14 @@ function submitGate(){
     { objectTypeId: "0-1", name: "firstname", value: name },
     { objectTypeId: "0-1", name: "email", value: email }
   ];
+  let weak = 0;
+  pillarPct.forEach((v,i)=>{ if(v < pillarPct[weak]) weak = i; });
+  const quizSource = new URLSearchParams(location.search).get('src') || 'direct';
   const fullFields = coreFields.concat([
     { objectTypeId: "0-1", name: "ai_survival_score", value: String(finalScore) },
-    { objectTypeId: "0-1", name: "ai_survival_tier", value: tier.name }
+    { objectTypeId: "0-1", name: "ai_survival_tier", value: tier.name },
+    { objectTypeId: "0-1", name: "ai_weakest_pillar", value: PILLARS[weak] },
+    { objectTypeId: "0-1", name: "quiz_source", value: quizSource }
   ]);
   const ctx = { context: { pageUri: QUIZ_URL, pageName: "AI Survival Score" } };
   function hsPost(fields){
