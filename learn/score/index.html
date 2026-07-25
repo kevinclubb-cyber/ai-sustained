@@ -115,21 +115,30 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 .gate-note{font-size:12.5px;color:var(--sage);margin-top:16px;line-height:1.55;position:relative;z-index:1}
 .err{color:var(--coral);font-size:13px;margin-top:10px;display:none}
 
-/* results */
+/* results — high-fidelity score dial */
 .score-hero{text-align:center;margin:12px 0 44px}
-.score-dial{position:relative;width:230px;height:230px;margin:0 auto 22px}
-.score-dial svg{transform:rotate(-90deg)}
-.dial-bg{fill:none;stroke:rgba(242,236,217,.12);stroke-width:10}
-.dial-arc{fill:none;stroke:var(--acid);stroke-width:10;stroke-linecap:round;stroke-dasharray:628;stroke-dashoffset:628;transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)}
+.score-dial{position:relative;width:250px;height:250px;margin:0 auto 26px;animation:dialIn .7s cubic-bezier(.2,.8,.3,1.1) both}
+@keyframes dialIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:scale(1)}}
+.score-dial::before{content:"";position:absolute;inset:-34px;border-radius:50%;background:radial-gradient(circle,rgba(232,255,58,.22) 0%,rgba(232,255,58,.07) 45%,transparent 70%);animation:halo 3.2s ease-in-out infinite;pointer-events:none}
+@keyframes halo{0%,100%{opacity:.65;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
+.score-dial svg{transform:rotate(-90deg);position:relative;width:250px;height:250px}
+.dial-bg{fill:none;stroke:rgba(242,236,217,.1);stroke-width:12}
+.dial-arc{fill:none;stroke:url(#dialGrad);stroke-width:12;stroke-linecap:round;stroke-dasharray:628;stroke-dashoffset:628;transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1);filter:drop-shadow(0 0 10px rgba(232,255,58,.7)) drop-shadow(0 0 26px rgba(232,255,58,.35))}
 .score-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.score-num .n{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:64px;color:var(--acid);line-height:1}
-.score-num .d{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;color:var(--sage);text-transform:uppercase;margin-top:6px}
+.score-num .n{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:82px;color:var(--acid);line-height:1;text-shadow:0 0 18px rgba(232,255,58,.55),0 0 46px rgba(232,255,58,.3)}
+.score-num .d{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.2em;color:var(--sage);text-transform:uppercase;margin-top:8px}
+@media(prefers-reduced-motion:reduce){.score-dial{animation:none}.score-dial::before{animation:none}}
 .tier-name{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,5vw,38px);letter-spacing:-0.01em}
 .tier-name.warn{color:var(--coral)}
 .tier-name.ok{color:var(--acid)}
 .verdict-stamp{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;border:1px solid currentColor;border-radius:3px;padding:6px 12px;margin-top:14px}
-.rank-line{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-top:18px}
-.rank-line b{color:var(--acid);font-weight:700}
+/* rank banner — the league table moment */
+.rank-banner{display:none;grid-template-columns:1fr 1px 1fr 1px 1fr;align-items:stretch;gap:0;max-width:520px;margin:26px auto 0;background:var(--ink);border:1px solid rgba(232,255,58,.35);border-radius:8px;padding:22px 10px;box-shadow:0 12px 36px rgba(0,0,0,.35),0 0 0 1px rgba(232,255,58,.08),0 0 30px rgba(232,255,58,.08);animation:fadeUp .5s ease .3s both}
+.rank-banner.on{display:grid}
+.rank-banner .rb-div{background:rgba(242,236,217,.14)}
+.rb-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:0 8px;text-align:center}
+.rb-n{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:clamp(26px,5.5vw,34px);color:var(--acid);line-height:1;text-shadow:0 0 14px rgba(232,255,58,.4)}
+.rb-l{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--sage);line-height:1.5}
 .month-list{list-style:none;margin:14px 0 0}
 .month-list li{position:relative;padding-left:26px;margin-bottom:14px;font-family:'Fraunces',serif;font-style:italic;font-size:16.5px;line-height:1.5}
 .month-list li::before{content:"→";position:absolute;left:0;color:var(--acid);font-style:normal;font-family:'JetBrains Mono',monospace}
@@ -147,9 +156,12 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 /* takeaway */
 .next{background:var(--ink);border-radius:8px;padding:34px 30px;margin-bottom:40px}
 .next h3{color:var(--acid)}
-.tk-point{display:flex;gap:16px;margin-bottom:18px}
-.tk-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--acid);white-space:nowrap;padding-top:4px}
+.tk-point{display:grid;grid-template-columns:148px 1fr;column-gap:18px;margin-bottom:18px;align-items:start}
+.tk-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--acid);padding-top:4px;line-height:1.5}
 .tk-text{font-family:'Fraunces',serif;font-style:italic;font-size:16.5px;line-height:1.5}
+@media(max-width:560px){.tk-point{grid-template-columns:1fr;row-gap:5px}.tk-label{padding-top:0}}
+.month-list{padding-left:166px}
+@media(max-width:560px){.month-list{padding-left:0}}
 .cta-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:40px}
 .share-box{border:1px dashed rgba(242,236,217,.25);border-radius:8px;padding:24px;text-align:center}
 .share-box p{font-size:13.5px;color:var(--sage);margin-bottom:16px}
@@ -222,7 +234,14 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 <section class="screen" id="s-results" aria-label="Your results">
   <div class="score-hero">
     <div class="score-dial">
-      <svg width="230" height="230" viewBox="0 0 230 230" aria-hidden="true">
+      <svg width="250" height="250" viewBox="0 0 230 230" aria-hidden="true">
+        <defs>
+          <linearGradient id="dialGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#E8FF3A"/>
+            <stop offset="55%" stop-color="#E8FF3A"/>
+            <stop offset="100%" stop-color="#F8FFC8"/>
+          </linearGradient>
+        </defs>
         <circle class="dial-bg" cx="115" cy="115" r="100"></circle>
         <circle class="dial-arc" id="dial" cx="115" cy="115" r="100"></circle>
       </svg>
@@ -230,7 +249,13 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
     </div>
     <h2 class="tier-name" id="tier-name"></h2>
     <span class="verdict-stamp" id="verdict"></span>
-    <p class="rank-line" id="rank-result"></p>
+    <div class="rank-banner" id="rank-result" aria-label="Your league position">
+      <div class="rb-item"><span class="rb-n" id="rb-pct">&ndash;</span><span class="rb-l">Ahead of<br>the field</span></div>
+      <div class="rb-div"></div>
+      <div class="rb-item"><span class="rb-n" id="rb-rank">&ndash;</span><span class="rb-l">League<br>position</span></div>
+      <div class="rb-div"></div>
+      <div class="rb-item"><span class="rb-n" id="rb-total">&ndash;</span><span class="rb-l">Have taken<br>the test</span></div>
+    </div>
   </div>
   <p class="tier-copy" id="tier-copy"></p>
 
@@ -249,6 +274,10 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
     <div id="ma-standing"></div>
     <div id="ma-story"></div>
     <div class="needle-note" id="ma-needle"></div>
+    <div style="text-align:center;margin-top:26px">
+      <button class="btn" id="cal-btn" onclick="addRetakeToCalendar()">Book my rematch</button>
+      <span class="btn-sub" id="cal-sub">Adds the retake to your calendar &middot; 1 month from today</span>
+    </div>
   </div>
 
   <div class="next" style="border-left:3px solid var(--acid)">
@@ -555,7 +584,7 @@ function renderMonthAhead(){
     localStorage.setItem('ais_last_score', JSON.stringify({score:finalScore, date:new Date().toISOString()}));
   }catch(e){ /* private browsing etc. — skip silently */ }
 
-  needle.innerHTML = `${tierLine} Scores here move slowly, which is exactly why they're worth moving. Put <b>${retake}</b> in your diary, retake the twelve questions, and see whether the needle — and your rank — have shifted. One pillar, one month, three small habits. That's the whole game.${lastVisit}`;
+  needle.innerHTML = `${tierLine} Scores here move slowly, which is exactly why they're worth moving. Come back on <b>${retake}</b>, retake the twelve questions, and see whether the needle — and your rank — have shifted. One pillar, one month, three small habits. That's the whole game. The button below puts the rematch straight in your calendar.${lastVisit}`;
 }
 
 // ===== League position from scores.json (published from HubSpot every 6h) =====
@@ -576,7 +605,12 @@ async function showRank(userScore){
     const avg = Math.round(scores.reduce((a,b)=>a+b,0)/total);
     rankInfo = {pct, rank, total, avg};
 
-    if(el) el.innerHTML = `Ahead of <b>${pct}%</b> of participants &middot; rank ${rank} of ${total+1}`;
+    if(el){
+      document.getElementById('rb-pct').textContent = pct+'%';
+      document.getElementById('rb-rank').textContent = '#'+rank;
+      document.getElementById('rb-total').textContent = total+1;
+      el.classList.add('on');
+    }
     if(standing){
       const vsAvg = userScore===avg ? `dead on the average of ${avg}`
         : userScore>avg ? `<b>${userScore-avg} points above</b> the average of ${avg}`
@@ -596,6 +630,38 @@ function animateCount(target){
     if(k<1) requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
+}
+
+// ===== "Book my rematch" — .ics file opens the reader's calendar app =====
+function addRetakeToCalendar(){
+  const d = new Date(); d.setMonth(d.getMonth()+1);
+  const pad = n => String(n).padStart(2,'0');
+  const ymd = x => `${x.getFullYear()}${pad(x.getMonth()+1)}${pad(x.getDate())}`;
+  const end = new Date(d); end.setDate(end.getDate()+1);
+  const stamp = new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+  const rankBit = rankInfo ? ` and rank #${rankInfo.rank} of ${rankInfo.total+1}` : '';
+  const ics = [
+    'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//AI Sustained//AI Survival Score//EN','CALSCALE:GREGORIAN',
+    'BEGIN:VEVENT',
+    'UID:retake-'+Date.now()+'@ai-sustained.com',
+    'DTSTAMP:'+stamp,
+    'DTSTART;VALUE=DATE:'+ymd(d),
+    'DTEND;VALUE=DATE:'+ymd(end),
+    'SUMMARY:Retake the AI Survival Score — has the needle moved?',
+    'DESCRIPTION:One month ago you scored '+finalScore+'/100'+rankBit+'. Three minutes to see whether the needle — and your rank — have shifted.\\n\\nRetake it here: '+QUIZ_URL,
+    'URL:'+QUIZ_URL,
+    'BEGIN:VALARM','TRIGGER:-PT9H','ACTION:DISPLAY','DESCRIPTION:Rematch day — retake the AI Survival Score','END:VALARM',
+    'END:VEVENT','END:VCALENDAR'
+  ].join('\r\n');
+  const blob = new Blob([ics],{type:'text/calendar;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'ai-survival-score-rematch.ics';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+  const sub = document.getElementById('cal-sub');
+  if(sub) sub.textContent = 'In your downloads — open it and the rematch is booked';
+  if(typeof gtag==='function') gtag('event','retake_calendar_add',{score:finalScore});
 }
 
 function shareLinkedIn(){
