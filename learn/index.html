@@ -414,12 +414,23 @@ document.getElementById('info-btn').addEventListener('click',function(){
 });
 
 /* ---- Live chat (HubSpot Conversations) ---- */
+function doOpenChat(){
+  window.HubSpotConversations.widget.load();
+  window.HubSpotConversations.widget.open();
+  gtag('event','ask_livechat_click');
+}
 function openChat(){
   if(window.HubSpotConversations && window.HubSpotConversations.widget){
-    window.HubSpotConversations.widget.open();
-    gtag('event','ask_livechat_click');
+    doOpenChat();
   } else {
-    window.location.href = 'mailto:kevin@ai-sustained.com?subject=Just%20asking';
+    /* script still initialising: queue the open, fall back to email after 3s if chat never arrives */
+    window.hsConversationsOnReady = window.hsConversationsOnReady || [];
+    window.hsConversationsOnReady.push(doOpenChat);
+    setTimeout(()=>{
+      if(!(window.HubSpotConversations && window.HubSpotConversations.widget)){
+        window.location.href = 'mailto:kevin@ai-sustained.com?subject=Just%20asking';
+      }
+    }, 3000);
   }
 }
 
