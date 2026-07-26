@@ -439,7 +439,7 @@ function openChat(){
    Add hidden contact property `ams_programme_opt_in` to the published form, then paste its GUID below.
    EU endpoint + objectTypeId 0-1 are required (same pattern as the quiz form). */
 const HS_PORTAL = '148698319';
-const HS_FORM_GUID = 'REPLACE_WITH_NEW_FORM_GUID';
+const HS_FORM_GUID = '26680384-4b5a-4ef4-b88f-a3d0b7363cb9';
 
 document.getElementById('optin-form').addEventListener('submit', async function(ev){
   ev.preventDefault();
@@ -465,7 +465,7 @@ document.getElementById('optin-form').addEventListener('submit', async function(
         text: 'I agree to allow AI Sustained to store and process my personal data.',
         communications: [{
           value: true,
-          subscriptionTypeId: 999999999, /* TODO: replace with the real Marketing Information subscription type ID from HubSpot */
+          subscriptionTypeId: 3274182629, /* "AI Made Simple updates" subscription type */
           text: 'I agree to receive the AI Made Simple details and related updates from AI Sustained.'
         }]
       }
