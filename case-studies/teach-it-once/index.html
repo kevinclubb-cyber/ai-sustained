@@ -519,26 +519,54 @@
 </article>
 
 <script>
-/* ---- Live chat (HubSpot Conversations) — same behaviour as /learn ---- */
-function doOpenChat(){
-  window.HubSpotConversations.widget.load();
-  window.HubSpotConversations.widget.open();
-  gtag('event','ask_livechat_click');
-}
-function openChat(){
-  if(window.HubSpotConversations && window.HubSpotConversations.widget){
-    doOpenChat();
-  } else {
-    /* script still initialising: queue the open, fall back to email after 3s if chat never arrives */
-    window.hsConversationsOnReady = window.hsConversationsOnReady || [];
-    window.hsConversationsOnReady.push(doOpenChat);
-    setTimeout(function(){
-      if(!(window.HubSpotConversations && window.HubSpotConversations.widget)){
-        window.location.href = 'mailto:kevin@ai-sustained.com?subject=Just%20asking';
-      }
-    }, 3000);
+/* ---- Live chat (HubSpot Conversations) — same behaviour as /learn ----
+   NOTE: do NOT push to window.hsConversationsOnReady from here. HubSpot reads that
+   array once, when the embed script boots. A push made later (i.e. on click) sits in
+   the array and never fires. Poll instead - works whichever order things load in. */
+(function(){
+  var pending = false;
+  var btn, label;
+
+  function ready(){
+    return !!(window.HubSpotConversations && window.HubSpotConversations.widget);
   }
-}
+  function doOpenChat(){
+    window.HubSpotConversations.widget.load();
+    window.HubSpotConversations.widget.open();
+    if (typeof gtag === 'function') gtag('event','ask_livechat_click');
+  }
+  function restore(){
+    pending = false;
+    if (btn) { btn.textContent = label; btn.disabled = false; }
+  }
+  function giveUp(){
+    restore();
+    var note = document.querySelector('.ask-note');
+    if (note && !note.dataset.chatFailed) {
+      note.dataset.chatFailed = '1';
+      note.innerHTML = 'Chat didn\'t load &mdash; <a href="mailto:kevin@ai-sustained.com?subject=Just%20asking" style="color:inherit;text-decoration:underline">email me instead</a> and I\'ll come straight back to you.';
+    }
+    if (typeof gtag === 'function') gtag('event','ask_livechat_failed');
+  }
+
+  window.openChat = function(){
+    btn = btn || document.getElementById('livechat-btn');
+    if (label === undefined && btn) label = btn.textContent;
+
+    if (ready()) { doOpenChat(); return; }
+    if (pending) return;
+
+    pending = true;
+    if (btn) { btn.textContent = 'Starting chat…'; btn.disabled = true; }
+
+    var waited = 0, step = 200, limit = 8000;
+    var timer = setInterval(function(){
+      waited += step;
+      if (ready())              { clearInterval(timer); restore(); doOpenChat(); }
+      else if (waited >= limit) { clearInterval(timer); giveUp(); }
+    }, step);
+  };
+})();
 </script>
 </body>
 </html>
