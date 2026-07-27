@@ -46,6 +46,8 @@
   "publisher": { "@type": "Organization", "name": "AI Sustained" }
 }
 </script>
+<!-- HubSpot (EU) — powers the Live Chat button in the "Just ask" card -->
+<script async defer id="hs-script-loader" src="https://js-eu1.hs-scripts.com/148698319.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -281,44 +283,44 @@
 
   /* ============ CONTACT SLAB (case-study close) ============ */
   /* The one deliberate acid fill in the page. */
-  .cta-slab {
+  /* Just ask card — matches /learn */
+  @keyframes btnPulse {
+    0%   { box-shadow: 0 10px 32px rgba(0,0,0,.35), 0 0 0 0 rgba(232,255,58,.45); }
+    70%  { box-shadow: 0 10px 32px rgba(0,0,0,.35), 0 0 0 16px rgba(232,255,58,0); }
+    100% { box-shadow: 0 10px 32px rgba(0,0,0,.35), 0 0 0 0 rgba(232,255,58,0); }
+  }
+  .btn {
+    position: relative; display: inline-flex; align-items: center; justify-content: center;
     background: var(--acid); color: var(--ink);
-    border-radius: 4px; padding: 44px 40px; margin: 64px 0 8px;
-    position: relative; overflow: hidden;
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: .01em;
+    padding: 18px 34px; border: none; border-radius: 6px; cursor: pointer;
+    text-decoration: none; text-align: center;
+    box-shadow: 0 10px 32px rgba(0,0,0,.35);
+    animation: btnPulse 2.6s ease-out infinite;
+    transition: transform .15s, filter .15s, box-shadow .15s;
   }
-  .cta-slab::before {
-    content: ''; position: absolute; bottom: -70px; left: -40px;
-    width: 200px; height: 200px; border: 36px solid var(--ink);
-    border-radius: 50%; opacity: 0.08;
+  .btn:hover { transform: translateY(-3px) scale(1.02); filter: brightness(1.05); box-shadow: 0 16px 44px rgba(232,255,58,.35); }
+  .btn-std { width: 204px; padding: 18px 0; }
+  .ask-card {
+    background: #123024; border: 1px solid rgba(242,236,217,0.14);
+    border-radius: 12px; padding: 44px 36px; text-align: center;
+    margin: 64px 0 8px;
   }
-  .cta-kicker {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.25em; text-transform: uppercase;
-    color: var(--ink); opacity: 0.72; margin-bottom: 14px;
-    position: relative; z-index: 1;
+  .ask-card h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: clamp(28px, 4vw, 42px); line-height: 1.15;
+    color: var(--paper); margin-bottom: 14px;
   }
-  .cta-slab h2 {
-    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
-    font-size: 32px; line-height: 1.15; letter-spacing: -0.01em;
-    color: var(--ink); margin-bottom: 14px; position: relative; z-index: 1;
+  .ask-card p {
+    font-size: 16px; line-height: 1.6; color: rgba(242,236,217,0.72);
+    max-width: 600px; margin: 0 auto 30px;
   }
-  .cta-slab h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; }
-  .cta-slab p {
-    font-size: 16px; line-height: 1.6; color: var(--ink); opacity: 0.84;
-    max-width: 540px; margin-bottom: 26px; position: relative; z-index: 1;
+  .ask-buttons { display: grid; grid-template-columns: repeat(3, 204px); gap: 18px; justify-content: center; }
+  .ask-note {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    color: rgba(242,236,217,0.72); margin-top: 18px;
   }
-  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
-  .cta-btn {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
-    padding: 14px 22px; border-radius: 3px;
-    border: 1.5px solid var(--ink); color: var(--ink);
-    display: inline-flex; align-items: center; gap: 10px;
-    transition: background 0.15s ease;
-  }
-  .cta-btn:hover { background: rgba(10,15,12,0.08); }
-  .cta-btn.primary { background: var(--ink); color: var(--acid); }
-  .cta-btn.primary:hover { background: #000; }
+  @media (prefers-reduced-motion: reduce) { .btn { animation: none; } }
 
   /* ============ FOOTER ============ */
   .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
@@ -343,16 +345,17 @@
     .pull-quote { font-size: 22px; padding: 28px 0; }
     .hero h1 { font-size: 44px; }
     .deck { font-size: 19px; }
-    .cta-slab { padding: 32px 26px; }
-    .cta-slab h2 { font-size: 26px; }
-    .cta-btn { width: 100%; justify-content: space-between; }
+    .ask-card { padding: 32px 24px; }
+    .ask-buttons { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; }
+    .ask-buttons .btn-std { width: 100%; }
   }
 
   @media print {
     @page { size: A3; margin: 14mm; }
     body { background: var(--forest); padding: 0; }
     .page { max-width: none; padding: 0; }
-    .stat-box, .takeaway-point, .pull-quote, .takeaway, .cta-slab { page-break-inside: avoid; break-inside: avoid; }
+    .stat-box, .takeaway-point, .pull-quote, .takeaway, .ask-card { page-break-inside: avoid; break-inside: avoid; }
+    .ask-card { display: none; }
   }
 </style>
 </head>
@@ -477,15 +480,16 @@
     </div>
   </section>
 
-  <!-- SLOT: contact slab -->
-  <section class="cta-slab" aria-label="Get in touch">
-    <div class="cta-kicker">Get in touch</div>
-    <h2>Would you like to <em>find out more</em>?</h2>
-    <p>Happy to talk through how the skills were built, what they cost in time, or how the same pattern would map onto your repeat work. No pitch, just the workings.</p>
-    <div class="cta-row">
-      <a class="cta-btn primary" href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener">Contact me on LinkedIn <span aria-hidden="true">&#8599;</span></a>
-      <a class="cta-btn" href="https://ai-sustained.com/case-studies/">All case studies <span aria-hidden="true">&#8594;</span></a>
+  <!-- SLOT: just ask -->
+  <section class="ask-card" aria-label="Ask a question">
+    <h2>Just ask.</h2>
+    <p>One question, plain-English answer from a real person, usually within a day. Nothing is too small. Want to take it further? We can discuss it, or you can request the options any time.</p>
+    <div class="ask-buttons">
+      <a class="btn btn-std" href="mailto:kevin@ai-sustained.com?subject=Just%20asking" onclick="gtag('event','ask_email_click')">Email</a>
+      <a class="btn btn-std" href="https://wa.me/447731734157?text=Hi%20Kevin%2C%20quick%20AI%20question%3A%20" onclick="gtag('event','ask_whatsapp_click')">WhatsApp</a>
+      <button class="btn btn-std" id="livechat-btn" onclick="openChat()">Live Chat</button>
     </div>
+    <div class="ask-note">free · no obligation · no jargon</div>
   </section>
 
   <!-- SLOT: footer -->
@@ -513,5 +517,28 @@
   </div>
 
 </article>
+
+<script>
+/* ---- Live chat (HubSpot Conversations) — same behaviour as /learn ---- */
+function doOpenChat(){
+  window.HubSpotConversations.widget.load();
+  window.HubSpotConversations.widget.open();
+  gtag('event','ask_livechat_click');
+}
+function openChat(){
+  if(window.HubSpotConversations && window.HubSpotConversations.widget){
+    doOpenChat();
+  } else {
+    /* script still initialising: queue the open, fall back to email after 3s if chat never arrives */
+    window.hsConversationsOnReady = window.hsConversationsOnReady || [];
+    window.hsConversationsOnReady.push(doOpenChat);
+    setTimeout(function(){
+      if(!(window.HubSpotConversations && window.HubSpotConversations.widget)){
+        window.location.href = 'mailto:kevin@ai-sustained.com?subject=Just%20asking';
+      }
+    }, 3000);
+  }
+}
+</script>
 </body>
 </html>
