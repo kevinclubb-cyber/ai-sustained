@@ -1,0 +1,75 @@
+{
+  "updated": "30 Jul 2026",
+  "_moderation_note": "This file IS the moderation step. New submissions arrive in HubSpot; you copy approved ones in here, commit, and Cloudflare Pages redeploys. Fields: id (increment), date (YYYY-MM-DD), name (first name or Anonymous), task (generic, no confidential detail), tool, minutes (number), cadence (per day | per week | per month | one-off), category (drives the filter chips), source.label + source.url (the issue or case study it came from). Entries marked _seed:placeholder are illustrative and MUST be replaced with real wins before launch.",
+  "entries": [
+    {
+      "id": 6,
+      "date": "2026-07-28",
+      "name": "Kevin",
+      "task": "Compliance evidence run rebuilt as a reusable AI skill, from days of manual work to about five minutes",
+      "tool": "Claude",
+      "minutes": 480,
+      "cadence": "per month",
+      "category": "Document review",
+      "source": { "label": "Case study 004 · Teach it once", "url": "/case-studies/teach-it-once/" }
+    },
+    {
+      "id": 5,
+      "date": "2026-07-26",
+      "name": "Kevin",
+      "task": "Workforce shadow-AI survey designed, built and analysed by an agent in one sitting",
+      "tool": "Claude",
+      "minutes": 120,
+      "cadence": "one-off",
+      "category": "Research",
+      "source": { "label": "Case study 001 · Ask the workforce", "url": "/case-studies/shadow-ai-ask-the-workforce/" }
+    },
+    {
+      "id": 4,
+      "date": "2026-07-24",
+      "name": "Kevin",
+      "task": "Backlog housekeeping handed to a semi-autonomous agent that runs it without being asked",
+      "tool": "Claude",
+      "minutes": 60,
+      "cadence": "per week",
+      "category": "Admin",
+      "source": { "label": "Case study 003 · The virtual hire", "url": "/case-studies/charles-virtual-agent/" }
+    },
+    {
+      "id": 3,
+      "date": "2026-07-22",
+      "name": "Anonymous",
+      "_seed": "placeholder",
+      "task": "Long supplier email threads pasted in and returned as one summary table",
+      "tool": "ChatGPT",
+      "minutes": 25,
+      "cadence": "per week",
+      "category": "Email",
+      "source": { "label": "Issue 013 · AI made simple", "url": "/articles/ai-made-simple/" }
+    },
+    {
+      "id": 2,
+      "date": "2026-07-20",
+      "name": "Anonymous",
+      "_seed": "placeholder",
+      "task": "Meeting notes pasted in raw, actions and owners pasted back out",
+      "tool": "Copilot",
+      "minutes": 25,
+      "cadence": "per week",
+      "category": "Meeting notes",
+      "source": { "label": "Issue 002 · AI-curious?", "url": "/articles/ai-curious/" }
+    },
+    {
+      "id": 1,
+      "date": "2026-07-18",
+      "name": "Anonymous",
+      "_seed": "placeholder",
+      "task": "First-draft board update from bullet notes, then edited by hand so it stays mine",
+      "tool": "Gemini",
+      "minutes": 60,
+      "cadence": "per month",
+      "category": "Writing",
+      "source": { "label": "Issue 006 · Slop, or supper?", "url": "/articles/slop-or-supper/" }
+    }
+  ]
+}

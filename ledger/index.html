@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Analytics — site-wide ID, leave as-is -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+
+<title>The Reader Ledger | AI Sustained</title>
+<meta name="description" content="A public ledger of time readers have saved using techniques from AI Sustained. Every receipt links to the editorial or case study that produced it.">
+<meta name="keywords" content="AI time saved, AI productivity evidence, AI Sustained ledger, practical AI results, AI case studies UK">
+<meta name="author" content="Kevin Clubb">
+<link rel="canonical" href="https://ai-sustained.com/ledger/">
+<meta property="og:title" content="The Reader Ledger | AI Sustained">
+<meta property="og:description" content="Proof, filed by readers. A public ledger of time saved using techniques from AI Sustained, with every entry linked to its source.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ai-sustained.com/ledger/">
+<meta property="og:image" content="https://ai-sustained.com/favicon-512.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The Reader Ledger | AI Sustained">
+<meta name="twitter:description" content="Proof, filed by readers. Time saved, linked to the technique that saved it.">
+<meta name="twitter:image" content="https://ai-sustained.com/favicon-512.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "The Reader Ledger",
+  "author": { "@type": "Person", "name": "Kevin Clubb" },
+  "url": "https://ai-sustained.com/ledger/",
+  "description": "A public ledger of time readers have saved using techniques from AI Sustained.",
+  "publisher": { "@type": "Organization", "name": "AI Sustained" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --ink-soft: #2A3530;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
+    --acid: #E8FF3A;
+    --coral: #FF5A3C;
+    --moss: #2D6A4F;
+    --sage: #74C69D;
+    --mint: #D8F3DC;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --rule-soft: rgba(242,236,217,0.09);
+    --panel: rgba(242,236,217,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--forest);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    border-top: 3px solid var(--acid);
+  }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
+
+  /* ============ BACK NAV ============ */
+  .back-nav {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .back-nav a { color: var(--muted); text-decoration: none; }
+  .back-nav a:hover { color: var(--acid); }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding: 56px 0 44px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--acid); margin-bottom: 24px;
+    display: inline-flex; align-items: center; gap: 14px; justify-content: center;
+  }
+  .kicker::before { content: ''; width: 36px; height: 2px; background: var(--acid); }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(44px, 7vw, 76px);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin: 0 auto 24px;
+    max-width: 16ch;
+  }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 21px; font-weight: 400; line-height: 1.5;
+    color: var(--paper-2);
+    max-width: 640px; margin: 0 auto;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+
+  /* ============ LEDGER TOTALS (stat grid idiom) ============ */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 44px 0 12px;
+  }
+  .stat-box {
+    background: var(--panel);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 10px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px; font-weight: 600;
+    color: var(--acid); line-height: 1; display: block;
+  }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  .ledger-methodnote {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 0 0 40px;
+  }
+
+  /* ============ INTRO PROSE ============ */
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 0 0 36px; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+
+  /* ============ FILTER CHIPS ============ */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; }
+  .chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    background: transparent; color: var(--muted);
+    border: 1px solid var(--rule);
+    padding: 9px 16px; border-radius: 999px; cursor: pointer;
+    transition: color .15s ease, border-color .15s ease, background .15s ease, transform .15s ease;
+  }
+  .chip:hover { border-color: rgba(232,255,58,0.4); color: var(--paper); transform: translateY(-2px); }
+  .chip.on { background: var(--acid); border-color: var(--acid); color: var(--ink); }
+
+  /* ============ RECEIPTS WALL ============ */
+  .receipts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+    margin: 0 0 16px;
+  }
+  .receipt {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+    border-radius: 4px;
+    padding: 20px 22px 16px;
+    display: flex; flex-direction: column; gap: 10px;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+  }
+  .receipt:hover { transform: translateY(-4px); border-color: rgba(232,255,58,0.4); box-shadow: 0 18px 40px rgba(10,15,12,0.35); }
+  .receipt-top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+  }
+  .receipt-saved {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 26px; font-weight: 600; color: var(--acid); line-height: 1.1;
+  }
+  .receipt-saved .unit { font-size: 13px; font-weight: 500; color: var(--sage); margin-left: 4px; }
+  .receipt-task { font-size: 15px; line-height: 1.5; color: var(--paper); }
+  .receipt-source {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.04em;
+  }
+  .receipt-source a { color: var(--acid); text-decoration: none; border-bottom: 1px solid rgba(232,255,58,0.35); }
+  .receipt-source a:hover { border-bottom-color: var(--acid); }
+  .receipt-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--rule-soft); padding-top: 10px; margin-top: auto;
+  }
+  .receipt-who { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 500; color: var(--paper-2); }
+  .receipt-tool {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    border: 1px solid var(--rule); border-radius: 3px;
+    padding: 3px 8px; color: var(--sage);
+  }
+  .wall-empty {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted);
+    border: 1px dashed var(--rule); border-radius: 4px; padding: 28px; text-align: center;
+    grid-column: 1 / -1;
+  }
+  .wall-foot {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em;
+    color: var(--muted); margin-bottom: 56px;
+  }
+
+  /* ============ FILE A RECEIPT (ink panel, takeaway idiom) ============ */
+  .file-panel {
+    background: var(--ink); color: var(--paper);
+    padding: 44px 40px; border-radius: 4px; margin: 24px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .file-panel::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--acid);
+    border-radius: 50%; opacity: 0.14;
+  }
+  .file-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .file-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .file-panel h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 30px; line-height: 1.22; color: var(--paper);
+    margin-bottom: 10px; position: relative; z-index: 1; letter-spacing: -0.01em;
+  }
+  .file-panel h2 em { color: var(--acid); font-style: italic; }
+  .file-panel .file-lede {
+    font-size: 15px; color: var(--paper-2); max-width: 560px;
+    margin-bottom: 26px; position: relative; z-index: 1;
+  }
+  .file-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; position: relative; z-index: 1; }
+  .file-field { display: flex; flex-direction: column; gap: 7px; }
+  .file-field.full { grid-column: 1 / -1; }
+  .file-field label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage);
+  }
+  .file-field label span { color: var(--muted); text-transform: none; letter-spacing: 0.04em; font-weight: 500; }
+  .file-field input, .file-field select {
+    background: var(--ink-soft); border: 1px solid var(--rule); border-radius: 3px;
+    color: var(--paper); font-family: 'Inter', sans-serif; font-size: 15px;
+    padding: 12px 14px; outline: none; width: 100%;
+    transition: border-color .15s ease;
+  }
+  .file-field input:focus, .file-field select:focus { border-color: var(--acid); }
+  .file-field input::placeholder { color: var(--muted); }
+  .file-field select {
+    appearance: none;
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--acid) 50%),
+      linear-gradient(135deg, var(--acid) 50%, transparent 50%);
+    background-position: calc(100% - 19px) 55%, calc(100% - 14px) 55%;
+    background-size: 5px 5px; background-repeat: no-repeat;
+  }
+  .mins-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .min-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
+    background: transparent; border: 1px solid var(--rule); border-radius: 3px;
+    color: var(--paper-2); padding: 10px 15px; cursor: pointer;
+    transition: color .15s ease, border-color .15s ease, background .15s ease, transform .15s ease;
+  }
+  .min-btn:hover { border-color: rgba(232,255,58,0.4); transform: translateY(-2px); }
+  .min-btn.on { background: var(--acid); border-color: var(--acid); color: var(--ink); }
+  .file-foot {
+    display: flex; align-items: center; justify-content: space-between; gap: 18px;
+    flex-wrap: wrap; margin-top: 24px; position: relative; z-index: 1;
+  }
+  .file-note {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em;
+    color: var(--muted); max-width: 360px; line-height: 1.55;
+  }
+  .btn-file {
+    position: relative; display: inline-flex; align-items: center; gap: 12px;
+    background: var(--acid); color: var(--ink);
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px;
+    padding: 15px 30px; border: none; border-radius: 6px; cursor: pointer;
+    box-shadow: 0 10px 32px rgba(0,0,0,.35);
+    animation: btnPulse 2.6s ease-out infinite;
+    transition: transform .15s ease, filter .15s ease, box-shadow .15s ease;
+  }
+  .btn-file::after { content: "\2192"; font-weight: 700; transition: transform .15s ease; }
+  .btn-file:hover { transform: translateY(-3px) scale(1.02); filter: brightness(1.05); box-shadow: 0 16px 44px rgba(232,255,58,.35); }
+  .btn-file:hover::after { transform: translateX(5px); }
+  .btn-file:disabled { animation: none; opacity: .55; cursor: wait; transform: none; }
+  @keyframes btnPulse {
+    0%   { box-shadow: 0 10px 32px rgba(0,0,0,.35), 0 0 0 0 rgba(232,255,58,.45); }
+    70%  { box-shadow: 0 10px 32px rgba(0,0,0,.35), 0 0 0 18px rgba(232,255,58,0); }
+    100% { box-shadow: 0 10px 32px rgba(0,0,0,.35), 0 0 0 0 rgba(232,255,58,0); }
+  }
+  .file-status {
+    display: none; position: relative; z-index: 1;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.06em;
+    margin-top: 18px; line-height: 1.6;
+  }
+  .file-status.ok { display: block; color: var(--acid); }
+  .file-status.err { display: block; color: var(--coral); }
+
+  /* success stamp state */
+  .file-done { display: none; text-align: center; position: relative; z-index: 1; padding: 12px 0 4px; }
+  .file-done .stamp {
+    display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 600;
+    font-size: 12px; letter-spacing: 0.24em; color: var(--acid);
+    border: 2px solid var(--acid); padding: 9px 20px; transform: rotate(-3deg);
+    margin-bottom: 18px;
+  }
+  .file-done h3 { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; font-size: 26px; margin-bottom: 8px; }
+  .file-done p { color: var(--paper-2); font-size: 14.5px; max-width: 460px; margin: 0 auto; }
+  .file-done p strong { color: var(--acid); font-family: 'Space Grotesk', sans-serif; }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 300px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+
+  @media (max-width: 720px) {
+    .file-panel { padding: 32px 26px; }
+    .file-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 42px; }
+    .deck { font-size: 18px; }
+    .btn-file { width: 100%; justify-content: space-between; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn-file { animation: none; }
+    .btn-file:hover, .btn-file:hover::after, .receipt:hover, .chip:hover, .min-btn:hover { transform: none; }
+  }
+</style>
+</head>
+<body>
+<article class="page">
+
+  <nav class="back-nav"><a href="/">&#8592; ai-sustained.com</a></nav>
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <span class="wordmark">AI Sustained.</span>
+      <span>Reader Ledger</span>
+    </div>
+    <div class="masthead-right">
+      <span>Running since Jul 2026</span>
+      <span>Evidence</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">The receipts, filed by readers</div>
+    <h1>Proof, filed by <span class="accent">readers</span>.</h1>
+    <p class="deck">The case studies are my receipts. These are yours: real minutes saved on real jobs, each one <span class="accent">linked to the technique</span> that saved them.</p>
+  </section>
+
+  <section class="stat-grid" aria-label="Ledger totals">
+    <div class="stat-box">
+      <div class="stat-label">Time reclaimed</div>
+      <span class="stat-value" id="statMinutes">&mdash;<span class="unit">min/wk</span></span>
+      <div class="stat-note">Weekly equivalent across all receipts</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Receipts filed</div>
+      <span class="stat-value" id="statCount">&mdash;</span>
+      <div class="stat-note">Moderated before publishing</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Most-saved job</div>
+      <span class="stat-value" id="statTopCat" style="font-size:19px; line-height:1.2;">&mdash;</span>
+      <div class="stat-note">The task readers hand over most</div>
+    </div>
+  </section>
+  <p class="ledger-methodnote">// totals are reader-reported and moderated, not audited. one-off saves are listed but excluded from the weekly figure.</p>
+
+  <section class="content">
+    <p>Every entry below is a <strong>receipt</strong>: one boring job, one tool, and the time it gave back. Reader-reported, moderated before it appears, and linked to the editorial or case study that produced it. Start with the job you hate and work backwards to the technique. To add yours, <a href="#file">file a receipt</a> below, it takes ten seconds and there is no account.</p>
+  </section>
+
+  <div class="chips" id="chips" role="group" aria-label="Filter receipts by task"></div>
+
+  <section class="receipts" id="wall" aria-live="polite"></section>
+  <p class="wall-foot" id="wallFoot"></p>
+
+  <!-- ============ FILE A RECEIPT ============ -->
+  <section class="file-panel" id="file" aria-label="File a receipt">
+    <div class="file-label">File a receipt</div>
+    <div id="fileForm">
+      <h2>Did something here <em>save you time</em>?</h2>
+      <p class="file-lede">Ten seconds, no account. Your entry joins the ledger once reviewed and helps the next reader find the technique.</p>
+      <div class="file-grid">
+        <div class="file-field full">
+          <label for="fTask">The task <span>&middot; what did you stop doing by hand? Keep it generic, no confidential detail.</span></label>
+          <input type="text" id="fTask" maxlength="120" placeholder="e.g. Weekly meeting notes turned into actions">
+        </div>
+        <div class="file-field">
+          <label for="fTool">The tool</label>
+          <select id="fTool">
+            <option>ChatGPT</option>
+            <option>Claude</option>
+            <option>Copilot</option>
+            <option>Gemini</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="file-field">
+          <label for="fName">First name <span>&middot; optional, anonymous is fine</span></label>
+          <input type="text" id="fName" maxlength="30" placeholder="Anonymous">
+        </div>
+        <div class="file-field full">
+          <label>Time saved, per week</label>
+          <div class="mins-row" id="minsRow">
+            <button type="button" class="min-btn" data-mins="10">10 min</button>
+            <button type="button" class="min-btn on" data-mins="25">25 min</button>
+            <button type="button" class="min-btn" data-mins="60">1 hr</button>
+            <button type="button" class="min-btn" data-mins="120">2 hrs</button>
+            <button type="button" class="min-btn" data-mins="240">Half a day</button>
+          </div>
+        </div>
+        <div class="file-field full">
+          <label for="fEmail">Email <span>&middot; optional, only if you would like a reply when it is published</span></label>
+          <input type="email" id="fEmail" maxlength="120" placeholder="you@example.com">
+        </div>
+      </div>
+      <div class="file-foot">
+        <p class="file-note">// receipts are moderated before they appear. no names beyond first name, no company detail, no confidential information.</p>
+        <button type="button" class="btn-file" id="fileBtn">File receipt</button>
+      </div>
+      <p class="file-status" id="fileStatus" role="status"></p>
+    </div>
+    <div class="file-done" id="fileDone">
+      <div class="stamp">RECEIPT FILED</div>
+      <h3>On the ledger, pending review.</h3>
+      <p>Your <strong id="doneMins">25 minutes a week</strong> joins the running total once approved. Come back and watch the number climb.</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">What is the one boring job <strong>you would happily never do again</strong>?</p>
+    </div>
+    <div class="sources">
+      Data &middot; reader-reported via the receipt form, moderated by hand &middot; weekly figure normalises daily and monthly entries &middot; one-off saves listed, not totalled.
+    </div>
+  </footer>
+
+  <div class="colophon">
+    <span><span class="wordmark">AI Sustained.</span> &middot; By Kevin Clubb</span>
+    <span>2026</span>
+  </div>
+
+</article>
+
+<script>
+/* ============================================================
+   READER LEDGER
+   Data:    /ledger/receipts.json  (moderated, edited in the repo)
+   Submit:  HubSpot Forms API (EU)  — set RECEIPT_FORM_GUID below
+   Events:  GA4 receipt_filed, ledger_source_click
+   ============================================================ */
+
+var HUBSPOT_PORTAL_ID  = "148698319";
+var RECEIPT_FORM_GUID  = "11db3447-0196-40f7-9c02-6831462b0dc9";   /* Reader Ledger — receipt (portal 148698319, EU) */
+var HUBSPOT_ENDPOINT   = "https://api-eu1.hsforms.com/submissions/v3/integration/submit/" + HUBSPOT_PORTAL_ID + "/" + RECEIPT_FORM_GUID;
+
+/* Fallback data so the page never renders empty (used if receipts.json fails to load,
+   e.g. when previewing the file locally). Keep roughly in sync with receipts.json. */
+var FALLBACK = { "updated": "2026-07-30", "entries": [] };
+
+var state = { entries: [], filter: "all" };
+
+function weeklyMins(e) {
+  if (e.cadence === "per day")   return e.minutes * 5;
+  if (e.cadence === "per week")  return e.minutes;
+  if (e.cadence === "per month") return Math.round(e.minutes / 4.33);
+  return 0; /* one-off: listed, not totalled */
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+
+function renderTotals() {
+  var total = 0, counts = {};
+  state.entries.forEach(function (e) {
+    total += weeklyMins(e);
+    counts[e.category] = (counts[e.category] || 0) + 1;
+  });
+  var top = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; })[0] || "—";
+  document.getElementById("statMinutes").innerHTML = total.toLocaleString("en-GB") + '<span class="unit">min/wk</span>';
+  document.getElementById("statCount").textContent = state.entries.length;
+  document.getElementById("statTopCat").textContent = top;
+}
+
+function renderChips() {
+  var cats = [];
+  state.entries.forEach(function (e) { if (cats.indexOf(e.category) === -1) cats.push(e.category); });
+  var html = '<button class="chip' + (state.filter === "all" ? " on" : "") + '" data-f="all">All tasks</button>';
+  cats.forEach(function (c) {
+    html += '<button class="chip' + (state.filter === c ? " on" : "") + '" data-f="' + esc(c) + '">' + esc(c) + '</button>';
+  });
+  document.getElementById("chips").innerHTML = html;
+}
+
+function renderWall() {
+  var wall = document.getElementById("wall");
+  var list = state.entries.filter(function (e) { return state.filter === "all" || e.category === state.filter; });
+  if (!list.length) {
+    wall.innerHTML = '<div class="wall-empty">// no receipts in this category yet. file the first one below.</div>';
+  } else {
+    wall.innerHTML = list.map(function (e) {
+      var d = new Date(e.date + "T00:00:00");
+      var dateStr = d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+      return '<div class="receipt">' +
+        '<div class="receipt-top"><span>&#8470; ' + String(e.id).padStart(3, "0") + '</span><span>' + esc(dateStr) + '</span></div>' +
+        '<div class="receipt-saved">' + esc(e.minutes) + ' min<span class="unit">' + esc(e.cadence) + '</span></div>' +
+        '<div class="receipt-task">' + esc(e.task) + '</div>' +
+        '<div class="receipt-source">&#8627; <a href="' + esc(e.source.url) + '" data-src="' + esc(e.source.label) + '">' + esc(e.source.label) + '</a></div>' +
+        '<div class="receipt-meta"><span class="receipt-who">' + esc(e.name || "Anonymous") + '</span><span class="receipt-tool">' + esc(e.tool) + '</span></div>' +
+        '</div>';
+    }).join("");
+  }
+  document.getElementById("wallFoot").textContent =
+    "// " + state.entries.length + " receipts on the ledger · last updated " + (state.updated || "") + " · file yours below";
+}
+
+function renderAll() { renderTotals(); renderChips(); renderWall(); }
+
+/* ---- load data ---- */
+fetch("/ledger/receipts.json", { cache: "no-store" })
+  .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(function (data) { state.entries = data.entries || []; state.updated = data.updated; renderAll(); })
+  .catch(function () { state.entries = FALLBACK.entries; state.updated = FALLBACK.updated; renderAll(); });
+
+/* ---- filters ---- */
+document.getElementById("chips").addEventListener("click", function (ev) {
+  var b = ev.target.closest(".chip"); if (!b) return;
+  state.filter = b.getAttribute("data-f");
+  renderChips(); renderWall();
+});
+
+/* ---- source click tracking ---- */
+document.getElementById("wall").addEventListener("click", function (ev) {
+  var a = ev.target.closest("a[data-src]"); if (!a) return;
+  if (typeof gtag === "function") gtag("event", "ledger_source_click", { source_label: a.getAttribute("data-src") });
+});
+
+/* ---- minutes selector ---- */
+var chosenMins = 25;
+document.getElementById("minsRow").addEventListener("click", function (ev) {
+  var b = ev.target.closest(".min-btn"); if (!b) return;
+  document.querySelectorAll(".min-btn").forEach(function (x) { x.classList.remove("on"); });
+  b.classList.add("on");
+  chosenMins = parseInt(b.getAttribute("data-mins"), 10);
+});
+
+/* ---- submit ---- */
+document.getElementById("fileBtn").addEventListener("click", function () {
+  var task  = document.getElementById("fTask").value.trim();
+  var tool  = document.getElementById("fTool").value;
+  var name  = document.getElementById("fName").value.trim();
+  var email = document.getElementById("fEmail").value.trim();
+  var status = document.getElementById("fileStatus");
+  status.className = "file-status";
+
+  if (task.length < 8) {
+    status.className = "file-status err";
+    status.textContent = "// describe the task in a few words first, e.g. “weekly meeting notes into actions”.";
+    return;
+  }
+
+  var fields = [
+    { objectTypeId: "0-1", name: "receipt_task",    value: task },
+    { objectTypeId: "0-1", name: "receipt_tool",    value: tool },
+    { objectTypeId: "0-1", name: "receipt_minutes", value: String(chosenMins) },
+    { objectTypeId: "0-1", name: "receipt_source",  value: "/ledger/" }
+  ];
+  if (name)  fields.push({ objectTypeId: "0-1", name: "firstname", value: name });
+  if (email) fields.push({ objectTypeId: "0-1", name: "email",     value: email });
+
+  var payload = {
+    fields: fields,
+    context: { pageUri: location.href, pageName: document.title }
+  };
+
+  var btn = document.getElementById("fileBtn");
+  btn.disabled = true;
+
+  fetch(HUBSPOT_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(function (r) {
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    if (typeof gtag === "function") gtag("event", "receipt_filed", { receipt_tool: tool, receipt_minutes: chosenMins, receipt_page: "/ledger/" });
+    document.getElementById("fileForm").style.display = "none";
+    var done = document.getElementById("fileDone");
+    document.getElementById("doneMins").textContent = chosenMins + " minutes a week";
+    done.style.display = "block";
+  })
+  .catch(function () {
+    btn.disabled = false;
+    status.className = "file-status err";
+    status.textContent = "// that did not send. give it a second and try again.";
+  });
+});
+</script>
+</body>
+</html>
