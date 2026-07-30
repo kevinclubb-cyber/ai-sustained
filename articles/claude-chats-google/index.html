@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Analytics — site-wide ID, leave as-is -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+
+<title>Claude Chats Found on Google: AI Made Simple | AI Sustained</title>
+<meta name="description" content="Shared Claude chats appeared in Google search and the headlines panicked. What actually happened, and why you needn't fear AI. AI Made Simple.">
+<meta name="keywords" content="Claude chats Google, Claude shared links exposed, AI Made Simple, Claude privacy, Anthropic, is Claude safe, AI chat privacy explained, ChatGPT shared chats, AI privacy">
+<meta name="author" content="Kevin Clubb">
+<link rel="canonical" href="https://ai-sustained.com/articles/claude-chats-google/">
+<meta property="og:title" content="The great Claude 'leak' was a noticeboard, not a burglary">
+<meta property="og:description" content="Shared Claude conversations surfaced on Google and the press reached for the air-raid siren. What actually happened, made simple. No panic required.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ai-sustained.com/articles/claude-chats-google/">
+<meta property="og:image" content="https://ai-sustained.com/articles/claude-chats-google/claude-chats-google_hero.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The great Claude 'leak' was a noticeboard, not a burglary">
+<meta name="twitter:description" content="Shared Claude chats surfaced on Google. Nobody was hacked. Here is what actually happened, made simple.">
+<meta name="twitter:image" content="https://ai-sustained.com/articles/claude-chats-google/claude-chats-google_hero.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "The great Claude 'leak' was a noticeboard, not a burglary",
+  "author": { "@type": "Person", "name": "Kevin Clubb" },
+  "datePublished": "2026-07-30",
+  "url": "https://ai-sustained.com/articles/claude-chats-google/",
+  "description": "Shared Claude chats appeared in Google search and the headlines panicked. What actually happened, and why you needn't fear AI. AI Made Simple.",
+  "keywords": "Claude chats Google, Claude shared links exposed, AI Made Simple, Claude privacy, Anthropic, AI chat privacy",
+  "image": "https://ai-sustained.com/articles/claude-chats-google/claude-chats-google_hero.png",
+  "publisher": { "@type": "Organization", "name": "AI Sustained" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --ink-soft: #2A3530;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
+    --acid: #E8FF3A;
+    --coral: #FF5A3C;
+    --moss: #2D6A4F;
+    --sage: #74C69D;
+    --mint: #D8F3DC;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --rule-soft: rgba(242,236,217,0.09);
+    --panel: rgba(242,236,217,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--forest);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    border-top: 3px solid var(--acid);
+  }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
+
+  /* ============ BACK NAV ============ */
+  .backnav {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.16em; text-transform: uppercase; padding: 6px 0 0;
+  }
+  .backnav a { color: var(--muted); text-decoration: none; }
+  .backnav a:hover { color: var(--acid); }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ HERO (centred) ============ */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+  }
+  .kicker::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    background: var(--acid);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(42px, 6.4vw, 74px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin: 0 auto 26px;
+    max-width: 18ch;
+  }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--paper-2);
+    max-width: 660px;
+    margin: 0 auto;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+
+  /* ============ HERO FIGURE ============ */
+  .hero-figure { margin: 40px 0 8px; }
+  .hero-figure img {
+    display: block; width: 100%; height: auto;
+    border-radius: 4px; border: 1px solid var(--rule);
+    border-top: 3px solid var(--acid);
+  }
+  .hero-figure figcaption {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+    margin-top: 12px; text-align: center;
+  }
+
+  /* ============ STAT GRID ============ */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px;
+    margin: 44px 0 48px;
+  }
+  .stat-box {
+    background: var(--panel);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 10px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px; font-weight: 600;
+    color: var(--acid); line-height: 1; display: block;
+  }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  /* ============ BODY CONTENT ============ */
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 32px; line-height: 1.15;
+    color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em;
+  }
+  .content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px;
+  }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+  .content li::marker { color: var(--acid); }
+
+  .inline-highlight { color: var(--acid); font-weight: 500; }
+
+  /* ============ PULL QUOTE ============ */
+  .pull-quote {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 30px; line-height: 1.3; color: var(--paper);
+    margin: 60px auto; padding: 40px 0;
+    border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid);
+    text-align: center; max-width: 720px; letter-spacing: -0.01em;
+  }
+  .pull-quote::before {
+    content: '"'; display: block; font-size: 56px; color: var(--acid);
+    line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif;
+  }
+
+  /* ============ TACTICAL TAKEAWAY (ink panel — signature) ============ */
+  .takeaway {
+    background: var(--ink); color: var(--paper);
+    padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .takeaway::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--acid);
+    border-radius: 50%; opacity: 0.14;
+  }
+  .takeaway-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .takeaway h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 32px; line-height: 1.22; color: var(--paper);
+    margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em;
+  }
+  .takeaway h2 em { color: var(--acid); font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
+  .takeaway-point-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .takeaway-point-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 16px; line-height: 1.45; color: var(--paper-2);
+  }
+  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
+
+  /* ============ TOC ============ */
+  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
+  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
+  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
+
+  /* ============ AI SLIDER (optional) ============ */
+  /* The one panel on the page allowed to glow: ink ground, acid frame,
+     breathing shadow. A feature, not furniture. */
+  .depth {
+    background: var(--ink);
+    border: 2px solid var(--acid);
+    border-radius: 6px;
+    padding: 26px 28px 22px;
+    margin: 44px 0 48px;
+    position: relative;
+    overflow: hidden;
+    animation: depthGlow 3.2s ease-in-out infinite alternate;
+  }
+  .depth::before {
+    content: ''; position: absolute; top: -46px; right: -46px;
+    width: 170px; height: 170px; border: 30px solid var(--acid);
+    border-radius: 50%; opacity: 0.12; pointer-events: none;
+  }
+  @keyframes depthGlow {
+    from { box-shadow: 0 10px 30px rgba(10,15,12,0.3); }
+    to   { box-shadow: 0 10px 30px rgba(10,15,12,0.3), 0 0 30px 2px rgba(232,255,58,0.22); }
+  }
+  .depth-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--acid); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .depth-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .depth-sub {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 15px; color: var(--paper-2); margin-bottom: 18px;
+    position: relative; z-index: 1;
+  }
+  .ticks {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 10px; margin-bottom: 6px;
+    position: relative; z-index: 1;
+  }
+  .tick {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 12px 8px; border-radius: 4px;
+    border: 2px solid rgba(232,255,58,0.35);
+    background: transparent; color: var(--paper-2);
+    cursor: pointer; text-align: center; width: 100%;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: border-color .15s ease, color .15s ease, background .15s ease, transform .15s ease, box-shadow .15s ease;
+  }
+  .tick:hover { border-color: var(--acid); color: var(--acid); transform: translateY(-2px); box-shadow: 0 8px 22px rgba(232,255,58,0.18); }
+  .tick[aria-pressed="true"] {
+    background: var(--acid); color: var(--ink);
+    border-color: var(--acid);
+    box-shadow: 0 8px 24px rgba(232,255,58,0.3);
+  }
+  .tick:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+  @media (max-width: 720px) {
+    .ticks { grid-template-columns: repeat(2, 1fr); }
+    .depth { padding: 22px 20px 18px; }
+  }
+  .depth-range {
+    width: 100%; margin: 16px 0 12px;
+    -webkit-appearance: none; appearance: none;
+    height: 3px; background: rgba(232,255,58,0.25); cursor: pointer;
+    position: relative; z-index: 1; border-radius: 2px;
+  }
+  .depth-range::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--acid); border: none; cursor: pointer;
+    box-shadow: 0 0 12px rgba(232,255,58,0.5);
+  }
+  .depth-range::-moz-range-thumb {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--acid); border: none; cursor: pointer;
+    box-shadow: 0 0 12px rgba(232,255,58,0.5);
+  }
+  .depth-range:focus-visible { outline: 2px solid var(--acid); outline-offset: 4px; }
+  .reading-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted); position: relative; z-index: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .depth { animation: none; }
+    .tick:hover { transform: none; }
+  }
+  #reading { transition: opacity 0.19s ease; }
+  #reading.swapping { opacity: 0; }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 320px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+  .sources a { color: var(--sage); text-decoration: none; }
+
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
+  .hashtag-list span { font-weight: 500; }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ SUBSCRIBE / SUBSTACK SLAB ============ */
+  .cta-slab {
+    background: var(--acid); color: var(--ink);
+    border-radius: 4px; margin: 64px 0 8px; padding: 44px 40px;
+    position: relative; overflow: hidden;
+  }
+  .cta-slab::before {
+    content: ''; position: absolute; bottom: -70px; right: -70px;
+    width: 200px; height: 200px; border: 34px solid var(--ink);
+    border-radius: 50%; opacity: 0.08;
+  }
+  .cta-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink);
+    margin-bottom: 16px; display: inline-flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .cta-kicker::before { content: ''; width: 32px; height: 2px; background: var(--ink); }
+  .cta-slab h2 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+    font-size: clamp(26px, 3.2vw, 36px); line-height: 1.12; letter-spacing: -0.015em;
+    color: var(--ink); margin-bottom: 12px; position: relative; z-index: 1; max-width: 20ch;
+  }
+  .cta-slab h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; }
+  .cta-slab p.cta-intro {
+    font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.55;
+    color: rgba(10,15,12,0.82); max-width: 52ch; position: relative; z-index: 1;
+  }
+  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 26px; position: relative; z-index: 1; }
+  .cta-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink);
+    border: 2px solid var(--ink); padding: 14px 20px; border-radius: 4px;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
+    transition: background 0.15s, color 0.15s, transform 0.15s; white-space: nowrap;
+  }
+  .cta-btn::after { content: '↗'; font-size: 13px; }
+  .cta-btn:hover { background: var(--ink); color: var(--acid); transform: translateY(-1px); }
+  .cta-btn.primary { background: var(--ink); color: var(--acid); animation: ctaPulse 2.6s ease-out infinite; }
+  .cta-btn.primary::after { content: '→'; }
+  .cta-btn.primary:hover { filter: brightness(1.12); }
+  @keyframes ctaPulse {
+    0% { box-shadow: 0 0 0 0 rgba(10,15,12,0.35); }
+    70% { box-shadow: 0 0 0 14px rgba(10,15,12,0); }
+    100% { box-shadow: 0 0 0 0 rgba(10,15,12,0); }
+  }
+  @media (prefers-reduced-motion: reduce) { .cta-btn.primary { animation: none; } }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 42px; }
+    .deck { font-size: 19px; }
+  }
+
+  @media print {
+    @page { size: A3; margin: 14mm; }
+    body { background: var(--forest); padding: 0; }
+    .page { max-width: none; padding: 0; }
+    .page-break { page-break-before: always; break-before: page; }
+    .stat-box, .takeaway-point, .pull-quote { page-break-inside: avoid; break-inside: avoid; }
+    .content h2 { page-break-after: avoid; break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+<article class="page">
+
+  <nav class="backnav" aria-label="Back to all articles"><a href="/articles/">&larr; All articles</a></nav>
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <span class="wordmark">AI Sustained.</span>
+      <span>Issue 015</span>
+    </div>
+    <div class="masthead-right">
+      <span>30 JUL 2026</span>
+      <span>AI Made Simple · Privacy</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">AI Made Simple · Privacy</div>
+    <h1>The great Claude &lsquo;leak&rsquo; was a <span class="accent">noticeboard, not a burglary</span>.</h1>
+    <p class="deck">Shared Claude conversations surfaced in Google search results and the press reached for the air-raid siren. Here is what actually happened, and why your <span class="accent">private chats were never touched</span>.</p>
+  </section>
+
+  <figure class="hero-figure">
+    <img src="claude-chats-google_hero.png" alt="A weathered wooden village noticeboard on a dark country lane at dusk, a single cream paper notice pinned to it, lit by one acid-green lamp, empty fields beyond.">
+    <figcaption>A notice, pinned in public. Illustration · AI Sustained</figcaption>
+  </figure>
+
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">Private chats exposed</div>
+      <span class="stat-value">0</span>
+      <div class="stat-note">Only conversations whose owners created a public link appeared. Unshared chats were never accessible.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Time to fix</div>
+      <span class="stat-value">&asymp;2<span class="unit">days</span></span>
+      <div class="stat-note">Flagged on Reddit Saturday 25 July; test searches returned nothing by Monday afternoon.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Last year's rerun</div>
+      <span class="stat-value">&asymp;600</span>
+      <div class="stat-note">Claude chats Google estimated it had indexed in the near-identical September 2025 incident.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">ChatGPT, 2025</div>
+      <span class="stat-value">&asymp;100,000</span>
+      <div class="stat-note">Publicly shared ChatGPT conversations a researcher scraped from Google last year. This keeps happening.</div>
+    </div>
+  </section>
+
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-label">In this issue</div>
+    <ol>
+      <li><span class="toc-num">01</span><a href="#what-happened">What actually happened?</a></li>
+      <li><span class="toc-num">02</span><a href="#was-it-hacked">Was Claude hacked?</a></li>
+      <li><span class="toc-num">03</span><a href="#public-link">What is a public link, really?</a></li>
+      <li><span class="toc-num">04</span><a href="#whose-fault">So whose fault is it?</a></li>
+      <li><span class="toc-num">05</span><a href="#should-you-fear">Should you stop using AI?</a></li>
+      <li><span class="toc-num">06</span><a href="#work-lessons">What rolling AI out at work taught me</a></li>
+      <li><span class="toc-num">07</span><a href="#check-cupboards">Check your own noticeboard</a></li>
+    </ol>
+  </nav>
+
+  <!-- SLOT: AI Slider control -->
+  <section class="depth" aria-label="Reading depth">
+    <div class="depth-label">Reading depth</div>
+    <p class="depth-sub">How deep do you want to go? Pick a level and the article rewrites itself.</p>
+    <div class="ticks" role="group" aria-label="Choose reading depth">
+      <button class="tick" type="button" aria-pressed="false">Explain like I&rsquo;m 5</button>
+      <button class="tick" type="button" aria-pressed="true">Curious</button>
+      <button class="tick" type="button" aria-pressed="false">Practitioner</button>
+      <button class="tick" type="button" aria-pressed="false">Expert</button>
+    </div>
+    <input id="depth-range" class="depth-range" type="range"
+           min="0" max="3" step="1" value="1" aria-label="Reading depth">
+    <div class="reading-meta" id="reading-meta">Curious &middot; &asymp;1,700 words &middot; 8 min</div>
+  </section>
+
+  <!-- SLOT: body content — Curious depth is the canonical version, captured at init -->
+  <div id="reading">
+
+  <section class="content" id="intro">
+    <p>Last weekend the internet discovered that some Claude conversations could be found on Google, and sections of the press reacted as though the machines had rifled through the nation's sock drawers.</p>
+
+    <p>&ldquo;Privacy nightmare.&rdquo; &ldquo;Exposed.&rdquo; &ldquo;Your secrets, searchable.&rdquo; The headlines were having a wonderful time.</p>
+
+    <p>Here is the sentence the headlines mostly forgot to include: <strong>nothing was hacked, and no private conversation was leaked.</strong> Every single chat that appeared on Google was one where the owner had pressed a button marked &ldquo;Create public link&rdquo;.</p>
+
+    <p>That distinction matters enormously, because half the country is currently deciding whether these AI tools can be trusted, and stories like this one, told badly, are doing more damage than the technology is.</p>
+
+    <p>So let's tell it properly. Slowly, with tea.</p>
+
+    <h2 id="what-happened">What actually happened?</h2>
+
+    <p>Claude, made by Anthropic, has a share feature. When you have a conversation you'd like to show someone, perhaps a plan, a recipe or a bit of code, you can turn it into a link and send it to them. The same goes for Artifacts, the little documents and mini-apps Claude can build.</p>
+
+    <p>On Saturday 25 July, <a href="https://www.404media.co/tons-of-peoples-claude-chats-and-creations-are-exposed-on-google/">a Reddit user noticed</a> that typing a particular search into Google, the kind that asks Google to show everything it knows from claude.ai's share pages, returned a long list of these shared conversations. <a href="https://techcrunch.com/2026/07/27/psa-your-claude-shared-chats-and-artifacts-may-have-ended-up-on-google/">404 Media and TechCrunch reported it</a> on the Monday.</p>
+
+    <p>Some of what turned up was genuinely uncomfortable. <a href="https://futurism.com/artificial-intelligence/claude-chats-publicly-accessible">Futurism found</a> a detailed medical report, clinical trial results including patient names, documents listing the names and phone numbers of primary-school-aged children, and company files marked internal use only.</p>
+
+    <p>By Monday afternoon, TechCrunch ran the same search and got nothing back. From flag to fix: <span class="inline-highlight">roughly two days</span>.</p>
+
+    <h2 id="was-it-hacked">Was Claude hacked?</h2>
+
+    <p><strong>No.</strong> And this is the bit worth reading twice.</p>
+
+    <p>Nobody broke into Anthropic. No password was stolen. No server was breached. No AI went rogue, developed opinions, or sold your secrets to a man in a van.</p>
+
+    <p>Every conversation that appeared in Google's results was one where a person had clicked &ldquo;Create public link&rdquo;. Anthropic's <a href="https://fortune.com/2026/07/27/a-trove-of-users-seemingly-private-conversations-with-anthropics-claude-ai-chatbot-showed-up-in-google-search-results/">statement</a> put it plainly: the company doesn't hand Google a directory of chats, and the links themselves are not guessable. They only end up in a search engine when somebody posts them somewhere public: a forum, a social media post, a website.</p>
+
+    <p>The word &ldquo;exposed&rdquo; did a great deal of heavy lifting in last week's coverage. &ldquo;Published and then found&rdquo; is closer to the truth, and considerably less cinematic.</p>
+
+    <blockquote class="pull-quote">Nobody picked a lock. Someone pinned a notice to the village hall board and was startled that the village read it.</blockquote>
+
+    <h2 id="public-link">What is a public link, really?</h2>
+
+    <p>Think of your Claude account as your farmhouse. Your conversations live inside it. Nobody gets in without your key. That part hasn't changed and didn't change last week.</p>
+
+    <p>A share link is different. Creating one is like copying a page of your diary and pinning it to the noticeboard outside the village hall. The copy is public. That is the entire point of it: it's how the person you sent it to can read it without logging in.</p>
+
+    <p>Now, the noticeboard sits down an unmarked lane. Nobody is going to stumble across it by accident; the address is a long jumble of letters no one could guess. But if you, or the friend you sent it to, mentions that lane anywhere public on the internet, Google's crawler will find it. The crawler is best imagined as <em>a tireless postman who reads everything</em> and files a copy at the sorting office. He isn't malicious. He's just extremely thorough, and he never sleeps.</p>
+
+    <p>That's what &ldquo;indexed by Google&rdquo; means. Not stolen. Filed.</p>
+
+    <p>Once you know that, the whole story deflates rather quickly. People pinned notices, the postman filed them, and everyone was horrified to find them at the sorting office.</p>
+
+    <h2 id="whose-fault">So whose fault is it?</h2>
+
+    <p>Some of it does sit with the products, and it's fair to say so.</p>
+
+    <p>A button that says &ldquo;anyone with the link can view&rdquo; does not scream &ldquo;this may end up on Google next to the weather&rdquo;. TechCrunch pointed out that Google Docs offers much the same feature and those documents don't wind up publicly searchable in the same way. Design nudges matter, and this one could be blunter.</p>
+
+    <p>It's also not the first time. <a href="https://www.forbes.com/sites/iainmartin/2025/09/08/hundreds-of-anthropic-chatbot-transcripts-showed-up-in-google-search/">Last September</a>, Google estimated it had indexed just under <span class="inline-highlight">600 Claude conversations</span> in a near-identical flap. And in 2025 a researcher scraped around <a href="https://www.404media.co/nearly-100-000-chatgpt-conversations-were-searchable-on-google/">100,000 publicly shared ChatGPT conversations</a> from Google. The industry keeps re-learning the same lesson, which is not a flattering look for an industry that talks this much about intelligence.</p>
+
+    <p>But the other half of the story is human, and older than the internet: people put sensitive things in a public place without reading the label. Patient names and children's phone numbers should never have been pasted into <em>any</em> tool and then shared, AI or otherwise. That's not a Claude problem. That's a filing problem.</p>
+
+    <h2 id="should-you-fear">Should you stop using AI?</h2>
+
+    <p>Here's the question the scary headlines are really planting, so let's answer it directly.</p>
+
+    <p><strong>No.</strong> And the reasons are worth spelling out.</p>
+
+    <p>First: your ordinary chats were never at risk. If you never pressed share, nothing of yours was findable. That remains true today.</p>
+
+    <p>Second: the AI did nothing here. Claude didn't decide to publish anything, didn't leak anything, didn't act at all. This story would be identical for any website with a share button: recipe sites, photo albums, document tools. The AI part is what got it into the headlines; it isn't what made it happen.</p>
+
+    <p>Third: the problem was found by ordinary users, reported by journalists, and shut down in about two days. That's the system working, if a touch late.</p>
+
+    <p>Refusing to use AI because of this story is like refusing to drive a tractor because someone, somewhere, once left a handbrake off. The sensible response is not to abandon the tractor. It's to check the handbrake.</p>
+
+    <blockquote class="pull-quote">Fear the handbrake you forgot, not the tractor.</blockquote>
+
+    <h2 id="work-lessons">What rolling AI out at work taught me</h2>
+
+    <p>My day job, for the past while, has included leading AI adoption inside a business: the tools, the training, and the rules of the road. And I can report that the risks that actually show up bear no resemblance to the ones in films.</p>
+
+    <p>No model has ever tried to seize the payroll. What does happen, constantly, is human and mundane: someone pastes a sensitive document into a tool without thinking, or shares a link wider than they meant to, or gives an app access to far more than it needs. Every real incident I've seen worried about a <em>person and a permission</em>, not a machine and a motive.</p>
+
+    <p>So the controls that work are equally mundane. Decide what may and may not be pasted into which tool, and write it down in plain English. Give tools access to the one drawer they need, not the whole filing cabinet. Show people what the share button actually does. Once someone has seen it, they never un-see it. Ten minutes of that beats a hundred fearful headlines.</p>
+
+    <p>The teams that get real value from AI aren't the fearless ones. They're the ones who read the labels on the buttons. Fear produces avoidance; familiarity produces care. You want care.</p>
+
+    <h2 id="check-cupboards">Check your own noticeboard</h2>
+
+    <p>The practical bit, and none of it is difficult:</p>
+
+    <ul>
+      <li><strong>Review your shared chats.</strong> In Claude: Settings &rarr; Privacy &rarr; Shared Chats. Delete anything that shouldn't be public. Other chatbots have an equivalent page. Find it once and you'll know where it lives.</li>
+      <li><strong>Treat share buttons like postcards.</strong> Assume anything you share could be read by the postman. If that thought bothers you, don't share it. Copy and paste the text instead.</li>
+      <li><strong>Keep the crown jewels out entirely.</strong> Medical records, other people's personal details, anything marked confidential: these don't belong in a chat you might one day share, whatever the tool.</li>
+      <li><strong>Then carry on using it.</strong> Genuinely. The tool didn't misbehave, and it remains as useful this week as it was last week.</li>
+    </ul>
+
+    <p>One caveat for completeness: things that were public for a while can linger in caches and web archives even after they vanish from search results. Another reason for the postcard rule, and another reason it applies to the whole internet, not just AI.</p>
+
+    <p>The machines are not reading your diary. But if you pin your diary to the village noticeboard, do be prepared for the village to read it.</p>
+  </section>
+  </div>
+
+  <section class="takeaway" aria-label="Tactical takeaway for leaders">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2>The lesson is not that AI leaks. It is that <em>public means public</em>, and buttons deserve reading.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 · FACT</div>
+        <div class="takeaway-point-text">No systems were breached. Every chat that surfaced had a <strong>public link its owner created</strong>. Private conversations stayed private throughout.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 · HABIT</div>
+        <div class="takeaway-point-text">Review <strong>Settings &rarr; Privacy &rarr; Shared Chats</strong> today, and treat every share button like a postcard: assume the postman reads it.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 · PERSPECTIVE</div>
+        <div class="takeaway-point-text">The risk that matters is <strong>what people paste in and publish</strong>, not the model. Plain rules and ten minutes of training beat a month of frightening headlines.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLOT: subscribe / substack slab -->
+  <section class="cta-slab" id="subscribe" aria-label="Read on Substack and subscribe">
+    <div class="cta-kicker">Read more · Subscribe</div>
+    <h2>Go deeper, then get the <em>next issue</em> in your inbox.</h2>
+    <p class="cta-intro">The full write-up is on Substack: the mechanics of how search engines find share links, the 2025 precedents, and what it means if you run AI in a business. Subscribe and each new issue lands in your inbox. Practical, evidence-led, no hype.</p>
+    <div class="cta-row">
+      <a class="cta-btn" href="https://open.substack.com/pub/aisustained/p/the-great-claude-leak-was-a-noticeboard?utm_campaign=post&amp;utm_medium=web&amp;showWelcomeOnShare=true" target="_blank" rel="noopener">Read on Substack</a>
+      <!-- Points to the site's single live HubSpot newsletter form on the homepage (#subscribe) -->
+      <a class="cta-btn primary" href="/#subscribe">Subscribe</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">Before you fear the machine, <strong>check what you've pinned to the noticeboard.</strong></p>
+    </div>
+    <div class="sources">
+      Sources ·
+      <a href="https://www.404media.co/tons-of-peoples-claude-chats-and-creations-are-exposed-on-google/">404 Media</a> ·
+      <a href="https://techcrunch.com/2026/07/27/psa-your-claude-shared-chats-and-artifacts-may-have-ended-up-on-google/">TechCrunch</a> ·
+      <a href="https://fortune.com/2026/07/27/a-trove-of-users-seemingly-private-conversations-with-anthropics-claude-ai-chatbot-showed-up-in-google-search-results/">Fortune</a> ·
+      <a href="https://futurism.com/artificial-intelligence/claude-chats-publicly-accessible">Futurism</a> ·
+      <a href="https://www.forbes.com/sites/iainmartin/2025/09/08/hundreds-of-anthropic-chatbot-transcripts-showed-up-in-google-search/">Forbes (2025)</a> ·
+      <a href="https://www.404media.co/nearly-100-000-chatgpt-conversations-were-searchable-on-google/">404 Media (ChatGPT, 2025)</a>.
+    </div>
+  </footer>
+
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#Claude</span> <span>#Anthropic</span> <span>#AIPrivacy</span> <span>#AIMadeSimple</span> <span>#GoogleSearch</span> <span>#SharedChats</span> <span>#AISustained</span>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span><span class="wordmark">AI Sustained.</span> · By Kevin Clubb</span>
+    <span>2026</span>
+  </div>
+
+</article>
+<!-- ============ AI SLIDER SCRIPT ============ -->
+<script>
+(function () {
+  var DEPTHS = [
+    {
+      name: "Explain like I'm 5",
+      meta: "≈380 words · 2 min",
+      html: `
+        <section class="content">
+          <p>You may have seen scary headlines saying people's conversations with Claude, a computer helper you can type questions to, ended up on Google for anyone to read. Sounds dreadful. Here's what really happened.</p>
+          <p>When you chat with Claude, your conversation is private, like a letter locked in your bureau. <strong>That never changed.</strong> Nobody broke in. Nothing was stolen.</p>
+          <p>But Claude has a share button. Press it and you get a link: a copy of your chat you can send to someone else. Pressing that button is like taking a page out of your diary and <em>pinning it to the noticeboard outside the village hall</em>. It's public now. That's the whole point of the button. It's how your friend can read it.</p>
+          <p>The noticeboard sits down an unmarked lane, mind. Nobody finds it unless someone shares directions. But when people posted their links on public websites, Google's postman found them. He's a tireless fellow who reads everything and files a copy of it all at the sorting office, and he filed these too. So when folk searched Google, up came the notices. Including some daft ones: medical papers, children's phone numbers. Things nobody should pin to a board, computer or not.</p>
+          <p>Was anyone burgled? <strong>No.</strong> Not one private chat was touched. Every conversation on Google was one where somebody had pressed the share button themselves. The papers called it a leak. It was a noticeboard.</p>
+          <p>The company tidied it up in about <span class="inline-highlight">two days</span>, and the notices came off Google. Similar things happened before: with Claude last year, and with ChatGPT, where about 100,000 shared chats were found the same way. People keep pinning things up and being surprised.</p>
+          <p>So should you be frightened of these AI tools? No more than you'd fear a tractor because someone once left the handbrake off. The machine did nothing wrong. A button got pressed without reading the label. Check the handbrake, then get on with the ploughing.</p>
+          <p>Two sensible habits: don't share a chat unless you'd be happy for the village to read it, and never type in things like medical records or other people's details. That's it. Kettle on.</p>
+        </section>`
+    },
+    {
+      name: "Curious",
+      meta: "≈1,700 words · 8 min",
+      html: null   /* captured from the page at init — do not fill */
+    },
+    {
+      name: "Practitioner",
+      meta: "≈1,000 words · 7 min",
+      html: `
+        <section class="content">
+          <p>On Saturday 25 July a Reddit user found that a site-scoped Google search over claude.ai's share paths returned a long list of shared Claude conversations and Artifacts. <a href="https://www.404media.co/tons-of-peoples-claude-chats-and-creations-are-exposed-on-google/">404 Media</a> broke it Monday; by Monday afternoon <a href="https://techcrunch.com/2026/07/27/psa-your-claude-shared-chats-and-artifacts-may-have-ended-up-on-google/">TechCrunch's</a> repeat searches returned nothing. Roughly <span class="inline-highlight">two days</span>, flag to fix. If you run AI adoption or information security in an organisation, the useful reading of this incident is not "AI leak". It's share-link governance.</p>
+
+          <h2 id="p-mechanics">The mechanics</h2>
+          <p>Claude's share feature mints an unguessable public URL for a conversation or Artifact. No authentication, by design; that's what makes it shareable. Anthropic's position, per its <a href="https://fortune.com/2026/07/27/a-trove-of-users-seemingly-private-conversations-with-anthropics-claude-ai-chatbot-showed-up-in-google-search-results/">statement</a>: no chat directories or sitemaps are given to search engines, and links surface only when posted somewhere crawlable. That makes each share URL a <em>bearer capability</em>: possession of the string is the permission. Once the string appears on a crawlable page, an indexer will follow it, render the full conversation, and cache it. Nothing here is exotic; it's the ordinary lifecycle of a public URL.</p>
+          <p>What surfaced was ugly: <a href="https://futurism.com/artificial-intelligence/claude-chats-publicly-accessible">Futurism found</a> a patient's medical report, clinical trial results with patient names, children's names and phone numbers, and internal-only company documents. None of that is an AI failure mode. All of it is a data-handling failure mode wearing an AI headline.</p>
+
+          <blockquote class="pull-quote">A share URL is a bearer token your users don't know they're minting.</blockquote>
+
+          <h2 id="p-precedent">The precedent</h2>
+          <p>This is at least the third run of this exact incident class. September 2025: Google estimated just under <span class="inline-highlight">600 Claude chats</span> indexed (<a href="https://www.forbes.com/sites/iainmartin/2025/09/08/hundreds-of-anthropic-chatbot-transcripts-showed-up-in-google-search/">Forbes</a>). Also 2025: a researcher scraped roughly <span class="inline-highlight">100,000 publicly shared ChatGPT conversations</span> from Google (<a href="https://www.404media.co/nearly-100-000-chatgpt-conversations-were-searchable-on-google/">404 Media</a>). The pattern is structural: consumer share features default to frictionless, users model "link" as "private message", and crawlers model it as content. Expect it to recur across every AI product with a share button, which is shortly to be all of them.</p>
+
+          <h2 id="p-criticism">Product criticism, kept honest</h2>
+          <p>"Anyone with the link can view" is technically accurate and behaviourally insufficient. It doesn't communicate "and may be indexed by search engines if posted publicly". TechCrunch noted Google Docs links don't end up broadly searchable the same way, so the sharper consent surface clearly exists in the market. Fair criticism. But note what the fix was not: no credential rotation, no breach notification, no incident response beyond de-indexing. Because there was no breach.</p>
+
+          <h2 id="p-actions">What to actually do</h2>
+          <ul>
+            <li><strong>Write the paste policy first.</strong> Define what data classes may enter which AI tools. The exposures here were pasted-in documents, not model behaviour. Your DLP conversation is about clipboards, not models.</li>
+            <li><strong>Audit shared links as a standing task.</strong> Claude: Settings &rarr; Privacy &rarr; Shared Chats. Make reviewing it part of leaver processes and periodic access reviews, same as any other public artefact.</li>
+            <li><strong>Prefer enterprise tenancy.</strong> Consumer share features are built for consumers. Workspace-level admin controls, retention and sharing policies exist precisely so individuals aren't making publication decisions alone.</li>
+            <li><strong>Train the mental model, not the tool.</strong> "Share link = publication" is one slide. People who hold that model don't create these incidents, in any tool.</li>
+            <li><strong>Assume persistence.</strong> De-indexing removes search results, not archive copies or caches. Treat anything that was public as potentially permanent, which is the strongest argument for the paste policy above.</li>
+          </ul>
+
+          <p>The quietly encouraging read: user-reported, journalist-verified, remediated in ~48 hours, zero private-chat exposure. As incident classes go, you'd swap most of your risk register for this one. The fear it generated is the part that's out of proportion, and countering that, with exactly this distinction between breach and publication, is worth ten minutes at your next all-hands.</p>
+        </section>`
+    },
+    {
+      name: "Expert",
+      meta: "≈900 words · 6 min",
+      html: `
+        <section class="content">
+          <p>Strip the headline framing and the July Claude indexing story is a clean case study in capability-URL consent design, and in how "exposure" reporting flattens the distinction between breach and publication until readers can't price risk at all.</p>
+
+          <h2 id="x-model">The security model held</h2>
+          <p>Claude share links are unguessable bearer capabilities: possession of the URL is the authorisation. Anthropic states it publishes no directories or sitemaps, and nothing in the reporting contradicts that: every indexed conversation traces to a link its owner minted and someone posted on a crawlable surface (<a href="https://techcrunch.com/2026/07/27/psa-your-claude-shared-chats-and-artifacts-may-have-ended-up-on-google/">TechCrunch</a>). No authentication bypass, no enumeration, no IDOR. The capability model behaved exactly as specified. What failed was the <em>human model of the capability</em>: users read "anyone with the link" as scoping to their intended recipients, when it scopes to the reachable internet, forever.</p>
+
+          <blockquote class="pull-quote">The security model held. The consent model is the one that keeps failing.</blockquote>
+
+          <h2 id="x-consent">Consent surfaces and the recurrence pattern</h2>
+          <p>Third known iteration of the class: ~<span class="inline-highlight">600 Claude chats</span> indexed in September 2025 (<a href="https://www.forbes.com/sites/iainmartin/2025/09/08/hundreds-of-anthropic-chatbot-transcripts-showed-up-in-google-search/">Forbes</a>), ~<span class="inline-highlight">100,000 ChatGPT shared conversations</span> scraped in 2025 (<a href="https://www.404media.co/nearly-100-000-chatgpt-conversations-were-searchable-on-google/">404 Media</a>), now this. Recurrence at this rate across vendors signals a structural incentive problem, not a bug: share friction is conversion-negative, so consent surfaces get minimised until an incident re-prices them. The comparison point is Google Docs, which pairs link-sharing with explicit scope states and keeps casually shared documents out of broad search visibility. The design exists; adopting it costs activation, so it waits for an incident. Whether the share pages carried noindex directives at the time, and precisely what changed during remediation, hasn't been fully disclosed; treat claims about robots.txt specifics as unverified.</p>
+
+          <h2 id="x-remediation">Remediation semantics</h2>
+          <p>De-indexing within ~<span class="inline-highlight">48 hours</span> of the Reddit flag is fast, but de-indexing is result-set hygiene, not content removal: crawler caches, third-party archives and any holder of the raw URL are untouched, and the underlying pages remain public by design unless owners unpublish them. For anything with GDPR-relevant content in that corpus (patient data and children's contact details were both reported by <a href="https://futurism.com/artificial-intelligence/claude-chats-publicly-accessible">Futurism</a>), erasure rights now chase archive copies the original platform doesn't control. That asymmetry, not the indexing, is the durable harm surface.</p>
+
+          <h2 id="x-second-order">Second-order effects worth watching</h2>
+          <p>First: fear-led coverage of non-breaches measurably feeds enterprise AI hesitancy, and hesitant organisations don't stop using AI; they push usage into unmanaged personal accounts, where exactly this incident class is most likely. The panic is self-fulfilling in the least helpful direction. Second: expect consent-surface hardening (explicit "may appear in search" language, scope states, indexing opt-outs) to propagate across AI products this year, because the reputational cost of the rerun now exceeds the conversion cost of the friction. Third: the incident sharpens the case for enterprise tenancy as the default deployment posture: publication decisions are policy decisions, and consumer share buttons put them in individual hands.</p>
+
+          <h2 id="x-conclusion">The unglamorous conclusion</h2>
+          <p>Zero private conversations exposed; every artefact traced to an owner-minted public link; user-detected, journalist-verified, remediated in two days. Priced as a security incident, this is close to a non-event. Priced as a consent-design and data-handling signal, it's valuable: your users are minting bearer capabilities they mentally file as private messages, and your sensitive-data problem is a clipboard problem. Both are fixable with design and policy. Neither is a reason to fear the model, which took no action at any point in this story.</p>
+        </section>`
+    }
+  ];
+
+  var KEY = 'aisustained_reading_depth';
+  var reading = document.getElementById('reading');
+  var range   = document.getElementById('depth-range');
+  var meta    = document.getElementById('reading-meta');
+  var ticks   = Array.prototype.slice.call(document.querySelectorAll('.tick'));
+  if (!reading || !range || !meta) return;
+
+  DEPTHS[1].html = reading.innerHTML;
+
+  function render(i, animate) {
+    var d = DEPTHS[i];
+    if (!d || !d.html) return;
+    ticks.forEach(function (t, n) { t.setAttribute('aria-pressed', String(n === i)); });
+    range.value = i;
+    try { localStorage.setItem(KEY, String(i)); } catch (e) {}
+    function paint() {
+      reading.innerHTML = d.html;
+      meta.textContent = d.name + ' · ' + d.meta;
+      reading.classList.remove('swapping');
+    }
+    if (animate) {
+      if (window.gtag) gtag('event', 'depth_change', { level: d.name });
+      reading.classList.add('swapping');
+      setTimeout(paint, 190);
+    } else { paint(); }
+  }
+
+  ticks.forEach(function (t, i) { t.addEventListener('click', function () { render(i, true); }); });
+  range.addEventListener('input', function () { render(Number(range.value), true); });
+
+  var start = parseInt((function () {
+    try { return localStorage.getItem(KEY); } catch (e) { return null; }
+  })(), 10);
+  if (!(start >= 0 && start <= 3)) start = 1;
+  render(start, false);
+})();
+</script>
+</body>
+
+</html>
