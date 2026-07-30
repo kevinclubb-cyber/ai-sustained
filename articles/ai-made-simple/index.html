@@ -428,6 +428,149 @@
     </div>
   </section>
 
+  <!-- ============ READER LEDGER — RECEIPT CARD ============ -->
+  <style>
+    .rc-card { background: rgba(242,236,217,0.04); border: 1px solid rgba(242,236,217,0.16); border-left: 4px solid #E8FF3A; border-radius: 4px; padding: 30px 32px 26px; margin: 48px 0 8px; }
+    .rc-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: #E8FF3A; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+    .rc-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+    .rc-card h2 { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; font-size: 26px; line-height: 1.25; color: #F2ECD9; margin: 0 0 8px; letter-spacing: -0.01em; }
+    .rc-card h2 em { color: #E8FF3A; font-style: italic; }
+    .rc-lede { font-family: 'Inter', sans-serif; font-size: 14.5px; color: #E8E1CB; max-width: 560px; margin: 0 0 20px; }
+    .rc-lede a { color: #E8FF3A; }
+    .rc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .rc-field { display: flex; flex-direction: column; gap: 6px; }
+    .rc-field.rc-full { grid-column: 1 / -1; }
+    .rc-field label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #74C69D; }
+    .rc-field label span { color: #8FA398; text-transform: none; letter-spacing: 0.04em; font-weight: 500; }
+    .rc-field input, .rc-field select { background: rgba(10,15,12,0.35); border: 1px solid rgba(242,236,217,0.16); border-radius: 3px; color: #F2ECD9; font-family: 'Inter', sans-serif; font-size: 15px; padding: 11px 13px; outline: none; width: 100%; box-sizing: border-box; transition: border-color .15s ease; }
+    .rc-field input:focus, .rc-field select:focus { border-color: #E8FF3A; }
+    .rc-field input::placeholder { color: #8FA398; }
+    .rc-field select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, #E8FF3A 50%), linear-gradient(135deg, #E8FF3A 50%, transparent 50%); background-position: calc(100% - 19px) 55%, calc(100% - 14px) 55%; background-size: 5px 5px; background-repeat: no-repeat; }
+    .rc-mins { display: flex; gap: 8px; flex-wrap: wrap; }
+    .rc-min { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; background: transparent; border: 1px solid rgba(242,236,217,0.16); border-radius: 3px; color: #E8E1CB; padding: 9px 14px; cursor: pointer; transition: border-color .15s ease, background .15s ease, color .15s ease, transform .15s ease; }
+    .rc-min:hover { border-color: rgba(232,255,58,0.4); transform: translateY(-2px); }
+    .rc-min.rc-on { background: #E8FF3A; border-color: #E8FF3A; color: #0A0F0C; }
+    .rc-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 20px; }
+    .rc-note { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: #8FA398; max-width: 350px; line-height: 1.55; margin: 0; }
+    .rc-btn { background: transparent; color: #E8FF3A; border: 2px solid #E8FF3A; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; padding: 14px 24px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 12px; transition: background .15s, color .15s, transform .15s, box-shadow .15s; }
+    .rc-btn::after { content: "\2192"; }
+    .rc-btn:hover { background: #E8FF3A; color: #0A0F0C; transform: translateY(-2px); box-shadow: 0 10px 28px rgba(232,255,58,.25); }
+    .rc-btn:disabled { opacity: .55; cursor: wait; transform: none; }
+    .rc-status { display: none; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.06em; margin: 16px 0 0; line-height: 1.6; }
+    .rc-status.rc-ok { display: block; color: #E8FF3A; }
+    .rc-status.rc-err { display: block; color: #FF5A3C; }
+    .rc-done { display: none; text-align: center; padding: 10px 0 6px; }
+    .rc-done .rc-stamp { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.24em; color: #E8FF3A; border: 2px solid #E8FF3A; padding: 8px 18px; transform: rotate(-3deg); margin-bottom: 16px; }
+    .rc-done h3 { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; font-size: 24px; color: #F2ECD9; margin: 0 0 8px; }
+    .rc-done p { font-family: 'Inter', sans-serif; font-size: 14px; color: #E8E1CB; max-width: 440px; margin: 0 auto; }
+    .rc-done a { color: #E8FF3A; }
+    @media (max-width: 720px) { .rc-card { padding: 24px 20px; } .rc-grid { grid-template-columns: 1fr; } .rc-btn { width: 100%; justify-content: space-between; } }
+    @media (prefers-reduced-motion: reduce) { .rc-btn:hover, .rc-min:hover { transform: none; } }
+  </style>
+
+  <section class="rc-card" id="rcCard" data-source-label="Issue 013 · AI made simple" data-source-url="/articles/ai-made-simple/" aria-label="File a receipt on the Reader Ledger">
+    <div class="rc-label">File a receipt</div>
+    <div id="rcForm">
+      <h2>Did this save you <em>time</em>?</h2>
+      <p class="rc-lede">Ten seconds, no account. Your entry joins the <a href="/ledger/">Reader Ledger</a> once reviewed, filed against this piece, and helps the next reader find it.</p>
+      <div class="rc-grid">
+        <div class="rc-field rc-full">
+          <label for="rcTask">The task <span>&middot; what did you stop doing by hand? Keep it generic.</span></label>
+          <input type="text" id="rcTask" maxlength="120" placeholder="e.g. Weekly meeting notes turned into actions">
+        </div>
+        <div class="rc-field">
+          <label for="rcTool">The tool</label>
+          <select id="rcTool">
+            <option>ChatGPT</option>
+            <option>Claude</option>
+            <option>Copilot</option>
+            <option>Gemini</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="rc-field">
+          <label for="rcName">First name <span>&middot; optional</span></label>
+          <input type="text" id="rcName" maxlength="30" placeholder="Anonymous">
+        </div>
+        <div class="rc-field rc-full">
+          <label>Time saved, per week</label>
+          <div class="rc-mins" id="rcMins">
+            <button type="button" class="rc-min" data-mins="10">10 min</button>
+            <button type="button" class="rc-min rc-on" data-mins="25">25 min</button>
+            <button type="button" class="rc-min" data-mins="60">1 hr</button>
+            <button type="button" class="rc-min" data-mins="120">2 hrs</button>
+            <button type="button" class="rc-min" data-mins="240">Half a day</button>
+          </div>
+        </div>
+      </div>
+      <div class="rc-foot">
+        <p class="rc-note">// moderated before it appears &middot; no confidential detail in the task field</p>
+        <button type="button" class="rc-btn" id="rcBtn">File receipt</button>
+      </div>
+      <p class="rc-status" id="rcStatus" role="status"></p>
+    </div>
+    <div class="rc-done" id="rcDone">
+      <div class="rc-stamp">RECEIPT FILED</div>
+      <h3>On the ledger, pending review.</h3>
+      <p>Your <strong id="rcDoneMins">25 minutes a week</strong> joins the running total once approved. <a href="/ledger/">See the Reader Ledger &#8594;</a></p>
+    </div>
+  </section>
+  <script>
+  (function () {
+    var URL_ = "https://api-eu1.hsforms.com/submissions/v3/integration/submit/148698319/11db3447-0196-40f7-9c02-6831462b0dc9";
+    var card = document.getElementById("rcCard");
+    var srcLabel = card.getAttribute("data-source-label");
+    var srcUrl   = card.getAttribute("data-source-url");
+    var mins = 25;
+    document.getElementById("rcMins").addEventListener("click", function (ev) {
+      var b = ev.target.closest(".rc-min"); if (!b) return;
+      card.querySelectorAll(".rc-min").forEach(function (x) { x.classList.remove("rc-on"); });
+      b.classList.add("rc-on");
+      mins = parseInt(b.getAttribute("data-mins"), 10);
+    });
+    document.getElementById("rcBtn").addEventListener("click", function () {
+      var task = document.getElementById("rcTask").value.trim();
+      var tool = document.getElementById("rcTool").value;
+      var name = document.getElementById("rcName").value.trim();
+      var status = document.getElementById("rcStatus");
+      status.className = "rc-status";
+      if (task.length < 8) {
+        status.className = "rc-status rc-err";
+        status.textContent = "// describe the task in a few words first.";
+        return;
+      }
+      var fields = [
+        { objectTypeId: "0-1", name: "receipt_task",    value: task },
+        { objectTypeId: "0-1", name: "receipt_tool",    value: tool },
+        { objectTypeId: "0-1", name: "receipt_minutes", value: String(mins) },
+        { objectTypeId: "0-1", name: "receipt_source",  value: srcLabel + " | " + srcUrl }
+      ];
+      if (name) fields.push({ objectTypeId: "0-1", name: "firstname", value: name });
+      var btn = document.getElementById("rcBtn");
+      btn.disabled = true;
+      fetch(URL_, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fields: fields, context: { pageUri: location.href, pageName: document.title } })
+      })
+      .then(function (r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        if (typeof gtag === "function") gtag("event", "receipt_filed", { receipt_tool: tool, receipt_minutes: mins, receipt_page: srcUrl });
+        document.getElementById("rcForm").style.display = "none";
+        document.getElementById("rcDoneMins").textContent = mins + " minutes a week";
+        document.getElementById("rcDone").style.display = "block";
+      })
+      .catch(function () {
+        btn.disabled = false;
+        status.className = "rc-status rc-err";
+        status.textContent = "// that did not send. give it a second and try again.";
+      });
+    });
+  })();
+  </script>
+
+
+
   <footer class="footer">
     <div class="footer-left">
       <p class="footer-cta"><strong>What's the one job you'd happily never do again?</strong> Start there.</p>
