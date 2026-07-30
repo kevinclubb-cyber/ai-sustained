@@ -1087,6 +1087,7 @@
     <nav class="topbar-nav">
       <a href="#editorial" class="active">Editorial</a>
       <a href="/case-studies/">Case studies</a>
+      <a href="/ledger/">Ledger</a>
       <a href="#subscribe">Subscribe</a>
       <a href="#about">About</a>
     </nav>
@@ -1112,6 +1113,85 @@
     <span class="dot"></span>
     <span>Issue series 2026</span>
   </div>
+
+  <!-- ============ READER LEDGER STRIP ============ -->
+  <style>
+    .rl-strip {
+      display: none; /* shown by JS once data loads */
+      max-width: 1280px; margin: 18px auto 6px; padding: 0 32px;
+    }
+    .rl-strip-inner {
+      display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 26px;
+      background: rgba(242,236,217,0.04);
+      border: 1px solid rgba(242,236,217,0.16);
+      border-left: 4px solid #E8FF3A;
+      border-radius: 4px;
+      padding: 18px 22px;
+      font-family: 'JetBrains Mono', monospace;
+      text-decoration: none;
+      transition: transform .2s, border-color .2s, box-shadow .2s;
+    }
+    a.rl-strip-inner:hover {
+      transform: translateY(-3px);
+      border-color: rgba(232,255,58,0.4);
+      box-shadow: 0 18px 40px rgba(10,15,12,0.35);
+    }
+    .rl-tag {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; color: #E8FF3A;
+    }
+    .rl-figure { font-size: 24px; font-weight: 600; color: #F2ECD9; line-height: 1.2; }
+    .rl-figure b { color: #E8FF3A; font-weight: 600; }
+    .rl-sub { font-size: 12px; color: #8FA398; }
+    .rl-go { font-size: 12px; color: #E8FF3A; margin-left: auto; }
+    .rl-go span { display: inline-block; transition: transform .15s ease; }
+    a.rl-strip-inner:hover .rl-go span { transform: translateX(4px); }
+    .rl-cursor {
+      display: inline-block; width: 8px; height: 15px; background: #E8FF3A;
+      vertical-align: -2px; margin-left: 5px;
+      animation: rlBlink 1.1s steps(1) infinite;
+    }
+    @keyframes rlBlink { 50% { opacity: 0; } }
+    @media (max-width: 640px) { .rl-figure { font-size: 18px; } .rl-go { margin-left: 0; } }
+    @media (prefers-reduced-motion: reduce) {
+      .rl-cursor { animation: none; }
+      a.rl-strip-inner:hover, a.rl-strip-inner:hover .rl-go span { transform: none; }
+    }
+  </style>
+  <div class="rl-strip" id="rlStrip">
+    <a class="rl-strip-inner" href="/ledger/" id="rlLink" aria-label="Open the Reader Ledger">
+      <span class="rl-tag">Reader Ledger</span>
+      <span class="rl-figure"><b id="rlMins">0</b> min/week reclaimed</span>
+      <span class="rl-sub"><span id="rlCount">0</span> receipts filed &middot; moderated<span class="rl-cursor"></span></span>
+      <span class="rl-go">Open the ledger <span aria-hidden="true">&#8594;</span></span>
+    </a>
+  </div>
+  <script>
+  (function () {
+    function weekly(e) {
+      if (e.cadence === "per day")   return e.minutes * 5;
+      if (e.cadence === "per week")  return e.minutes;
+      if (e.cadence === "per month") return Math.round(e.minutes / 4.33);
+      return 0;
+    }
+    fetch("/ledger/receipts.json", { cache: "no-store" })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (data) {
+        var entries = data.entries || [];
+        if (!entries.length) return;
+        var total = 0;
+        entries.forEach(function (e) { total += weekly(e); });
+        document.getElementById("rlMins").textContent = total.toLocaleString("en-GB");
+        document.getElementById("rlCount").textContent = entries.length;
+        document.getElementById("rlStrip").style.display = "block";
+      })
+      .catch(function () { /* strip stays hidden */ });
+
+    document.getElementById("rlLink").addEventListener("click", function () {
+      if (typeof gtag === "function") gtag("event", "ledger_strip_click", { location: "homepage" });
+    });
+  })();
+  </script>
 
   <!-- ============ EDITORIAL ============ -->
   <header class="section-header" id="editorial">
