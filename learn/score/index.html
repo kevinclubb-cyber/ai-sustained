@@ -299,6 +299,16 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
     </div>
   </div>
 
+  <div class="next" id="first-receipt">
+    <h3>Your first receipt</h3>
+    <div class="tk-point"><span class="tk-label">THE DEAL</span><span class="tk-text">Your score is the diagnosis. The <a href="https://ai-sustained.com/ledger/?utm_source=score&amp;utm_medium=results" style="color:var(--acid)">Reader Ledger</a> is the proof: real minutes saved by readers, each linked to the technique that saved them. Pick one, try it this week, then come back and file your receipt.</span></div>
+    <div class="tk-point"><span class="tk-label">START HERE</span><span class="tk-text" id="fr-why"></span></div>
+    <div class="cta-row" style="margin-top:24px;margin-bottom:0">
+      <a class="btn btn-ghost" id="fr-read" href="#" onclick="if(typeof gtag==='function')gtag('event','score_to_technique_click',{tier:tier?tier.name:''})">Start here</a>
+      <a class="btn btn-ghost" href="https://ai-sustained.com/ledger/?utm_source=score&amp;utm_medium=results#file" onclick="if(typeof gtag==='function')gtag('event','score_to_ledger_click',{tier:tier?tier.name:''})">See what readers saved</a>
+    </div>
+  </div>
+
   <div class="cta-row">
     <a class="btn btn-ghost" href="/learn/programme/">Full programme &amp; prices</a>
     <a class="btn btn-ghost" href="https://ai-sustained.com/#editorial">Read the editorial</a>
@@ -539,6 +549,31 @@ function renderResults(){
   v.textContent = tier.verdict;
   v.style.color = tier.cls==='ok' ? 'var(--acid)' : 'var(--coral)';
   document.getElementById('tier-copy').textContent = tier.copy;
+
+  // ---- Your first receipt: verdict-aware technique ----
+  const FR = {
+    "The AI Tourist": {
+      label: "Issue 013 · AI made simple",
+      url: "https://ai-sustained.com/articles/ai-made-simple/?utm_source=score&utm_medium=results",
+      why: "Everything is new ground, so start at the beginning: the empty-box problem and the draft-then-iterate habit. One boring job, ten minutes, and you have your first receipt."
+    },
+    "Monday Morning Casualty": {
+      label: "Case study 004 · Teach it once",
+      url: "https://ai-sustained.com/case-studies/teach-it-once/?utm_source=score&utm_medium=results",
+      why: "Your experiments work and then die by Monday. The fix is turning the one that worked into a reusable procedure, so it survives without you re-explaining it. That conversion is your receipt."
+    },
+    "AI Sustained": {
+      label: "Case study 003 · The virtual hire",
+      url: "https://ai-sustained.com/case-studies/charles-virtual-agent/?utm_source=score&utm_medium=results",
+      why: "Your habits already survive Monday. Your next receipt is scale: hand a whole recurring job to a semi-autonomous agent and bank the hours, not the minutes."
+    }
+  };
+  const fr = FR[tier.name];
+  if (fr) {
+    document.getElementById('fr-read').textContent = fr.label;
+    document.getElementById('fr-read').href = fr.url;
+    document.getElementById('fr-why').textContent = fr.why;
+  }
   // pillar bars
   const rows = document.getElementById('pillar-rows'); rows.innerHTML='';
   PILLARS.forEach((p,i)=>{
