@@ -290,6 +290,12 @@
   }
   .byline strong { color: var(--acid); font-weight: 600; }
   .byline .dot { width: 5px; height: 5px; background: var(--acid); border-radius: 50%; }
+  .byline .bl-by { display: none; }
+  @media (max-width: 640px) {
+    .byline .bl-x { display: none; }
+    .byline .bl-by { display: inline; }
+    .byline { gap: 12px; }
+  }
   /* ============ SECTION HEADER ============ */
   .section-header {
     max-width: 1280px;
@@ -840,7 +846,13 @@
     gap: 16px;
     margin-top: 28px;
     flex-wrap: wrap;
+    justify-content: center;
   }
+  .about-link.back {
+    color: var(--mint);
+    border-bottom-color: transparent;
+  }
+  .about-link.back:hover { color: var(--acid); border-bottom-color: var(--acid); }
   .about-link {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
@@ -1088,7 +1100,6 @@
       <a href="#editorial" class="active">Editorial</a>
       <a href="/case-studies/">Case studies</a>
       <a href="/ledger/">Ledger</a>
-      <a href="#subscribe">Subscribe</a>
       <a href="#about">About</a>
     </nav>
   </header>
@@ -1103,30 +1114,32 @@
     </div>
   </section>
   <div class="byline">
-    <span><strong>Kevin Clubb</strong></span>
+    <span class="bl-by">By&nbsp;</span><span><strong>Kevin Clubb</strong></span>
     <span class="dot"></span>
     <span>AI-Native Analyst</span>
-    <span class="dot"></span>
-    <span>UK</span>
-    <span class="dot"></span>
-    <span>Retail · Hospitality · Education</span>
-    <span class="dot"></span>
-    <span>Issue series 2026</span>
+    <span class="dot bl-x"></span>
+    <span class="bl-x">UK</span>
+    <span class="dot bl-x"></span>
+    <span class="bl-x">Retail · Hospitality · Education</span>
+    <span class="dot bl-x"></span>
+    <span class="bl-x">Issue series 2026</span>
   </div>
 
   <!-- ============ READER LEDGER STRIP ============ -->
   <style>
+    /* pull the strip up towards the byline, leave one clear line before the editorial rule */
+    .byline { padding-bottom: 14px; }
     .rl-strip {
       display: none; /* shown by JS once data loads */
-      max-width: 1280px; margin: 18px auto 6px; padding: 0 32px;
+      max-width: 1280px; margin: 0 auto 30px; padding: 0 32px;
     }
     .rl-strip-inner {
-      display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 26px;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 8px 26px;
       background: rgba(242,236,217,0.04);
       border: 1px solid rgba(242,236,217,0.16);
       border-left: 4px solid #E8FF3A;
       border-radius: 4px;
-      padding: 18px 22px;
+      padding: 16px 22px;
       font-family: 'JetBrains Mono', monospace;
       text-decoration: none;
       transition: transform .2s, border-color .2s, box-shadow .2s;
@@ -1143,19 +1156,41 @@
     .rl-figure { font-size: 24px; font-weight: 600; color: #F2ECD9; line-height: 1.2; }
     .rl-figure b { color: #E8FF3A; font-weight: 600; }
     .rl-sub { font-size: 12px; color: #8FA398; }
-    .rl-go { font-size: 12px; color: #E8FF3A; margin-left: auto; }
-    .rl-go span { display: inline-block; transition: transform .15s ease; }
-    a.rl-strip-inner:hover .rl-go span { transform: translateX(4px); }
     .rl-cursor {
       display: inline-block; width: 8px; height: 15px; background: #E8FF3A;
       vertical-align: -2px; margin-left: 5px;
       animation: rlBlink 1.1s steps(1) infinite;
     }
     @keyframes rlBlink { 50% { opacity: 0; } }
-    @media (max-width: 640px) { .rl-figure { font-size: 18px; } .rl-go { margin-left: 0; } }
+    /* the stamp chip — press it and it stamps FILED before opening the ledger */
+    .rl-go {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+      color: #E8FF3A; border: 1.5px solid #E8FF3A; border-radius: 3px;
+      padding: 9px 15px; margin-left: auto;
+      display: inline-flex; align-items: center; gap: 9px;
+      transition: background .15s ease, color .15s ease;
+    }
+    .rl-go .rl-arrow { display: inline-block; transition: transform .15s ease; }
+    a.rl-strip-inner:hover .rl-go { background: #E8FF3A; color: #0A0F0C; }
+    a.rl-strip-inner:hover .rl-go .rl-arrow { transform: translateX(4px); }
+    .rl-stamping .rl-go {
+      background: #E8FF3A; color: #0A0F0C;
+      animation: rlStamp .55s cubic-bezier(.2, 1.4, .4, 1) forwards;
+    }
+    @keyframes rlStamp {
+      0%   { transform: scale(1) rotate(0deg);      box-shadow: 0 0 0 0 rgba(232,255,58,0); }
+      35%  { transform: scale(1.3) rotate(-5deg);   }
+      60%  { transform: scale(.92) rotate(-3deg);   box-shadow: 0 0 0 0 rgba(232,255,58,.55); }
+      100% { transform: scale(1) rotate(-3deg);     box-shadow: 0 0 0 18px rgba(232,255,58,0); }
+    }
+    @media (max-width: 640px) {
+      .rl-figure { font-size: 18px; }
+      .rl-go { margin-left: 0; width: 100%; justify-content: center; }
+    }
     @media (prefers-reduced-motion: reduce) {
       .rl-cursor { animation: none; }
-      a.rl-strip-inner:hover, a.rl-strip-inner:hover .rl-go span { transform: none; }
+      .rl-stamping .rl-go { animation: none; }
+      a.rl-strip-inner:hover, a.rl-strip-inner:hover .rl-go .rl-arrow { transform: none; }
     }
   </style>
   <div class="rl-strip" id="rlStrip">
@@ -1163,7 +1198,7 @@
       <span class="rl-tag">Reader Ledger</span>
       <span class="rl-figure"><b id="rlMins">0</b> min/week reclaimed</span>
       <span class="rl-sub"><span id="rlCount">0</span> receipts filed &middot; moderated<span class="rl-cursor"></span></span>
-      <span class="rl-go">Open the ledger <span aria-hidden="true">&#8594;</span></span>
+      <span class="rl-go"><span class="rl-go-label">Open the ledger</span> <span class="rl-arrow" aria-hidden="true">&#8594;</span></span>
     </a>
   </div>
   <script>
@@ -1187,8 +1222,19 @@
       })
       .catch(function () { /* strip stays hidden */ });
 
-    document.getElementById("rlLink").addEventListener("click", function () {
+    /* stamp press: FILED, then open the ledger */
+    var stamped = false;
+    document.getElementById("rlLink").addEventListener("click", function (ev) {
       if (typeof gtag === "function") gtag("event", "ledger_strip_click", { location: "homepage" });
+      var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (stamped || reduced) return; /* second click or reduced motion: navigate normally */
+      ev.preventDefault();
+      stamped = true;
+      var inner = ev.currentTarget;
+      inner.classList.add("rl-stamping");
+      inner.querySelector(".rl-go-label").textContent = "Filed";
+      inner.querySelector(".rl-arrow").textContent = "✓";
+      setTimeout(function () { window.location.href = "/ledger/"; }, 600);
     });
   })();
   </script>
@@ -1649,10 +1695,10 @@
         <p><strong>AI Sustained</strong> is where I write it up. Practical, evidence-led, and aimed at people who want to use AI well, not people who want to be sold something. The <strong>editorial</strong> is the thinking; the <strong>case studies</strong> are the receipts.</p>
         <p>If something here is useful, share it. If something is wrong, tell me. If you want to talk shop, find me on LinkedIn.</p>
         <div class="about-links">
-          <a class="about-link" href="https://aisustained.substack.com/" target="_blank" rel="noopener">Substack ↗</a>
+          <a class="about-link" href="#subscribe">Subscribe</a>
           <a class="about-link" href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener">LinkedIn ↗</a>
-          <a class="about-link" href="mailto:ai.sustained.ops@gmail.com">Email</a>
-          <a class="about-link" href="#editorial">Back to editorial</a>
+          <a class="about-link" href="mailto:kevin@ai-sustained.com">Email</a>
+          <a class="about-link back" href="#editorial">&#8592; Back to editorial</a>
         </div>
       </div>
     </div>
