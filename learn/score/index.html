@@ -170,6 +170,24 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 .share-box p{font-size:13.5px;color:var(--sage);margin-bottom:16px}
 .footer{margin-top:64px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage)}
 .footer a{color:var(--acid);text-decoration:none}
+
+/* ===== Reader Ledger receipt link — prints, then tears off ===== */
+.rcpt-link{position:relative;display:inline-flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:var(--acid);color:var(--ink);padding:16px 26px;border-radius:2px 2px 6px 6px;text-decoration:none;border-left:2px dashed rgba(10,15,12,.5);transition:transform .15s ease,box-shadow .15s ease}
+.rcpt-link::before{content:"RECEIPT";position:absolute;top:-9px;left:14px;font-size:9px;letter-spacing:.22em;background:var(--ink);color:var(--acid);padding:2px 8px;border-radius:2px}
+.rcpt-link::after{content:"→";transition:transform .15s ease}
+.rcpt-link:hover{transform:translateY(-2px) rotate(-1deg);box-shadow:0 12px 30px rgba(232,255,58,.3)}
+.rcpt-link:hover::after{transform:translateX(5px)}
+.rcpt-link.tearing{animation:rcptTear .62s cubic-bezier(.5,.05,.8,.4) forwards}
+@keyframes rcptTear{0%{transform:rotate(0) translate(0,0);opacity:1}30%{transform:rotate(-7deg) translate(-6px,3px)}100%{transform:rotate(16deg) translate(34px,60px);opacity:0}}
+
+/* ===== "Take me to the editorial" — full-screen acid wipe ===== */
+.page-wipe{position:fixed;inset:0;background:var(--acid);z-index:9999;display:flex;align-items:center;justify-content:center;transform:translateY(101%);pointer-events:none}
+.page-wipe span{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(36px,8vw,84px);letter-spacing:-0.02em;color:var(--ink);opacity:0;transform:translateY(20px)}
+.page-wipe.on{animation:wipeUp .75s cubic-bezier(.75,0,.2,1) forwards}
+.page-wipe.on span{animation:wipeText .45s .3s ease forwards}
+@keyframes wipeUp{to{transform:translateY(0)}}
+@keyframes wipeText{to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.rcpt-link.tearing,.page-wipe.on,.page-wipe.on span{animation:none}.rcpt-link:hover{transform:none}}
 </style>
 </head>
 <body>
@@ -277,10 +295,8 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 
   <div class="next" id="month-ahead" style="border-left:3px solid var(--sage)">
     <h3>The month ahead</h3>
-    <div id="ma-standing"></div>
-    <div id="ma-story"></div>
-    <div class="needle-note" id="ma-needle"></div>
-    <div style="text-align:center;margin-top:28px">
+    <div id="ma-why"></div>
+    <div style="text-align:center;margin-top:24px">
       <p class="cal-title">Book the rematch <span id="cal-date"></span></p>
       <div class="cta-row" style="margin-bottom:0">
         <button class="btn btn-ghost" onclick="calOpen('google')">Google Calendar</button>
@@ -290,18 +306,16 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
     </div>
   </div>
 
-  <div class="next" style="border-left:3px solid var(--acid)">
-    <h3>Fix it, with help</h3>
-    <div class="tk-point"><span class="tk-label">FREE · 30 MIN</span><span class="tk-text">Book a free 30-minute taster session. We go through your score together and pick the one fix with the biggest payoff for your actual work. No pitch, no slides.</span></div>
-    <div class="tk-point"><span class="tk-label">HALF PRICE · 90 MIN</span><span class="tk-text">Book the 90-minute working session on that call and it's half price. We build the fix together, and you leave with it running.</span></div>
-    <div style="text-align:center;margin-top:24px">
-      <a class="btn" id="book-btn" href="#" onclick="if(typeof gtag==='function')gtag('event','booking_click',{location:'results',tier:tier?tier.name:''})">Book my free taster session</a>
+  <div class="next" id="first-receipt" style="border-left:3px solid var(--acid)">
+    <h3>Your first receipt</h3>
+    <div class="tk-point"><span class="tk-label">PROVE IT</span><span class="tk-text">Try one technique this week. When it saves you real time, file it on the Reader Ledger: minutes saved, linked to the technique that saved them.</span></div>
+    <div style="text-align:center;margin-top:26px">
+      <a class="rcpt-link" id="ledger-link" href="https://ai-sustained.com/ledger/?utm_source=score&amp;utm_medium=results">See what readers saved</a>
     </div>
   </div>
 
   <div class="cta-row">
-    <a class="btn btn-ghost" href="/learn/programme/">Full programme &amp; prices</a>
-    <a class="btn btn-ghost" href="https://ai-sustained.com/#editorial">Read the editorial</a>
+    <a class="btn btn-ghost" id="editorial-link" href="https://ai-sustained.com/#editorial">Take me to the editorial</a>
   </div>
 
   <div class="share-box">
@@ -313,6 +327,8 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
   </div>
 </section>
 
+<div class="page-wipe" id="pageWipe" aria-hidden="true"><span>The <i>editorial</i>.</span></div>
+
 <footer class="footer">
   <span>&copy; 2026 <a href="https://ai-sustained.com">AI Sustained</a> &middot; <a href="https://ai-sustained.com/learn/">ai-sustained.com/learn</a></span>
 </footer>
@@ -321,7 +337,6 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 <script>
 // ============ CONFIG ============
 const HUBSPOT_URL = "https://api-eu1.hsforms.com/submissions/v3/integration/submit/148698319/0ba16edc-d31f-4c93-ae58-38d8813f34d6";
-const BOOKING_URL = "https://meetings-eu1.hubspot.com/ai-sustained-ops"; // HubSpot meeting scheduler link — free 30-min consult
 const QUIZ_URL    = "https://ai-sustained.com/learn/score/";
 // ================================
 
@@ -532,7 +547,6 @@ function submitGate(){
 }
 
 function renderResults(){
-  document.getElementById('book-btn').href = BOOKING_URL;
   document.getElementById('tier-name').textContent = tier.name;
   document.getElementById('tier-name').className = 'tier-name '+tier.cls;
   const v = document.getElementById('verdict');
@@ -561,25 +575,20 @@ function renderResults(){
   showRank(finalScore);
 }
 
-// ===== The month ahead: personalised story, retake nudge, last-visit delta =====
+// ===== The month ahead: one personalised line + the rematch =====
 function renderMonthAhead(){
-  const story = document.getElementById('ma-story');
-  const needle = document.getElementById('ma-needle');
-  if(!story || !needle) return;
+  const why = document.getElementById('ma-why');
+  if(!why) return;
 
   // weakest pillar = the cheapest points
   let weak = 0;
   pillarPct.forEach((v,i)=>{ if(v < pillarPct[weak]) weak = i; });
 
-  story.innerHTML =
-    `<div class="tk-point"><span class="tk-label">THE LEVER</span><span class="tk-text">Your weakest pillar is ${PILLARS[weak]} at ${pillarPct[weak]}. That's not the bad news — it's the lever. The lowest bar on the chart is where the cheapest points live, and none of them need a course. Three subtle shifts:</span></div>
-    <ul class="month-list">${PILLAR_FIXES[weak].map(f=>`<li>${f}</li>`).join('')}</ul>`;
-
   // points to the next tier
   let tierLine;
   if(finalScore <= 40)      tierLine = `You're <b>${41-finalScore} point${41-finalScore===1?'':'s'}</b> from shedding the Tourist label.`;
-  else if(finalScore <= 70) tierLine = `You're <b>${71-finalScore} point${71-finalScore===1?'':'s'}</b> from AI Sustained — the tier most people never reach.`;
-  else                      tierLine = `There's no tier above this one. The only thing left to climb is the <b>rank</b>.`;
+  else if(finalScore <= 70) tierLine = `You're <b>${71-finalScore} point${71-finalScore===1?'':'s'}</b> from AI Sustained, the tier most people never reach.`;
+  else                      tierLine = `There's no tier above this one, so the only thing left to climb is the <b>rank</b>.`;
 
   // retake date, one month out
   const d = new Date(); d.setMonth(d.getMonth()+1);
@@ -589,21 +598,12 @@ function renderMonthAhead(){
   const heroCal = document.getElementById('hero-cal-date');
   if(heroCal) heroCal.textContent = '· '+retake;
 
-  // last visit comparison (stored locally in this browser only)
-  let lastVisit = '';
+  why.innerHTML = `<div class="tk-point"><span class="tk-label">WHY BOOK IT</span><span class="tk-text">Your cheapest points are in <b>${PILLARS[weak]}</b>, your lowest pillar at ${pillarPct[weak]}%. ${tierLine} One pillar, one month: book the rematch and see if the needle moves.</span></div>`;
+
+  // remember this score locally for future visits
   try{
-    const prev = JSON.parse(localStorage.getItem('ais_last_score'));
-    if(prev && typeof prev.score === 'number'){
-      const diff = finalScore - prev.score;
-      const when = new Date(prev.date).toLocaleDateString('en-GB',{day:'numeric',month:'long'});
-      lastVisit = diff === 0
-        ? ` Last time you were here (${when}) you scored ${prev.score}. The needle hasn't moved — yet.`
-        : ` Last time you were here (${when}) you scored ${prev.score}. That's <b>${diff>0?'+':''}${diff}</b> since. ${diff>0?'The boring little habits are working.':'Worth asking which habit quietly died.'}`;
-    }
     localStorage.setItem('ais_last_score', JSON.stringify({score:finalScore, date:new Date().toISOString()}));
   }catch(e){ /* private browsing etc. — skip silently */ }
-
-  needle.innerHTML = `${tierLine} Scores here move slowly, which is exactly why they're worth moving. Come back on <b>${retake}</b>, retake the twelve questions, and see whether the needle — and your rank — have shifted. One pillar, one month, three small habits. That's the whole game. The button below puts the rematch straight in your calendar.${lastVisit}`;
 }
 
 // ===== League position from scores.json (published from HubSpot every 6h) =====
@@ -697,6 +697,26 @@ function copyChallenge(){
     setTimeout(()=>b.textContent='Copy my result',2500);
   });
 }
+
+// ===== Reader Ledger link: tear the receipt off, then go =====
+document.getElementById('ledger-link').addEventListener('click', function(ev){
+  if(typeof gtag==='function') gtag('event','score_to_ledger_click',{tier:tier?tier.name:''});
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  ev.preventDefault();
+  const link = this;
+  link.classList.add('tearing');
+  setTimeout(()=>{ window.location.href = link.href; }, 640);
+});
+
+// ===== "Take me to the editorial": full-screen acid wipe, then go =====
+document.getElementById('editorial-link').addEventListener('click', function(ev){
+  if(typeof gtag==='function') gtag('event','score_to_editorial_click',{tier:tier?tier.name:''});
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  ev.preventDefault();
+  const href = this.href;
+  document.getElementById('pageWipe').classList.add('on');
+  setTimeout(()=>{ window.location.href = href; }, 820);
+});
 </script>
 </body>
 </html>
