@@ -2,8 +2,9 @@
 <html lang="en-GB">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Google tag (gtag.js) -->
+<!-- Google Analytics — site-wide ID, leave as-is -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -12,231 +13,623 @@
   gtag('config', 'G-L3WZNV09BB');
 </script>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The new ChatGPT is half price. Should you care? | AI Sustained</title>
-<meta name="description" content="OpenAI's GPT-5.6 Sol vs Claude Fable 5, explained for normal people. What 1 million tokens actually means, why the spinner is dead, whether the Chinese models ever catch up &#x2014; and what your $20 a month buys now.">
-<meta name="keywords" content="GPT-5.6 Sol, ChatGPT price, Claude Fable 5, OpenAI, Anthropic, context window explained, 1 million tokens, Cerebras, DeepSeek, Kimi, Qwen, AI subscription, plain English AI, AI Sustained">
+<meta name="description" content="OpenAI's GPT-5.6 Sol vs Claude Fable 5, explained for normal people. What '1 million tokens' actually means, why the spinner is dead, and what your $20 a month buys now.">
+<meta name="keywords" content="GPT-5.6, Sol, Claude Fable 5, ChatGPT vs Claude, context window explained, 1 million tokens, Cerebras, AI subscription, plain English AI, AI Sustained">
 <meta name="author" content="Kevin Clubb">
-
-<!-- Canonical & indexing -->
 <link rel="canonical" href="https://ai-sustained.com/articles/gpt-56-sol-vs-fable-5/">
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-<meta name="googlebot" content="index, follow">
-
 <meta property="og:title" content="The new ChatGPT is half price. Should you care?">
-<meta property="og:description" content="GPT-5.6 Sol vs Claude Fable 5, explained for normal people. What your $20 a month buys now.">
+<meta property="og:description" content="GPT-5.6 Sol vs Claude Fable 5, explained for normal people. What 1 million tokens means, why the spinner is dead, and what your $20 a month buys now.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://ai-sustained.com/articles/gpt-56-sol-vs-fable-5/">
 <meta property="og:image" content="https://substackcdn.com/image/fetch/$s_!bV9j!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0ef39f74-ee57-4850-af06-9f7917c2eb58_2752x1536.png">
-<meta property="og:site_name" content="AI Sustained">
-<meta property="og:locale" content="en_GB">
-
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The new ChatGPT is half price. Should you care?">
-<meta name="twitter:description" content="GPT-5.6 Sol vs Claude Fable 5, explained for normal people.">
+<meta name="twitter:description" content="GPT-5.6 Sol vs Claude Fable 5, explained for normal people. No hype, no jargon.">
 <meta name="twitter:image" content="https://substackcdn.com/image/fetch/$s_!bV9j!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0ef39f74-ee57-4850-af06-9f7917c2eb58_2752x1536.png">
-
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "The new ChatGPT is half price. Should you care?",
-  "author": { "@type": "Person", "name": "Kevin Clubb", "jobTitle": "Senior Business Analyst", "url": "https://www.linkedin.com/in/kevin-clubb" },
+  "author": { "@type": "Person", "name": "Kevin Clubb" },
   "datePublished": "2026-07-11",
-  "dateModified": "2026-07-11",
-  "description": "OpenAI's GPT-5.6 Sol vs Claude Fable 5, explained for normal people. What 1 million tokens actually means, why the spinner is dead, and what your $20 a month buys now.",
-  "keywords": "GPT-5.6 Sol, ChatGPT price, Claude Fable 5, OpenAI, Anthropic, context window, plain English AI",
   "url": "https://ai-sustained.com/articles/gpt-56-sol-vs-fable-5/",
-  "publisher": {
-    "@type": "Organization",
-    "name": "AI Sustained",
-    "logo": { "@type": "ImageObject", "url": "https://ai-sustained.com/logo.png" }
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://ai-sustained.com/articles/gpt-56-sol-vs-fable-5/"
-  },
-  "inLanguage": "en-GB"
+  "description": "OpenAI's GPT-5.6 Sol vs Claude Fable 5, explained for normal people. What '1 million tokens' actually means, why the spinner is dead, and what your $20 a month buys now.",
+  "keywords": "GPT-5.6 Sol, Claude Fable 5, ChatGPT vs Claude, context window, Cerebras, AI subscription",
+  "image": "https://substackcdn.com/image/fetch/$s_!bV9j!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0ef39f74-ee57-4850-af06-9f7917c2eb58_2752x1536.png",
+  "publisher": { "@type": "Organization", "name": "AI Sustained" }
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --base: #F7FCF9;
-    --accent: #1B4332;
-    --accent-mid: #2D6A4F;
-    --secondary: #40916C;
-    --highlight: #D8F3DC;
-    --highlight-soft: #E8F7EC;
-    --text: #081C15;
-    --text-soft: #3A4A42;
-    --muted: #6B7A72;
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --ink-soft: #2A3530;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
     --acid: #E8FF3A;
+    --coral: #FF5A3C;
+    --moss: #2D6A4F;
+    --sage: #74C69D;
+    --mint: #D8F3DC;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --rule-soft: rgba(242,236,217,0.09);
+    --panel: rgba(242,236,217,0.04);
+    --acid-hi: #F4FF7A; --acid-mid: #CFE62E; --acid-deep: #9DB324; --acid-shadow: #6E7F14;
   }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--base); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+  body {
+    background: var(--forest);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    border-top: 3px solid var(--acid);
+  }
+
   .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
 
-  .masthead { border-top: 4px solid var(--accent); padding: 14px 0 10px; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid rgba(27, 67, 50, 0.15); }
-  .masthead-left, .masthead-right { display: flex; gap: 18px; }
+  /* ============ BACK NAV ============ */
+  .backnav {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.16em; text-transform: uppercase; padding: 6px 0 0;
+  }
+  .backnav a { color: var(--muted); text-decoration: none; }
+  .backnav a:hover { color: var(--acid); }
 
-  .hero { padding: 56px 0 40px; border-bottom: 1px solid rgba(27, 67, 50, 0.15); }
-  .kicker { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--secondary); margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
-  .kicker::before { content: ''; width: 36px; height: 2px; background: var(--secondary); }
-  .hero h1 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; font-size: clamp(40px, 6.5vw, 68px); line-height: 1.02; letter-spacing: -0.02em; color: var(--accent); margin-bottom: 22px; }
-  .deck { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 21px; font-weight: 400; line-height: 1.45; color: var(--secondary); max-width: 680px; }
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
 
-  .content { font-size: 18px; line-height: 1.7; color: var(--text); max-width: 680px; margin: 48px 0; }
+  /* ============ HERO (centred) ============ */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+  }
+  .kicker::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    background: var(--acid);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(42px, 6.4vw, 74px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin: 0 auto 26px;
+    max-width: 18ch;
+  }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--paper-2);
+    max-width: 660px;
+    margin: 0 auto;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+
+  /* ============ HERO FIGURE ============ */
+  .hero-figure { margin: 40px 0 8px; }
+  .hero-figure img {
+    display: block; width: 100%; height: auto;
+    border-radius: 4px; border: 1px solid var(--rule);
+    border-top: 3px solid var(--acid);
+  }
+  .hero-figure figcaption {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+    margin-top: 12px; text-align: center;
+  }
+
+  /* ============ STAT GRID ============ */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px;
+    margin: 44px 0 48px;
+  }
+  .stat-box {
+    background: var(--panel);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 10px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px; font-weight: 600;
+    color: var(--acid); line-height: 1; display: block;
+  }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  /* ============ BODY CONTENT ============ */
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
   .content p { margin-bottom: 20px; }
-  .content p strong { font-weight: 600; color: var(--accent); }
-  .content p em { font-style: italic; color: var(--accent-mid); }
-  .content h2 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 32px; line-height: 1.2; color: var(--accent); margin: 48px 0 20px; letter-spacing: -0.01em; }
-  .content ul { margin: 16px 0 24px 0; list-style: none; padding: 0; }
-  .content ul li { padding: 10px 0 10px 28px; border-bottom: 0.5px solid rgba(27, 67, 50, 0.1); position: relative; }
-  .content ul li::before { content: '\2192 '; position: absolute; left: 0; top: 10px; color: var(--secondary); font-weight: 600; }
-  .content ul li strong { color: var(--accent); font-weight: 600; }
-  .content a { color: var(--accent-mid); text-decoration: underline; text-underline-offset: 2px; }
+  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 32px; line-height: 1.15;
+    color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em;
+  }
+  .content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px;
+  }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+  .content li::marker { color: var(--acid); }
 
-  .pull-quote { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; font-size: 30px; line-height: 1.3; color: var(--accent); margin: 60px auto; padding: 40px 0; border-top: 1px solid var(--highlight); border-bottom: 1px solid var(--highlight); text-align: center; max-width: 720px; letter-spacing: -0.01em; }
-  .pull-quote::before { content: '"'; display: block; font-size: 48px; color: var(--secondary); line-height: 0.5; margin-bottom: 12px; }
+  .inline-highlight { color: var(--acid); font-weight: 500; }
 
-  .takeaway { background: var(--accent); color: var(--base); padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px; position: relative; overflow: hidden; }
-  .takeaway::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border: 36px solid var(--secondary); border-radius: 50%; opacity: 0.22; }
-  .takeaway-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--highlight); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; position: relative; z-index: 1; }
-  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(216, 243, 220, 0.25); }
-  .takeaway h2 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 32px; line-height: 1.22; color: var(--base); margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em; }
-  .takeaway h2 em { color: #B7E4C7; font-style: italic; }
+  /* ============ PULL QUOTE ============ */
+  .pull-quote {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 30px; line-height: 1.3; color: var(--paper);
+    margin: 60px auto; padding: 40px 0;
+    border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid);
+    text-align: center; max-width: 720px; letter-spacing: -0.01em;
+  }
+  .pull-quote::before {
+    content: '"'; display: block; font-size: 56px; color: var(--acid);
+    line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif;
+  }
+
+  /* ============ TACTICAL TAKEAWAY (ink panel — signature) ============ */
+  .takeaway {
+    background: var(--ink); color: var(--paper);
+    padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .takeaway::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--acid);
+    border-radius: 50%; opacity: 0.14;
+  }
+  .takeaway-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .takeaway h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 32px; line-height: 1.22; color: var(--paper);
+    margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em;
+  }
+  .takeaway h2 em { color: var(--acid); font-style: italic; }
   .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
-  .takeaway-point { border-top: 1px solid rgba(216, 243, 220, 0.35); padding-top: 14px; }
-  .takeaway-point-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #B7E4C7; margin-bottom: 8px; }
-  .takeaway-point-text { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400; font-size: 16px; line-height: 1.45; color: var(--highlight); }
-  .takeaway-point-text strong { color: var(--base); font-weight: 600; font-style: normal; }
+  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
+  .takeaway-point-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .takeaway-point-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 16px; line-height: 1.45; color: var(--paper-2);
+  }
+  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
 
-  .substack-band { background: var(--acid); color: var(--text); border-radius: 6px; padding: 34px 36px; margin: 56px 0 8px; display: flex; justify-content: space-between; align-items: center; gap: 26px; flex-wrap: wrap; }
-  .substack-band .sb-kicker { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
-  .substack-band h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 24px; color: var(--text); margin-bottom: 8px; }
-  .substack-band h3 em { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; }
-  .substack-band p { font-size: 14px; color: var(--text); max-width: 520px; }
-  .substack-band a.sb-btn { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; background: var(--text); color: var(--acid); padding: 15px 24px; border-radius: 4px; text-decoration: none; white-space: nowrap; }
+  /* ============ TOC ============ */
+  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
+  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
+  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
 
-  .footer { padding: 36px 0 24px; border-top: 1px solid rgba(27, 67, 50, 0.2); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  /* ============ AI SLIDER (optional) ============ */
+  /* The one panel on the page allowed to glow: ink ground, acid frame,
+     breathing shadow. A feature, not furniture. */
+  .depth {
+    background: var(--ink);
+    border: 2px solid var(--acid);
+    border-radius: 6px;
+    padding: 26px 28px 22px;
+    margin: 44px 0 48px;
+    position: relative;
+    overflow: hidden;
+    animation: depthGlow 3.2s ease-in-out infinite alternate;
+  }
+  .depth::before {
+    content: ''; position: absolute; top: -46px; right: -46px;
+    width: 170px; height: 170px; border: 30px solid var(--acid);
+    border-radius: 50%; opacity: 0.12; pointer-events: none;
+  }
+  @keyframes depthGlow {
+    from { box-shadow: 0 10px 30px rgba(10,15,12,0.3); }
+    to   { box-shadow: 0 10px 30px rgba(10,15,12,0.3), 0 0 30px 2px rgba(232,255,58,0.22); }
+  }
+  .depth-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--acid); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .depth-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .depth-sub {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 15px; color: var(--paper-2); margin-bottom: 18px;
+    position: relative; z-index: 1;
+  }
+  .ticks {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 10px; margin-bottom: 6px;
+    position: relative; z-index: 1;
+  }
+  /* Reading depth ticks — standard Tactile 3D Key (ai-s-house-buttons).
+     All four are acid keys; the ACTIVE level is the key held down. */
+  .tick {
+    position: relative; width: 100%; height: 54px;
+    background: transparent; border: none; padding: 0; cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .02em;
+    user-select: none; -webkit-tap-highlight-color: transparent;
+  }
+  .tick .base {
+    position: absolute; inset: 0; border-radius: 12px;
+    background: linear-gradient(180deg, var(--acid-deep) 0%, var(--acid-shadow) 100%);
+    box-shadow: 0 14px 28px rgba(0,0,0,.5), 0 2px 0 rgba(0,0,0,.35), inset 0 -2px 3px rgba(0,0,0,.3);
+  }
+  .tick .face {
+    position: absolute; inset: 0; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 8px;
+    color: var(--ink);
+    background: linear-gradient(180deg, var(--acid-hi) 0%, var(--acid) 42%, var(--acid-mid) 100%);
+    box-shadow: inset 0 2px 1px rgba(255,255,255,.65), inset 0 -3px 4px rgba(110,127,20,.55), inset 2px 0 3px rgba(255,255,255,.25), inset -2px 0 3px rgba(110,127,20,.3);
+    transform: translateY(-7px);
+    transition: transform .09s cubic-bezier(.4,0,.6,1), box-shadow .09s;
+  }
+  .tick .face::after {
+    content: ""; position: absolute; top: 4px; left: 10px; right: 10px; height: 12px; border-radius: 8px;
+    background: linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,0)); pointer-events: none;
+  }
+  .tick:hover .face { background: linear-gradient(180deg, #f8ff8f 0%, var(--acid) 46%, var(--acid-mid) 100%); }
+  .tick:active .face,
+  .tick[aria-pressed="true"] .face {
+    transform: translateY(-1px);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.4), inset 0 -1px 2px rgba(110,127,20,.5), inset 0 3px 6px rgba(110,127,20,.35);
+  }
+  .tick:active .base,
+  .tick[aria-pressed="true"] .base {
+    box-shadow: 0 5px 12px rgba(0,0,0,.45), 0 1px 0 rgba(0,0,0,.35), inset 0 -1px 2px rgba(0,0,0,.3);
+  }
+  .tick:focus-visible { outline: none; }
+  .tick:focus-visible .face { outline: 2px solid var(--paper); outline-offset: 3px; }
+  @media (max-width: 720px) {
+    .ticks { grid-template-columns: repeat(2, 1fr); }
+    .depth { padding: 22px 20px 18px; }
+  }
+  .depth-range {
+    width: 100%; margin: 16px 0 12px;
+    -webkit-appearance: none; appearance: none;
+    height: 3px; background: rgba(232,255,58,0.25); cursor: pointer;
+    position: relative; z-index: 1; border-radius: 2px;
+  }
+  .depth-range::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--acid); border: none; cursor: pointer;
+    box-shadow: 0 0 12px rgba(232,255,58,0.5);
+  }
+  .depth-range::-moz-range-thumb {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--acid); border: none; cursor: pointer;
+    box-shadow: 0 0 12px rgba(232,255,58,0.5);
+  }
+  .depth-range:focus-visible { outline: 2px solid var(--acid); outline-offset: 4px; }
+  .reading-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted); position: relative; z-index: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .depth { animation: none; }
+    .tick:hover { transform: none; }
+  }
+  #reading { transition: opacity 0.19s ease; }
+  #reading.swapping { opacity: 0; }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
   .footer-left { flex: 1; min-width: 280px; }
-  .footer-cta { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--accent); margin-bottom: 14px; }
-  .footer-cta strong { font-style: normal; font-weight: 600; background: var(--highlight); padding: 0 4px; }
-  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 300px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 320px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+  .sources a { color: var(--sage); text-decoration: none; }
 
-  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 0.5px solid rgba(27, 67, 50, 0.2); }
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
   .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--secondary); }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
   .hashtag-list span { font-weight: 500; }
 
-  .colophon { margin-top: 20px; padding-top: 16px; border-top: 4px solid var(--accent); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ SUBSCRIBE / SUBSTACK SLAB ============ */
+  .cta-slab {
+    background: var(--acid); color: var(--ink);
+    border-radius: 4px; margin: 64px 0 8px; padding: 44px 40px;
+    position: relative; overflow: hidden;
+  }
+  .cta-slab::before {
+    content: ''; position: absolute; bottom: -70px; right: -70px;
+    width: 200px; height: 200px; border: 34px solid var(--ink);
+    border-radius: 50%; opacity: 0.08;
+  }
+  .cta-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink);
+    margin-bottom: 16px; display: inline-flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .cta-kicker::before { content: ''; width: 32px; height: 2px; background: var(--ink); }
+  .cta-slab h2 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+    font-size: clamp(26px, 3.2vw, 36px); line-height: 1.12; letter-spacing: -0.015em;
+    color: var(--ink); margin-bottom: 12px; position: relative; z-index: 1; max-width: 20ch;
+  }
+  .cta-slab h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; }
+  .cta-slab p.cta-intro {
+    font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.55;
+    color: rgba(10,15,12,0.82); max-width: 52ch; position: relative; z-index: 1;
+  }
+  /* Read more slab — centred, buttons are the standard Tactile 3D Key (ai-s-house-buttons) */
+  .cta-slab { text-align: center; }
+  .cta-slab h2 { margin-left: auto; margin-right: auto; }
+  .cta-slab p.cta-intro { margin-left: auto; margin-right: auto; }
+  .cta-row { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 26px; position: relative; z-index: 1; justify-content: center; }
+  .cta-btn {
+    position: relative; display: inline-flex; width: 232px; height: 58px;
+    background: transparent; border: none; padding: 0; cursor: pointer; text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 700; letter-spacing: .01em;
+    white-space: nowrap; user-select: none; -webkit-tap-highlight-color: transparent;
+  }
+  .cta-btn .base {
+    position: absolute; inset: 0; border-radius: 12px;
+    background: linear-gradient(180deg, var(--acid-deep) 0%, var(--acid-shadow) 100%);
+    box-shadow: 0 14px 28px rgba(0,0,0,.35), 0 2px 0 rgba(0,0,0,.3), inset 0 -2px 3px rgba(0,0,0,.3);
+  }
+  .cta-btn .face {
+    position: absolute; inset: 0; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; gap: 9px;
+    color: var(--ink);
+    background: linear-gradient(180deg, var(--acid-hi) 0%, var(--acid) 42%, var(--acid-mid) 100%);
+    box-shadow: inset 0 2px 1px rgba(255,255,255,.65), inset 0 -3px 4px rgba(110,127,20,.55), inset 2px 0 3px rgba(255,255,255,.25), inset -2px 0 3px rgba(110,127,20,.3);
+    transform: translateY(-7px);
+    transition: transform .09s cubic-bezier(.4,0,.6,1), box-shadow .09s;
+  }
+  .cta-btn .face::before {
+    content: ""; position: absolute; top: 4px; left: 10px; right: 10px; height: 14px; border-radius: 8px;
+    background: linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,0)); pointer-events: none;
+  }
+  .cta-btn .face::after { content: '↗'; font-size: 14px; }
+  .cta-btn.primary .face::after { content: '→'; }
+  .cta-btn:hover .face { background: linear-gradient(180deg, #f8ff8f 0%, var(--acid) 46%, var(--acid-mid) 100%); }
+  .cta-btn:active .face, .cta-btn.pressed .face { transform: translateY(-1px); box-shadow: inset 0 1px 1px rgba(255,255,255,.4), inset 0 -1px 2px rgba(110,127,20,.5), inset 0 3px 6px rgba(110,127,20,.35); }
+  .cta-btn:active .base, .cta-btn.pressed .base { box-shadow: 0 5px 12px rgba(0,0,0,.3), 0 1px 0 rgba(0,0,0,.3), inset 0 -1px 2px rgba(0,0,0,.3); }
+  .cta-btn:focus-visible { outline: none; }
+  .cta-btn:focus-visible .face { outline: 2px solid var(--ink); outline-offset: 3px; }
+  @media (max-width: 720px) { .cta-btn { width: 100%; } }
 
   @media (max-width: 720px) {
     .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
     .takeaway { padding: 32px 26px; }
     .pull-quote { font-size: 22px; padding: 28px 0; }
-    .hero h1 { font-size: 40px; }
-    .deck { font-size: 18px; }
-    .substack-band { padding: 28px 24px; }
+    .hero h1 { font-size: 42px; }
+    .deck { font-size: 19px; }
   }
 
   @media print {
     @page { size: A3; margin: 14mm; }
-    body { background: var(--base); }
+    body { background: var(--forest); padding: 0; }
     .page { max-width: none; padding: 0; }
-    .takeaway-point, .pull-quote { page-break-inside: avoid; break-inside: avoid; }
+    .page-break { page-break-before: always; break-before: page; }
+    .stat-box, .takeaway-point, .pull-quote { page-break-inside: avoid; break-inside: avoid; }
+    .content h2 { page-break-after: avoid; break-after: avoid; }
   }
 </style>
 </head>
 <body>
 <article class="page">
 
+  <nav class="backnav" aria-label="Back to all articles"><a href="/articles/">&larr; All articles</a></nav>
+
   <header class="masthead">
     <div class="masthead-left">
-      <span>AI Sustained</span>
+      <span class="wordmark">AI Sustained.</span>
       <span>Issue 011</span>
     </div>
     <div class="masthead-right">
-      <span>2026.07.11</span>
+      <span>11 JUL 2026</span>
       <span>Plain English AI</span>
     </div>
   </header>
 
   <section class="hero">
-    <div class="kicker">Plain English AI &#xB7; 7-minute read</div>
-    <h1>The new ChatGPT is half price. Should you care?</h1>
-    <p class="deck">OpenAI's GPT-5.6 Sol vs Claude Fable 5, explained for normal people. What "1 million tokens" actually means, why the spinner is dead &#x2014; and what your $20 a month buys now.</p>
+    <div class="kicker">Plain English AI &middot; 7-minute read</div>
+    <h1>The new ChatGPT is <span class="accent">half price</span>. Should you care?</h1>
+    <p class="deck">OpenAI's GPT-5.6 Sol vs Claude Fable 5, explained for normal people. What &ldquo;1 million tokens&rdquo; actually means, why <span class="accent">the spinner is dead</span>, and what your $20 a month buys now.</p>
   </section>
 
-  <section class="content">
-    <h2>What happened.</h2>
+  <figure class="hero-figure">
+    <img src="https://substackcdn.com/image/fetch/$s_!bV9j!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0ef39f74-ee57-4850-af06-9f7917c2eb58_2752x1536.png" alt="AI Sustained Issue 011 cover art: two AI models side by side, one priced at half the other, rendered in the deep forest and acid-lime house palette.">
+    <figcaption>Half the price, most of the brains. Illustration &middot; AI Sustained</figcaption>
+  </figure>
 
-    <p>On 9 July, OpenAI &#x2014; the ChatGPT people &#x2014; released a new family of AI models called <strong>GPT-5.6</strong>. It comes in three sizes: <strong>Luna, Terra and Sol</strong>. Think small, medium and large, but named by someone who's just bought a telescope.</p>
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">Sol vs Fable, on price</div>
+      <span class="stat-value">&frac12;</span>
+      <div class="stat-note">Roughly as clever as the best money can buy, at half the business cost.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Context window</div>
+      <span class="stat-value">1<span class="unit">M tokens</span></span>
+      <div class="stat-note">About 750,000 words of short-term memory: eight novels in one conversation.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Writing speed</div>
+      <span class="stat-value">560<span class="unit">words/s</span></span>
+      <div class="stat-note">On Cerebras dinner-plate chips. A full page in under half a second.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">China's gap</div>
+      <span class="stat-value">&asymp;8<span class="unit">months</span></span>
+      <div class="stat-note">Behind the US frontier, per the US government's own testers. And holding.</div>
+    </div>
+  </section>
 
-    <p><strong>Sol is the large one</strong>, and it's the story. It's roughly as clever as the best AI money can currently buy &#x2014; Anthropic's <strong>Claude Fable 5</strong>, released a month earlier &#x2014; but it costs businesses <strong>half as much</strong> and answers <strong>dramatically faster</strong>.</p>
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-label">In this issue</div>
+    <ol>
+      <li><span class="toc-num">01</span><a href="#b-what-happened">What happened</a></li>
+      <li><span class="toc-num">02</span><a href="#b-memory">Party trick one: it stopped forgetting</a></li>
+      <li><span class="toc-num">03</span><a href="#b-speed">Party trick two: the spinner is dead</a></li>
+      <li><span class="toc-num">04</span><a href="#b-better">So which one is actually better?</a></li>
+      <li><span class="toc-num">05</span><a href="#b-china">Will the Chinese models ever catch up?</a></li>
+      <li><span class="toc-num">06</span><a href="#b-money">What it means for your $20 a month</a></li>
+    </ol>
+  </nav>
+
+  <!-- SLOT: AI Slider control -->
+  <section class="depth" aria-label="Reading depth">
+    <div class="depth-label">Reading depth</div>
+    <p class="depth-sub">How deep do you want to go? Pick a level and the article rewrites itself.</p>
+    <div class="ticks" role="group" aria-label="Choose reading depth">
+      <button class="tick" type="button" aria-pressed="false"><span class="base"></span><span class="face">Explain like I&rsquo;m 5</span></button>
+      <button class="tick" type="button" aria-pressed="true"><span class="base"></span><span class="face">Curious</span></button>
+      <button class="tick" type="button" aria-pressed="false"><span class="base"></span><span class="face">Practitioner</span></button>
+      <button class="tick" type="button" aria-pressed="false"><span class="base"></span><span class="face">Expert</span></button>
+    </div>
+    <input id="depth-range" class="depth-range" type="range"
+           min="0" max="3" step="1" value="1" aria-label="Reading depth">
+    <div class="reading-meta" id="reading-meta">Curious &middot; &asymp;1,300 words &middot; 7 min</div>
+  </section>
+
+  <!-- SLOT: body content — Curious depth is the canonical version, captured at init -->
+  <div id="reading">
+
+  <section class="content" id="intro">
+    <h2 id="b-what-happened">What happened.</h2>
+
+    <p>On 9 July, OpenAI, the ChatGPT people, released a new family of AI models called <strong>GPT-5.6</strong>. It comes in three sizes: <strong>Luna, Terra and Sol</strong>. Think small, medium and large, but named by someone who's just bought a telescope.</p>
+
+    <p><strong>Sol is the large one</strong>, and it's the story. It's roughly as clever as the best AI money can currently buy, Anthropic's <strong>Claude Fable 5</strong>, released a month earlier. But it costs businesses <span class="inline-highlight">half as much</span> and answers <strong>dramatically faster</strong>.</p>
 
     <p>That's the whole headline. Everything else is detail. But the detail is where it gets interesting, because two of Sol's party tricks are genuinely useful to anyone with a $20-a-month subscription, and nobody explains them in normal words. Let's fix that.</p>
 
-    <h2>Party trick one: it stopped forgetting.</h2>
+    <h2 id="b-memory">Party trick one: it stopped forgetting.</h2>
 
-    <p>You'll see the phrase <strong>"1 million token context window"</strong> everywhere this week. Here's what it actually means.</p>
+    <p>You'll see the phrase <strong>&ldquo;1 million token context window&rdquo;</strong> everywhere this week. Here's what it actually means.</p>
 
-    <p>An AI's <em>context window</em> is its short-term memory &#x2014; how much of your conversation it can hold in its head at once. Go past the limit and it quietly forgets the beginning. It's why the chatbot that was brilliant on page one starts asking questions you already answered an hour in.</p>
+    <p>An AI's <em>context window</em> is its short-term memory: how much of your conversation it can hold in its head at once. Go past the limit and it quietly forgets the beginning. It's why the chatbot that was brilliant on page one starts asking questions you already answered an hour in.</p>
 
-    <p>Sol's short-term memory holds about <strong>750,000 words</strong>. That's roughly <strong>eight Harry Potter-sized novels &#x2014; at once, in one conversation</strong>.</p>
+    <p>Sol's short-term memory holds about <strong>750,000 words</strong>. That's roughly <span class="inline-highlight">eight Harry Potter-sized novels, at once, in one conversation</span>.</p>
 
     <p>In practice: stop feeding it snippets. Paste in <strong>the entire contract</strong>, not the clause. The <strong>whole year of meeting notes</strong>, not last week's. Every complaint email from that one difficult customer since January. It reads all of it, remembers all of it, and answers questions about page 4 while quoting page 400.</p>
 
-    <p>If you've been carefully copying paragraphs in one at a time &#x2014; you can stop. That's the upgrade.</p>
+    <p>If you've been carefully copying paragraphs in one at a time, you can stop. That's the upgrade.</p>
 
-    <h2>Party trick two: the spinner is dead.</h2>
+    <h2 id="b-speed">Party trick two: the spinner is dead.</h2>
 
-    <p>Sol also runs on new special-purpose chips &#x2014; made by a company called Cerebras, whose processors are the size of a dinner plate &#x2014; that let it write about <strong>560 words a second</strong>. A full page of text in under half a second. Faster than you can read the first line of it.</p>
+    <p>Sol also runs on new special-purpose chips, made by a company called Cerebras, whose processors are the size of a dinner plate. They let it write about <strong>560 words a second</strong>. A full page of text in under half a second. Faster than you can read the first line of it.</p>
 
-    <p>Why care? Because the modern AI experience is still, quite often, watching a little animation while the machine thinks. When answers arrive instantly, you use the thing differently &#x2014; it stops being a slot machine and starts being a colleague. Ask, answer, ask again. The tools that feel instant are the tools people actually use.</p>
+    <p>Why care? Because the modern AI experience is still, quite often, watching a little animation while the machine thinks. When answers arrive instantly, you use the thing differently: it stops being a slot machine and starts being a colleague. Ask, answer, ask again. The tools that feel instant are the tools people actually use.</p>
 
-    <h2>So which one is actually better?</h2>
+    <h2 id="b-better">So which one is actually better?</h2>
 
     <p>Honest answer: they're better at different things, and the difference matters less than the AI industry would like you to believe.</p>
 
     <ul>
-      <li><strong>Price</strong> &#x2014; Sol wins. Half the cost. Expect cheaper plans and more generous usage limits to follow.</li>
-      <li><strong>Speed</strong> &#x2014; Sol wins. Answers land before you've finished your sip of tea.</li>
-      <li><strong>Everyday questions</strong> &#x2014; emails, summaries, "explain this document" &#x2014; both excellent. You'd struggle to tell them apart day to day. Sol edges it, and does it faster.</li>
-      <li><strong>The genuinely hard stuff</strong> &#x2014; Fable wins. It's still the smartest one in the room: better at maths, and better at big messy jobs it can chew through on its own for hours. Sol can dither when a problem has no single right answer.</li>
-      <li><strong>Trustworthiness</strong> &#x2014; a draw, with different flaws. Sol still makes things up occasionally (slightly more than its predecessor, oddly) and is a bit keen &#x2014; sometimes does more than you asked. Fable has fewer surprises, but hands some topics to its more cautious older sibling behind the scenes.</li>
-      <li><strong>Overall</strong> &#x2014; Fable is still the champion, by a nose, at twice the price. Sol is the best value in AI right now.</li>
+      <li><strong>Price:</strong> Sol wins. Half the cost. Expect cheaper plans and more generous usage limits to follow.</li>
+      <li><strong>Speed:</strong> Sol wins. Answers land before you've finished your sip of tea.</li>
+      <li><strong>Everyday questions</strong> (emails, summaries, &ldquo;explain this document&rdquo;): both excellent. You'd struggle to tell them apart day to day. Sol edges it, and does it faster.</li>
+      <li><strong>The genuinely hard stuff:</strong> Fable wins. It's still the smartest one in the room: better at maths, and better at big messy jobs it can chew through on its own for hours. Sol can dither when a problem has no single right answer.</li>
+      <li><strong>Trustworthiness:</strong> a draw, with different flaws. Sol still makes things up occasionally (slightly more than its predecessor, oddly) and is a bit keen; sometimes it does more than you asked. Fable has fewer surprises, but hands some topics to its more cautious older sibling behind the scenes.</li>
+      <li><strong>Overall:</strong> Fable is still the champion, by a nose, at twice the price. Sol is the best value in AI right now.</li>
     </ul>
 
     <blockquote class="pull-quote">Fable is the brilliant consultant you book for the hard stuff. Sol is the sharp colleague who sits next to you and answers instantly.</blockquote>
 
-    <p>One health warning: all the "world's best model" claims this week come from <strong>OpenAI marking its own homework</strong>. Nobody independent has checked yet. Normal for launch week &#x2014; but it's why the sensible move is to wait a fortnight before believing any chart.</p>
+    <p>One health warning: all the &ldquo;world's best model&rdquo; claims this week come from <strong>OpenAI marking its own homework</strong>. Nobody independent has checked yet. Normal for launch week, but it's why the sensible move is to wait a fortnight before believing any chart.</p>
 
-    <h2>Will the Chinese models ever catch up?</h2>
+    <h2 id="b-china">Will the Chinese models ever catch up?</h2>
 
-    <p>Mostly, they already have. Models you may never have heard of &#x2014; <strong>DeepSeek, Kimi, Qwen</strong> &#x2014; now sit roughly <strong>eight months behind</strong> the best American ones, according to the US government's own testers. For writing emails and summarising documents, most people couldn't tell the difference in a blind taste test.</p>
+    <p>Mostly, they already have. Models you may never have heard of (<strong>DeepSeek, Kimi, Qwen</strong>) now sit roughly <span class="inline-highlight">eight months behind</span> the best American ones, according to the US government's own testers. For writing emails and summarising documents, most people couldn't tell the difference in a blind taste test.</p>
 
-    <p>And they cost <strong>pennies</strong>. Some are effectively free &#x2014; download them and run them on your own kit, no subscription at all.</p>
+    <p>And they cost <strong>pennies</strong>. Some are effectively free: download them and run them on your own kit, no subscription at all.</p>
 
     <p>So why isn't everyone using them? Two reasons.</p>
 
-    <p>First, that eight-month gap has been "about eight months" for two years. Every time they catch up to where the leaders <em>were</em>, the leaders have moved. The shiniest new abilities keep appearing in San Francisco first &#x2014; partly because America restricts which computer chips China can buy, and this stuff runs on warehouses full of very specific, very expensive processors.</p>
+    <p>First, that eight-month gap has been &ldquo;about eight months&rdquo; for two years. Every time they catch up to where the leaders <em>were</em>, the leaders have moved. The shiniest new abilities keep appearing in San Francisco first, partly because America restricts which computer chips China can buy, and this stuff runs on warehouses full of very specific, very expensive processors.</p>
 
     <p>Second, the awkward question of <strong>where your data goes</strong>. Plenty of companies won't touch them for that reason alone, whatever the price tag.</p>
 
     <p>The practical summary: the cheap seats are closer to the stage than ever. Whether you're comfortable sitting in them is a question for your IT department, not the leaderboard.</p>
 
-    <h2>What it means for your &pound;20 a month.</h2>
+    <h2 id="b-money">What it means for your $20 a month.</h2>
 
-    <p>Step back from the launch-week noise and the pattern is lovely, if you're the one paying: <strong>the top models are getting closer together, faster, and cheaper &#x2014; all at once</strong>. Two years ago the best AI was miles ahead of everything else and priced accordingly. Today the top three or four are separated by a coat of paint.</p>
+    <p>Step back from the launch-week noise and the pattern is lovely, if you're the one paying: <strong>the top models are getting closer together, faster, and cheaper, all at once</strong>. Two years ago the best AI was miles ahead of everything else and priced accordingly. Today the top three or four are separated by a coat of paint.</p>
 
-    <p>For anyone on a $20&#x2013;$100 monthly plan:</p>
+    <p>For anyone on a $20&ndash;$100 monthly plan:</p>
 
     <ul>
-      <li><strong>The "which one is best?" question matters less than ever.</strong> They're all excellent. Pick the app you actually enjoy using &#x2014; the one whose answers you like reading. That's a legitimate way to choose, whatever the charts say.</li>
+      <li><strong>The &ldquo;which one is best?&rdquo; question matters less than ever.</strong> They're all excellent. Pick the app you actually enjoy using, the one whose answers you like reading. That's a legitimate way to choose, whatever the charts say.</li>
       <li><strong>Loyalty is expensive.</strong> The leaderboard changes every couple of months. If your subscription renews annually, ask yourself why.</li>
       <li><strong>The expensive tier is for the hard stuff.</strong> If you're mostly writing emails and summarising documents, the mid-price models are already more than you need.</li>
     </ul>
@@ -244,62 +637,183 @@
     <p>The AI companies are locked in a knife-fight over price and speed. Historically, when suppliers do that, the customer wins. Enjoy it.</p>
   </section>
 
+  </div>
+
   <section class="takeaway" aria-label="Tactical takeaway">
     <div class="takeaway-label">Tactical takeaway</div>
     <h2>Three moves before your <em>next renewal</em>.</h2>
     <div class="takeaway-grid">
       <div class="takeaway-point">
-        <div class="takeaway-point-num">01 &#xB7; PASTE BIG</div>
-        <div class="takeaway-point-text">Stop feeding your AI snippets. Paste the <strong>whole document</strong>, the whole thread, the whole year. The new models can hold it all &#x2014; most people are still using them like it's 2024.</div>
+        <div class="takeaway-point-num">01 &middot; PASTE BIG</div>
+        <div class="takeaway-point-text">Stop feeding your AI snippets. Paste the <strong>whole document</strong>, the whole thread, the whole year. The new models can hold it all; most people are still using them like it's 2024.</div>
       </div>
       <div class="takeaway-point">
-        <div class="takeaway-point-num">02 &#xB7; TRY BEFORE YOU BUY</div>
-        <div class="takeaway-point-text">Before renewing any AI subscription, spend one afternoon trying a <strong>rival on your actual work</strong>. The differences are smaller than the marketing suggests &#x2014; and so might be your bill.</div>
+        <div class="takeaway-point-num">02 &middot; TRY BEFORE YOU BUY</div>
+        <div class="takeaway-point-text">Before renewing any AI subscription, spend one afternoon trying a <strong>rival on your actual work</strong>. The differences are smaller than the marketing suggests, and so might be your bill.</div>
       </div>
       <div class="takeaway-point">
-        <div class="takeaway-point-num">03 &#xB7; WAIT A FORTNIGHT</div>
+        <div class="takeaway-point-num">03 &middot; WAIT A FORTNIGHT</div>
         <div class="takeaway-point-text">Every launch-week chart is the maker <strong>marking its own homework</strong>. Independent testing takes about two weeks. Believe the charts then, not now.</div>
       </div>
     </div>
   </section>
 
-  <div class="substack-band">
-    <div>
-      <div class="sb-kicker">Companion long-form</div>
-      <h3>Read the <em>full Substack</em> version.</h3>
-      <p>Same argument, more evidence trail, full source list, and the bits the article didn't have room for.</p>
+  <!-- SLOT: subscribe / substack slab -->
+  <section class="cta-slab" id="subscribe" aria-label="Read on Substack and subscribe">
+    <div class="cta-kicker">Read more &middot; Subscribe</div>
+    <h2>Go deeper, then get the <em>next issue</em> in your inbox.</h2>
+    <p class="cta-intro">The full Substack version has the same argument with more evidence trail, the full source list, and the bits the article didn't have room for. Subscribe and each new issue lands in your inbox. Practical, evidence-led, no hype.</p>
+    <div class="cta-row">
+      <a class="cta-btn" href="https://aisustained.substack.com/p/the-new-chatgpt-is-half-price-should?utm_campaign=post&amp;utm_medium=web" target="_blank" rel="noopener"><span class="base"></span><span class="face">Read on Substack</span></a>
+      <!-- Points to the site's single live HubSpot newsletter form on the homepage (#subscribe) -->
+      <a class="cta-btn primary" href="/#subscribe"><span class="base"></span><span class="face">Subscribe</span></a>
     </div>
-    <a class="sb-btn" href="https://aisustained.substack.com/p/the-new-chatgpt-is-half-price-should" target="_blank" rel="noopener">Read on Substack &#x2192;</a>
-  </div>
+  </section>
 
   <footer class="footer">
     <div class="footer-left">
       <p class="footer-cta">The knife-fight is over price and speed. <strong>The customer wins.</strong></p>
     </div>
     <div class="sources">
-      Sources: OpenAI GPT-5.6 launch materials (Jul 2026); Anthropic Claude Fable 5 announcement (Jun 2026); US Center for AI Standards and Innovation evaluations; Cerebras inference announcement. Launch-week performance claims are the makers' own and not yet independently verified.
+      Sources &middot; OpenAI GPT-5.6 launch materials, July 2026 &middot; Anthropic Claude Fable 5 announcement, June 2026 &middot; US Center for AI Standards and Innovation evaluations &middot; Cerebras inference announcement.
+      Launch-week performance claims are the makers' own and not yet independently verified.
     </div>
   </footer>
-
-  <div style="max-width:820px;margin:48px auto 8px;background:#1B4332;color:#F7FCF9;padding:40px 34px;border-radius:4px;text-align:center">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:#D8F3DC;margin-bottom:14px">The 3-minute test</div>
-    <p style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:24px;line-height:1.3;color:#F7FCF9;margin:0 auto 10px;max-width:560px">Reading about AI is the easy bit. Would <em style="color:#B7E4C7">your</em> habits survive Monday morning?</p>
-    <p style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;line-height:1.6;color:#D8F3DC;margin:0 auto 24px;max-width:560px">Twelve questions, an honest verdict, no experience required.</p>
-    <a href="https://ai-sustained.com/learn/score/?utm_source=editorial&amp;utm_medium=article_footer&amp;utm_campaign=score_internal" style="display:inline-block;background:#E8FF3A;color:#081C15;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:15px;padding:13px 26px;border-radius:4px;text-decoration:none">Get my AI Survival Score</a>
-  </div>
 
   <div class="hashtags">
     <div class="hashtag-label">Tags</div>
     <div class="hashtag-list">
-      <span>#ArtificialIntelligence</span> <span>#ChatGPT</span> <span>#GPT56</span> <span>#Claude</span> <span>#FableV</span> <span>#OpenAI</span> <span>#Anthropic</span> <span>#PlainEnglishAI</span> <span>#AIForBeginners</span> <span>#ContextWindow</span> <span>#DeepSeek</span> <span>#AISubscription</span> <span>#UKTech</span> <span>#FutureOfWork</span> <span>#AISustained</span>
+      <span>#ChatGPT</span> <span>#GPT56</span> <span>#Claude</span> <span>#FableV</span> <span>#OpenAI</span> <span>#Anthropic</span> <span>#PlainEnglishAI</span> <span>#ContextWindow</span> <span>#AISubscription</span> <span>#AISustained</span>
     </div>
   </div>
 
   <div class="colophon">
-    <span>AI Sustained &#xB7; By Kevin Clubb</span>
-    <span>2026 &#xB7; Issue 011</span>
+    <span><span class="wordmark">AI Sustained.</span> · By Kevin Clubb</span>
+    <span>2026</span>
   </div>
 
 </article>
+<!-- ============ AI SLIDER SCRIPT ============ -->
+<script>
+(function () {
+  var DEPTHS = [
+    {
+      name: "Explain like I'm 5",
+      meta: "\u2248360 words \u00b7 2 min",
+      html: `
+        <section class="content">
+          <p>The people who make ChatGPT just brought out a new brain for it, called <strong>Sol</strong>. Two things about it matter, and neither needs a computer science degree.</p>
+          <p><strong>First: it stopped forgetting.</strong> Chatbots have a short-term memory. Talk to them long enough and they quietly forget how the conversation started, like a goldfish with a nice vocabulary. Sol's memory now holds about <span class="inline-highlight">750,000 words at once</span>. That's roughly eight thick novels. So instead of feeding it one paragraph at a time, you can hand it the whole contract, the whole year of notes, the whole saga with the difficult customer, and it remembers all of it while it answers.</p>
+          <p><strong>Second: the waiting is over.</strong> You know the little spinner you stare at while the machine thinks? Sol writes about <strong>560 words a second</strong>, a full page in under half a second, because it runs on special new chips the size of dinner plates. When answers come back instantly, the tool stops feeling like a fruit machine and starts feeling like a colleague.</p>
+          <p>Here's the fun bit: Sol is nearly as clever as the current champion, a rival called <strong>Claude Fable 5</strong>, but it costs businesses <strong>half as much</strong>. Fable is still a whisker better at the really hard problems, the way a brilliant consultant beats a sharp colleague. But for everyday jobs, writing emails, summarising documents, explaining things, you'd struggle to tell them apart.</p>
+          <p>Do you need to do anything? Only two things. If you pay for an AI app, know that the companies are now in a price war, and price wars are good news for you: better free versions, more generous limits. And when any AI company says their new model &ldquo;beats everyone&rdquo;, remember they're marking their own homework. The independent testers need about two weeks. Believe the charts then.</p>
+          <p>That's the whole story. Cheaper, faster, remembers more. The robots aren't taking over; they're having a sale.</p>
+        </section>`
+    },
+    {
+      name: "Curious",
+      meta: "\u22481,300 words \u00b7 7 min",
+      html: null   /* captured from the page at init — do not fill */
+    },
+    {
+      name: "Practitioner",
+      meta: "\u2248850 words \u00b7 5 min",
+      html: `
+        <section class="content">
+          <p>OpenAI shipped the GPT-5.6 family (Luna, Terra, Sol) on 9 July. Sol is the flagship: roughly Fable 5-class on general work, at <span class="inline-highlight">half Fable's business price</span>, with a <strong>1M-token context window</strong> and inference on Cerebras wafer-scale hardware at around <strong>560 words a second</strong>. If you run AI tooling, budgets or adoption, three practical threads are worth pulling.</p>
+
+          <h2 id="p-context">Design for the big window</h2>
+          <p>A 1M-token window (about 750,000 words) retires a whole category of workaround. Chunking pipelines, sliding-window summarisers and &ldquo;context compression&rdquo; steps exist because windows were small; for many document workloads you can now pass the entire corpus in one call: the full contract, the year of minutes, the complete complaint thread. Fewer moving parts, fewer stitching errors, and answers that can cite page 4 and page 400 in the same breath. The habit to retrain in your users is paste big: most people are still rationing context like it's 2024.</p>
+
+          <h2 id="p-latency">Latency is a feature, not a vanity metric</h2>
+          <p>Sub-second full-page responses change usage patterns, not just benchmarks. Instant tools get iterated with (ask, answer, refine); slow tools get one-shot prompts and abandonment. If you're measuring adoption, watch what near-zero latency does to session depth. When the spinner dies, the tool moves from slot machine to colleague, and that shift shows up in usage data before it shows up in any survey.</p>
+
+          <blockquote class="pull-quote">Route by task: the champion for the hard problems, the half-price one for the volume.</blockquote>
+
+          <h2 id="p-routing">Selection and routing</h2>
+          <p>The honest scorecard: Sol wins price and speed outright; everyday drafting and summarising is a coin toss with Sol slightly ahead on feel; Fable 5 keeps the crown for hard reasoning, maths and long autonomous jobs, at twice the price; reliability is a draw with different failure modes (Sol confabulates slightly more than its predecessor and over-delivers on scope; Fable is steadier but delegates some topics to a more cautious sibling model). The rational posture is routing, not loyalty: default the cheap fast model, escalate to the expensive one where error cost justifies it. And renewal hygiene: with the leaderboard flipping every couple of months, annual lock-ins need a reason.</p>
+
+          <h2 id="p-china">The open and Chinese alternatives</h2>
+          <p>DeepSeek, Kimi and Qwen sit roughly <strong>eight months behind</strong> the US frontier on the US government's own evaluations, at a fraction of the cost, some free to self-host. Two persistent caveats: the gap has been &ldquo;about eight months&rdquo; for two years because the frontier keeps moving (chip export controls are part of why), and data residency rules many of them out of enterprise use regardless of price. Cheap seats, closer to the stage than ever; whether you can sit in them is a governance question.</p>
+
+          <h2 id="p-evals">Launch-week hygiene</h2>
+          <p>Every capability claim in this cycle is vendor self-reported. Independent evaluations land in roughly a fortnight. Trial Sol on your own workload now by all means, but make no platform decisions, and quote no launch charts in a business case, until the third-party numbers arrive.</p>
+        </section>`
+    },
+    {
+      name: "Expert",
+      meta: "\u2248800 words \u00b7 5 min",
+      html: `
+        <section class="content">
+          <p>Strip the telescope names and GPT-5.6 Sol is a pricing and infrastructure statement: near-parity capability with the market leader at half the price, delivered at interactive latency on non-GPU silicon. The interesting analysis isn't &ldquo;which model is better&rdquo;; it's what this release says about where differentiation in the frontier market is moving.</p>
+
+          <h2 id="x-frontier">Parity economics</h2>
+          <p>The capability spread across the top three or four models is now inside most tasks' noise floor; Fable 5 retains a real but narrow edge on hard reasoning and long-horizon autonomous work. When capability converges, competition shifts to the cost-latency frontier, and Sol moves both axes at once: <span class="inline-highlight">half Fable's price</span> and roughly <strong>560 words a second</strong> on Cerebras wafer-scale inference. That combination reprices the default tier of the market. The premium tier survives, but it has to be bought deliberately, for workloads where error cost dominates, rather than inherited by brand loyalty.</p>
+
+          <h2 id="x-hardware">The silicon subplot</h2>
+          <p>Serving a frontier model on wafer-scale accelerators rather than the standard GPU estate is the quieter story. Latency at this level is a demand-side lever (instant tools change usage behaviour and therefore token consumption), but it's also a supply-chain hedge and a margin play: inference cost, not training cost, is where frontier economics are won at scale. Expect latency to be marketed as a first-class capability from here, because it's the axis where hardware choices show up directly in user experience.</p>
+
+          <blockquote class="pull-quote">When capability converges, the contest moves to the cost-latency frontier.</blockquote>
+
+          <h2 id="x-window">What 1M tokens actually changes</h2>
+          <p>The 1M-token window (~750,000 words) collapses the retrieval-versus-context trade-off for a large class of document workloads. Chunking and summarisation pipelines built to work around small windows become optional complexity; single-call whole-corpus prompting is often simpler and less error-prone. It does not retire retrieval where corpora exceed the window or freshness matters, but the default architecture for mid-sized document work flips from &ldquo;RAG first&rdquo; to &ldquo;context first, retrieval when forced&rdquo;.</p>
+
+          <h2 id="x-china">The stable eight months</h2>
+          <p>DeepSeek, Kimi and Qwen at roughly eight months behind the frontier (per US government evaluation) is best read as a steady-state, not a countdown: the gap has held for two years because export controls throttle the capital equipment while the frontier keeps moving. The strategic consequence is a two-tier market: frontier capability concentrated in US labs, near-frontier capability commoditised globally at near-zero prices, with data-jurisdiction, not capability, as the effective moat between them for enterprise buyers.</p>
+
+          <h2 id="x-posture">Posture</h2>
+          <p>Treat launch-week claims as vendor-reported until independent evals land (\u007e2 weeks). Re-run your own task benchmarks against Sol, cost the default tier at half-price economics, keep the premium model where correctness is expensive, and revisit any annual commitment signed before this release. The suppliers are in a knife-fight on price and speed; procurement should behave accordingly.</p>
+        </section>`
+    }
+  ];
+
+  var KEY = 'aisustained_reading_depth';
+  var reading = document.getElementById('reading');
+  var range   = document.getElementById('depth-range');
+  var meta    = document.getElementById('reading-meta');
+  var ticks   = Array.prototype.slice.call(document.querySelectorAll('.tick'));
+  if (!reading || !range || !meta) return;
+
+  DEPTHS[1].html = reading.innerHTML;
+
+  function render(i, animate) {
+    var d = DEPTHS[i];
+    if (!d || !d.html) return;
+    ticks.forEach(function (t, n) { t.setAttribute('aria-pressed', String(n === i)); });
+    range.value = i;
+    try { localStorage.setItem(KEY, String(i)); } catch (e) {}
+    function paint() {
+      reading.innerHTML = d.html;
+      meta.textContent = d.name + ' · ' + d.meta;
+      reading.classList.remove('swapping');
+    }
+    if (animate) {
+      if (window.gtag) gtag('event', 'depth_change', { level: d.name });
+      reading.classList.add('swapping');
+      setTimeout(paint, 190);
+    } else { paint(); }
+  }
+
+  ticks.forEach(function (t, i) { t.addEventListener('click', function () { render(i, true); }); });
+  range.addEventListener('input', function () { render(Number(range.value), true); });
+
+  var start = parseInt((function () {
+    try { return localStorage.getItem(KEY); } catch (e) { return null; }
+  })(), 10);
+  if (!(start >= 0 && start <= 3)) start = 1;
+  render(start, false);
+})();
+</script>
+
+<!-- ============ HOUSE BUTTONS: keyboard press mirrors the physical depress ============ -->
+<script>
+(function(){
+  document.querySelectorAll('.cta-btn, .tick').forEach(function(k){
+    k.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' ')k.classList.add('pressed')});
+    k.addEventListener('keyup',function(){k.classList.remove('pressed')});
+  });
+})();
+</script>
 </body>
+
 </html>
