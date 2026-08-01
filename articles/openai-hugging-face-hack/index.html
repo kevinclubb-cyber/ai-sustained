@@ -47,6 +47,7 @@
     --rule: rgba(242,236,217,0.16);
     --rule-soft: rgba(242,236,217,0.09);
     --panel: rgba(242,236,217,0.04);
+    --acid-hi: #F4FF7A; --acid-mid: #CFE62E; --acid-deep: #9DB324; --acid-shadow: #6E7F14;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -290,24 +291,44 @@
     gap: 10px; margin-bottom: 6px;
     position: relative; z-index: 1;
   }
+  /* Reading depth ticks — standard Tactile 3D Key (ai-s-house-buttons).
+     All four are acid keys; the ACTIVE level is the key held down. */
   .tick {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10.5px; font-weight: 700;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    padding: 12px 8px; border-radius: 4px;
-    border: 2px solid rgba(232,255,58,0.35);
-    background: transparent; color: var(--paper-2);
-    cursor: pointer; text-align: center; width: 100%;
-    display: inline-flex; align-items: center; justify-content: center;
-    transition: border-color .15s ease, color .15s ease, background .15s ease, transform .15s ease, box-shadow .15s ease;
+    position: relative; width: 100%; height: 54px;
+    background: transparent; border: none; padding: 0; cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .02em;
+    user-select: none; -webkit-tap-highlight-color: transparent;
   }
-  .tick:hover { border-color: var(--acid); color: var(--acid); transform: translateY(-2px); box-shadow: 0 8px 22px rgba(232,255,58,0.18); }
-  .tick[aria-pressed="true"] {
-    background: var(--acid); color: var(--ink);
-    border-color: var(--acid);
-    box-shadow: 0 8px 24px rgba(232,255,58,0.3);
+  .tick .base {
+    position: absolute; inset: 0; border-radius: 12px;
+    background: linear-gradient(180deg, var(--acid-deep) 0%, var(--acid-shadow) 100%);
+    box-shadow: 0 14px 28px rgba(0,0,0,.5), 0 2px 0 rgba(0,0,0,.35), inset 0 -2px 3px rgba(0,0,0,.3);
   }
-  .tick:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+  .tick .face {
+    position: absolute; inset: 0; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 8px;
+    color: var(--ink);
+    background: linear-gradient(180deg, var(--acid-hi) 0%, var(--acid) 42%, var(--acid-mid) 100%);
+    box-shadow: inset 0 2px 1px rgba(255,255,255,.65), inset 0 -3px 4px rgba(110,127,20,.55), inset 2px 0 3px rgba(255,255,255,.25), inset -2px 0 3px rgba(110,127,20,.3);
+    transform: translateY(-7px);
+    transition: transform .09s cubic-bezier(.4,0,.6,1), box-shadow .09s;
+  }
+  .tick .face::after {
+    content: ""; position: absolute; top: 4px; left: 10px; right: 10px; height: 12px; border-radius: 8px;
+    background: linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,0)); pointer-events: none;
+  }
+  .tick:hover .face { background: linear-gradient(180deg, #f8ff8f 0%, var(--acid) 46%, var(--acid-mid) 100%); }
+  .tick:active .face,
+  .tick[aria-pressed="true"] .face {
+    transform: translateY(-1px);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.4), inset 0 -1px 2px rgba(110,127,20,.5), inset 0 3px 6px rgba(110,127,20,.35);
+  }
+  .tick:active .base,
+  .tick[aria-pressed="true"] .base {
+    box-shadow: 0 5px 12px rgba(0,0,0,.45), 0 1px 0 rgba(0,0,0,.35), inset 0 -1px 2px rgba(0,0,0,.3);
+  }
+  .tick:focus-visible { outline: none; }
+  .tick:focus-visible .face { outline: 2px solid var(--paper); outline-offset: 3px; }
   @media (max-width: 720px) {
     .ticks { grid-template-columns: repeat(2, 1fr); }
     .depth { padding: 22px 20px 18px; }
@@ -386,25 +407,43 @@
     font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.55;
     color: rgba(10,15,12,0.82); max-width: 52ch; position: relative; z-index: 1;
   }
-  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 26px; position: relative; z-index: 1; }
+  /* Read more slab — centred, buttons are the standard Tactile 3D Key (ai-s-house-buttons) */
+  .cta-slab { text-align: center; }
+  .cta-slab h2 { margin-left: auto; margin-right: auto; }
+  .cta-slab p.cta-intro { margin-left: auto; margin-right: auto; }
+  .cta-row { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 26px; position: relative; z-index: 1; justify-content: center; }
   .cta-btn {
-    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
-    letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink);
-    border: 2px solid var(--ink); padding: 14px 20px; border-radius: 4px;
-    text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
-    transition: background 0.15s, color 0.15s, transform 0.15s; white-space: nowrap;
+    position: relative; display: inline-flex; width: 232px; height: 58px;
+    background: transparent; border: none; padding: 0; cursor: pointer; text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 700; letter-spacing: .01em;
+    white-space: nowrap; user-select: none; -webkit-tap-highlight-color: transparent;
   }
-  .cta-btn::after { content: '↗'; font-size: 13px; }
-  .cta-btn:hover { background: var(--ink); color: var(--acid); transform: translateY(-1px); }
-  .cta-btn.primary { background: var(--ink); color: var(--acid); animation: ctaPulse 2.6s ease-out infinite; }
-  .cta-btn.primary::after { content: '→'; }
-  .cta-btn.primary:hover { filter: brightness(1.12); }
-  @keyframes ctaPulse {
-    0% { box-shadow: 0 0 0 0 rgba(10,15,12,0.35); }
-    70% { box-shadow: 0 0 0 14px rgba(10,15,12,0); }
-    100% { box-shadow: 0 0 0 0 rgba(10,15,12,0); }
+  .cta-btn .base {
+    position: absolute; inset: 0; border-radius: 12px;
+    background: linear-gradient(180deg, var(--acid-deep) 0%, var(--acid-shadow) 100%);
+    box-shadow: 0 14px 28px rgba(0,0,0,.35), 0 2px 0 rgba(0,0,0,.3), inset 0 -2px 3px rgba(0,0,0,.3);
   }
-  @media (prefers-reduced-motion: reduce) { .cta-btn.primary { animation: none; } }
+  .cta-btn .face {
+    position: absolute; inset: 0; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; gap: 9px;
+    color: var(--ink);
+    background: linear-gradient(180deg, var(--acid-hi) 0%, var(--acid) 42%, var(--acid-mid) 100%);
+    box-shadow: inset 0 2px 1px rgba(255,255,255,.65), inset 0 -3px 4px rgba(110,127,20,.55), inset 2px 0 3px rgba(255,255,255,.25), inset -2px 0 3px rgba(110,127,20,.3);
+    transform: translateY(-7px);
+    transition: transform .09s cubic-bezier(.4,0,.6,1), box-shadow .09s;
+  }
+  .cta-btn .face::before {
+    content: ""; position: absolute; top: 4px; left: 10px; right: 10px; height: 14px; border-radius: 8px;
+    background: linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,0)); pointer-events: none;
+  }
+  .cta-btn .face::after { content: '↗'; font-size: 14px; }
+  .cta-btn.primary .face::after { content: '→'; }
+  .cta-btn:hover .face { background: linear-gradient(180deg, #f8ff8f 0%, var(--acid) 46%, var(--acid-mid) 100%); }
+  .cta-btn:active .face, .cta-btn.pressed .face { transform: translateY(-1px); box-shadow: inset 0 1px 1px rgba(255,255,255,.4), inset 0 -1px 2px rgba(110,127,20,.5), inset 0 3px 6px rgba(110,127,20,.35); }
+  .cta-btn:active .base, .cta-btn.pressed .base { box-shadow: 0 5px 12px rgba(0,0,0,.3), 0 1px 0 rgba(0,0,0,.3), inset 0 -1px 2px rgba(0,0,0,.3); }
+  .cta-btn:focus-visible { outline: none; }
+  .cta-btn:focus-visible .face { outline: 2px solid var(--ink); outline-offset: 3px; }
+  @media (max-width: 720px) { .cta-btn { width: 100%; } }
 
   @media (max-width: 720px) {
     .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
@@ -490,10 +529,10 @@
     <div class="depth-label">Reading depth</div>
     <p class="depth-sub">How deep do you want to go? Pick a level and the article rewrites itself.</p>
     <div class="ticks" role="group" aria-label="Choose reading depth">
-      <button class="tick" type="button" aria-pressed="false">Explain like I&rsquo;m 5</button>
-      <button class="tick" type="button" aria-pressed="true">Curious</button>
-      <button class="tick" type="button" aria-pressed="false">Practitioner</button>
-      <button class="tick" type="button" aria-pressed="false">Expert</button>
+      <button class="tick" type="button" aria-pressed="false"><span class="base"></span><span class="face">Explain like I&rsquo;m 5</span></button>
+      <button class="tick" type="button" aria-pressed="true"><span class="base"></span><span class="face">Curious</span></button>
+      <button class="tick" type="button" aria-pressed="false"><span class="base"></span><span class="face">Practitioner</span></button>
+      <button class="tick" type="button" aria-pressed="false"><span class="base"></span><span class="face">Expert</span></button>
     </div>
     <input id="depth-range" class="depth-range" type="range"
            min="0" max="3" step="1" value="1" aria-label="Reading depth">
@@ -691,9 +730,9 @@
     <h2>Go deeper, then get the <em>next issue</em> in your inbox.</h2>
     <p class="cta-intro">The full write-up — with extra analysis and the sources laid out — is on Substack. Subscribe and each new issue lands in your inbox. Practical, evidence-led, no hype.</p>
     <div class="cta-row">
-      <a class="cta-btn" href="https://open.substack.com/pub/aisustained/p/openais-ai-broke-out-hacked-hugging?r=8iqef9&amp;utm_campaign=post&amp;utm_medium=web&amp;showWelcomeOnShare=true" target="_blank" rel="noopener">Read on Substack</a>
+      <a class="cta-btn" href="https://open.substack.com/pub/aisustained/p/openais-ai-broke-out-hacked-hugging?r=8iqef9&amp;utm_campaign=post&amp;utm_medium=web&amp;showWelcomeOnShare=true" target="_blank" rel="noopener"><span class="base"></span><span class="face">Read on Substack</span></a>
       <!-- Points to the site's single live HubSpot newsletter form on the homepage (#subscribe) -->
-      <a class="cta-btn primary" href="/#subscribe">Subscribe</a>
+      <a class="cta-btn primary" href="/#subscribe"><span class="base"></span><span class="face">Subscribe</span></a>
     </div>
   </section>
 
@@ -850,6 +889,16 @@
   })(), 10);
   if (!(start >= 0 && start <= 3)) start = 1;
   render(start, false);
+})();
+</script>
+
+<!-- ============ HOUSE BUTTONS: keyboard press mirrors the physical depress ============ -->
+<script>
+(function(){
+  document.querySelectorAll('.cta-btn, .tick').forEach(function(k){
+    k.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' ')k.classList.add('pressed')});
+    k.addEventListener('keyup',function(){k.classList.remove('pressed')});
+  });
 })();
 </script>
 </body>
