@@ -38,6 +38,7 @@ gtag('config', 'G-L3WZNV09BB');
 :root{
   --forest:#1B4332; --cream:#F2ECD9; --acid:#E8FF3A; --coral:#FF5A3C;
   --ink:#0A0F0C; --sage:#9DB8A8; --card:#153627;
+  --acid-hi:#F4FF7A; --acid-mid:#CFE62E; --acid-deep:#9DB324; --acid-shadow:#6E7F14;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -78,6 +79,19 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 .btn-ghost::after{content:"→"}
 .btn-ghost:hover{background:var(--acid);color:var(--ink);transform:translateY(-2px);filter:none;box-shadow:0 10px 28px rgba(232,255,58,.25)}
 @media(prefers-reduced-motion:reduce){.btn{animation:none}.btn:hover{transform:none}.btn:hover::after{transform:none}}
+
+/* ===== AI Sustained house button: Tactile 3D Key ===== */
+.btn-key{position:relative;display:inline-flex;width:204px;height:58px;background:transparent;border:none;padding:0;cursor:pointer;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;letter-spacing:.01em;user-select:none;-webkit-tap-highlight-color:transparent}
+.btn-key.w260{width:260px}
+.btn-key .base{position:absolute;inset:0;border-radius:12px;background:linear-gradient(180deg,var(--acid-deep) 0%,var(--acid-shadow) 100%);box-shadow:0 14px 28px rgba(0,0,0,.5),0 2px 0 rgba(0,0,0,.35),inset 0 -2px 3px rgba(0,0,0,.3)}
+.btn-key .face{position:absolute;inset:0;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:7px;color:var(--ink);background:linear-gradient(180deg,var(--acid-hi) 0%,var(--acid) 42%,var(--acid-mid) 100%);box-shadow:inset 0 2px 1px rgba(255,255,255,.65),inset 0 -3px 4px rgba(110,127,20,.55),inset 2px 0 3px rgba(255,255,255,.25),inset -2px 0 3px rgba(110,127,20,.3);transform:translateY(-7px);transition:transform .09s cubic-bezier(.4,0,.6,1),box-shadow .09s}
+.btn-key .face::after{content:"";position:absolute;top:4px;left:10px;right:10px;height:14px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));pointer-events:none}
+.btn-key:hover .face{background:linear-gradient(180deg,#f8ff8f 0%,var(--acid) 46%,var(--acid-mid) 100%)}
+.btn-key:active .face,.btn-key.pressed .face{transform:translateY(-1px);box-shadow:inset 0 1px 1px rgba(255,255,255,.4),inset 0 -1px 2px rgba(110,127,20,.5),inset 0 3px 6px rgba(110,127,20,.35)}
+.btn-key:active .base,.btn-key.pressed .base{box-shadow:0 5px 12px rgba(0,0,0,.45),0 1px 0 rgba(0,0,0,.35),inset 0 -1px 2px rgba(0,0,0,.3)}
+.btn-key:focus-visible{outline:none}
+.btn-key:focus-visible .face{outline:2px solid var(--cream);outline-offset:3px}
+@media(max-width:560px){.btn-key,.btn-key.w260{width:100%}}
 
 .screen{display:none;animation:fadeUp .45s ease}
 .screen.active{display:block}
@@ -172,11 +186,12 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
 .footer a{color:var(--acid);text-decoration:none}
 
 /* ===== Reader Ledger receipt link — prints, then tears off ===== */
-.rcpt-link{position:relative;display:inline-flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:var(--acid);color:var(--ink);padding:16px 26px;border-radius:2px 2px 6px 6px;text-decoration:none;border-left:2px dashed rgba(10,15,12,.5);transition:transform .15s ease,box-shadow .15s ease}
+.rcpt-link{position:relative;display:inline-flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:linear-gradient(180deg,var(--acid-hi) 0%,var(--acid) 45%,var(--acid-mid) 100%);color:var(--ink);padding:16px 26px;border-radius:2px 2px 6px 6px;text-decoration:none;border-left:2px dashed rgba(10,15,12,.5);box-shadow:0 6px 0 var(--acid-shadow),0 14px 26px rgba(0,0,0,.45),inset 0 1px 1px rgba(255,255,255,.55),inset 0 -2px 3px rgba(110,127,20,.4);transition:transform .12s ease,box-shadow .12s ease}
 .rcpt-link::before{content:"RECEIPT";position:absolute;top:-9px;left:14px;font-size:9px;letter-spacing:.22em;background:var(--ink);color:var(--acid);padding:2px 8px;border-radius:2px}
 .rcpt-link::after{content:"→";transition:transform .15s ease}
-.rcpt-link:hover{transform:translateY(-2px) rotate(-1deg);box-shadow:0 12px 30px rgba(232,255,58,.3)}
+.rcpt-link:hover{transform:translateY(-2px) rotate(-1deg);box-shadow:0 8px 0 var(--acid-shadow),0 16px 32px rgba(232,255,58,.3),inset 0 1px 1px rgba(255,255,255,.55),inset 0 -2px 3px rgba(110,127,20,.4)}
 .rcpt-link:hover::after{transform:translateX(5px)}
+.rcpt-link:active{transform:translateY(4px);box-shadow:0 2px 0 var(--acid-shadow),0 5px 12px rgba(0,0,0,.4),inset 0 1px 1px rgba(255,255,255,.35),inset 0 2px 5px rgba(110,127,20,.35)}
 .rcpt-link.tearing{animation:rcptTear .62s cubic-bezier(.5,.05,.8,.4) forwards}
 @keyframes rcptTear{0%{transform:rotate(0) translate(0,0);opacity:1}30%{transform:rotate(-7deg) translate(-6px,3px)}100%{transform:rotate(16deg) translate(34px,60px);opacity:0}}
 
@@ -212,7 +227,7 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
          onerror="this.closest('figure').style.display='none'">
     <figcaption>The Monday test · AI Sustained</figcaption>
   </figure>
-  <div><button class="btn" onclick="startQuiz()">Get my score</button>
+  <div><button class="btn-key" onclick="startQuiz()"><span class="base"></span><span class="face">Get my score</span></button>
   <span class="btn-sub">Free · 3 minutes · brutally honest</span></div>
   <div class="meta-row" style="justify-content:center;margin-top:26px">
     <span class="meta-item"><b>12</b> questions</span>
@@ -245,7 +260,7 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
       <label for="f-email">Email</label>
       <input type="email" id="f-email" autocomplete="email" required>
     </div>
-    <div style="text-align:center;position:relative;z-index:1"><button class="btn" onclick="submitGate()">Show my score</button></div>
+    <div style="text-align:center;position:relative;z-index:1"><button class="btn-key" onclick="submitGate()"><span class="base"></span><span class="face">Show my score</span></button></div>
     <p class="err" id="gate-err">That email doesn't look right. Check and try again.</p>
     <p class="gate-note">No spam, no AI hype. Unsubscribe anytime. Your answers are only used to build your report.</p>
   </div>
@@ -271,7 +286,7 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
     <h2 class="tier-name" id="tier-name"></h2>
     <span class="verdict-stamp" id="verdict"></span>
     <div style="margin-top:26px">
-      <button class="btn" onclick="calOpen('google')">Book rematch <span id="hero-cal-date"></span></button>
+      <button class="btn-key w260" onclick="calOpen('google')"><span class="base"></span><span class="face">Book rematch <span id="hero-cal-date"></span></span></button>
     </div>
     <div class="rank-banner" id="rank-result" aria-label="Your league position">
       <div class="rb-item"><span class="rb-n" id="rb-pct">&ndash;</span><span class="rb-l">Ahead of<br>the field</span></div>
@@ -299,8 +314,8 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
     <div style="text-align:center;margin-top:24px">
       <p class="cal-title">Book the rematch <span id="cal-date"></span></p>
       <div class="cta-row" style="margin-bottom:0">
-        <button class="btn btn-ghost" onclick="calOpen('google')">Google Calendar</button>
-        <button class="btn btn-ghost" onclick="calOpen('outlook')">Outlook</button>
+        <button class="btn-key w260" onclick="calOpen('google')"><span class="base"></span><span class="face">Google Calendar</span></button>
+        <button class="btn-key w260" onclick="calOpen('outlook')"><span class="base"></span><span class="face">Outlook</span></button>
       </div>
       <span class="btn-sub" id="cal-sub">One click &middot; links straight back to the quiz</span>
     </div>
@@ -315,14 +330,14 @@ h1 .accent{font-style:italic;color:var(--acid);font-weight:500}
   </div>
 
   <div class="cta-row">
-    <a class="btn btn-ghost" id="editorial-link" href="https://ai-sustained.com/#editorial">Take me to the editorial</a>
+    <a class="btn-key w260" id="editorial-link" href="https://ai-sustained.com/#editorial"><span class="base"></span><span class="face">Take me to the editorial</span></a>
   </div>
 
   <div class="share-box">
     <p>Know someone whose AI habits wouldn't survive Monday? Challenge them.</p>
     <div class="cta-row" style="margin-bottom:0">
-      <button class="btn btn-ghost" onclick="shareLinkedIn()">Share on LinkedIn</button>
-      <button class="btn btn-ghost" id="copy-btn" onclick="copyChallenge()">Copy my result</button>
+      <button class="btn-key w260" onclick="shareLinkedIn()"><span class="base"></span><span class="face">Share on LinkedIn</span></button>
+      <button class="btn-key w260" id="copy-btn" onclick="copyChallenge()"><span class="base"></span><span class="face">Copy my result</span></button>
     </div>
   </div>
 </section>
@@ -441,6 +456,12 @@ const PILLAR_FIXES = [
   "An experiment that died wasn't a failure, it was oversized. Restart the smallest possible version of it this week."]
 ];
 
+// Randomise the display order of options once per session, so score order
+// (option value 0-3) is no longer guessable from position. Stable per question,
+// so going back shows the same order.
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+QUESTIONS.forEach(q=>{ q.order = shuffle([0,1,2,3]); });
+
 let idx = 0;
 let answers = new Array(QUESTIONS.length).fill(null);
 let finalScore = 0, pillarPct = [0,0,0,0], tier = null;
@@ -463,11 +484,12 @@ function renderQ(){
   document.getElementById('q-text').textContent = q.q;
   const box = document.getElementById('q-opts');
   box.innerHTML = '';
-  q.o.forEach((opt,i)=>{
+  q.order.forEach((orig,i)=>{
     const b = document.createElement('button');
     b.className = 'opt';
-    b.innerHTML = '<span class="k">'+(i+1)+'</span><span>'+opt+'</span>';
-    b.onclick = ()=>pick(i,b);
+    b.innerHTML = '<span class="k">'+(i+1)+'</span><span>'+q.o[orig]+'</span>';
+    b.onclick = ()=>pick(orig,b);            // score by original option value, not display position
+    if(answers[idx]===orig) b.classList.add('picked');
     box.appendChild(b);
   });
   document.getElementById('back-btn').style.display = idx>0 ? 'inline' : 'none';
@@ -495,7 +517,7 @@ document.addEventListener('keydown', function(e){
   const n = parseInt(e.key,10);
   if(n>=1 && n<=4){
     const btns = document.querySelectorAll('#q-opts .opt');
-    if(btns[n-1]) pick(n-1, btns[n-1]);
+    if(btns[n-1]) btns[n-1].click();         // routes through the shuffled mapping
   }
 });
 
@@ -693,10 +715,16 @@ function copyChallenge(){
   const rankBit = rankInfo ? ` That puts me ahead of ${rankInfo.pct}% of participants.` : '';
   const txt = `I scored ${finalScore}/100 on the AI Survival Score. Verdict: "${tier.verdict}".${rankBit} Would your AI habits survive Monday morning? 3 minutes: ${QUIZ_URL}`;
   navigator.clipboard.writeText(txt).then(()=>{
-    const b=document.getElementById('copy-btn'); b.textContent='Copied. Go challenge them';
-    setTimeout(()=>b.textContent='Copy my result',2500);
+    const f=document.querySelector('#copy-btn .face'); f.textContent='Copied. Go challenge them';
+    setTimeout(()=>f.textContent='Copy my result',2500);
   });
 }
+
+// ===== 3D key: keyboard press mirrors the physical depress =====
+document.querySelectorAll('.btn-key').forEach(function(k){
+  k.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' ')k.classList.add('pressed')});
+  k.addEventListener('keyup',function(){k.classList.remove('pressed')});
+});
 
 // ===== Reader Ledger link: tear the receipt off, then go =====
 document.getElementById('ledger-link').addEventListener('click', function(ev){
