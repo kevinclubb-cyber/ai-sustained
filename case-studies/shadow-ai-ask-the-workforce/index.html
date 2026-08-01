@@ -10,6 +10,8 @@
   gtag('js', new Date());
   gtag('config', 'G-L3WZNV09BB');
 </script>
+<!-- HubSpot (EU) — powers the Live Chat button in the "Just ask" card -->
+<script async defer id="hs-script-loader" src="https://js-eu1.hs-scripts.com/148698319.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Before You Write an AI Policy, Ask the People Already Using It | AI Sustained Case Study</title>
 <meta name="description" content="A field note on building a workforce AI-usage survey by delegating the whole job to an AI agent that did it in about fifteen minutes, through a browser.">
@@ -67,6 +69,7 @@
     --rule: rgba(242,236,217,0.16);
     --rule-soft: rgba(242,236,217,0.09);
     --panel: rgba(242,236,217,0.04);
+    --acid-hi: #F4FF7A; --acid-mid: #CFE62E; --acid-deep: #9DB324; --acid-shadow: #6E7F14;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -280,6 +283,61 @@
   .cta a.btn { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; background: var(--ink); color: var(--acid); padding: 16px 24px; border-radius: 4px; border: 1px solid var(--ink); text-decoration: none; transition: all 0.15s; white-space: nowrap; }
   .cta a.btn:hover { background: var(--forest); color: var(--acid); border-color: var(--forest); }
 
+  /* ============ JUST ASK CARD — matches case study 004 / learn ============ */
+  .ask-card {
+    background: #123024; border: 1px solid rgba(242,236,217,0.14);
+    border-radius: 12px; padding: 44px 36px; text-align: center;
+    margin: 64px 0 8px;
+  }
+  .ask-card h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: clamp(28px, 4vw, 42px); line-height: 1.15;
+    color: var(--paper); margin-bottom: 14px;
+  }
+  .ask-card p {
+    font-size: 16px; line-height: 1.6; color: rgba(242,236,217,0.72);
+    max-width: 600px; margin: 0 auto 30px;
+  }
+  .ask-buttons { display: grid; grid-template-columns: repeat(3, 204px); gap: 18px; justify-content: center; }
+  .ask-note {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    color: rgba(242,236,217,0.72); margin-top: 18px;
+  }
+  /* Tactile 3D Key (WhatsApp, Live Chat) */
+  .btn-key{position:relative;display:inline-flex;width:204px;height:58px;background:transparent;border:none;padding:0;cursor:pointer;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;letter-spacing:.01em;user-select:none;-webkit-tap-highlight-color:transparent}
+  .btn-key .base{position:absolute;inset:0;border-radius:12px;background:linear-gradient(180deg,var(--acid-deep) 0%,var(--acid-shadow) 100%);box-shadow:0 14px 28px rgba(0,0,0,.5),0 2px 0 rgba(0,0,0,.35),inset 0 -2px 3px rgba(0,0,0,.3)}
+  .btn-key .face{position:absolute;inset:0;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--ink);background:linear-gradient(180deg,var(--acid-hi) 0%,var(--acid) 42%,var(--acid-mid) 100%);box-shadow:inset 0 2px 1px rgba(255,255,255,.65),inset 0 -3px 4px rgba(110,127,20,.55),inset 2px 0 3px rgba(255,255,255,.25),inset -2px 0 3px rgba(110,127,20,.3);transform:translateY(-7px);transition:transform .09s cubic-bezier(.4,0,.6,1),box-shadow .09s}
+  .btn-key .face::after{content:"";position:absolute;top:4px;left:10px;right:10px;height:14px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));pointer-events:none}
+  .btn-key:hover .face{background:linear-gradient(180deg,#f8ff8f 0%,var(--acid) 46%,var(--acid-mid) 100%)}
+  .btn-key:active .face,.btn-key.pressed .face{transform:translateY(-1px);box-shadow:inset 0 1px 1px rgba(255,255,255,.4),inset 0 -1px 2px rgba(110,127,20,.5),inset 0 3px 6px rgba(110,127,20,.35)}
+  .btn-key:active .base,.btn-key.pressed .base{box-shadow:0 5px 12px rgba(0,0,0,.45),0 1px 0 rgba(0,0,0,.35),inset 0 -1px 2px rgba(0,0,0,.3)}
+  .btn-key:focus-visible{outline:none}
+  .btn-key:focus-visible .face{outline:2px solid var(--paper);outline-offset:3px}
+  .btn-key:disabled{opacity:.7;cursor:wait}
+  /* Envelope Send (Email) */
+  .btn-mail{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 28px;border:2px solid rgba(232,255,58,.55);border-radius:10px;color:var(--paper);background:rgba(10,15,12,.92);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;letter-spacing:.01em;cursor:pointer;overflow:visible;transition:color .25s,border-color .25s,transform .2s;animation:mailBreathe 2.8s ease-out infinite;user-select:none;-webkit-tap-highlight-color:transparent;text-decoration:none}
+  @keyframes mailBreathe{0%{box-shadow:0 0 0 0 rgba(232,255,58,.32)}70%{box-shadow:0 0 0 14px rgba(232,255,58,0)}100%{box-shadow:0 0 0 0 rgba(232,255,58,0)}}
+  .btn-mail .env{display:inline-flex;color:var(--acid);transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+  .btn-mail .env svg{display:block}
+  .btn-mail .lbl{transition:transform .3s ease,color .25s}
+  .btn-mail:hover{color:var(--acid);border-color:var(--acid);transform:translateY(-2px)}
+  .btn-mail:hover .env{transform:rotate(-10deg) translateY(-2px)}
+  .btn-mail:active{transform:translateY(1px) scale(.97)}
+  .btn-mail:focus-visible{outline:2px solid var(--acid);outline-offset:3px}
+  .btn-mail.sending .env{animation:envFly .85s cubic-bezier(.5,-.2,.75,.4) forwards,envBack .45s cubic-bezier(.34,1.56,.64,1) 1.05s forwards}
+  @keyframes envFly{0%{transform:rotate(0) translate(0,0) scale(1);opacity:1;filter:blur(0)}25%{transform:rotate(-14deg) translate(-4px,2px) scale(1.05);opacity:1}100%{transform:rotate(28deg) translate(110px,-80px) scale(.35);opacity:0;filter:blur(6px)}}
+  @keyframes envBack{from{transform:translateY(10px) scale(.5);opacity:0;filter:blur(3px)}to{transform:none;opacity:1;filter:blur(0)}}
+  .btn-mail.sending .lbl{transform:translateX(-4px)}
+  .btn-mail .pt{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--acid);pointer-events:none;animation:ptFly .75s ease-out forwards}
+  @keyframes ptFly{from{transform:translate(0,0) scale(1);opacity:.9}to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+  .ask-mail{width:204px;height:58px;padding:0 20px}
+  @media (max-width: 720px) {
+    .ask-card { padding: 32px 24px; }
+    .ask-buttons { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; }
+    .ask-buttons .btn-key, .ask-buttons .btn-mail { width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce){.btn-mail{animation:none}.btn-mail.sending .env,.btn-mail .pt{animation:none}}
+
   /* ============ FOOTER ============ */
   .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
   .footer-left { flex: 1; min-width: 280px; }
@@ -416,14 +474,16 @@
     </div>
   </section>
 
-  <!-- Discreet contact CTA. Email shown as visible text so it works even without a default mail app. To capture into HubSpot instead, point the button at a /contact/ page or HubSpot form. -->
-  <section class="cta">
-    <div class="cta-text">
-      <div class="cta-kicker">Get in touch</div>
-      <h2>Would you like to <em>find out more</em>?</h2>
-      <p>Happy to talk through how this was done, or anything else here — drop me a line at <a href="mailto:kevin@ai-sustained.com" style="color:var(--ink);text-decoration:underline;text-underline-offset:2px;">kevin@ai-sustained.com</a>.</p>
+  <!-- SLOT: just ask — matches case study 004 / learn -->
+  <section class="ask-card" aria-label="Ask a question">
+    <h2>Just ask.</h2>
+    <p>One question, plain-English answer from a real person, usually within a day. Nothing is too small. Want to take it further? We can discuss it, or you can request the options any time.</p>
+    <div class="ask-buttons">
+      <a class="btn-mail ask-mail" id="ask-email-btn" href="mailto:kevin@ai-sustained.com?subject=Just%20asking" onclick="gtag('event','ask_email_click')"><span class="env"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 6.5 12 13l8.5-6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">Email</span></a>
+      <a class="btn-key" href="https://wa.me/447731734157?text=Hi%20Kevin%2C%20quick%20AI%20question%3A%20" onclick="gtag('event','ask_whatsapp_click')"><span class="base"></span><span class="face">WhatsApp</span></a>
+      <button class="btn-key" id="livechat-btn" onclick="openChat()"><span class="base"></span><span class="face">Live Chat</span></button>
     </div>
-    <a class="btn" href="mailto:kevin@ai-sustained.com?subject=Enquiry%20via%20ai-sustained.com">Contact me →</a>
+    <div class="ask-note">free · no obligation · no jargon</div>
   </section>
 
   <footer class="footer">
@@ -448,5 +508,87 @@
   </div>
 
 </article>
+
+<script>
+/* ---- Live chat (HubSpot Conversations) — same behaviour as /learn ----
+   NOTE: do NOT push to window.hsConversationsOnReady from here. HubSpot reads that
+   array once, when the embed script boots. A push made later (i.e. on click) sits in
+   the array and never fires. Poll instead - works whichever order things load in. */
+(function(){
+  var pending = false;
+  var btn, label;
+
+  function ready(){
+    return !!(window.HubSpotConversations && window.HubSpotConversations.widget);
+  }
+  function doOpenChat(){
+    window.HubSpotConversations.widget.load();
+    window.HubSpotConversations.widget.open();
+    if (typeof gtag === 'function') gtag('event','ask_livechat_click');
+  }
+  function faceOf(b){ return b ? (b.querySelector('.face') || b) : null; }
+  function restore(){
+    pending = false;
+    if (btn) { faceOf(btn).textContent = label; btn.disabled = false; }
+  }
+  function giveUp(){
+    restore();
+    var note = document.querySelector('.ask-note');
+    if (note && !note.dataset.chatFailed) {
+      note.dataset.chatFailed = '1';
+      note.innerHTML = 'Chat didn\'t load &mdash; <a href="mailto:kevin@ai-sustained.com?subject=Just%20asking" style="color:inherit;text-decoration:underline">email me instead</a> and I\'ll come straight back to you.';
+    }
+    if (typeof gtag === 'function') gtag('event','ask_livechat_failed');
+  }
+
+  window.openChat = function(){
+    btn = btn || document.getElementById('livechat-btn');
+    if (label === undefined && btn) label = faceOf(btn).textContent;
+
+    if (ready()) { doOpenChat(); return; }
+    if (pending) return;
+
+    pending = true;
+    if (btn) { faceOf(btn).textContent = 'Starting chat…'; btn.disabled = true; }
+
+    var waited = 0, step = 200, limit = 8000;
+    var timer = setInterval(function(){
+      waited += step;
+      if (ready())              { clearInterval(timer); restore(); doOpenChat(); }
+      else if (waited >= limit) { clearInterval(timer); giveUp(); }
+    }, step);
+  };
+})();
+</script>
+
+<!-- ============ HOUSE BUTTONS: 3D key press + envelope fly-off ============ -->
+<script>
+(function(){
+  document.querySelectorAll('.btn-key').forEach(function(k){
+    k.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' ')k.classList.add('pressed')});
+    k.addEventListener('keyup',function(){k.classList.remove('pressed')});
+  });
+  function flyEnvelope(btn){
+    if(!btn || btn.classList.contains('sending')) return;
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    btn.classList.add('sending');
+    var env = btn.querySelector('.env');
+    var ex = env ? env.offsetLeft + 9 : 24, ey = env ? env.offsetTop + 9 : btn.offsetHeight/2;
+    for(var i=0;i<6;i++){
+      var p=document.createElement('span');
+      p.className='pt';
+      p.style.left=ex+'px'; p.style.top=ey+'px';
+      p.style.setProperty('--dx',(20+Math.random()*80)+'px');
+      p.style.setProperty('--dy',(-15-Math.random()*60)+'px');
+      p.style.animationDelay=(Math.random()*0.2)+'s';
+      btn.appendChild(p);
+      (function(pp){setTimeout(function(){pp.remove()},1100)})(p);
+    }
+    setTimeout(function(){btn.classList.remove('sending')},1600);
+  }
+  var em = document.getElementById('ask-email-btn');
+  if(em) em.addEventListener('click', function(){ flyEnvelope(em); });
+})();
+</script>
 </body>
 </html>
