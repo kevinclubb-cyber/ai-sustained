@@ -60,6 +60,8 @@
     --paper-06: rgba(242,236,217,0.06); --paper-10: rgba(242,236,217,0.10);
     --paper-18: rgba(242,236,217,0.18); --paper-30: rgba(242,236,217,0.30); --paper-60: rgba(242,236,217,0.60);
     --acid-30: rgba(232,255,58,0.3);
+    --acid-hi: #F4FF7A; --acid-mid: #CFE62E; --acid-deep: #9DB324; --acid-shadow: #6E7F14;
+    --cream-paper: #F2ECD9;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--forest); color: var(--paper); font-family: 'Inter', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; }
@@ -190,6 +192,24 @@
   .work-inner p { font-family: 'Inter', sans-serif; color: var(--ink); font-size: 15px; line-height: 1.5; margin: 0; max-width: 560px; }
   .work-btn { position: relative; z-index: 1; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; background: var(--ink); color: var(--acid); padding: 16px 26px; border-radius: 4px; border: 1px solid var(--ink); transition: all 0.15s; white-space: nowrap; }
   .work-btn:hover { background: var(--forest); color: var(--acid); border-color: var(--forest); }
+
+  /* ============ AI SUSTAINED HOUSE BUTTON: ENVELOPE SEND ============ */
+  .btn-mail{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 28px;border:2px solid rgba(232,255,58,.55);border-radius:10px;color:var(--paper);background:rgba(10,15,12,.92);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;letter-spacing:.01em;cursor:pointer;overflow:visible;transition:color .25s,border-color .25s,transform .2s;animation:mailBreathe 2.8s ease-out infinite;user-select:none;-webkit-tap-highlight-color:transparent;z-index:1;white-space:nowrap}
+  @keyframes mailBreathe{0%{box-shadow:0 0 0 0 rgba(232,255,58,.32)}70%{box-shadow:0 0 0 14px rgba(232,255,58,0)}100%{box-shadow:0 0 0 0 rgba(232,255,58,0)}}
+  .btn-mail .env{display:inline-flex;color:var(--acid);transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+  .btn-mail .env svg{display:block}
+  .btn-mail .lbl{transition:transform .3s ease,color .25s}
+  .btn-mail:hover{color:var(--acid);border-color:var(--acid);transform:translateY(-2px)}
+  .btn-mail:hover .env{transform:rotate(-10deg) translateY(-2px)}
+  .btn-mail:active{transform:translateY(1px) scale(.97)}
+  .btn-mail:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .btn-mail.sending .env{animation:envFly .85s cubic-bezier(.5,-.2,.75,.4) forwards,envBack .45s cubic-bezier(.34,1.56,.64,1) 1.05s forwards}
+  @keyframes envFly{0%{transform:rotate(0) translate(0,0) scale(1);opacity:1;filter:blur(0)}25%{transform:rotate(-14deg) translate(-4px,2px) scale(1.05);opacity:1}100%{transform:rotate(28deg) translate(110px,-80px) scale(.35);opacity:0;filter:blur(6px)}}
+  @keyframes envBack{from{transform:translateY(10px) scale(.5);opacity:0;filter:blur(3px)}to{transform:none;opacity:1;filter:blur(0)}}
+  .btn-mail.sending .lbl{transform:translateX(-4px)}
+  .btn-mail .pt{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--acid);pointer-events:none;animation:ptFly .75s ease-out forwards}
+  @keyframes ptFly{from{transform:translate(0,0) scale(1);opacity:.9}to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+  @media(prefers-reduced-motion:reduce){.btn-mail{animation:none}.btn-mail.sending .env,.btn-mail .pt{animation:none}}
 
   /* ============ FOOTER ============ */
   footer.brand-footer { border-top: 1px solid var(--paper-30); margin-top: 48px; padding: 48px 0; }
@@ -362,7 +382,7 @@
       <h2>Do you want to <em>hear more</em>?</h2>
       <p>Every build here was done inside a normal working week, without an engineering team. Happy to talk through how any of it was done. Drop me a line at <a href="mailto:kevin@ai-sustained.com" style="color:var(--ink);text-decoration:underline;text-underline-offset:2px;">kevin@ai-sustained.com</a>.</p>
     </div>
-    <a class="work-btn" href="mailto:kevin@ai-sustained.com?subject=Enquiry%20via%20ai-sustained.com">Contact me →</a>
+    <a class="btn-mail" id="contact-btn" href="mailto:kevin@ai-sustained.com?subject=Enquiry%20via%20ai-sustained.com"><span class="env"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 6.5 12 13l8.5-6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">Contact me</span></a>
   </div>
 </section>
 
@@ -565,5 +585,34 @@
 })();
 </script>
 <!-- ============ /SITE SEARCH ============ -->
+
+<!-- ============ ENVELOPE SEND: fly-off + particle dissolve on click ============ -->
+<script>
+(function(){
+  function flyEnvelope(btn){
+    if(!btn || btn.classList.contains('sending')) return;
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    btn.classList.add('sending');
+    var env = btn.querySelector('.env');
+    var ex = env ? env.offsetLeft + 9 : 24, ey = env ? env.offsetTop + 9 : btn.offsetHeight/2;
+    for(var i=0;i<6;i++){
+      var p=document.createElement('span');
+      p.className='pt';
+      p.style.left=ex+'px'; p.style.top=ey+'px';
+      p.style.setProperty('--dx',(20+Math.random()*80)+'px');
+      p.style.setProperty('--dy',(-15-Math.random()*60)+'px');
+      p.style.animationDelay=(Math.random()*0.2)+'s';
+      btn.appendChild(p);
+      (function(pp){setTimeout(function(){pp.remove()},1100)})(p);
+    }
+    setTimeout(function(){btn.classList.remove('sending')},1600);
+  }
+  var c = document.getElementById('contact-btn');
+  if(c) c.addEventListener('click', function(){
+    if(typeof gtag==='function') gtag('event','contact_click',{location:'case_studies'});
+    flyEnvelope(c);   /* mailto opens alongside the animation */
+  });
+})();
+</script>
 </body>
 </html>
