@@ -125,6 +125,7 @@ nav a:hover,nav a.on{color:var(--acid);border-bottom-color:var(--acid)}
 .btn-mail.sending .lbl{transform:translateX(-4px)}
 .btn-mail .pt{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--acid);pointer-events:none;animation:ptFly .75s ease-out forwards}
 @keyframes ptFly{from{transform:translate(0,0) scale(1);opacity:.9}to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+.ask-mail{width:204px;height:58px;padding:0 20px}
 
 /* Hero */
 .hero{padding:72px 0 34px;text-align:center}
@@ -140,10 +141,12 @@ section{padding:52px 0}
 h2.sec-title{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(26px,3.8vw,40px);margin-bottom:14px}
 .sec-sub{color:var(--cream-dim);max-width:640px;margin-bottom:30px}
 
-/* Pie viz */
+/* Pie viz — centred 3D donut, detail text below */
 .viz-card{background:var(--forest-deep);border:1px solid var(--cream-faint);border-radius:12px;padding:40px 36px}
-.pie-layout{display:grid;grid-template-columns:320px 1fr;gap:44px;align-items:center;margin-bottom:26px}
-.pie-wrap svg{width:100%;height:auto;display:block;overflow:visible}
+.pie-layout{display:flex;flex-direction:column;align-items:center;gap:30px;margin-bottom:26px}
+.pie-wrap{width:100%;max-width:440px;margin:0 auto;perspective:1100px}
+.pie-wrap svg{width:100%;height:auto;display:block;overflow:visible;transform:rotateX(18deg);filter:drop-shadow(0 16px 0 rgba(0,0,0,.30)) drop-shadow(0 34px 44px rgba(0,0,0,.5)) drop-shadow(0 0 30px rgba(232,255,58,.07));transition:transform .4s ease}
+.pie-wrap:hover svg{transform:rotateX(13deg)}
 .slice-g{cursor:pointer;transition:transform .28s cubic-bezier(.2,.8,.3,1.1),filter .28s ease;transform:translate(0,0)}
 .slice-g path{stroke:var(--forest-deep);stroke-width:1.5;transition:opacity .2s ease}
 .slice-g text{font-family:'JetBrains Mono',monospace;font-weight:600;fill:var(--ink);pointer-events:none}
@@ -152,7 +155,7 @@ h2.sec-title{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font
 .slice-g:hover,.slice-g.active{transform:translate(var(--tx),var(--ty));filter:drop-shadow(0 6px 14px rgba(0,0,0,.45)) drop-shadow(0 0 10px rgba(232,255,58,.25))}
 .pie-centre-num{font-family:'Space Grotesk',sans-serif;font-weight:700;fill:var(--paper)}
 .pie-centre-lbl{font-family:'JetBrains Mono',monospace;fill:var(--sage)}
-.pie-detail{min-height:150px}
+.pie-detail{min-height:150px;text-align:center;max-width:560px;margin:0 auto}
 .pie-detail .pd-level{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--acid);margin-bottom:8px}
 .pie-detail .pd-name{font-family:'Fraunces',serif;font-style:italic;font-size:30px;margin-bottom:10px}
 .pie-detail .pd-share{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--paper);margin-bottom:6px}
@@ -210,11 +213,11 @@ footer a{color:var(--cream-dim)}
 footer a:hover{color:var(--acid)}
 
 @media(max-width:720px){
-  .pie-layout{grid-template-columns:1fr;gap:26px}
-  .pie-wrap{max-width:280px;margin:0 auto}
-  .pie-detail{text-align:center;min-height:130px}
+  .pie-layout{gap:26px}
+  .pie-wrap{max-width:300px}
+  .pie-detail{min-height:130px}
   .ask-buttons{grid-template-columns:1fr;max-width:280px;margin:0 auto}
-  .ask-buttons .btn-std,.ask-buttons .btn-key{width:100%}
+  .ask-buttons .btn-std,.ask-buttons .btn-key,.ask-buttons .btn-mail{width:100%}
   .optin form{grid-template-columns:1fr}
 }
 </style>
@@ -345,7 +348,7 @@ footer a:hover{color:var(--acid)}
       <h2>Just ask.</h2>
       <p>One question, plain-English answer from a real person, usually within a day. Nothing is too small. Want to take it further? We can discuss it, or you can request the options any time.</p>
       <div class="ask-buttons">
-        <a class="btn-key" href="mailto:kevin@ai-sustained.com?subject=Just%20asking" onclick="gtag('event','ask_email_click')"><span class="base"></span><span class="face">Email</span></a>
+        <a class="btn-mail ask-mail" id="ask-email-btn" href="mailto:kevin@ai-sustained.com?subject=Just%20asking" onclick="gtag('event','ask_email_click')"><span class="env"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 6.5 12 13l8.5-6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">Email</span></a>
         <a class="btn-key" href="https://wa.me/447731734157?text=Hi%20Kevin%2C%20quick%20AI%20question%3A%20" onclick="gtag('event','ask_whatsapp_click')"><span class="base"></span><span class="face">WhatsApp</span></a>
         <button class="btn-key" id="livechat-btn" onclick="openChat()"><span class="base"></span><span class="face">Live Chat</span></button>
       </div>
@@ -469,6 +472,9 @@ document.querySelectorAll('.btn-circuit').forEach(function(btn){
     btn.appendChild(s);
     setTimeout(function(){s.remove()},600);
   });
+});
+document.getElementById('ask-email-btn').addEventListener('click',function(){
+  flyEnvelope(this);   /* mailto opens alongside the animation */
 });
 function flyEnvelope(btn){
   if(!btn || btn.classList.contains('sending')) return;
