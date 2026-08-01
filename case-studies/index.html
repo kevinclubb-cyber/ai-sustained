@@ -193,6 +193,10 @@
   .work-btn { position: relative; z-index: 1; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; background: var(--ink); color: var(--acid); padding: 16px 26px; border-radius: 4px; border: 1px solid var(--ink); transition: all 0.15s; white-space: nowrap; }
   .work-btn:hover { background: var(--forest); color: var(--acid); border-color: var(--forest); }
 
+  /* Contact CTA: copy on its own row, button centred beneath */
+  .work-inner .w-text { flex: 1 1 100%; }
+  .work-inner .btn-mail { margin: 20px auto 0; }
+
   /* ============ AI SUSTAINED HOUSE BUTTON: ENVELOPE SEND ============ */
   .btn-mail{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 28px;border:2px solid rgba(232,255,58,.55);border-radius:10px;color:var(--paper);background:rgba(10,15,12,.92);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;letter-spacing:.01em;cursor:pointer;overflow:visible;transition:color .25s,border-color .25s,transform .2s;animation:mailBreathe 2.8s ease-out infinite;user-select:none;-webkit-tap-highlight-color:transparent;z-index:1;white-space:nowrap}
   @keyframes mailBreathe{0%{box-shadow:0 0 0 0 rgba(232,255,58,.32)}70%{box-shadow:0 0 0 14px rgba(232,255,58,0)}100%{box-shadow:0 0 0 0 rgba(232,255,58,0)}}
