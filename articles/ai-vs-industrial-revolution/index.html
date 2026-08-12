@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Analytics — site-wide ID, leave as-is -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+
+<title>The Victorians Out-Spent Us: AI vs the Industrial Revolution | AI Sustained</title>
+<meta name="description" content="AI capex is huge but the railway boom was bigger. The real record AI broke is the clock, not the cheque. Scale, sources and what it means.">
+<meta name="keywords" content="AI vs industrial revolution, AI bubble, AI capex GDP, railway mania comparison, Acemoglu AI productivity, ChatGPT adoption speed, AGI timeline, Hassabis LeCun, history of technology, AI adoption business, is AI a bubble, technology diffusion speed">
+<meta name="author" content="Kevin Clubb">
+<link rel="canonical" href="https://ai-sustained.com/articles/ai-vs-industrial-revolution/">
+<meta property="og:title" content="The Victorians out-spent us. That is not the comfort it sounds like.">
+<meta property="og:description" content="Everyone is arguing about whether AI is a bubble. That is a question about money, and money is the one part of this history has already seen bigger.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ai-sustained.com/articles/ai-vs-industrial-revolution/">
+<meta property="og:image" content="https://ai-sustained.com/articles/ai-vs-industrial-revolution/ai-vs-industrial-revolution_hero.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Victorians out-spent us. That is not the comfort it sounds like.">
+<meta name="twitter:description" content="AI capex is enormous. The railway mania was bigger. The record AI actually broke was the clock.">
+<meta name="twitter:image" content="https://ai-sustained.com/articles/ai-vs-industrial-revolution/ai-vs-industrial-revolution_hero.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "The Victorians out-spent us. That is not the comfort it sounds like.",
+  "author": { "@type": "Person", "name": "Kevin Clubb" },
+  "datePublished": "2026-08-12",
+  "url": "https://ai-sustained.com/articles/ai-vs-industrial-revolution/",
+  "description": "AI capex is huge but the railway boom was bigger. The real record AI broke is the clock, not the cheque.",
+  "keywords": "AI vs industrial revolution, AI bubble, AI capex GDP, railway mania, Acemoglu AI productivity, ChatGPT adoption speed, AGI timeline",
+  "image": "https://ai-sustained.com/articles/ai-vs-industrial-revolution/ai-vs-industrial-revolution_hero.png",
+  "publisher": { "@type": "Organization", "name": "AI Sustained" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --ink-soft: #2A3530;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
+    --acid: #E8FF3A;
+    --coral: #FF5A3C;
+    --moss: #2D6A4F;
+    --sage: #74C69D;
+    --mint: #D8F3DC;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --rule-soft: rgba(242,236,217,0.09);
+    --panel: rgba(242,236,217,0.04);
+    --acid-hi: #F4FF7A; --acid-mid: #CFE62E; --acid-deep: #9DB324; --acid-shadow: #6E7F14;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--forest);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    border-top: 3px solid var(--acid);
+  }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
+
+  /* ============ BACK NAV ============ */
+  .backnav {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.16em; text-transform: uppercase; padding: 6px 0 0;
+  }
+  .backnav a { color: var(--muted); text-decoration: none; }
+  .backnav a:hover { color: var(--acid); }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ HERO (centred) ============ */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+  }
+  .kicker::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    background: var(--acid);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(42px, 6.4vw, 74px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin: 0 auto 26px;
+    max-width: 18ch;
+  }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--paper-2);
+    max-width: 660px;
+    margin: 0 auto;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+
+  /* ============ HERO FIGURE ============ */
+  .hero-figure { margin: 40px 0 8px; }
+  .hero-figure img {
+    display: block; width: 100%; height: auto;
+    border-radius: 4px; border: 1px solid var(--rule);
+    border-top: 3px solid var(--acid);
+  }
+  .hero-figure figcaption {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+    margin-top: 12px; text-align: center;
+  }
+
+  /* ============ STAT GRID ============ */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px;
+    margin: 44px 0 48px;
+  }
+  .stat-box {
+    background: var(--panel);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 10px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px; font-weight: 600;
+    color: var(--acid); line-height: 1; display: block;
+  }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  /* ============ BODY CONTENT ============ */
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 32px; line-height: 1.15;
+    color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em;
+  }
+  .content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px;
+  }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+  .content li::marker { color: var(--acid); }
+
+  .inline-highlight { color: var(--acid); font-weight: 500; }
+
+  /* ============ SCALE TABLE ============ */
+  .scale-table {
+    width: 100%; border-collapse: collapse; margin: 28px 0 32px;
+    font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  }
+  .scale-table caption {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage);
+    text-align: left; padding-bottom: 12px;
+  }
+  .scale-table th {
+    text-align: left; font-weight: 600; color: var(--sage);
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    padding: 0 10px 10px 0; border-bottom: 1px solid var(--rule);
+  }
+  .scale-table th:last-child, .scale-table td:last-child { text-align: right; padding-right: 0; }
+  .scale-table td {
+    padding: 12px 10px 12px 0; border-bottom: 1px solid var(--rule-soft);
+    color: var(--paper-2);
+  }
+  .scale-table td.figure { color: var(--acid); font-weight: 600; font-size: 15px; }
+  .scale-table tr.now td { color: var(--paper); }
+  .scale-table tr.now td:first-child { font-weight: 600; }
+
+  /* ============ PULL QUOTE ============ */
+  .pull-quote {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 30px; line-height: 1.3; color: var(--paper);
+    margin: 60px auto; padding: 40px 0;
+    border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid);
+    text-align: center; max-width: 720px; letter-spacing: -0.01em;
+  }
+  .pull-quote::before {
+    content: '"'; display: block; font-size: 56px; color: var(--acid);
+    line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif;
+  }
+
+  /* ============ TACTICAL TAKEAWAY (ink panel — signature) ============ */
+  .takeaway {
+    background: var(--ink); color: var(--paper);
+    padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .takeaway::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--acid);
+    border-radius: 50%; opacity: 0.14;
+  }
+  .takeaway-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .takeaway h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 32px; line-height: 1.22; color: var(--paper);
+    margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em;
+  }
+  .takeaway h2 em { color: var(--acid); font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
+  .takeaway-point-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .takeaway-point-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 16px; line-height: 1.45; color: var(--paper-2);
+  }
+  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
+
+  /* ============ TOC ============ */
+  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
+  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
+  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
+
+  /* ============ AI SLIDER ============ */
+  /* The one panel on the page allowed to glow: ink ground, acid frame,
+     breathing shadow. A feature, not furniture. */
+  .depth {
+    background: var(--ink);
+    border: 2px solid var(--acid);
+    border-radius: 6px;
+    padding: 26px 28px 22px;
+    margin: 44px 0 48px;
+    position: relative;
+    overflow: hidden;
+    animation: depthGlow 3.2s ease-in-out infinite alternate;
+  }
+  .depth::before {
+    content: ''; position: absolute; top: -46px; right: -46px;
+    width: 170px; height: 170px; border: 30px solid var(--acid);
+    border-radius: 50%; opacity: 0.12; pointer-events: none;
+  }
+  @keyframes depthGlow {
+    from { box-shadow: 0 10px 30px rgba(10,15,12,0.3); }
+    to   { box-shadow: 0 10px 30px rgba(10,15,12,0.3), 0 0 30px 2px rgba(232,255,58,0.22); }
+  }
+  .depth-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--acid); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .depth-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .depth-sub {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 15px; color: var(--paper-2); margin-bottom: 18px;
+    position: relative; z-index: 1;
+  }
+  .ticks {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 10px; margin-bottom: 6px;
+    position: relative; z-index: 1;
+  }
+  /* Reading depth ticks — standard Tactile 3D Key (ai-s-house-buttons).
+     All four are acid keys; the ACTIVE level is the key held down. */
+  .tick {
+    position: relative; width: 100%; height: 54px;
+    background: transparent; border: none; padding: 0; cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .02em;
+    user-select: none; -webkit-tap-highlight-color: transparent;
+  }
+  .tick .base {
+    position: absolute; inset: 0; border-radius: 12px;
+    background: linear-gradient(180deg, var(--acid-deep) 0%, var(--acid-shadow) 100%);
+    box-shadow: 0 14px 28px rgba(0,0,0,.5), 0 2px 0 rgba(0,0,0,.35), inset 0 -2px 3px rgba(0,0,0,.3);
+  }
+  .tick .face {
+    position: absolute; inset: 0; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 8px;
+    color: var(--ink);
+    background: linear-gradient(180deg, var(--acid-hi) 0%, var(--acid) 42%, var(--acid-mid) 100%);
+    box-shadow: inset 0 2px 1px rgba(255,255,255,.65), inset 0 -3px 4px rgba(110,127,20,.55), inset 2px 0 3px rgba(255,255,255,.25), inset -2px 0 3px rgba(110,127,20,.3);
+    transform: translateY(-7px);
+    transition: transform .09s cubic-bezier(.4,0,.6,1), box-shadow .09s;
+  }
+  .tick .face::after {
+    content: ""; position: absolute; top: 4px; left: 10px; right: 10px; height: 12px; border-radius: 8px;
+    background: linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,0)); pointer-events: none;
+  }
+  .tick:hover .face { background: linear-gradient(180deg, #f8ff8f 0%, var(--acid) 46%, var(--acid-mid) 100%); }
+  .tick:active .face,
+  .tick[aria-pressed="true"] .face {
+    transform: translateY(-1px);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.4), inset 0 -1px 2px rgba(110,127,20,.5), inset 0 3px 6px rgba(110,127,20,.35);
+  }
+  .tick:active .base,
+  .tick[aria-pressed="true"] .base {
+    box-shadow: 0 5px 12px rgba(0,0,0,.45), 0 1px 0 rgba(0,0,0,.35), inset 0 -1px 2px rgba(0,0,0,.3);
+  }
+  .tick:focus-visible { outline: none; }
+  .tick:focus-visible .face { outline: 2px solid var(--paper); outline-offset: 3px; }
+  @media (max-width: 720px) {
+    .ticks { grid-template-columns: repeat(2, 1fr); }
+    .depth { padding: 22px 20px 18px; }
+  }
+  .depth-range {
+    width: 100%; margin: 16px 0 12px;
+    -webkit-appearance: none; appearance: none;
+    height: 3px; background: rgba(232,255,58,0.25); cursor: pointer;
+    position: relative; z-index: 1; border-radius: 2px;
+  }
+  .depth-range::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--acid); border: none; cursor: pointer;
+    box-shadow: 0 0 12px rgba(232,255,58,0.5);
+  }
+  .depth-range::-moz-range-thumb {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--acid); border: none; cursor: pointer;
+    box-shadow: 0 0 12px rgba(232,255,58,0.5);
+  }
+  .depth-range:focus-visible { outline: 2px solid var(--acid); outline-offset: 4px; }
+  .reading-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted); position: relative; z-index: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .depth { animation: none; }
+    .tick:hover { transform: none; }
+  }
+  #reading { transition: opacity 0.19s ease; }
+  #reading.swapping { opacity: 0; }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 320px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+  .sources a { color: var(--sage); text-decoration: none; }
+
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
+  .hashtag-list span { font-weight: 500; }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ SUBSCRIBE / SUBSTACK SLAB ============ */
+  .cta-slab {
+    background: var(--acid); color: var(--ink);
+    border-radius: 4px; margin: 64px 0 8px; padding: 44px 40px;
+    position: relative; overflow: hidden;
+  }
+  .cta-slab::before {
+    content: ''; position: absolute; bottom: -70px; right: -70px;
+    width: 200px; height: 200px; border: 34px solid var(--ink);
+    border-radius: 50%; opacity: 0.08;
+  }
+  .cta-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink);
+    margin-bottom: 16px; display: inline-flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .cta-kicker::before { content: ''; width: 32px; height: 2px; background: var(--ink); }
+  .cta-slab h2 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+    font-size: clamp(26px, 3.2vw, 36px); line-height: 1.12; letter-spacing: -0.015em;
+    color: var(--ink); margin-bottom: 12px; position: relative; z-index: 1; max-width: 20ch;
+  }
+  .cta-slab h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; }
+  .cta-slab p.cta-intro {
+    font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.55;
+    color: rgba(10,15,12,0.82); max-width: 52ch; position: relative; z-index: 1;
+  }
+  /* Read more slab — centred, buttons are the standard Tactile 3D Key (ai-s-house-buttons) */
+  .cta-slab { text-align: center; }
+  .cta-slab h2 { margin-left: auto; margin-right: auto; }
+  .cta-slab p.cta-intro { margin-left: auto; margin-right: auto; }
+  .cta-row { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 26px; position: relative; z-index: 1; justify-content: center; }
+  .cta-btn {
+    position: relative; display: inline-flex; width: 232px; height: 58px;
+    background: transparent; border: none; padding: 0; cursor: pointer; text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 700; letter-spacing: .01em;
+    white-space: nowrap; user-select: none; -webkit-tap-highlight-color: transparent;
+  }
+  .cta-btn .base {
+    position: absolute; inset: 0; border-radius: 12px;
+    background: linear-gradient(180deg, var(--acid-deep) 0%, var(--acid-shadow) 100%);
+    box-shadow: 0 14px 28px rgba(0,0,0,.35), 0 2px 0 rgba(0,0,0,.3), inset 0 -2px 3px rgba(0,0,0,.3);
+  }
+  .cta-btn .face {
+    position: absolute; inset: 0; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; gap: 9px;
+    color: var(--ink);
+    background: linear-gradient(180deg, var(--acid-hi) 0%, var(--acid) 42%, var(--acid-mid) 100%);
+    box-shadow: inset 0 2px 1px rgba(255,255,255,.65), inset 0 -3px 4px rgba(110,127,20,.55), inset 2px 0 3px rgba(255,255,255,.25), inset -2px 0 3px rgba(110,127,20,.3);
+    transform: translateY(-7px);
+    transition: transform .09s cubic-bezier(.4,0,.6,1), box-shadow .09s;
+  }
+  .cta-btn .face::before {
+    content: ""; position: absolute; top: 4px; left: 10px; right: 10px; height: 14px; border-radius: 8px;
+    background: linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,0)); pointer-events: none;
+  }
+  .cta-btn .face::after { content: '↗'; font-size: 14px; }
+  .cta-btn.primary .face::after { content: '→'; }
+  .cta-btn:hover .face { background: linear-gradient(180deg, #f8ff8f 0%, var(--acid) 46%, var(--acid-mid) 100%); }
+  .cta-btn:active .face, .cta-btn.pressed .face { transform: translateY(-1px); box-shadow: inset 0 1px 1px rgba(255,255,255,.4), inset 0 -1px 2px rgba(110,127,20,.5), inset 0 3px 6px rgba(110,127,20,.35); }
+  .cta-btn:active .base, .cta-btn.pressed .base { box-shadow: 0 5px 12px rgba(0,0,0,.3), 0 1px 0 rgba(0,0,0,.3), inset 0 -1px 2px rgba(0,0,0,.3); }
+  .cta-btn:focus-visible { outline: none; }
+  .cta-btn:focus-visible .face { outline: 2px solid var(--ink); outline-offset: 3px; }
+  @media (max-width: 720px) { .cta-btn { width: 100%; } }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 42px; }
+    .deck { font-size: 19px; }
+    .scale-table { font-size: 12px; }
+    .scale-table td.figure { font-size: 14px; }
+  }
+
+  @media print {
+    @page { size: A3; margin: 14mm; }
+    body { background: var(--forest); padding: 0; }
+    .page { max-width: none; padding: 0; }
+    .page-break { page-break-before: always; break-before: page; }
+    .stat-box, .takeaway-point, .pull-quote { page-break-inside: avoid; break-inside: avoid; }
+    .content h2 { page-break-after: avoid; break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+<article class="page">
+
+  <nav class="backnav" aria-label="Back to all articles"><a href="/articles/">&larr; All articles</a></nav>
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <span class="wordmark">AI Sustained.</span>
+      <span>Issue 016</span>
+    </div>
+    <div class="masthead-right">
+      <span>12 AUG 2026</span>
+      <span>AI Made Simple &middot; History</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">AI Made Simple &middot; History</div>
+    <h1>The Victorians out-spent us. That is not the <span class="accent">comfort it sounds like</span>.</h1>
+    <p class="deck">Everyone is arguing about whether AI is a bubble. That is a question about money, and money is the one part of this that history has <span class="accent">already seen bigger</span>.</p>
+  </section>
+
+  <figure class="hero-figure">
+    <img src="ai-vs-industrial-revolution_hero.png" alt="A worn shovel standing blade-down in a heap of dug earth at dusk beside a rail excavation, a second shovel further off, diggers and a lit worksite in the distance, one acid-yellow line of light along the rail.">
+    <figcaption>Someone else's unprecedented decade. Cover &middot; AI Sustained</figcaption>
+  </figure>
+
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">AI buildout, 2024</div>
+      <span class="stat-value">1.6<span class="unit">% GDP</span></span>
+      <div class="stat-note">Roughly $500bn of AI infrastructure spending, measured against US GDP. Enormous by any modern standard.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Railways, 1870</div>
+      <span class="stat-value">6.0<span class="unit">% GDP</span></span>
+      <div class="stat-note">Peak US railroad investment. The record for a privately funded infrastructure mania is still Victorian.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">ChatGPT to 100m users</div>
+      <span class="stat-value">&asymp;2<span class="unit">months</span></span>
+      <div class="stat-note">Electricity took around 40 years to reach 70% of American homes. The telephone took about 60.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Sceptic's 10-year forecast</div>
+      <span class="stat-value">&lt;0.53<span class="unit">% TFP</span></span>
+      <div class="stat-note">Acemoglu's revised estimate of AI's total factor productivity gain over a decade, down from 0.66%.</div>
+    </div>
+  </section>
+
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-label">In this issue</div>
+    <ol>
+      <li><span class="toc-num">01</span><a href="#wrong-argument">We are having the wrong argument</a></li>
+      <li><span class="toc-num">02</span><a href="#shovels">Beaten by men with shovels</a></li>
+      <li><span class="toc-num">03</span><a href="#record">So what did actually break the record?</a></li>
+      <li><span class="toc-num">04</span><a href="#turtle">Three thousand years to agree on an alphabet</a></li>
+      <li><span class="toc-num">05</span><a href="#economists">The economists are not impressed</a></li>
+      <li><span class="toc-num">06</span><a href="#builders">The people building it cannot agree either</a></li>
+      <li><span class="toc-num">07</span><a href="#what-to-do">What to do while the grown-ups argue</a></li>
+    </ol>
+  </nav>
+
+  <!-- SLOT: AI Slider control -->
+  <section class="depth" aria-label="Reading depth">
+    <div class="depth-label">Reading depth</div>
+    <p class="depth-sub">How deep do you want to go? Pick a level and the article rewrites itself.</p>
+    <div class="ticks" role="group" aria-label="Choose reading depth">
+      <button class="tick" type="button" aria-pressed="false"><span class="base"></span><span class="face">Explain like I&rsquo;m 5</span></button>
+      <button class="tick" type="button" aria-pressed="true"><span class="base"></span><span class="face">Curious</span></button>
+      <button class="tick" type="button" aria-pressed="false"><span class="base"></span><span class="face">Practitioner</span></button>
+      <button class="tick" type="button" aria-pressed="false"><span class="base"></span><span class="face">Expert</span></button>
+    </div>
+    <input id="depth-range" class="depth-range" type="range"
+           min="0" max="3" step="1" value="1" aria-label="Reading depth">
+    <div class="reading-meta" id="reading-meta">Curious &middot; &asymp;1,900 words &middot; 8 min</div>
+  </section>
+
+  <!-- SLOT: body content — Curious depth is the canonical version, captured at init -->
+  <div id="reading">
+
+  <section class="content" id="intro">
+    <p>There is a particular sort of person who, caught in a downpour, will tell you with total confidence that this is the wettest it has ever been. They have no data. They are simply wet.</p>
+
+    <p>We are all that person about artificial intelligence at the moment, and I include myself. Every conversation I have had this year has contained some version of &ldquo;nothing like this has ever happened before&rdquo;, usually delivered by someone who has just watched a chatbot write a birthday poem.</p>
+
+    <p>So I went and checked. I scaled this thing against the biggest things humans have ever done: the railways, the moon, the bomb, the invention of writing itself. And the results are not what the headlines would have you expect.</p>
+
+    <p><strong>On money, we are losing.</strong> Badly.</p>
+
+    <h2 id="wrong-argument">We are having the wrong argument</h2>
+
+    <p>Open any newspaper and you will find the same debate: is AI a bubble, or is it not? Trillions of dollars, data centres the size of towns, share prices that make no sense. Boom or bust. Pick a side.</p>
+
+    <p>It is a perfectly reasonable question. It is also a question <em>about money</em>, and money turns out to be the least remarkable thing about this whole affair. If you want to know what is genuinely unprecedented here, you have to stop looking at the cheque and start looking at the clock.</p>
+
+    <h2 id="shovels">Beaten by men with shovels</h2>
+
+    <p>Here is the number everybody quotes. In 2024, AI infrastructure spending hit roughly <span class="inline-highlight">$500 billion</span>, which is about <a href="https://tomtunguz.com/llm-impact-gdp/">1.6% of US GDP</a>. Vast. Genuinely vast. It is more, as a share of the economy, than the Manhattan Project at its 1945 peak (0.9%) and more than the Apollo programme at its 1966 peak (0.7%). We are currently spending more on making computers talk than America spent on getting to the moon.</p>
+
+    <p>Now here is the number nobody quotes.</p>
+
+    <table class="scale-table">
+      <caption>Peak spending as a share of contemporary GDP</caption>
+      <thead>
+        <tr><th>What</th><th>When</th><th>Share of GDP</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>US railroads</td><td>1870</td><td class="figure">6.0%</td></tr>
+        <tr class="now"><td>AI buildout (projected)</td><td>2027</td><td class="figure">3.1%</td></tr>
+        <tr class="now"><td>AI buildout</td><td>2024</td><td class="figure">1.6%</td></tr>
+        <tr><td>Telecoms and fibre</td><td>2000</td><td class="figure">1.2%</td></tr>
+        <tr><td>Manhattan Project</td><td>1945</td><td class="figure">0.9%</td></tr>
+        <tr><td>Apollo programme</td><td>1966</td><td class="figure">0.7%</td></tr>
+      </tbody>
+    </table>
+
+    <p>Six percent. In 1870, Americans were pouring six percent of everything they earned into laying iron track across a continent, and they were doing it with picks, horses, black powder and a standard of workplace safety best described as optimistic. No electricity. No computers. No spreadsheets. Just an enormous number of very tired men and a national conviction that the future ran on rails.</p>
+
+    <p>Our unprecedented, world-historic, trillion-dollar AI boom is currently running at about a quarter of that. Torsten Slok at Apollo Global Management reckons it climbs to <a href="https://www.benzinga.com/markets/tech/26/08/60997436/ai-capex-1-trillion-as-percentage-of-gdp-hyperscaler-telecom-boom">3.1% of GDP by 2027</a>, which would be triple the 1990s telecoms boom and roughly twice as fast a build as the mid-2000s housing bubble. Still barely half a railway mania.</p>
+
+    <blockquote class="pull-quote">The Victorians committed six percent of their economy to a technology bet, using shovels. We are at 1.6, and we think we are being brave.</blockquote>
+
+    <p>And before anyone finds that reassuring, remember how the railway story ends. It was a proper bubble: giddy newspapers, novice investors, a national narrative about a new era, and then a crash that flattened fortunes and left early backers with nothing. What it also left was <em>the track</em>. The rails stayed in the ground and quietly rewired commerce, time zones and the shape of every town in Britain for the next century.</p>
+
+    <p>The dot-com fibre boom did the same. Telecoms companies spent 1.2% of GDP burying cable on the assumption that internet traffic would double every hundred days. It did not, they went bust, and the &ldquo;dark fibre&rdquo; they left behind became the cheap pipe that Netflix and the smartphone ran on ten years later.</p>
+
+    <p>So if you are hoping the AI bubble bursting will make the data centres go away: it will not. Bubbles do not remove infrastructure. They just change who owns it, usually at a considerable discount.</p>
+
+    <h2 id="record">So what did actually break the record?</h2>
+
+    <p>The clock. Every single record AI has broken is a record about <em>speed</em>, not size.</p>
+
+    <p>ChatGPT reached <a href="https://epoch.ai/gradient-updates/after-the-chatgpt-moment-measuring-ais-adoption">100 million users in about two months</a>, the fastest consumer adoption ever measured. It hit 10% weekly adoption in the United States in under two years, and 30% roughly six months after that. Sensible extrapolation from historical technology curves, done in 2022, suggested a technology this complicated should need around eight years just to reach that first 10%.</p>
+
+    <p>Set that against the comparison class. Electricity needed about forty years to reach seven in ten American homes. The telephone took about sixty. Both of those, incidentally, were considered indecently fast at the time.</p>
+
+    <p>This is the actual anomaly, and it is a strange one, because nothing about it is technological. The capability arrived quickly, yes. But the reason it spread quickly is that it needed no track, no cable, no meter, no engineer, no rewiring of your house. It arrived down a pipe that was already there, and it spoke English.</p>
+
+    <h2 id="turtle">Three thousand years to agree on an alphabet</h2>
+
+    <p>If you want the properly humbling comparison, though, forget the railways. Go back further, to the last time humanity handed a piece of its own mind to an external tool.</p>
+
+    <p>Around 1200 BCE, under China's Shang dynasty, somebody scratched marks into a turtle shell. These are the oracle bones, and they are the earliest recognisable Chinese characters we have. They were not used for administration or letters or accounts. They were used to ask dead relatives whether it was a good week to go to war.</p>
+
+    <p>It then took the best part of a thousand years for that to become a working technology of state. Not until 221 BCE, when the first Qin emperor standardised the script to hold a fractured empire together, did writing turn from a priestly ritual into the operating system of government. A millennium, roughly, from prototype to platform.</p>
+
+    <p>And here is the part that I cannot stop thinking about. For nearly all of human existence, the tools you were handed as a child were the tools you handed on as an old man. A person born into the Bronze Age died in the Bronze Age. Change happened, but it happened to your great-grandchildren, somewhere over the horizon, and you never saw it. Progress was a rumour.</p>
+
+    <blockquote class="pull-quote">Every technology before this one gave us a generation to think about it. This one gave us a Christmas.</blockquote>
+
+    <p>Writing externalised human <strong>memory</strong>. That was the deal: your knowledge could now outlive your skull. Every tool since, from the abacus to the filing cabinet to Google, has been a variation on that same bargain. Storage and retrieval, handed outwards. The thinking stayed in the head, where it had always been.</p>
+
+    <p>What changed in late 2022 is that we started handing out the thinking too. That is what makes this different from the steam engine, and it is not a small difference. A steam engine could lift more coal than a hundred men, but it could not decide where to dig, and it certainly could not design a better steam engine.</p>
+
+    <h2 id="economists">The economists are not impressed</h2>
+
+    <p>At which point an economist coughs politely and ruins the mood.</p>
+
+    <p>Daron Acemoglu, who won the Nobel in economics in 2024 and is nobody's idea of a crank, has run the numbers on what AI will actually do to productivity. His answer: <a href="https://www.nber.org/papers/w32487">no more than a 0.66% increase in total factor productivity over ten years</a>. He then revised his own estimate downwards, to under 0.53%.</p>
+
+    <p>Half of one percent. Over a decade. That is not a revolution. That is a rounding error with a press office.</p>
+
+    <p>His reasoning is uncomfortably solid, and it is historical rather than sceptical. General purpose technologies have always taken decades to show up in the productivity statistics, because the technology is never the slow part. Factory electrification is the classic case: firms bought electric motors, bolted them where the old steam shafts had been, and got almost nothing. The gains only came once somebody rebuilt the factory around the fact that power no longer had to come from one central axle. That took roughly thirty years and a generation of managers dying off.</p>
+
+    <p>So we have a genuine collision. Capability is compounding on a timescale of months. Institutions, procurement cycles, regulations, job descriptions and human habits move on a timescale of decades. Nobody has ever tried to run those two clocks against each other at this ratio before, and there is no historical precedent for what happens when you do, because there has never been a gap this wide.</p>
+
+    <h2 id="builders">The people building it cannot agree either</h2>
+
+    <p>If that is not unsettling enough, the people actually building the thing are in open disagreement about what it is.</p>
+
+    <p>Demis Hassabis of Google DeepMind, a Nobel laureate himself, says AGI will have <a href="https://www.techradar.com/ai-platforms-assistants/google-deepminds-demis-hassabis-calls-for-urgent-action-during-precious-window-before-agi-arrives-and-its-all-starting-to-feel-a-bit-skynet">&ldquo;10x the impact of the Industrial Revolution, at 10x the speed&rdquo;</a>, describes the current moment as the foothills of the singularity, and reckons we have &ldquo;essentially found a way to make sand think&rdquo;. Which is, when you stop and look at a microchip, entirely literally true and quietly astonishing.</p>
+
+    <p>Yann LeCun, who has a Turing Award and left Meta at the end of 2025 to found his own lab, thinks that is nonsense. He argues today's models are <a href="https://cryptobriefing.com/yann-lecun-llm-limitations-bloomberg/">&ldquo;fundamentally limited by design&rdquo;</a> and will be largely obsolete within five years, because they have no model of the physical world. They have read every description of water ever written and cannot swim. His phrase for it is better than mine: building intelligence on text alone is like learning to swim by reading about water.</p>
+
+    <p>Between them these two men hold roughly every prize the field has to give, and they cannot agree on whether the current approach is the beginning or a detour. Which is worth remembering the next time somebody, including me, tells you confidently what 2030 looks like.</p>
+
+    <p>Notice, though, what they do not disagree about. Neither of them is telling you there is plenty of time.</p>
+
+    <h2 id="what-to-do">What to do while the grown-ups argue</h2>
+
+    <p>My day job involves leading AI adoption inside a business, which mostly means watching the gap between what a tool can do and what an organisation can absorb. That gap is the whole story, and it is much more useful to think about than AGI timelines.</p>
+
+    <p>Because here is the thing about all this scale. You cannot influence any of it. You cannot slow the capex, you cannot speed up the models, and your opinion on whether LeCun or Hassabis is right will change precisely nothing. There is exactly one variable in this entire article that you control, and it is <em>your own reaction time</em>.</p>
+
+    <p>Which, practically, looks like this. Pick one real process, not a pilot with a steering group. Measure how long it takes today. Change it. Measure it again. Write down what you learned so it survives the person who learned it. That is the whole method, and it is deeply unglamorous, and it is the only thing that compounds.</p>
+
+    <p>The organisations that got value out of electricity were not the ones with the best forecasts about electricity. They were the ones that rebuilt the factory. Everyone else bought a motor, bolted it to the old shaft, and wondered what the fuss was about for thirty years.</p>
+
+    <p>Ten years is not long. It is one set of GCSEs. It is a mortgage fix and a bit. Whatever this turns out to be, it will be largely settled inside a window that short, and that is the genuinely unprecedented fact in all of this. Not the money. The Victorians beat us on the money, with shovels.</p>
+
+    <p>We are the first generation handed a tool that does some of the thinking for us, and the first with no time to think it over. So do at least some of the thinking. Preferably before Tuesday.</p>
+  </section>
+  </div>
+
+  <section class="takeaway" aria-label="Tactical takeaway for leaders">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2>Stop arguing about the size of the bet. The thing that has never happened before is <em>the speed of the settlement</em>.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 &middot; SCALE</div>
+        <div class="takeaway-point-text">AI capex is <strong>1.6% of GDP, heading for 3.1%</strong>. The railways hit 6% in 1870. The money is large but it is not the record, so stop letting the bubble debate set your strategy.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 &middot; CLOCK</div>
+        <div class="takeaway-point-text">The real anomaly is <strong>adoption speed</strong>: two months to 100 million users, against forty years for electricity to reach most homes. Capability compounds monthly; institutions still move annually.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 &middot; ACTION</div>
+        <div class="takeaway-point-text">You control <strong>one variable: your own reaction time</strong>. Take one real process, measure it, change it, measure it again. Forecasting is free; rebuilding the factory is what pays.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLOT: subscribe / substack slab -->
+  <section class="cta-slab" id="subscribe" aria-label="Read on Substack and subscribe">
+    <div class="cta-kicker">Read more &middot; Subscribe</div>
+    <h2>Go deeper, then get the <em>next issue</em> in your inbox.</h2>
+    <p class="cta-intro">The extended edition on Substack shows the workings: how the GDP-share comparisons are actually built, why Acemoglu's number is lower than you would expect, what the railway and fibre bubbles really left behind, and where this argument is weakest. Subscribe and each new issue lands in your inbox. Practical, evidence-led, no hype.</p>
+    <div class="cta-row">
+      <a class="cta-btn" href="https://open.substack.com/pub/aisustained/p/when-centuries-become-years-ai-and?r=8iqef9&amp;utm_campaign=post&amp;utm_medium=web&amp;showWelcomeOnShare=true" target="_blank" rel="noopener"><span class="base"></span><span class="face">Read on Substack</span></a>
+      <!-- Points to the site's single live HubSpot newsletter form on the homepage (#subscribe) -->
+      <a class="cta-btn primary" href="/#subscribe"><span class="base"></span><span class="face">Subscribe</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">The Victorians got a lifetime to adjust to the railways. <strong>What would you do with ten years?</strong></p>
+    </div>
+    <div class="sources">
+      Sources &middot;
+      <a href="https://tomtunguz.com/llm-impact-gdp/">Tomasz Tunguz (GDP shares)</a> &middot;
+      <a href="https://www.benzinga.com/markets/tech/26/08/60997436/ai-capex-1-trillion-as-percentage-of-gdp-hyperscaler-telecom-boom">Torsten Slok / Apollo via Benzinga</a> &middot;
+      <a href="https://epoch.ai/gradient-updates/after-the-chatgpt-moment-measuring-ais-adoption">Epoch AI (adoption)</a> &middot;
+      <a href="https://www.nber.org/papers/w32487">Acemoglu, NBER w32487</a> &middot;
+      <a href="https://www.techradar.com/ai-platforms-assistants/google-deepminds-demis-hassabis-calls-for-urgent-action-during-precious-window-before-agi-arrives-and-its-all-starting-to-feel-a-bit-skynet">TechRadar (Hassabis)</a> &middot;
+      <a href="https://cryptobriefing.com/yann-lecun-llm-limitations-bloomberg/">Crypto Briefing (LeCun, via Bloomberg)</a> &middot;
+      <a href="https://www.britannica.com/topic/Chinese-writing">Britannica (Chinese writing)</a>.
+    </div>
+  </footer>
+
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#AIHistory</span> <span>#IndustrialRevolution</span> <span>#AIBubble</span> <span>#AIAdoption</span> <span>#AIMadeSimple</span> <span>#Productivity</span> <span>#AISustained</span>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span><span class="wordmark">AI Sustained.</span> &middot; By Kevin Clubb</span>
+    <span>2026</span>
+  </div>
+
+</article>
+<!-- ============ AI SLIDER SCRIPT ============ -->
+<script>
+(function () {
+  var DEPTHS = [
+    {
+      name: "Explain like I'm 5",
+      meta: "≈480 words · 2 min",
+      html: `
+        <section class="content">
+          <p>You have probably heard someone say that artificial intelligence is the biggest thing that has ever happened. Bigger than the steam engine. Bigger than the moon landing. Let us actually check, because the answer is funnier than the headlines.</p>
+          <p><strong>On money, we are losing.</strong></p>
+          <p>Companies are spending an enormous amount building AI. In 2024 it was about $500 billion, which sounds like all the money in the world. Compared to the size of the American economy, it works out at <span class="inline-highlight">1.6%</span>. That is more than America spent getting to the moon. It is more than it spent building the first atomic bomb.</p>
+          <p>But go back to 1870, when people were laying railway track across America with shovels and horses, and they were spending <span class="inline-highlight">6%</span>. Nearly four times as much, with no electricity and no machines to help them. So the Victorians, in muddy boots, out-bet us. Our enormous AI boom is, by that measure, still a fairly modest one.</p>
+          <p>The railway boom did burst, mind. Lots of people lost their money. But the track stayed in the ground, and it changed how everyone lived for the next hundred years. That is usually how these things go.</p>
+          <p>So if the money is not the record, what is? <em>The clock.</em></p>
+          <p>ChatGPT got to 100 million people in about <span class="inline-highlight">two months</span>. Nothing has ever spread that fast. Electricity took roughly forty years to reach most American homes. The telephone took about sixty. And thousands of years ago, when people first invented writing by scratching marks on a turtle shell, it took about a thousand years before writing was properly useful for running a country.</p>
+          <p>Think about that for a second. For most of human history, the tools you were given as a child were the same tools you handed to your grandchildren. Nothing changed in a lifetime. Change was something that happened to other people, later.</p>
+          <p>Now it happens over a weekend, and we all have to keep up.</p>
+          <p>Not everybody thinks it will be enormous. One very serious economist has done the sums and reckons AI will only make us about <span class="inline-highlight">half a percent</span> more productive over ten years, because people and companies are slow to change even when the tool is clever. And the two most famous AI scientists in the world flatly disagree with each other about whether this approach even works. One says we have found a way to make sand think. The other says it is like learning to swim by reading about water.</p>
+          <p>Nobody knows. That is the honest answer.</p>
+          <p>But here is the useful bit. You cannot change how much money gets spent, and you cannot change how clever the machines get. The one thing you can change is <strong>how quickly you learn to use them</strong>. So pick one thing you do often, try doing it with AI, and see what happens. That is it. Kettle on.</p>
+        </section>`
+    },
+    {
+      name: "Curious",
+      meta: "≈1,900 words · 8 min",
+      html: null   /* captured from the page at init — do not fill */
+    },
+    {
+      name: "Practitioner",
+      meta: "≈950 words · 6 min",
+      html: `
+        <section class="content">
+          <p>The AI conversation has settled into a binary that is not useful to anyone actually running a programme: bubble or boom. It is the wrong axis. Scaled properly against history, the capital is unremarkable and the diffusion rate is the outlier, and those two facts point at completely different operating decisions.</p>
+
+          <h2 id="p-capital">The capital is not the record</h2>
+          <p>2024 AI infrastructure spending: roughly $500bn, or <a href="https://tomtunguz.com/llm-impact-gdp/">1.6% of US GDP</a>. Torsten Slok's series puts the trajectory at 0.6% in 2023, 1.4% in 2025 and <a href="https://www.benzinga.com/markets/tech/26/08/60997436/ai-capex-1-trillion-as-percentage-of-gdp-hyperscaler-telecom-boom">3.1% by 2027</a>, building at around 0.85 percentage points a year, close to twice the pace of the mid-2000s housing boom at its fastest.</p>
+          <p>That is a real cycle with real unwind risk. It is also, in historical terms, mid-table. Manhattan Project peak: 0.9%. Apollo peak: 0.7%. The 1990s telecoms and fibre boom: 1.2%. US railroads in 1870: <span class="inline-highlight">6.0%</span>. To match the Victorians you would need AI capex north of $2tn a year.</p>
+          <p>The operational read is not &ldquo;therefore it is safe&rdquo;. It is that both bubble outcomes have the same infrastructure consequence. Railways crashed and left the track. Telecoms crashed and left the dark fibre that Netflix later ran on. If the AI capex cycle unwinds, compute gets cheaper and ownership changes hands. It does not get uninstalled. Planning your AI roadmap around a bubble bursting is planning around the wrong variable.</p>
+
+          <blockquote class="pull-quote">Bubbles do not remove infrastructure. They change who owns it, usually at a discount.</blockquote>
+
+          <h2 id="p-diffusion">The diffusion rate is the record</h2>
+          <p>ChatGPT: <a href="https://epoch.ai/gradient-updates/after-the-chatgpt-moment-measuring-ais-adoption">100 million users in around two months</a>, 10% weekly US adoption in under two years, 30% about six months after that. Extrapolating from historical technology curves in 2022 would have predicted roughly eight years to that first 10%. Electricity needed about forty years to reach 70% of US households; the telephone about sixty.</p>
+          <p>The mechanism matters more than the number. Every prior general purpose technology carried a physical deployment cost: track, cable, meters, an engineer in your house. This one shipped over existing infrastructure with a natural language interface and no installation step. Diffusion friction went to near zero, which is why user adoption outran every institution designed to govern it. Your shadow AI problem is a direct consequence of that asymmetry, not a failure of your policy.</p>
+
+          <h2 id="p-productivity">Why your productivity numbers will disappoint</h2>
+          <p>Acemoglu's estimate is <a href="https://www.nber.org/papers/w32487">no more than 0.66% TFP over ten years</a>, revised down by the author to under 0.53%. It is worth understanding the shape of that argument rather than dismissing it, because it predicts exactly what most programmes are currently experiencing.</p>
+          <p>The claim is not that the models are weak. It is that aggregate gains are bounded by the share of tasks that are genuinely automatable and the cost saving on those tasks. Broad capability does not convert into measured productivity until workflows are rebuilt around it. The canonical case is factory electrification: firms bought motors, bolted them where the steam shafts had been, and captured almost nothing for about thirty years. The gain only arrived when factory layout was redesigned around distributed power.</p>
+          <p>Practical translation: if you are deploying AI into the existing process shape, the Acemoglu number is roughly what you should expect, and you should say so to your board before someone else does. The organisations beating it are the ones changing the process, not the tool.</p>
+
+          <h2 id="p-disagreement">The disagreement at the frontier is load-bearing</h2>
+          <p>Demis Hassabis frames AGI as <a href="https://www.techradar.com/ai-platforms-assistants/google-deepminds-demis-hassabis-calls-for-urgent-action-during-precious-window-before-agi-arrives-and-its-all-starting-to-feel-a-bit-skynet">&ldquo;10x the impact of the Industrial Revolution, at 10x the speed&rdquo;</a> and a few short years out. Yann LeCun, who left Meta at the end of 2025 to build world-model architectures, calls current LLMs <a href="https://cryptobriefing.com/yann-lecun-llm-limitations-bloomberg/">&ldquo;fundamentally limited by design&rdquo;</a> and expects them largely obsolete within five years, on the grounds that text-trained systems have no grounded model of physical reality.</p>
+          <p>This is not a debate you need to resolve, but it does have a procurement consequence. If the architecture that dominates in 2031 is not the one you are building against today, then depth of lock-in is a real risk and abstraction is cheap insurance. Keep your prompts, evaluations and data contracts portable. Treat the model layer as swappable, because two of the most decorated people in the field are betting opposite ways on whether it will be.</p>
+
+          <h2 id="p-do">The one variable you control</h2>
+          <p>None of the above is actionable. Capex, model architecture and AGI timing are all exogenous to you. Exactly one thing in this article is inside your control, and it is <em>organisational reaction time</em>: the lag between a capability existing and your business operating differently because of it.</p>
+          <ul>
+            <li><strong>Instrument one real process end to end.</strong> Not a pilot with a steering group. Baseline the cycle time and error rate before you touch it, or you will never be able to prove anything.</li>
+            <li><strong>Redesign the process, not the task.</strong> Automating a step inside a workflow built for humans is the electric motor bolted to the steam shaft. The gain lives in the layout.</li>
+            <li><strong>Assume model churn.</strong> Portability at the model layer costs little now and a great deal later.</li>
+            <li><strong>Capture the learning as an artefact.</strong> Prompts, evals and process notes are institutional memory. Undocumented, your reaction time resets whenever someone resigns.</li>
+            <li><strong>Set the expectation honestly.</strong> Half a percent over a decade is the default outcome for organisations that do not restructure. Say that out loud early; it is a much better position than explaining it in year three.</li>
+          </ul>
+          <p>The compression is the point. Capability is compounding on a monthly cadence while procurement, regulation and job design still move annually. That gap, not the capex, is the thing without historical precedent, and closing your side of it is the only lever you actually have.</p>
+        </section>`
+    },
+    {
+      name: "Expert",
+      meta: "≈900 words · 6 min",
+      html: `
+        <section class="content">
+          <p>The bubble debate is a category error. Capital intensity and diffusion velocity are separate axes, they carry different historical baselines, and AI is unremarkable on the first and anomalous on the second. Conflating them produces both the hype and the backlash.</p>
+
+          <h2 id="x-capital">Capital intensity, correctly normalised</h2>
+          <p>Nominal comparisons are meaningless across a century; GDP share is the only defensible normalisation, and it flattens the story considerably. AI infrastructure at roughly $500bn in 2024 is <a href="https://tomtunguz.com/llm-impact-gdp/">1.6% of US GDP</a>, against 1.2% for the 2000 telecoms peak, 0.9% for the Manhattan Project in 1945, 0.7% for Apollo in 1966, and <span class="inline-highlight">6.0%</span> for US railroads in 1870. Slok's trajectory reaches <a href="https://www.benzinga.com/markets/tech/26/08/60997436/ai-capex-1-trillion-as-percentage-of-gdp-hyperscaler-telecom-boom">3.1% by 2027</a> at roughly 0.85pp per year, materially faster accumulation than the housing cycle, but still short of the Victorian benchmark in level terms.</p>
+          <p>Two caveats worth holding. First, the denominator is US GDP while a meaningful share of the spend and nearly all of the demand is global, so the ratio is a comparability convenience rather than a clean economic statement. Second, depreciation schedules differ sharply: railway track and fibre are multi-decade assets, whereas GPU fleets face obsolescence on a three to five year cycle. That asymmetry means AI capex has to be continuously re-earned in a way permanent way did not, which makes the level comparison flattering to AI and the sustainability comparison unflattering.</p>
+          <p>The consequential point is that unwind risk and infrastructure persistence are independent. Both prior manias destroyed capital and left productive assets: rail bed, dark fibre. A capex correction reprices compute and transfers ownership; it does not decommission it. Any thesis that requires the data centres to disappear is unsupported by the two closest precedents.</p>
+
+          <blockquote class="pull-quote">The capital comparison is mid-table. The diffusion comparison has no comparison class.</blockquote>
+
+          <h2 id="x-diffusion">Diffusion, and why the friction term collapsed</h2>
+          <p><a href="https://epoch.ai/gradient-updates/after-the-chatgpt-moment-measuring-ais-adoption">Epoch's series</a> puts ChatGPT at 100 million users in around two months, 10% weekly US adoption inside two years and 30% about six months later, against a 2022 curve-fit prediction of roughly eight years to the 10% threshold. Electricity took about forty years to 70% household penetration, the telephone about sixty.</p>
+          <p>The mechanism is the interesting part. Historical diffusion curves are dominated by a physical deployment term: distribution networks, complementary capital, installed base, trained labour. Generative AI's marginal deployment cost to the end user is effectively zero because it inherits the internet's installed base and requires no interface literacy beyond natural language. Strip out the deployment term and diffusion collapses toward the rate at which people hear about a thing, which is why the curve looks like a consumer app rather than a general purpose technology.</p>
+          <p>This produces the defining structural feature of the current period: <em>adoption has decoupled from absorption</em>. Individual usage saturated years ahead of institutional capability to govern, measure or restructure around it. Shadow usage, unmeasured productivity and unpriced risk all follow directly from that decoupling rather than from any property of the models.</p>
+
+          <h2 id="x-tfp">The Acemoglu bound and what it does not say</h2>
+          <p>Acemoglu's task-based estimate, built on Hulten's theorem, gives <a href="https://www.nber.org/papers/w32487">no more than 0.66% TFP over ten years</a>, self-revised to under 0.53%. The bound is a product of exposed task share and cost saving on exposed tasks, so it is sensitive to those two parameters and largely insensitive to model capability. Critics are right that it under-weights new task creation and capability improvement inside the window; defenders are right that every prior GPT has taken decades to appear in TFP, and the Solow paradox has an unbroken record.</p>
+          <p>The reconciliation is the one that matters operationally: the estimate is best read as a forecast of the <strong>reorganisation rate</strong>, not the capability rate. Electrification's thirty-year lag was a factory-layout problem, not a motor problem. Applied to AI, the bound predicts what happens if capability is inserted into unchanged workflows, which describes the overwhelming majority of current enterprise deployment. It is a statement about institutions, and institutions are precisely what is moving slowly.</p>
+
+          <h2 id="x-architecture">Architectural uncertainty is not resolvable, so price it</h2>
+          <p>Hassabis is at <a href="https://www.techradar.com/ai-platforms-assistants/google-deepminds-demis-hassabis-calls-for-urgent-action-during-precious-window-before-agi-arrives-and-its-all-starting-to-feel-a-bit-skynet">&ldquo;10x the impact of the Industrial Revolution, at 10x the speed&rdquo;</a> and a few years to AGI. LeCun, now outside Meta and building JEPA-style world models, holds that autoregressive text models are <a href="https://cryptobriefing.com/yann-lecun-llm-limitations-bloomberg/">&ldquo;fundamentally limited by design&rdquo;</a> and largely obsolete within five years, absent grounded world representation. Both positions are held by decorated practitioners with full information; the disagreement is genuine rather than rhetorical, and it will not be settled by argument.</p>
+          <p>The correct response to irreducible architectural uncertainty is not forecasting but optionality: portable evals, abstracted model layers, data contracts that survive a vendor change. The expected cost of that abstraction is small; the expected cost of deep coupling to an architecture that two Turing and Nobel-class figures are actively betting against is not.</p>
+
+          <h2 id="x-conclusion">The binding constraint</h2>
+          <p>Strip it back and the durable finding is this. Capital intensity is within historical range and has precedent for both outcomes. Capability trajectory is contested at the frontier and unresolvable from outside. Diffusion velocity is genuinely without precedent, and it has decoupled adoption from institutional absorption by roughly an order of magnitude in time constant. Every previous general purpose technology granted a generational adaptation window; this one is compressing that to a decade or less while regulatory, educational and organisational systems retain their existing response times. The exposure is not the technology. It is the differential.</p>
+        </section>`
+    }
+  ];
+
+  var KEY = 'aisustained_reading_depth';
+  var reading = document.getElementById('reading');
+  var range   = document.getElementById('depth-range');
+  var meta    = document.getElementById('reading-meta');
+  var ticks   = Array.prototype.slice.call(document.querySelectorAll('.tick'));
+  if (!reading || !range || !meta) return;
+
+  DEPTHS[1].html = reading.innerHTML;
+
+  function render(i, animate) {
+    var d = DEPTHS[i];
+    if (!d || !d.html) return;
+    ticks.forEach(function (t, n) { t.setAttribute('aria-pressed', String(n === i)); });
+    range.value = i;
+    try { localStorage.setItem(KEY, String(i)); } catch (e) {}
+    function paint() {
+      reading.innerHTML = d.html;
+      meta.textContent = d.name + ' · ' + d.meta;
+      reading.classList.remove('swapping');
+    }
+    if (animate) {
+      if (window.gtag) gtag('event', 'depth_change', { level: d.name });
+      reading.classList.add('swapping');
+      setTimeout(paint, 190);
+    } else { paint(); }
+  }
+
+  ticks.forEach(function (t, i) { t.addEventListener('click', function () { render(i, true); }); });
+  range.addEventListener('input', function () { render(Number(range.value), true); });
+
+  var start = parseInt((function () {
+    try { return localStorage.getItem(KEY); } catch (e) { return null; }
+  })(), 10);
+  if (!(start >= 0 && start <= 3)) start = 1;
+  render(start, false);
+})();
+</script>
+
+<!-- ============ HOUSE BUTTONS: keyboard press mirrors the physical depress ============ -->
+<script>
+(function(){
+  document.querySelectorAll('.cta-btn, .tick').forEach(function(k){
+    k.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' ')k.classList.add('pressed')});
+    k.addEventListener('keyup',function(){k.classList.remove('pressed')});
+  });
+})();
+</script>
+</body>
+
+</html>
