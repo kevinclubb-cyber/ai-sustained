@@ -11,6 +11,7 @@
 - [The AI competency pyramid](https://ai-sustained.com/articles/ai-competency-pyramid/): where 20.6m UK workers sit across 14 levels of AI capability.
 - [Four labs. Seven days. No clear winner.](https://ai-sustained.com/articles/four-labs-seven-days/): the state of the AI frontier in April 2026.
 - [The Renaissance of the Delivery Squad](https://ai-sustained.com/articles/future-delivery-squad/): how AI agents reshape the product team.
+- [The Victorians out-spent us](https://ai-sustained.com/articles/ai-vs-industrial-revolution/): AI capex against the railways, Apollo and the Manhattan Project as a share of GDP, and why adoption speed is the real anomaly.
 - [All editorial](https://ai-sustained.com/#editorial)
 
 ## About
