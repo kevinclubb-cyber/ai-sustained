@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Analytics — site-wide ID, leave as-is -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+
+<title>Claude now watermarks everything it writes. The cheats will be fine. | AI Sustained</title>
+<meta name="description" content="Anthropic has embedded an invisible watermark in Claude's text output. It catches the honest proofreader and misses the determined cheat. Let us argue about it.">
+<meta name="keywords" content="Claude watermark, AI text watermarking, Anthropic, EU AI Act Article 50, AI detection, academic integrity, C2PA, provenance, watermark removal, GPTZero, AI writing, SynthID, watermark spoofing, AI policy, authorship, curation, AI editing">
+<meta name="author" content="Kevin Clubb">
+<link rel="canonical" href="https://ai-sustained.com/articles/claude-text-watermark-debate/">
+<meta property="og:title" content="Claude now watermarks everything it writes. The cheats will be fine.">
+<meta property="og:description" content="Anthropic's invisible watermark catches the honest proofreader and misses the determined cheat. The debate starts here.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ai-sustained.com/articles/claude-text-watermark-debate/">
+<!-- Social image URLs must be ABSOLUTE — relative paths break link previews -->
+<meta property="og:image" content="https://ai-sustained.com/articles/claude-text-watermark-debate/claude-text-watermark-debate_hero.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Claude now watermarks everything it writes. The cheats will be fine.">
+<meta name="twitter:description" content="Anthropic's invisible watermark catches the honest proofreader and misses the determined cheat. The debate starts here.">
+<meta name="twitter:image" content="https://ai-sustained.com/articles/claude-text-watermark-debate/claude-text-watermark-debate_hero.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Claude now watermarks everything it writes. The cheats will be fine.",
+  "author": { "@type": "Person", "name": "Kevin Clubb" },
+  "datePublished": "2026-08-13",
+  "url": "https://ai-sustained.com/articles/claude-text-watermark-debate/",
+  "description": "Anthropic has embedded an invisible watermark in Claude's text output. It catches the honest proofreader and misses the determined cheat. Let us argue about it.",
+  "keywords": "Claude watermark, AI text watermarking, Anthropic, EU AI Act Article 50, AI detection, academic integrity, C2PA, provenance, watermark removal",
+  "image": "https://ai-sustained.com/articles/claude-text-watermark-debate/claude-text-watermark-debate_hero.png",
+  "publisher": { "@type": "Organization", "name": "AI Sustained" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --ink-soft: #2A3530;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
+    --acid: #E8FF3A;
+    --coral: #FF5A3C;
+    --moss: #2D6A4F;
+    --sage: #74C69D;
+    --mint: #D8F3DC;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --rule-soft: rgba(242,236,217,0.09);
+    --panel: rgba(242,236,217,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--forest);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    border-top: 3px solid var(--acid);
+  }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
+
+  /* ============ BACK NAV ============ */
+  .backnav {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    display: inline-block; padding: 4px 0;
+  }
+  .backnav:hover { color: var(--acid); }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ HERO (centred) ============ */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+  }
+  .kicker::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    background: var(--acid);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(46px, 7vw, 84px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin: 0 auto 26px;
+    max-width: 14ch;
+  }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--paper-2);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+
+  /* ============ HERO FIGURE (cover art) ============ */
+  .hero-figure { margin: 44px 0 10px; }
+  .hero-figure img {
+    width: 100%; display: block;
+    border-top: 3px solid var(--acid);
+    border-radius: 4px;
+  }
+  .hero-figure figcaption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); margin-top: 12px;
+  }
+
+  /* ============ STAT GRID ============ */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 44px 0 48px;
+  }
+  .stat-box {
+    background: var(--panel);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 10px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px; font-weight: 600;
+    color: var(--acid); line-height: 1; display: block;
+  }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  /* ============ BODY CONTENT ============ */
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 33px; line-height: 1.15;
+    color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em;
+  }
+  .content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px;
+  }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+  .content li::marker { color: var(--acid); }
+
+  .inline-highlight { color: var(--acid); font-weight: 500; }
+
+  /* ============ PULL QUOTE ============ */
+  .pull-quote {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 30px; line-height: 1.3; color: var(--paper);
+    margin: 60px auto; padding: 40px 0;
+    border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid);
+    text-align: center; max-width: 720px; letter-spacing: -0.01em;
+  }
+  .pull-quote::before {
+    content: '"'; display: block; font-size: 56px; color: var(--acid);
+    line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif;
+  }
+
+  /* ============ VOICES (the comment section, in the house idiom) ============ */
+  /* Registered properties so the scroll entrance and the hover state can each
+     drive their own channel without one clobbering the other. */
+  @property --rise  { syntax: '<length>'; inherits: false; initial-value: 0px; }
+  @property --lift  { syntax: '<length>'; inherits: false; initial-value: 0px; }
+  @property --charge { syntax: '<number>'; inherits: false; initial-value: 1; }
+  @property --gin   { syntax: '<number>'; inherits: false; initial-value: 0; }
+  @property --ghov  { syntax: '<number>'; inherits: false; initial-value: 0; }
+
+  .voices { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 40px 0 8px; }
+  .voice {
+    --edge: 232, 255, 58;
+    position: relative;
+    background: var(--panel); border: 1px solid var(--rule);
+    border-radius: 4px; padding: 22px 24px 22px 27px;
+    transform: translateY(calc(var(--rise) + var(--lift)));
+    box-shadow: 0 16px 40px rgba(var(--edge), calc((var(--gin) + var(--ghov)) * 0.20));
+    transition: --lift 0.2s ease, --ghov 0.25s ease, border-color 0.2s ease;
+  }
+  .voice.against { --edge: 255, 90, 60; }
+  /* the left bar charges upward on entry and burns brighter on hover */
+  .voice::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: rgb(var(--edge));
+    border-radius: 4px 0 0 4px;
+    transform: scaleY(var(--charge)); transform-origin: top;
+    box-shadow: 0 0 calc((var(--gin) + var(--ghov)) * 16px) rgba(var(--edge), calc((var(--gin) + var(--ghov)) * 0.85));
+  }
+  .voice:hover { --lift: -4px; --ghov: 1; border-color: rgba(var(--edge), 0.42); }
+
+  @keyframes voiceGlowUp {
+    0%   { --rise: 22px; --charge: 0; --gin: 0; opacity: 0; }
+    55%  { --rise: 0px;  --charge: 1; --gin: 1; opacity: 1; }
+    100% { --rise: 0px;  --charge: 1; --gin: 0; opacity: 1; }
+  }
+  /* Scroll-driven, so the glow fires as the reader reaches the argument.
+     Unsupported browsers simply get the resting state. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .voice {
+        animation: voiceGlowUp linear both;
+        animation-timeline: view();
+        animation-range: entry 4% cover 38%;
+      }
+      .voice:nth-child(2) { animation-range: entry 4% cover 48%; }
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .voice:hover { --lift: 0px; }
+  }
+
+  .voice-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); margin-bottom: 12px;
+  }
+  .voice.against .voice-label { color: var(--coral); }
+  .voice-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 17px; line-height: 1.45; color: var(--paper);
+  }
+  .voice-attr {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 14px;
+  }
+
+  /* ============ DISCLOSURE NOTE ============ */
+  .disclosure {
+    background: var(--panel); border: 1px solid var(--rule);
+    border-top: 2px solid var(--acid);
+    border-radius: 4px; padding: 26px 28px; margin: 52px 0 8px;
+    max-width: 680px;
+  }
+  .disclosure-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.24em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+  }
+  .disclosure-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .disclosure p { font-size: 16.5px; line-height: 1.62; color: var(--paper-2); margin-bottom: 14px; }
+  .disclosure p:last-child { margin-bottom: 0; }
+  .disclosure em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .disclosure strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+
+  /* ============ TACTICAL TAKEAWAY (ink panel — signature) ============ */
+  .takeaway {
+    background: var(--ink); color: var(--paper);
+    padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .takeaway::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--acid);
+    border-radius: 50%; opacity: 0.14;
+  }
+  .takeaway-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .takeaway h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 32px; line-height: 1.22; color: var(--paper);
+    margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em;
+  }
+  .takeaway h2 em { color: var(--acid); font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
+  .takeaway-point-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .takeaway-point-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 16px; line-height: 1.45; color: var(--paper-2);
+  }
+  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
+
+  /* ============ TOC ============ */
+  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
+  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
+  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
+
+  /* ============ SUBSCRIBE / SUBSTACK SLAB ============ */
+  /* The one deliberate acid fill in the page. It works because nothing else does it. */
+  .cta-slab {
+    background: var(--acid); color: var(--ink);
+    border-radius: 4px; padding: 44px 40px; margin: 64px 0 8px;
+    position: relative; overflow: hidden;
+  }
+  .cta-slab::before {
+    content: ''; position: absolute; bottom: -70px; left: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--ink);
+    border-radius: 50%; opacity: 0.08;
+  }
+  .cta-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.72; margin-bottom: 14px;
+    position: relative; z-index: 1;
+  }
+  .cta-slab h2 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+    font-size: 32px; line-height: 1.15; letter-spacing: -0.01em;
+    color: var(--ink); margin-bottom: 14px; position: relative; z-index: 1;
+  }
+  .cta-slab h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; }
+  .cta-slab p {
+    font-size: 16px; line-height: 1.6; color: var(--ink); opacity: 0.84;
+    max-width: 540px; margin-bottom: 26px; position: relative; z-index: 1;
+  }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .cta-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
+    padding: 14px 22px; border-radius: 3px;
+    border: 1.5px solid var(--ink); color: var(--ink);
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta-btn span { transition: transform 0.15s ease; }
+  .cta-btn:hover { background: rgba(10,15,12,0.08); transform: translateY(-2px); }
+  .cta-btn:hover span { transform: translateX(4px); }
+  .cta-btn.primary { background: var(--ink); color: var(--acid); animation: ctaPulse 2.6s ease-out infinite; }
+  .cta-btn.primary:hover { background: #000; box-shadow: 0 10px 28px rgba(10,15,12,0.35); }
+  @keyframes ctaPulse {
+    0% { box-shadow: 0 0 0 0 rgba(10,15,12,0.35); }
+    70% { box-shadow: 0 0 0 14px rgba(10,15,12,0); }
+    100% { box-shadow: 0 0 0 0 rgba(10,15,12,0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-btn.primary { animation: none; }
+    .cta-btn:hover, .cta-btn:hover span { transform: none; }
+  }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 300px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+  .sources a { color: var(--sage); text-decoration: none; border-bottom: 1px solid rgba(116,198,157,0.35); }
+  .sources a:hover { color: var(--acid); border-bottom-color: var(--acid); }
+
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
+  .hashtag-list span { font-weight: 500; }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 44px; }
+    .deck { font-size: 19px; }
+    .cta-slab { padding: 32px 26px; }
+    .cta-slab h2 { font-size: 26px; }
+    .cta-btn { width: 100%; justify-content: space-between; }
+  }
+
+  @media print {
+    @page { size: A3; margin: 14mm; }
+    body { background: var(--forest); padding: 0; }
+    .page { max-width: none; padding: 0; }
+    .stat-box, .takeaway-point, .pull-quote, .takeaway, .cta-slab, .voice { page-break-inside: avoid; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<article class="page">
+
+  <a class="backnav" href="/articles/">&#8592; All articles</a>
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <span class="wordmark">AI Sustained.</span>
+      <span>Issue 017</span>
+    </div>
+    <div class="masthead-right">
+      <span>13 AUG 2026</span>
+      <span>AI Made Simple &middot; Policy</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">The Debate</div>
+    <h1>Claude now watermarks everything it writes. <span class="accent">The cheats will be fine.</span></h1>
+    <p class="deck">Anthropic has hidden a signal inside Claude's output to satisfy Brussels. It will catch the honest proofreader and <span class="accent">wave the determined liar straight through</span>.</p>
+  </section>
+
+  <figure class="hero-figure">
+    <img src="claude-text-watermark-debate_hero.png"
+         alt="A sheet of cream paper torn in two on a dark desk, the halves pulled apart with acid-green light blooming up from the gap, folded reading glasses resting at the edge.">
+    <figcaption>Cover &middot; Generated in Gemini, directed by the author &middot; The diamond, bottom right, is Google's visible watermark</figcaption>
+  </figure>
+
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">Surfaces marked</div>
+      <span class="stat-value">5</span>
+      <div class="stat-note">API, Claude, Claude Code, Cowork and Claude Tag. The mark is applied at model level, worldwide.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Attack success</div>
+      <span class="stat-value">80<span class="unit">%+</span></span>
+      <div class="stat-note">Average success rate for both stripping and forging LLM watermarks, for under $50. ICML 2024.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Detector false positives</div>
+      <span class="stat-value">61.22<span class="unit">%</span></span>
+      <div class="stat-note">Share of TOEFL essays by non-native English writers wrongly flagged as AI by seven detectors.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Public detectors</div>
+      <span class="stat-value">0</span>
+      <div class="stat-note">Anthropic says it is "working to enable" third-party detection. Nothing shipped on day one.</div>
+    </div>
+  </section>
+
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-label">In this issue</div>
+    <ol>
+      <li><span class="toc-num">01</span><a href="#what-shipped">What Anthropic actually shipped</a></li>
+      <li><span class="toc-num">02</span><a href="#the-case-for">The case for it, made properly</a></li>
+      <li><span class="toc-num">03</span><a href="#wrong-people">It catches the wrong people</a></li>
+      <li><span class="toc-num">04</span><a href="#removal">Yes, the removal tools are coming</a></li>
+      <li><span class="toc-num">05</span><a href="#spoofing">The bit nobody is arguing about</a></li>
+      <li><span class="toc-num">06</span><a href="#curator">So what am I, then?</a></li>
+      <li><span class="toc-num">07</span><a href="#where-i-land">Where I land</a></li>
+    </ol>
+  </nav>
+
+  <section class="content">
+    <p>On 11 August, Anthropic confirmed that Claude now weaves an <strong>imperceptible watermark</strong> into the text it generates. Not a footer. Not a disclaimer. A statistical signal buried in the word choices themselves, applied at model level so it travels with the text wherever the text goes.</p>
+
+    <p>The internet took roughly four hours to split into two camps and start shouting. Good. This one deserves the argument, because both camps are partly right and the thing they are arguing about does not do what either of them thinks it does.</p>
+
+    <h2 id="what-shipped">What Anthropic actually shipped</h2>
+
+    <p>Two mechanisms. Files get <a href="https://support.claude.com/en/articles/16266773-how-claude-marks-ai-generated-content" target="_blank" rel="noopener">C2PA signed provenance metadata</a>, the same open standard the camera and photo industry has been rolling out for years. Text gets the invisible one.</p>
+
+    <p>Coverage is broad. The mark applies across <span class="inline-highlight">Claude Platform (API), Claude, Claude Code, Claude Cowork and Claude Tag</span>, plus output served through AWS, Google Cloud and Microsoft Foundry. Models launched on or after 2 August 2026 carry it from day one. Older models are being retrofitted, against <a href="https://www.axios.com/2026/08/12/anthropic-claude-watermarks-ai-detection" target="_blank" rel="noopener">the EU's 2 December 2026 grace-period deadline</a> for systems already on the market.</p>
+
+    <p>The driver is regulatory. The EU AI Act's Article 50 transparency obligations bit on 2 August 2026, and they require providers to mark machine-generated content in a detectable way. Anthropic chose to apply it <a href="https://techcrunch.com/2026/08/11/anthropic-says-it-will-watermark-text-generated-by-its-ai-models/" target="_blank" rel="noopener">globally rather than geofencing it to the EU</a>, which is either principled or simply cheaper than maintaining two model behaviours. Probably both.</p>
+
+    <p>The technical guess, from GPTZero CTO Alex Cui speaking to <a href="https://thenewstack.io/anthropic-claude-text-watermark/" target="_blank" rel="noopener">The New Stack</a>, is that it works like the KGW scheme: a secret key nudges the model towards a pseudo-random "green list" of tokens at each step, and a detector holding the same key looks for an improbable concentration of them. Nobody notices, because at any single word the nudge is tiny. Across four hundred words it becomes a statistical fingerprint.</p>
+
+    <p>Anthropic's own documentation is admirably honest about the limits. Detected marks are <strong>not conclusive evidence</strong> that Claude produced the content. Absence of a mark does not mean no AI was involved. Short passages may not carry enough signal. For text, heavy editing, paraphrasing, translation or mixing into other writing may all break it. For files, so may format conversion, re-saving or a screenshot.</p>
+
+    <p>Read that list again, because the whole argument lives in it.</p>
+
+    <h2 id="the-case-for">The case for it, made properly</h2>
+
+    <p>The strongest case is not about catching students. It is about <em>the information commons</em>.</p>
+
+    <p>We are heading into a web where the majority of new text has passed through a model. That breaks things quietly. Training data gets contaminated with model output and the next generation of models learns from its own exhaust. Search results become unmoored from anyone who actually knows anything. Provenance, even weak provenance, is a defence against that.</p>
+
+    <p>For academia specifically, the current situation is worse than most people outside it realise. Universities are running disciplinary processes on the output of commercial detectors that produce confidence scores from vibes. A model-level watermark from the provider is a genuinely better class of evidence than a third-party classifier guessing at burstiness. It is a signal the vendor put there on purpose, rather than an inference drawn from writing style.</p>
+
+    <p>And publishers, journals and grant bodies now have something they can build a policy around that does not depend on buying a detection subscription. That matters. Anthropic is also, unlike its competitors, actually doing it: <a href="https://www.forbes.com/sites/maryroeloffs/2026/08/11/claude-will-put-invisible-watermarks-on-ai-text-and-images-and-the-internet-isnt-happy/" target="_blank" rel="noopener">OpenAI has had working text watermarking for years</a> and has declined to ship it, reportedly worried about false positives and about losing users to whoever does not.</p>
+
+    <blockquote class="pull-quote">A watermark is a provenance signal, not a truth signal. Almost everyone who uses it will treat it as the second thing.</blockquote>
+
+    <h2 id="wrong-people">It catches the wrong people</h2>
+
+    <p>Here is the problem. The watermark marks <strong>processing</strong>, not authorship. If Claude touched the text, the text is marked. It cannot tell the difference between "write me an essay on the Corn Laws" and "check this for typos".</p>
+
+    <p>The radio host Erick Erickson put the complaint plainly: <em>"I had ditched Grammarly for Claude for proofreading because it does a better job. But now the stuff I've written will be watermarked that Claude did the work. This is ridiculous."</em></p>
+
+    <p>He is right about the mechanism and, I think, right to be annoyed. Millions of people use these tools the way you would use a good sub-editor. Their words, their argument, their evidence, tightened by a machine. The mark does not distinguish that from wholesale generation, and no institution reading the output at scale will make the distinction either.</p>
+
+    <p>Now stack the second-order effects. Non-native English speakers already get hammered by AI detection: a Stanford study found seven detectors wrongly flagged <a href="https://arxiv.org/abs/2304.02819" target="_blank" rel="noopener">61.22% of TOEFL essays by non-native writers</a> as AI-generated, with 97.80% caught by at least one. Those same students are the ones most likely to run their writing through Claude for grammar. They will now carry an actual, verifiable mark rather than a false accusation, which is somehow worse.</p>
+
+    <p>Meanwhile the student who genuinely cheated pastes the essay into a paraphraser, or asks a different model to rewrite it, and walks away clean.</p>
+
+    <h2 id="removal">Yes, the removal tools are coming</h2>
+
+    <p>You asked whether stripping the watermark would be easy. The academic answer arrived two years before the product did.</p>
+
+    <p><a href="https://arxiv.org/abs/2311.04378" target="_blank" rel="noopener">"Watermarks in the Sand"</a>, published at ICML 2024 by Zhang, Edelman, Francati, Venturi, Ateniese and Barak, proves that <strong>strong watermarking is impossible</strong> under natural assumptions, even when the detector's key stays secret. The attack is a random walk: repeatedly perturb the text while a quality check keeps it good, and the watermark washes out while the meaning survives. They broke three published schemes with only minor quality degradation.</p>
+
+    <p>Cui's practical version is blunter. <em>"In my testing, the watermarks don't survive intense paraphrasing, especially if you combine word choice and syntax attacks."</em> He notes that free paraphrasing tools already defeat Google's SynthID.</p>
+
+    <p>So no, a de-watermarking industry does not need to be invented. It exists, it is called a paraphraser, and half of it is free. What will change is the marketing. Expect a wave of tools rebranded from "improve your writing" to something more pointed, and expect at least one of them to be a thin wrapper around a second model with a monthly subscription attached.</p>
+
+    <p>There is a nastier wrinkle, and Cui put it best: <em>"If Anthropic releases the watermark detector publicly, I think they defeat their own watermark."</em> Ship one and you hand attackers an oracle to rewrite against until the score drops. Withhold it and the mark is unusable by the universities it is supposed to help. That is not a trade-off with a clever answer. It is a fork, and both prongs are bad.</p>
+
+    <h2 id="spoofing">The bit nobody is arguing about</h2>
+
+    <p>The comment threads are all about removal. The genuinely alarming research points the other way.</p>
+
+    <p><a href="https://www.arxiv.org/abs/2402.19361" target="_blank" rel="noopener">"Watermark Stealing in Large Language Models"</a>, also ICML 2024, showed that by querying a watermarked API you can reverse-engineer enough of the scheme to both scrub marks and <em>forge</em> them. Average success rate above 80%, for under $50 of compute.</p>
+
+    <p>Forge. As in, take something a human wrote and stamp it as machine-generated.</p>
+
+    <p>Every incentive that exists to remove a watermark exists in mirror image to plant one. A dissertation rival. A journalist someone wants discredited. A contested authorship claim. The removal debate is about people avoiding consequences; the spoofing risk is about people receiving consequences they did not earn, and it is the one institutions are least prepared for.</p>
+
+    <blockquote class="pull-quote">The presence of a mark will be treated as proof. That is the failure, and it happens in a disciplinary hearing, not in a lab.</blockquote>
+
+    <h2 id="curator">So what am I, then?</h2>
+
+    <p>Two positions from the threads, both from real people, neither of them stupid.</p>
+  </section>
+
+  <section class="voices" aria-label="Two sides of the argument">
+    <div class="voice">
+      <div class="voice-label">For the mark</div>
+      <div class="voice-text">Claude created the work. You gave instructions. Taking full credit for that is like taking credit for your manager's brief.</div>
+      <div class="voice-attr">Commenter, via Forbes</div>
+    </div>
+    <div class="voice against">
+      <div class="voice-label">Against the mark</div>
+      <div class="voice-text">I gave the instructions, context, decisions, and countless refinements. Claude was the tool.</div>
+      <div class="voice-attr">Commenter, via Forbes</div>
+    </div>
+  </section>
+
+  <section class="content">
+    <p>I have a stake in this, so here is the disclosure. <strong>This issue was written with Claude.</strong> Not "lightly assisted by". Written with. The embedded mark now says exactly that, and it says nothing else.</p>
+
+    <p>Here is what the mark cannot see.</p>
+
+    <p>That the house style this is set in, the palette, the type, the shape of every section, took months to settle and is now specified rather than improvised. That there is a standing rules file governing my language, down to a ban on the em dash, because I got tired of taking them out by hand. That the build instructions for an AI Sustained editorial run past a thousand lines across their specification and reference files, and have been rewritten more often than the articles they produce. That the angle, the pitch and the decision about who this piece is for were argued out before a word was drafted, and the readership positioning was the hardest call in it. That every figure was checked, and that I check with rival frontier models rather than the one that produced the draft, because asking a model to mark its own homework is not a control.</p>
+
+    <p>Hours per issue. Most of them not spent typing.</p>
+
+    <p>I cannot claim to be a traditional writer and I am not going to try. The sentences were assembled by a machine. Pretending otherwise is the exact dishonesty that makes readers distrust everybody, including the people being straight with them.</p>
+
+    <p>But <em>curator</em> and <em>editor</em> are not consolation prizes. An editor who never writes a line still owns the publication. A director does not operate the camera. A conductor plays nothing. We have had perfectly good language for this shape of authorship for two centuries, and nobody called it a lesser claim until the tool got good enough to threaten the people holding it.</p>
+
+    <p>So does it soften the value? I do not think it softens it. I think it <span class="inline-highlight">qualifies it differently</span>, and the honest move is to say which kind of work you did rather than let the reader assume the other kind.</p>
+
+    <p>Which is where this loops back. Everything in that list is invisible to the watermark. The mark records that a model emitted the tokens. It cannot see the specification, the guardrails, the scene setting, the binned drafts, the fact-check, or the argument about readership. It measures the cheapest input in the process and reports it as the whole thing.</p>
+
+    <p>That is not Anthropic's failure. No statistical signal in a token stream could carry any of it. But it is why "AI-generated" is about to stop meaning anything useful, covering a one-line prompt and a month of scaffolding with the same flag, and why any policy built on that flag is measuring the wrong quantity.</p>
+  </section>
+
+  <aside class="disclosure" aria-label="Disclosure about the cover image">
+    <div class="disclosure-label">Disclosure &middot; this image</div>
+    <p>While we are here. Look at the picture at the top of this page. <strong>I did not draw that.</strong> I could not draw that with a year of evening classes and a following wind.</p>
+    <p>What I did was decide it should be one sheet torn in two rather than a robot at a keyboard, lock the palette to four hex values, ban the teal, ban the lettering, ban the hands, insist on something in frame to give it scale, and then argue with Gemini through several rejected frames until the light coming out of the tear was right. Who would have thought. Not much of an artist, me. But I am a <em>very</em> good prompter, and I knew exactly what I wanted.</p>
+    <p>Now look at the bottom right corner. That small four-pointed diamond is Google's <strong>visible</strong> watermark, stamped on the frame by the tool that made it. An article about invisible watermarking, illustrated by a picture that wears its mark in the open where you can see it and decide for yourself. I did not plan that, and I am not removing it.</p>
+    <p>Which is, if you want the short version of this entire piece, the argument for marks you can see over marks you cannot.</p>
+  </aside>
+
+  <section class="content">
+    <h2 id="where-i-land">Where I land</h2>
+
+    <p>I am in favour of the watermark and against almost everything that will be done with it.</p>
+
+    <p>Marking machine output is the correct default. Anthropic shipping it while OpenAI sits on working technology for competitive reasons is, whatever The Register says about compliance theatre, the more defensible position of the two. Weak provenance beats none.</p>
+
+    <p>But the gap between what the mark establishes and what people will claim it establishes is enormous, and nobody is closing it. Anthropic documents the caveats carefully in a help article that no head of department will ever read. The mark says the text passed through Claude. It does not say who thought of it, how much survived, or whether the human did the work. Presence is weak evidence. Absence is almost none.</p>
+
+    <p>My prediction, and you are welcome to hold me to it: within twelve months someone loses a job or a qualification over a watermark hit on text they substantially shaped themselves. It will be appealed. The appeal will hinge on the sentence in Anthropic's own documentation saying the mark is not conclusive, and everyone will act surprised.</p>
+
+    <p>Right, your turn. Pick one of those two camps, or tell me they are both wrong and the question is badly framed, which I suspect is the actual answer. If you use these tools the way I do, I would rather hear what you call yourself than what you call the tool. The comments are open and I read all of them.</p>
+  </section>
+
+  <section class="takeaway" aria-label="Tactical takeaway for leaders">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2>Write the policy now, before someone in your organisation <em>treats a watermark hit as proof</em>.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 &middot; POLICY</div>
+        <div class="takeaway-point-text">Bar anyone from acting on a detection result alone. <strong>A mark is grounds for a conversation</strong>, never for a sanction.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 &middot; DISCLOSURE</div>
+        <div class="takeaway-point-text">Ask people to declare AI assistance up front. <strong>Declared use cannot be caught out</strong>, which removes the incentive to strip anything.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 &middot; EXPOSURE</div>
+        <div class="takeaway-point-text">Audit where Claude output already sits in your published material. <strong>Contracts, reports and web copy are all marked</strong> from now on.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-slab" aria-label="Read more and subscribe">
+    <div class="cta-kicker">Read more &middot; Subscribe</div>
+    <h2>The longer version lives on <em>Substack</em>.</h2>
+    <p>The extended edition shows the workings: how green-list token biasing actually functions, why code is the worst possible carrier for a watermark, what the spoofing attack costs to run, and the three ways this argument could turn out to be wrong.</p>
+    <div class="cta-row">
+      <a class="cta-btn"
+         href="https://open.substack.com/pub/aisustained/p/claude-watermark-debate?utm_campaign=post&amp;utm_medium=web&amp;showWelcomeOnShare=true"
+         target="_blank" rel="noopener">Read on Substack <span aria-hidden="true">&#8599;</span></a>
+      <a class="cta-btn primary" href="/#subscribe">Subscribe <span aria-hidden="true">&#8594;</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">If a machine tightened your sentences but you supplied every idea, <strong>whose writing is it</strong>?</p>
+    </div>
+    <div class="sources">
+      Sources &middot;
+      <a href="https://support.claude.com/en/articles/16266773-how-claude-marks-ai-generated-content" target="_blank" rel="noopener">Anthropic Help Center</a> &middot;
+      <a href="https://techcrunch.com/2026/08/11/anthropic-says-it-will-watermark-text-generated-by-its-ai-models/" target="_blank" rel="noopener">TechCrunch</a> &middot;
+      <a href="https://www.axios.com/2026/08/12/anthropic-claude-watermarks-ai-detection" target="_blank" rel="noopener">Axios</a> &middot;
+      <a href="https://thenewstack.io/anthropic-claude-text-watermark/" target="_blank" rel="noopener">The New Stack</a> &middot;
+      <a href="https://www.forbes.com/sites/maryroeloffs/2026/08/11/claude-will-put-invisible-watermarks-on-ai-text-and-images-and-the-internet-isnt-happy/" target="_blank" rel="noopener">Forbes</a> &middot;
+      <a href="https://www.theregister.com/ai-and-ml/2026/08/11/anthropic-pledges-to-embed-watermarks-to-help-discern-ai-slop-in-sop-to-eu/5285792" target="_blank" rel="noopener">The Register</a> &middot;
+      <a href="https://arxiv.org/abs/2311.04378" target="_blank" rel="noopener">Zhang et al., ICML 2024</a> &middot;
+      <a href="https://www.arxiv.org/abs/2402.19361" target="_blank" rel="noopener">Jovanovic et al., ICML 2024</a> &middot;
+      <a href="https://arxiv.org/abs/2304.02819" target="_blank" rel="noopener">Liang et al., Stanford</a>
+    </div>
+  </footer>
+
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#AIWatermarking</span> <span>#Anthropic</span> <span>#Claude</span> <span>#EUAIAct</span> <span>#AcademicIntegrity</span> <span>#AIDetection</span> <span>#Provenance</span>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span><span class="wordmark">AI Sustained.</span> &middot; By Kevin Clubb</span>
+    <span>2026</span>
+  </div>
+
+</article>
+</body>
+</html>
