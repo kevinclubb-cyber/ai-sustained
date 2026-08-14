@@ -1,0 +1,9 @@
+{
+  "type": "Editorial",
+  "ref": "Issue 017a",
+  "title": "The Engine Under the Bonnet: AI Models v Public Detector Dilemma",
+  "url": "/articles/ai-models-v-public-detector-dilemma/",
+  "date": "2026-08-14",
+  "summary": "A second model's read on watermarking: how the green list works, what a cryptographic key is, and why publishing the detector breaks it.",
+  "tags": "ai watermark, green list, cryptographic key, ai detector, eu ai act, watermark removal, spoofing, ai proofreading, gemini"
+}

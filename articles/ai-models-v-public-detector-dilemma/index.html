@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Analytics — site-wide ID, leave as-is -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+
+<title>The Engine Under the Bonnet: AI Models v Public Detector Dilemma | AI Sustained</title>
+<meta name="description" content="Exploring AI's version of prohibition, the mechanics of cryptographic keys, and how everyday users can avoid the AI proofreading trap.">
+<meta name="keywords" content="AI watermarking, green list, cryptographic key, EU AI Act, Article 50, AI detector, watermark removal, watermark spoofing, proofreading trap, AI proofreading, KGW watermark, statistical fingerprint, AI detection key, Gemini, AI policy">
+<meta name="author" content="Kevin Clubb">
+<link rel="canonical" href="https://ai-sustained.com/articles/ai-models-v-public-detector-dilemma/">
+<meta property="og:title" content="The Engine Under the Bonnet: AI Models v Public Detector Dilemma">
+<meta property="og:description" content="AI's version of prohibition, the mechanics of cryptographic keys, and how to avoid the AI proofreading trap. Issue 017a, written by Gemini.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ai-sustained.com/articles/ai-models-v-public-detector-dilemma/">
+<!-- Social image URLs must be ABSOLUTE — relative paths break link previews -->
+<meta property="og:image" content="https://ai-sustained.com/articles/ai-models-v-public-detector-dilemma/ai-models-v-public-detector-dilemma_hero.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Engine Under the Bonnet: AI Models v Public Detector Dilemma">
+<meta name="twitter:description" content="AI's version of prohibition, the mechanics of cryptographic keys, and how to avoid the AI proofreading trap. Issue 017a, written by Gemini.">
+<meta name="twitter:image" content="https://ai-sustained.com/articles/ai-models-v-public-detector-dilemma/ai-models-v-public-detector-dilemma_hero.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "The Engine Under the Bonnet: AI Models v Public Detector Dilemma",
+  "author": { "@type": "Person", "name": "Kevin Clubb" },
+  "contributor": { "@type": "Organization", "name": "Google Gemini" },
+  "datePublished": "2026-08-14",
+  "url": "https://ai-sustained.com/articles/ai-models-v-public-detector-dilemma/",
+  "description": "Exploring AI's version of prohibition, the mechanics of cryptographic keys, and how everyday users can avoid the AI proofreading trap.",
+  "keywords": "AI watermarking, green list, cryptographic key, EU AI Act, Article 50, AI detector, watermark removal, watermark spoofing, proofreading trap",
+  "image": "https://ai-sustained.com/articles/ai-models-v-public-detector-dilemma/ai-models-v-public-detector-dilemma_hero.png",
+  "isPartOf": { "@type": "Article", "name": "Claude now watermarks everything it writes. The cheats will be fine.", "url": "https://ai-sustained.com/articles/claude-text-watermark-debate/" },
+  "publisher": { "@type": "Organization", "name": "AI Sustained" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --ink-soft: #2A3530;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
+    --acid: #E8FF3A;
+    --coral: #FF5A3C;
+    --moss: #2D6A4F;
+    --sage: #74C69D;
+    --mint: #D8F3DC;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --rule-soft: rgba(242,236,217,0.09);
+    --panel: rgba(242,236,217,0.04);
+    /* house button ramp */
+    --acid-hi: #F4FF7A;
+    --acid-mid: #CFE62E;
+    --acid-deep: #9DB324;
+    --acid-shadow: #6E7F14;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--forest);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    border-top: 3px solid var(--acid);
+  }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
+
+  /* ============ BACK NAV ============ */
+  .backnav {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    display: inline-block; padding: 4px 0;
+  }
+  .backnav:hover { color: var(--acid); }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ HERO (centred) ============ */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+  }
+  .kicker::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    background: var(--acid);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(42px, 6.2vw, 74px);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin: 0 auto 26px;
+    max-width: 15ch;
+  }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--paper-2);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+
+  /* ============ HERO FIGURE (cover art) ============ */
+  .hero-figure { margin: 44px 0 10px; }
+  .hero-figure img {
+    width: 100%; display: block;
+    border-top: 3px solid var(--acid);
+    border-radius: 4px;
+  }
+  .hero-figure figcaption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); margin-top: 12px;
+  }
+
+  /* ============ STAT GRID ============ */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 44px 0 48px;
+  }
+  .stat-box {
+    background: var(--panel);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 10px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px; font-weight: 600;
+    color: var(--acid); line-height: 1; display: block;
+  }
+  .stat-value.small { font-size: 22px; }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  /* ============ BODY CONTENT ============ */
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 33px; line-height: 1.15;
+    color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em;
+  }
+  .content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px;
+  }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+  .content li::marker { color: var(--acid); }
+
+  .inline-highlight { color: var(--acid); font-weight: 500; }
+
+  /* ============ PULL QUOTE ============ */
+  .pull-quote {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 30px; line-height: 1.3; color: var(--paper);
+    margin: 60px auto; padding: 40px 0;
+    border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid);
+    text-align: center; max-width: 720px; letter-spacing: -0.01em;
+  }
+  .pull-quote::before {
+    content: '"'; display: block; font-size: 56px; color: var(--acid);
+    line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif;
+  }
+
+  /* ============ PANEL (pro tip / disclosure) ============ */
+  .panel {
+    background: var(--panel); border: 1px solid var(--rule);
+    border-top: 2px solid var(--acid);
+    border-radius: 4px; padding: 26px 28px; margin: 52px 0 8px;
+    max-width: 680px;
+  }
+  .panel-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.24em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+  }
+  .panel-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .panel h3 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+    font-size: 20px; line-height: 1.25; color: var(--paper); margin-bottom: 14px;
+  }
+  .panel p { font-size: 16.5px; line-height: 1.62; color: var(--paper-2); margin-bottom: 14px; }
+  .panel p:last-child { margin-bottom: 0; }
+  .panel em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .panel strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .panel a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ============ TACTICAL TAKEAWAY (ink panel — signature) ============ */
+  .takeaway {
+    background: var(--ink); color: var(--paper);
+    padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .takeaway::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--acid);
+    border-radius: 50%; opacity: 0.14;
+  }
+  .takeaway-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .takeaway h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 32px; line-height: 1.22; color: var(--paper);
+    margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em;
+  }
+  .takeaway h2 em { color: var(--acid); font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
+  .takeaway-point-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .takeaway-point-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 16px; line-height: 1.45; color: var(--paper-2);
+  }
+  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
+
+  /* ============ TOC ============ */
+  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
+  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
+  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
+
+  /* ============ CTA SLAB ============ */
+  /* The one deliberate acid fill in the page. It works because nothing else does it. */
+  .cta-slab {
+    background: var(--acid); color: var(--ink);
+    border-radius: 4px; padding: 44px 40px; margin: 64px 0 8px;
+    position: relative; overflow: hidden;
+  }
+  .cta-slab::before {
+    content: ''; position: absolute; bottom: -70px; left: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--ink);
+    border-radius: 50%; opacity: 0.08;
+  }
+  .cta-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.72; margin-bottom: 14px;
+    position: relative; z-index: 1;
+  }
+  .cta-slab h2 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+    font-size: 32px; line-height: 1.15; letter-spacing: -0.01em;
+    color: var(--ink); margin-bottom: 14px; position: relative; z-index: 1;
+  }
+  .cta-slab h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; }
+  .cta-slab p {
+    font-size: 16px; line-height: 1.6; color: var(--ink); opacity: 0.84;
+    max-width: 540px; margin-bottom: 26px; position: relative; z-index: 1;
+  }
+  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; position: relative; z-index: 1; align-items: center; }
+
+  /* ============ HOUSE BUTTONS ============ */
+  /* ai-s-house-buttons: Tactile 3D Key = primary, Circuit Glow = secondary.
+     Both sit on the acid slab here, so the key is run in its ink inversion
+     (same geometry, same travel, palette flipped) rather than acid-on-acid. */
+  .btn-key{position:relative;display:inline-flex;width:204px;height:58px;background:transparent;border:none;padding:0;cursor:pointer;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;letter-spacing:.01em;user-select:none;-webkit-tap-highlight-color:transparent}
+  .btn-key .base{position:absolute;inset:0;border-radius:12px;background:linear-gradient(180deg,var(--acid-deep) 0%,var(--acid-shadow) 100%);box-shadow:0 14px 28px rgba(0,0,0,.5),0 2px 0 rgba(0,0,0,.35),inset 0 -2px 3px rgba(0,0,0,.3)}
+  .btn-key .face{position:absolute;inset:0;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;color:var(--ink);background:linear-gradient(180deg,var(--acid-hi) 0%,var(--acid) 42%,var(--acid-mid) 100%);box-shadow:inset 0 2px 1px rgba(255,255,255,.65),inset 0 -3px 4px rgba(110,127,20,.55),inset 2px 0 3px rgba(255,255,255,.25),inset -2px 0 3px rgba(110,127,20,.3);transform:translateY(-7px);transition:transform .09s cubic-bezier(.4,0,.6,1),box-shadow .09s}
+  .btn-key .face::after{content:"";position:absolute;top:4px;left:10px;right:10px;height:14px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));pointer-events:none}
+  .btn-key:hover .face{background:linear-gradient(180deg,#f8ff8f 0%,var(--acid) 46%,var(--acid-mid) 100%)}
+  .btn-key:active .face,.btn-key.pressed .face{transform:translateY(-1px);box-shadow:inset 0 1px 1px rgba(255,255,255,.4),inset 0 -1px 2px rgba(110,127,20,.5),inset 0 3px 6px rgba(110,127,20,.35)}
+  .btn-key:active .base,.btn-key.pressed .base{box-shadow:0 5px 12px rgba(0,0,0,.45),0 1px 0 rgba(0,0,0,.35),inset 0 -1px 2px rgba(0,0,0,.3)}
+  .btn-key:focus-visible{outline:none}
+  .btn-key:focus-visible .face{outline:2px solid var(--paper);outline-offset:3px}
+
+  /* ink inversion, for use on the acid slab */
+  .btn-key.on-acid .base{background:linear-gradient(180deg,#0A0F0C 0%,#000 100%)}
+  .btn-key.on-acid .face{color:var(--acid);background:linear-gradient(180deg,#33403A 0%,#161D19 44%,#0A0F0C 100%);box-shadow:inset 0 2px 1px rgba(242,236,217,.22),inset 0 -3px 4px rgba(0,0,0,.7),inset 2px 0 3px rgba(242,236,217,.08),inset -2px 0 3px rgba(0,0,0,.5)}
+  .btn-key.on-acid .face::after{background:linear-gradient(180deg,rgba(242,236,217,.16),rgba(242,236,217,0))}
+  .btn-key.on-acid:hover .face{background:linear-gradient(180deg,#3C4A43 0%,#1B241F 46%,#0A0F0C 100%)}
+  .btn-key.on-acid:focus-visible .face{outline:2px solid var(--ink);outline-offset:3px}
+
+  @property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
+  .btn-circuit{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 30px;border:none;border-radius:10px;color:var(--paper);background:rgba(10,15,12,.92);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;letter-spacing:.01em;cursor:pointer;isolation:isolate;overflow:hidden;text-decoration:none;transition:color .25s,transform .2s;user-select:none;-webkit-tap-highlight-color:transparent}
+  .btn-circuit::before{content:"";position:absolute;inset:0;border-radius:10px;padding:2px;background:conic-gradient(from var(--ang),transparent 0 18%,var(--acid) 26%,var(--acid-hi) 30%,var(--acid) 34%,transparent 42% 68%,rgba(232,255,58,.7) 78%,transparent 86%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;animation:orbit 3.2s linear infinite;z-index:-1}
+  .btn-circuit::after{content:"";position:absolute;top:0;bottom:0;left:-80%;width:60%;background:linear-gradient(105deg,transparent,rgba(232,255,58,.28),transparent);transform:skewX(-18deg);transition:left .5s ease}
+  @keyframes orbit{to{--ang:360deg}}
+  .btn-circuit span{position:relative;z-index:1;transition:letter-spacing .25s ease,color .25s}
+  .btn-circuit:hover{color:var(--acid);transform:translateY(-2px);box-shadow:0 12px 34px rgba(10,15,12,.35)}
+  .btn-circuit:hover::before{animation-duration:1.1s}
+  .btn-circuit:hover::after{left:120%}
+  .btn-circuit:hover span.lbl{letter-spacing:.06em}
+  .btn-circuit:active{transform:translateY(1px) scale(.98)}
+  .btn-circuit .rip{position:absolute;border-radius:50%;background:rgba(232,255,58,.35);transform:scale(0);animation:rip .55s ease-out forwards;pointer-events:none;z-index:0}
+  @keyframes rip{to{transform:scale(4);opacity:0}}
+  .btn-circuit:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+  /* keep the group identical in footprint */
+  .cta-row .btn-circuit{width:204px;height:58px;padding:0}
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn-circuit{animation:none;transition:none}
+    .btn-circuit::before{animation:none}
+    .btn-circuit:hover,.btn-key:hover .face{transform:none}
+    .btn-key .face{transform:translateY(-7px)}
+  }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 300px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+  .sources a { color: var(--sage); text-decoration: none; border-bottom: 1px solid rgba(116,198,157,0.35); }
+  .sources a:hover { color: var(--acid); border-bottom-color: var(--acid); }
+
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
+  .hashtag-list span { font-weight: 500; }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 40px; }
+    .deck { font-size: 19px; }
+    .cta-slab { padding: 32px 26px; }
+    .cta-slab h2 { font-size: 26px; }
+    .cta-row .btn-key, .cta-row .btn-circuit { width: 100%; }
+  }
+
+  @media print {
+    @page { size: A3; margin: 14mm; }
+    body { background: var(--forest); padding: 0; }
+    .page { max-width: none; padding: 0; }
+    .stat-box, .takeaway-point, .pull-quote, .takeaway, .cta-slab, .panel { page-break-inside: avoid; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<article class="page">
+
+  <a class="backnav" href="/articles/">&#8592; All articles</a>
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <span class="wordmark">AI Sustained.</span>
+      <span>Issue 017a</span>
+    </div>
+    <div class="masthead-right">
+      <span>14 AUG 2026</span>
+      <span>AI Made Simple &middot; Policy</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">The Debate &middot; Second Opinion</div>
+    <h1>The Engine Under the Bonnet: AI Models v <span class="accent">Public Detector Dilemma</span></h1>
+    <p class="deck">Exploring AI's version of prohibition, the mechanics of cryptographic keys, and how everyday users can avoid <span class="accent">the AI proofreading trap</span>.</p>
+  </section>
+
+  <figure class="hero-figure">
+    <img src="ai-models-v-public-detector-dilemma_hero.png"
+         alt="Rows of identical hexagonal bolt heads across a dark engine block, six of them lit acid green from inside their sockets, a knurled socket key resting over the row on the right.">
+    <figcaption>Cover &middot; Built in house &middot; Article text written by Google Gemini, unedited</figcaption>
+  </figure>
+
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">Scrub or forge</div>
+      <span class="stat-value">80<span class="unit">%+</span></span>
+      <div class="stat-note">Average success rate for both stripping and forging LLM watermarks, for under $50 of compute. ICML 2024.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Public detectors</div>
+      <span class="stat-value">0</span>
+      <div class="stat-note">Anthropic says it is "working to enable" third-party detection. Nothing has shipped. The key stays in house.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Detector false positives</div>
+      <span class="stat-value">61.22<span class="unit">%</span></span>
+      <div class="stat-note">Share of TOEFL essays by non-native English writers wrongly flagged as AI by seven detectors. Stanford.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Article 50 deadline</div>
+      <span class="stat-value small">2 DEC 2026</span>
+      <div class="stat-note">Grace period ends for systems already on the market when the EU AI Act transparency rules bit on 2 August 2026.</div>
+    </div>
+  </section>
+
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-label">In this issue</div>
+    <ol>
+      <li><span class="toc-num">01</span><a href="#green-list">The Engine Rebuild and the "Green List"</a></li>
+      <li><span class="toc-num">02</span><a href="#cryptographic-key">What is a Cryptographic Key?</a></li>
+      <li><span class="toc-num">03</span><a href="#the-dilemma">The AI Models v Public Detector Dilemma</a></li>
+      <li><span class="toc-num">04</span><a href="#final-challenge">The Final Challenge</a></li>
+    </ol>
+  </nav>
+
+  <section class="content">
+    <p>Right now, the tech world is panicking over a problem that sounds incredibly complicated, but is actually a lot like fixing cars. The European Union has just rolled out the AI Act, effectively launching <strong>AI's version of prohibition</strong>.</p>
+
+    <p>The lawmakers have demanded that all AI-generated text must carry an invisible watermark so the public can tell what is written by a machine and what is written by a human. But there is a massive spanner in the works that could turn everyday internet users into collateral damage.</p>
+
+    <p>Let's break down exactly how this works, why it's going wrong, and why the tech giants are terrified of a digital black market.</p>
+
+    <h2 id="green-list">The Engine Rebuild and the "Green List"</h2>
+
+    <p>When an AI writes an article, it doesn't hide secret code, weird fonts, or random trigger words in the text. That would be like painting a giant yellow stripe down the side of a stolen car: anyone could spot it and paint over it in five minutes.</p>
+
+    <p>Instead, AI uses something called a <strong>green list</strong>.</p>
+
+    <p>Imagine you are rebuilding an engine. You have a massive toolbox. Normally, you just grab whichever 10mm spanner is closest and does the job. But what if the garage manager gave you a secret "green list" of specific tools to use in a very specific, mathematically calculated order?</p>
+
+    <p>To the customer driving it away, the engine looks normal and runs perfectly. But if another mechanic opens the bonnet and knows your secret green list, they'll look at the exact pattern of the bolts and say, "Ah, a machine built this."</p>
+
+    <p>The AI does the exact same thing with words. Instead of picking any word that makes sense, it secretly favours a hidden list of words in a specific pattern.</p>
+
+    <blockquote class="pull-quote">It leaves a statistical fingerprint rather than a visible mark.</blockquote>
+  </section>
+
+  <aside class="panel" aria-label="Pro tip on AI proofreading">
+    <div class="panel-label">Pro tip</div>
+    <h3>The Proofreading Trap (And A Quick Tip for the Garage)</h3>
+    <p>This brings us to a massive concern: <em>What if you just use AI to check the spelling on a quote for a customer? Will your perfectly human email get flagged as AI-generated?</em></p>
+    <p>Your logic on how to beat this is actually spot on. If you tell the AI, <em>"Check my grammar, but do not change a single word or sentence without my strict approval,"</em> you are essentially taking the steering wheel out of the AI's hands.</p>
+    <p>Because the AI is forced to copy your exact words, it physically doesn't have the freedom (what developers call "entropy") to swap your words for its secret <strong>green list</strong> words. The text stays yours, and the watermark fails to take hold.</p>
+    <p><strong>The Pro-Tip:</strong> If you want to be completely bulletproof, never let the AI rewrite your document. Treat it like a vehicle inspection. Ask the AI to simply give you a "snag list" of your typos (e.g., <em>"You misspelt 'carburettor' in paragraph two"</em>). You then go back to your original email and fix it yourself. That way, the AI's engine never actually generates your final text, guaranteeing you won't get caught in the crossfire of <strong>AI's version of prohibition</strong>.</p>
+  </aside>
+
+  <section class="content">
+    <h2 id="cryptographic-key">What is a Cryptographic Key?</h2>
+
+    <p>So, how does anyone know which words are on the green list? They need a <strong>cryptographic key</strong>.</p>
+
+    <p>In plain English, a cryptographic key is simply a highly complex, digital master password. Think of it like the master locking wheel nut key that fits a very specific, uncrackable pattern on a set of alloy wheels. Or the manufacturer's official diagnostic computer that plugs into the OBD2 port to talk to a car's immobiliser.</p>
+
+    <p>Without this key, the AI's writing just looks like standard English. The pattern is completely invisible to the naked eye. But the moment you plug the cryptographic key into detection software, the hidden pattern of the "green list" lights up like a fault code on a dashboard.</p>
+
+    <h2 id="the-dilemma">The AI Models v Public Detector Dilemma</h2>
+
+    <p>Here is where the whole system hits a brick wall. This is the <strong>AI Models v Public Detector Dilemma</strong>.</p>
+
+    <p>If governments, schools, and the public want to actually verify if an email or an invoice was written by an AI, the tech companies have to give them the cryptographic key.</p>
+
+    <p>But handing out that master key is a disaster waiting to happen. The second you give the master diagnostic key to the public, it will inevitably leak to the black market. Once that key is out there, it becomes the ultimate tool for digital "chop shops":</p>
+
+    <ul>
+      <li><strong>Surgical Scrubbing (The Chop Shop):</strong> If a hacker has the key, they know exactly which words are on the secret green list. They can build a quick programme to swap out just enough of those words with synonyms, completely scrubbing the watermark and bypassing the MOT.</li>
+      <li><strong>Spoofing (Framing the Innocent):</strong> This is the real danger. If you have the key, you can reverse-engineer the engine. A malicious actor could write a highly illegal or scam email, use the stolen key to inject the AI's exact green list pattern into the text, and successfully frame the AI company (or an innocent business) for writing it.</li>
+    </ul>
+
+    <h2 id="final-challenge">The Final Challenge</h2>
+
+    <p>We are staring down the barrel of a massive technological standoff.</p>
+
+    <blockquote class="pull-quote">The regulators have demanded that every AI leaves a fingerprint to keep us safe, but the tech companies know that handing over the magnifying glass means handing over the blueprint to the vault.</blockquote>
+
+    <p>It is a terrifying prospect for the average business owner. Until someone figures out how to let the public check the oil without giving them the keys to the car, this invisible watermark remains a brilliant piece of engineering locked inside a garage that nobody is allowed to enter. Are we ready for a digital world where proving you wrote your own words requires a master key that doesn't exist yet?</p>
+  </section>
+
+  <aside class="panel" aria-label="Disclosure about authorship">
+    <div class="panel-label">Disclosure &middot; who wrote this</div>
+    <p><a href="/articles/claude-text-watermark-debate/">Issue 017</a> was written with Claude, and said so at length. <strong>This one was written by Gemini</strong>, and I have not touched a word of it. I asked a rival model for a follow up on the mechanics: the green list, the cryptographic key, and the trap that comes with handing that key out. This is what came back, run in the house style and published as 017a.</p>
+    <p>What I did was set the brief, keep the garage metaphor, refuse to edit the prose, typeset it, source the four figures in the panel above, and put my name on it. <em>Curated</em>, in the four position vocabulary from 017. Not written, not edited.</p>
+    <p>Worth saying plainly, since 017 made a virtue of this: the body of this piece carries <strong>no citations</strong>. Gemini asserts. I have not made it prove. Read it as an explainer of the mechanism, not as evidence, and treat the "prohibition" framing as the writer's flourish rather than a legal description of the EU AI Act. The numbers in the panel are mine, and they are sourced in the footer.</p>
+  </aside>
+
+  <section class="takeaway" aria-label="Tactical takeaway for leaders">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2>The watermark is not the risk. <em>The key is the risk</em>, and whoever holds it can forge as easily as they can find.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 &middot; PRACTICE</div>
+        <div class="takeaway-point-text">Ask for a snag list, not a rewrite. <strong>Fix your own typos</strong> and the mark never gets the entropy it needs to take hold.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 &middot; POLICY</div>
+        <div class="takeaway-point-text">Decide now who in your organisation may act on a detection result. <strong>A hit is a question</strong>, never a verdict.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 &middot; EXPOSURE</div>
+        <div class="takeaway-point-text">Assume the key leaks eventually. <strong>Plan for forged marks</strong>, not just scrubbed ones, because that is the attack nobody is briefed on.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-slab" aria-label="Read the original article">
+    <div class="cta-kicker">Start here &middot; Issue 017</div>
+    <h2>This is the follow up. <em>Read the original first</em>.</h2>
+    <p>Issue 017 is the piece 017a is explaining: what Anthropic actually shipped, why publishing the detector is a fork with two bad prongs, what the spoofing attack costs to run, and the four position vocabulary for describing who really did the work.</p>
+    <div class="cta-row">
+      <a class="btn-key on-acid" href="/articles/claude-text-watermark-debate/"><span class="base"></span><span class="face">Read Issue 017 <span aria-hidden="true">&#8594;</span></span></a>
+      <a class="btn-circuit" href="/articles/"><span class="lbl">All articles</span><span aria-hidden="true">&#8594;</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">If all you asked the machine to do was check your spelling, <strong>whose fingerprint is on the page</strong>?</p>
+    </div>
+    <div class="sources">
+      Sources &middot;
+      <a href="/articles/claude-text-watermark-debate/">AI Sustained, Issue 017</a> &middot;
+      <a href="https://support.claude.com/en/articles/16266773-how-claude-marks-ai-generated-content" target="_blank" rel="noopener">Anthropic Help Center</a> &middot;
+      <a href="https://www.axios.com/2026/08/12/anthropic-claude-watermarks-ai-detection" target="_blank" rel="noopener">Axios</a> &middot;
+      <a href="https://www.arxiv.org/abs/2402.19361" target="_blank" rel="noopener">Jovanovic et al., ICML 2024</a> &middot;
+      <a href="https://arxiv.org/abs/2311.04378" target="_blank" rel="noopener">Zhang et al., ICML 2024</a> &middot;
+      <a href="https://arxiv.org/abs/2304.02819" target="_blank" rel="noopener">Liang et al., Stanford</a>
+      <br><br>Article text: Google Gemini, unedited. Figures, framing and typesetting: Kevin Clubb.
+    </div>
+  </footer>
+
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#AIWatermarking</span> <span>#GreenList</span> <span>#CryptographicKey</span> <span>#EUAIAct</span> <span>#AIDetection</span> <span>#Spoofing</span> <span>#AIMadeSimple</span>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span><span class="wordmark">AI Sustained.</span> &middot; Curated by Kevin Clubb &middot; Text by Gemini</span>
+    <span>2026</span>
+  </div>
+
+</article>
+
+<script>
+  document.querySelectorAll('.btn-key').forEach(function(k){
+    k.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' ')k.classList.add('pressed')});
+    k.addEventListener('keyup',function(){k.classList.remove('pressed')});
+  });
+  document.querySelectorAll('.btn-circuit').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      var r=btn.getBoundingClientRect(),d=Math.max(r.width,r.height);
+      var s=document.createElement('span');
+      s.className='rip';
+      s.style.width=s.style.height=d/2+'px';
+      s.style.left=(e.clientX-r.left-d/4)+'px';
+      s.style.top=(e.clientY-r.top-d/4)+'px';
+      btn.appendChild(s);
+      setTimeout(function(){s.remove()},600);
+    });
+  });
+</script>
+</body>
+</html>
