@@ -13,6 +13,7 @@
 - [The Renaissance of the Delivery Squad](https://ai-sustained.com/articles/future-delivery-squad/): how AI agents reshape the product team.
 - [The Victorians out-spent us](https://ai-sustained.com/articles/ai-vs-industrial-revolution/): AI capex against the railways, Apollo and the Manhattan Project as a share of GDP, and why adoption speed is the real anomaly.
 - [Claude now watermarks everything it writes](https://ai-sustained.com/articles/claude-text-watermark-debate/): why an invisible text watermark marks processing rather than authorship, why removal is already trivial, and what that breaks for academia and for anyone writing with AI.
+- [The Engine Under the Bonnet](https://ai-sustained.com/articles/ai-models-v-public-detector-dilemma/): the follow up to Issue 017 and the mechanics explainer. How green-list token biasing leaves a statistical fingerprint, what a cryptographic detection key is, why releasing it to the public enables both scrubbing and forgery, and how to proofread with AI without acquiring a mark. Written by Google Gemini, published unedited.
 - [All editorial](https://ai-sustained.com/#editorial)
 
 ## About
