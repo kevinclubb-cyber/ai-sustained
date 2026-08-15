@@ -212,7 +212,18 @@
      withdrawn from any page without editing 50 footers by hand. */
   function footerLink(){
     var f = document.querySelector('footer');
-    if (!f || f.querySelector('[data-ais-reopen]')) return;
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
 
     /* Footer markup varies page to page, so target the LAST div — on every
        template that is the links / colophon column, not the brand block. */
@@ -689,8 +700,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <footer class="brand-footer">
   <div class="footer-inner">
-    <div>AI Sustained · Case studies · 2026</div>
-    <div><a href="/">ai-sustained.com</a> · <a href="https://aisustained.substack.com" target="_blank" rel="noopener">Substack</a> · <a href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener">LinkedIn</a></div>
+    <div class="ais-fl"><a href="/">ai-sustained.com</a> · <a href="https://aisustained.substack.com" target="_blank" rel="noopener">Substack</a> · <a href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener">LinkedIn</a> · <a href="/privacy/">Privacy</a> · <a href="#" data-ais-reopen>Cookie choices</a></div><div class="ais-fc">AI Sustained · Case studies · 2026</div>
   </div>
 </footer>
 <!-- ============ SITE SEARCH (self-contained; paste before </body>) ============ -->
@@ -767,6 +777,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     margin-top: 12px; text-align: center; font-family: 'JetBrains Mono', monospace;
     font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(242,236,217,0.4);
   }
+
+/* --- footer link row (added 15 Aug 2026) --- */
+.ais-fl{display:block;margin-bottom:7px;flex-basis:100%}
+.ais-fc{flex-basis:100%}
+.ais-fl a{white-space:nowrap;display:inline-block}
+.ais-fc{display:block}
+@media(max-width:640px){.ais-fl{line-height:2.1}}
 </style>
 
 <button class="ss-fab" type="button" aria-label="Search the site" onclick="ssOpen()">

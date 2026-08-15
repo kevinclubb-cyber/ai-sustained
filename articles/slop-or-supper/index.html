@@ -212,7 +212,18 @@
      withdrawn from any page without editing 50 footers by hand. */
   function footerLink(){
     var f = document.querySelector('footer');
-    if (!f || f.querySelector('[data-ais-reopen]')) return;
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
 
     /* Footer markup varies page to page, so target the LAST div — on every
        template that is the links / colophon column, not the brand block. */
@@ -762,6 +773,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .stat-box, .takeaway-point, .pull-quote { page-break-inside: avoid; break-inside: avoid; }
     .content h2 { page-break-after: avoid; break-after: avoid; }
   }
+
+/* --- footer link row (added 15 Aug 2026) --- */
+.ais-fl{display:block;margin-bottom:7px}
+.ais-fl a{white-space:nowrap;display:inline-block}
+.ais-fc{display:block}
+@media(max-width:640px){.ais-fl{line-height:2.1}}
 </style>
 </head>
 <body>
@@ -1000,6 +1017,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="footer-left">
       <p class="footer-cta">If this article didn't feel like slop, <strong>it's because of the hours, not the words</strong>. The boundary is the friction.</p>
     </div>
+    <div class="ais-fl" style="width:100%;margin-bottom:10px"><a href="/">ai-sustained.com</a> · <a href="/privacy/">Privacy</a> · <a href="#" data-ais-reopen>Cookie choices</a></div>
     <div class="sources">
       Sources &middot; Originality.ai 2026 LinkedIn analysis &middot; WARC Consumer Trends 2026 &middot;
       <a href="https://arxiv.org/abs/2504.08726">Arnold &amp; Kim 2024, &ldquo;Interaction-Required Suggestions for Control, Ownership, and Awareness in Human-AI Co-Writing&rdquo; (arXiv:2504.08726)</a> &middot;

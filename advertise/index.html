@@ -212,7 +212,18 @@
      withdrawn from any page without editing 50 footers by hand. */
   function footerLink(){
     var f = document.querySelector('footer');
-    if (!f || f.querySelector('[data-ais-reopen]')) return;
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
 
     /* Footer markup varies page to page, so target the LAST div — on every
        template that is the links / colophon column, not the brand block. */
@@ -353,6 +364,12 @@ ul.rules li::before{content:"\2192";position:absolute;left:0;color:var(--acid)}
 .footer{margin-top:100px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage)}
 .footer a{color:var(--acid);text-decoration:none}
 @media(prefers-reduced-motion:reduce){.btn:hover{transform:none}}
+
+/* --- footer link row (added 15 Aug 2026) --- */
+.ais-fl{display:block;margin-bottom:7px}
+.ais-fl a{white-space:nowrap;display:inline-block}
+.ais-fc{display:block}
+@media(max-width:640px){.ais-fl{line-height:2.1}}
 </style>
 </head>
 <body>
@@ -483,7 +500,7 @@ document.getElementById('enq-form').addEventListener('submit', async function(ev
 </script>
 
 <footer class="footer">
-  <span>&copy; 2026 <a href="https://ai-sustained.com">AI Sustained</a> &middot; <a href="https://ai-sustained.com/learn/">Learn</a> &middot; <a href="https://ai-sustained.com/privacy/">Privacy</a> &middot; <a href="https://ai-sustained.com/learn/terms/">Terms</a></span>
+  <span class="ais-fl"><a href="https://ai-sustained.com">AI Sustained</a> · <a href="https://ai-sustained.com/learn/">Learn</a> · <a href="https://ai-sustained.com/privacy/">Privacy</a> · <a href="https://ai-sustained.com/learn/terms/">Terms</a> · <a href="#" data-ais-reopen>Cookie choices</a></span><span class="ais-fc">&copy; 2026</span>
 </footer>
 </div>
 </body>

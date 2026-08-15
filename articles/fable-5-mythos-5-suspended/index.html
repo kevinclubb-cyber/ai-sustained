@@ -212,7 +212,18 @@
      withdrawn from any page without editing 50 footers by hand. */
   function footerLink(){
     var f = document.querySelector('footer');
-    if (!f || f.querySelector('[data-ais-reopen]')) return;
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
 
     /* Footer markup varies page to page, so target the LAST div — on every
        template that is the links / colophon column, not the brand block. */
@@ -775,6 +786,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .stat-box, .takeaway-point, .pull-quote { page-break-inside: avoid; break-inside: avoid; }
     .content h2 { page-break-after: avoid; break-after: avoid; }
   }
+
+/* --- footer link row (added 15 Aug 2026) --- */
+.ais-fl{display:block;margin-bottom:7px}
+.ais-fl a{white-space:nowrap;display:inline-block}
+.ais-fc{display:block}
+@media(max-width:640px){.ais-fl{line-height:2.1}}
 </style>
 </head>
 <body>
@@ -998,6 +1015,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="footer-left">
       <p class="footer-cta">The precedent is the real product. <strong>The rulebook still isn't written.</strong></p>
     </div>
+    <div class="ais-fl" style="width:100%;margin-bottom:10px"><a href="/">ai-sustained.com</a> · <a href="/privacy/">Privacy</a> · <a href="#" data-ais-reopen>Cookie choices</a></div>
     <div class="sources">
       Sources &middot; Anthropic, statement on the US government directive to suspend access to Fable 5 and Mythos 5, 12 June 2026 &middot; NBC News &middot; CNBC, 12 June 2026 &middot; Bloomberg &middot; Axios &middot; TechCrunch &middot; Reason, &ldquo;A First Amendment Right Not To Use AI for Evil?&rdquo; &middot; TechRadar.
       This piece sets out the strongest version of each side's case; it is analysis, not legal advice, and the situation is fast-moving. Where details rest on single secondary sources they are flagged as such. If new facts land, the argument should move with them.

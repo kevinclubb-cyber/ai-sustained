@@ -221,7 +221,18 @@
      withdrawn from any page without editing 50 footers by hand. */
   function footerLink(){
     var f = document.querySelector('footer');
-    if (!f || f.querySelector('[data-ais-reopen]')) return;
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
 
     /* Footer markup varies page to page, so target the LAST div — on every
        template that is the links / colophon column, not the brand block. */
@@ -441,7 +452,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .disclaimer { margin-top: 22px; max-width: 880px; font-family: 'Inter', sans-serif; font-size: 12px; color: var(--paper-60); line-height: 1.6; }
         .hashtags { margin-top: 22px; max-width: 880px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--paper-60); letter-spacing: 0.06em; line-height: 1.7; word-spacing: 6px; }
         .hashtags span { color: var(--acid); }
-    </style>
+    
+/* --- footer link row (added 15 Aug 2026) --- */
+.ais-fl{display:block;margin-bottom:7px;flex-basis:100%}
+.ais-fc{flex-basis:100%}
+.ais-fl a{white-space:nowrap;display:inline-block}
+.ais-fc{display:block}
+@media(max-width:640px){.ais-fl{line-height:2.1}}
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -645,8 +663,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <footer class="brand-footer">
     <div class="container wide">
         <div class="footer-inner">
-            <div>AI Sustained · Case study 01 · 2026</div>
-            <div><a href="/case-studies/">All case studies</a> · <a href="/">ai-sustained.com</a></div>
+            <div class="ais-fl"><a href="/case-studies/">All case studies</a> · <a href="/">ai-sustained.com</a> · <a href="/privacy/">Privacy</a> · <a href="#" data-ais-reopen>Cookie choices</a></div><div class="ais-fc">AI Sustained · Case study 01 · 2026</div>
         </div>
         <div class="disclaimer">[Optional: a line on what's been anonymised or generalised at the client's request, and a note that figures are as measured at the time of the project.]</div>
         <div class="hashtags">

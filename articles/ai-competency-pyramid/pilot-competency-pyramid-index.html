@@ -212,7 +212,18 @@
      withdrawn from any page without editing 50 footers by hand. */
   function footerLink(){
     var f = document.querySelector('footer');
-    if (!f || f.querySelector('[data-ais-reopen]')) return;
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
 
     /* Footer markup varies page to page, so target the LAST div — on every
        template that is the links / colophon column, not the brand block. */
@@ -404,6 +415,12 @@ input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 
 .tier-band { padding: 24px 26px; }
 .tier-band h2 { font-size: 28px; }
 }
+
+/* --- footer link row (added 15 Aug 2026) --- */
+.ais-fl{display:block;margin-bottom:7px}
+.ais-fl a{white-space:nowrap;display:inline-block}
+.ais-fc{display:block}
+@media(max-width:640px){.ais-fl{line-height:2.1}}
 </style>
 </head>
 <body>
@@ -495,7 +512,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="footer-left">
 <p class="footer-cta">Which level are you at — <strong>and which level is your organisation operating at</strong>? They're rarely the same number.</p>
 </div>
-<div class="sources">
+<div class="ais-fl" style="width:100%;margin-bottom:10px"><a href="/">ai-sustained.com</a> · <a href="/privacy/">Privacy</a> · <a href="#" data-ais-reopen>Cookie choices</a></div>
+    <div class="sources">
 Sources · ONS Labour Market Statistics (Nov 2025 – Jan 2026). The 60% / 20.6m computer-user figure is a directional estimate based on sector composition reasoning, not a published ONS statistic. All level distributions are directional estimates, not precise survey data.
 </div>
 </footer>

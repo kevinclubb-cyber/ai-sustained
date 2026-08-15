@@ -1,98 +1,129 @@
-# ai-sustained.com — consent deploy, rev B, 15 August 2026
+# ai-sustained.com — rev E, 15 August 2026
 
-**35 HTML files. Editorial site only.** Nothing here touches the consulting site.
+## What changed in this revision
 
-> **This supersedes the consent files in the earlier combined package.** That version had
-> two bugs, found after you deployed it. Deploy this over the top.
+**Facebook and TikTok removed from the landing page footer.** The social row now shows **LinkedIn and Substack** only. Both buttons were removed cleanly, icon and SVG included, leaving no gap in the markup.
 
----
+They appeared only on `index.html` — no other page carries the social row — so this is a one-file change on top of everything below.
 
-## 1. What rev B fixes
-
-Both bugs were in the reopen path, so they only bit people who clicked **Cookie choices** after already making a decision.
-
-**Bug 1 — the panel lied.** Reopening always rendered the toggles at their defaults, all off, regardless of what the visitor had actually chosen. Someone who accepted everything and came back to check would see four switches off and reasonably conclude nothing had been accepted.
-
-**Bug 2 — reopening silently revoked consent.** The reopen handler cleared the stored decision before rebuilding the banner. Look at your settings, close the tab without choosing again, and you were back to fully denied having never asked to be. A consent tool that revokes consent because you glanced at it is worse than not having one.
-
-Now:
-
-- The panel reflects the visitor's actual saved state
-- Reopening jumps straight to the detail view, so current choices are visible immediately
-- Nothing is ever revoked except by an explicit choice
-
-**The underlying consent signals were correct throughout** — Accept all really did grant everything, and it was stored properly. Only the UI and the reopen path were wrong. No visitor was ever tracked without consent.
+Worth a thought before you deploy: TikTok and Facebook are your two main traffic sources into the editorial. Removing the outbound links doesn't affect inbound traffic at all, but it does remove the route for a reader who wants to follow you after reading. If the intent was to stop leaking attention outward, this is right. If it was to tidy the footer, keeping TikTok might be worth it. Your call — it's one line to put back.
 
 ---
 
-## 2. What is in the package
-
-All 35 tagged pages, each carrying: consent block → GA4 `G-L3WZNV09BB` → GTM `GTM-K3HFQT6S`, in that order.
-
-Includes the **updated privacy notice** at `privacy/index.html`. The old text claimed *"no advertising or cross-site tracking cookies are used"* and never mentioned Microsoft Clarity — inaccurate from the moment session recording went live. Rewritten to cover consent-first behaviour, Clarity, the pixel position and legal basis.
-
-Not included, deliberately: `article-score-cta-snippet.html` and `privacy-learn-section.html` (HTML fragments with no `<head>`), and the three LinkedIn image-source files in `articles/openai-hugging-face-hack/`.
+**35 HTML files. Editorial site only.** Complete and self-contained — upload all 35 and the site is correct regardless of what landed before.
 
 ---
 
-## 3. Upload
+## 1. Footer: links line one, text line two
+
+Same treatment as the consulting site. Verified at 1280px and 390px.
+
+Your home page footer read:
+
+```
+BUILT BY HAND · HOSTED ON CLOUDFLARE PAGES · SOURCE ON GITHUB ↗
+                                    · PRIVACY · COOKIE CHOICES
+```
+
+It now reads:
+
+```
+SOURCE ON GITHUB ↗ · PRIVACY · COOKIE CHOICES
+BUILT BY HAND · HOSTED ON CLOUDFLARE PAGES
+```
+
+**This needed six different edits, not one.** Your editorial footers come in six shapes:
+
+| Shape | Pages | What happened |
+|---|---|---|
+| `footer-right` | index | The `<p>` split into a links line and a text line |
+| `.sources` | 23 articles and the ledger | No links at all previously — a links row added above the sources note |
+| bare `<span>` | advertise, learn/programme, learn/score, learn/terms | Links and text were mixed in one span; separated into two |
+| `.wrap` | learn | Same mixing, same fix |
+| `brand-footer` | case-studies ×2, privacy, ifg-data-platform | Text and links were side by side in a flex row. Reordered links-first and given `flex-basis:100%` so they stack |
+| article closing section | AI-Space-Race, 009_siri | `<footer>` is article content on these, so a discrete links row was appended rather than restructuring the section |
+
+---
+
+## 2. Two things caught in testing
+
+**Duplicate Privacy links.** `/learn/` and `/advertise/` already had a Privacy link in the footer, so adding another produced `Privacy · Privacy`. The links row now de-duplicates by label, keeping the first.
+
+**A lost separator.** Pulling the anchors out of the mixed spans also stripped the middot between the remaining text fragments, so the home page briefly read `BUILT BY HAND HOSTED ON CLOUDFLARE PAGES`. Restored on the two pages affected.
+
+Both were caught by rendering the pages and reading the output, not by inspecting the code — worth knowing if you ever redo this by hand.
+
+---
+
+## 3. Mobile
+
+The links row wraps, with `white-space:nowrap` on each link so labels break *between* links rather than mid-phrase. At 390px the home footer stacks: social icons, wordmark, links row, text row. No label is split in half.
+
+---
+
+## 4. Also carried in this package
+
+Complete replacement, so everything from the earlier revisions is here:
+
+- GTM `GTM-K3HFQT6S` and GA4 `G-L3WZNV09BB`, consent block ordered before both
+- Consent banner **rev B** fixes — the panel reflects your actual saved choice, and reopening never silently revokes consent
+- The **updated privacy notice** at `privacy/index.html`, covering Clarity and the consent-first position
+
+---
+
+## 5. Upload
 
 1. `ai-sustained` repo → **Add file → Upload files**
-2. Drag the whole `editorial-deploy` **folder** in — dragging a directory preserves paths, so all 35 land correctly in one commit
-3. Commit message: `Consent banner rev B, updated privacy notice`
-4. Commit to `main`
-
-**Check the commit says 35 files changed.** Fewer means the folder drag half-took — the same failure that left your consulting root pages behind last time. Fallback: upload the one root file first, then go into each of the 12 folders individually.
-
----
-
-## 4. Purge Cloudflare
-
-Caching → Configuration → **Purge Everything**.
+2. Drag the whole `editorial-deploy` **folder** in
+3. Commit: `Footer layout, consent rev D`
+4. **Confirm the commit says 35 files changed**
+5. Cloudflare → Caching → Configuration → **Purge Everything**
 
 ---
 
-## 5. Then GTM — still outstanding on this container
+## 6. A permanent fix for the cache problem
 
-Consent Mode blocks Google's own tags automatically. It does **not** block Microsoft Clarity, which is a third-party template.
+Your footer confirmed the site runs on **Cloudflare Pages**, which means the `_headers` file in your repo root is live and is the right place to solve this properly instead of purging by hand every deploy.
 
-1. tagmanager.google.com → **GTM-K3HFQT6S**
-2. **Tags** → **Microsoft Clarity**
-3. **Advanced Settings** → **Consent Settings**
-4. **Require additional consent for tag to fire**
-5. Consent type: `functionality_storage`
-6. **Save** → **Submit** → `Clarity behind consent` → **Publish**
+Add this **above** the existing rule:
 
-Until this is published, session recording runs on visitors who declined it while the privacy notice promises otherwise.
+```
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/
+  Cache-Control: public, max-age=0, must-revalidate
+```
+
+Keep your existing block underneath:
+
+```
+/case-studies/index.json
+       Access-Control-Allow-Origin: *
+       Cache-Control: public, max-age=300
+```
+
+HTML then revalidates on every request while images, CSS and fonts keep their long cache lifetimes. Deploys go live immediately and you stop chasing ghosts.
+
+I have **not** put this in the package — it changes caching behaviour site-wide and you should make that call deliberately rather than find it in a drop. Two lines, whenever you want it.
 
 ---
 
-## 6. Verify
-
-Private window, every time.
-
-1. `https://ai-sustained.com/` — banner appears
-2. Footer shows **· Privacy · Cookie choices**
-3. DevTools → Network → filter `clarity`
-4. **Reject all** → no request to `clarity.ms`, ever
-5. Fresh private window → **Accept all** → `clarity.ms` appears
-6. Click footer **Cookie choices** → panel opens with **all four toggles on**. This is the rev B fix. If they show off, the old file is still cached — purge again.
-
----
-
-## 7. Verification already done on this build
-
-Rendered in headless Chromium across eight pages covering all four of your footer templates (`footer-left`, `brand-footer`, the bare `<span>` footer on `/learn/score/`, and the article variant):
+## 7. Verification already done
 
 | Check | Result |
 |---|---|
-| Banner appears | Pass, 8/8 |
-| Consent default reaches dataLayer before `gtm.start` | Pass, 8/8 |
-| Footer links inject on every footer variant | Pass, 8/8 |
-| Privacy link suppressed on `/privacy/` | Pass |
-| Accept all → reopen shows all four toggles on | Pass |
-| Storage preserved across reopen | Pass |
-| Old revoke-on-reopen code present anywhere | None — 0 files |
-| All 35 carry GA4 and GTM exactly once | Pass |
+| All 35 carry the consent block exactly once, ordered before `gtm.js` | Pass |
+| All 35 carry GA4 `G-L3WZNV09BB` exactly once | Pass |
+| Footer reopen link present in markup on all 35 | Pass |
+| No duplicate injected footer block | Pass — 0 across 9 sampled pages |
+| Links line stacked above text line | Pass, desktop and mobile, all footer shapes |
+| Duplicate Privacy links | None remaining |
 | HTML parses cleanly | Pass |
 | JavaScript errors introduced | None |
+
+---
+
+## 8. Still outstanding
+
+**The Clarity consent setting in GTM-K3HFQT6S.** Tags → Microsoft Clarity → Advanced Settings → Consent Settings → require `functionality_storage` → Submit → Publish. Nothing in this package changes it, and until it is published session recording runs on visitors who declined it.

@@ -219,7 +219,18 @@
      withdrawn from any page without editing 50 footers by hand. */
   function footerLink(){
     var f = document.querySelector('footer');
-    if (!f || f.querySelector('[data-ais-reopen]')) return;
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
 
     /* Footer markup varies page to page, so target the LAST div — on every
        template that is the links / colophon column, not the brand block. */
@@ -1097,7 +1108,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
-    </style>
+    
+/* --- footer link row (added 15 Aug 2026) --- */
+.ais-fl{display:block;margin-bottom:7px}
+.ais-fl a{white-space:nowrap;display:inline-block}
+.ais-fc{display:block}
+@media(max-width:640px){.ais-fl{line-height:2.1}}
+</style>
 </head>
 <body class="antialiased">
 <!-- Google Tag Manager (noscript) -->
@@ -1376,7 +1393,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!--
   ARTICLE FOOTER CTA -> AI Survival Score  (v3 - self-constraining, fully centred)
   WHERE: in each article's index.html, paste this block on a new line
-  immediately AFTER the closing </footer> tag (before the Tags block).
+  immediately AFTER the closing 
+<div class="ais-fl" style="text-align:center;padding:18px 0;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase"><a href="/">ai-sustained.com</a> · <a href="/privacy/">Privacy</a> · <a href="#" data-ais-reopen>Cookie choices</a></div>
+</footer> tag (before the Tags block).
   Constrains its own width and centres itself, so it renders correctly on
   mobile, desktop and widescreen even if pasted outside the page container.
   Uses only fonts the articles already load. No CSS changes needed.

@@ -218,7 +218,18 @@
      withdrawn from any page without editing 50 footers by hand. */
   function footerLink(){
     var f = document.querySelector('footer');
-    if (!f || f.querySelector('[data-ais-reopen]')) return;
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
 
     /* Footer markup varies page to page, so target the LAST div — on every
        template that is the links / colophon column, not the brand block. */
@@ -731,7 +742,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             word-spacing: 6px;
         }
         .hashtags span { color: var(--acid); }
-    </style>
+    
+/* --- footer link row (added 15 Aug 2026) --- */
+.ais-fl{display:block;margin-bottom:7px;flex-basis:100%}
+.ais-fc{flex-basis:100%}
+.ais-fl a{white-space:nowrap;display:inline-block}
+.ais-fc{display:block}
+@media(max-width:640px){.ais-fl{line-height:2.1}}
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -991,8 +1009,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <footer class="brand-footer">
     <div class="container wide">
         <div class="footer-inner">
-            <div>AI Sustained · Issue 009 · 08 June 2026</div>
-            <div><a href="https://open.substack.com/pub/aisustained/p/siri-but-make-it-gemini?r=8iqef9&amp;utm_campaign=post&amp;utm_medium=web&amp;showWelcomeOnShare=true" target="_blank" rel="noopener">Read this issue on Substack</a> · <a href="/">ai-sustained.com</a></div>
+            <div class="ais-fl"><a href="https://open.substack.com/pub/aisustained/p/siri-but-make-it-gemini?r=8iqef9&amp;utm_campaign=post&amp;utm_medium=web&amp;showWelcomeOnShare=true" target="_blank" rel="noopener">Read this issue on Substack</a> · <a href="/">ai-sustained.com</a> · <a href="/privacy/">Privacy</a> · <a href="#" data-ais-reopen>Cookie choices</a></div><div class="ais-fc">AI Sustained · Issue 009 · 08 June 2026</div>
         </div>
         <div class="hashtags">
             <span>#AppleIntelligence</span> <span>#Siri</span> <span>#GoogleGemini</span> <span>#WWDC2026</span> <span>#iOS27</span> <span>#TimCook</span> <span>#AIAssistants</span> <span>#PrivateCloudCompute</span> <span>#AntitrustWatch</span> <span>#AIStrategy</span> <span>#BigTech</span> <span>#AISustained</span> <span>#UKTech</span> <span>#FutureOfWork</span> <span>#KevinClubb</span>

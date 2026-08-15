@@ -212,7 +212,18 @@
      withdrawn from any page without editing 50 footers by hand. */
   function footerLink(){
     var f = document.querySelector('footer');
-    if (!f || f.querySelector('[data-ais-reopen]')) return;
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
 
     /* Footer markup varies page to page, so target the LAST div — on every
        template that is the links / colophon column, not the brand block. */
@@ -748,7 +759,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .rc-done a { color: #E8FF3A; }
     @media (max-width: 720px) { .rc-card { padding: 24px 20px; } .rc-grid { grid-template-columns: 1fr; } .rc-btn { width: 100%; justify-content: space-between; } }
     @media (prefers-reduced-motion: reduce) { .rc-btn:hover, .rc-min:hover { transform: none; } }
-  </style>
+  
+/* --- footer link row (added 15 Aug 2026) --- */
+.ais-fl{display:block;margin-bottom:7px}
+.ais-fl a{white-space:nowrap;display:inline-block}
+.ais-fc{display:block}
+@media(max-width:640px){.ais-fl{line-height:2.1}}
+</style>
 
   <section class="rc-card" id="rcCard" data-source-label="Issue 013 · AI made simple" data-source-url="/articles/ai-made-simple/" aria-label="File a receipt on the Reader Ledger">
     <div class="rc-label">File a receipt</div>
@@ -858,6 +875,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="footer-cta"><strong>What's the one job you'd happily never do again?</strong> Start there.</p>
       <p style="font-family:'Inter',sans-serif;font-size:15px;line-height:1.5;color:var(--paper-2);margin-top:6px;">Prefer to listen? There's a <a href="https://open.substack.com/pub/aisustained/p/ai-made-simple-how-normal-people?r=8iqef9&amp;utm_campaign=post&amp;utm_medium=web&amp;showWelcomeOnShare=true" style="color:var(--acid);text-decoration:underline;text-underline-offset:2px;">podcast version on Substack</a>.</p>
     </div>
+    <div class="ais-fl" style="width:100%;margin-bottom:10px"><a href="/">ai-sustained.com</a> · <a href="/privacy/">Privacy</a> · <a href="#" data-ais-reopen>Cookie choices</a></div>
     <div class="sources">
       Sources · Pew Research Center, "Why don't people use chatbots?" (Jun 2026) · Orbit Media, AI-Search Adoption Survey (2026) · First Page Sage, Google vs ChatGPT market share (2026) · UI for AI / design-community writing on the "blank prompt problem". Reach and market figures are as reported, so verify before quoting.
     </div>
