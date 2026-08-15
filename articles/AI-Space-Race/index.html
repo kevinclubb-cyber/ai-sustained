@@ -2,6 +2,231 @@
 <html lang="en-GB" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
+<!-- AI Sustained consent — paste immediately after <meta charset>, BEFORE the GTM snippet -->
+<script>
+(function(){
+  "use strict";
+  /* ------------------------------------------------------------------
+     AI Sustained cookie consent + Google Consent Mode v2
+     Self-contained: sets consent defaults, injects banner CSS + DOM.
+     MUST load before the GTM and GA4 snippets.
+     ------------------------------------------------------------------ */
+
+  var STORE   = 'ais_consent_v1';
+  var MAXAGE  = 1000*60*60*24*182;           /* 6 months, then re-ask */
+  var POLICY  = '/privacy/';                  /* overridden per site below */
+  if (location.hostname.indexOf('consulting.') === 0) POLICY = '/privacy.html';
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  window.gtag = window.gtag || gtag;
+
+  /* ---------- read any stored decision ---------- */
+  var saved = null;
+  try {
+    var raw = localStorage.getItem(STORE);
+    if (raw) {
+      var o = JSON.parse(raw);
+      if (o && o.t && (Date.now() - o.t) < MAXAGE) saved = o;
+    }
+  } catch(e){}
+
+  var DENIED = {
+    ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied',
+    analytics_storage:'denied', functionality_storage:'denied',
+    personalization_storage:'denied', security_storage:'granted',
+    wait_for_update: 500
+  };
+
+  /* Defaults are DENIED for everything non-essential. Nothing fires until
+     the visitor chooses. security_storage stays granted — it is strictly
+     necessary and exempt under PECR. */
+  gtag('consent','default', DENIED);
+
+  function stateFrom(c){
+    return {
+      ad_storage:            c.marketing ? 'granted':'denied',
+      ad_user_data:          c.marketing ? 'granted':'denied',
+      ad_personalization:    c.marketing ? 'granted':'denied',
+      analytics_storage:     c.analytics ? 'granted':'denied',
+      functionality_storage: c.recording ? 'granted':'denied',
+      personalization_storage: c.recording ? 'granted':'denied',
+      security_storage:      'granted'
+    };
+  }
+
+  function apply(c, isNew){
+    gtag('consent','update', stateFrom(c));
+    dataLayer.push({
+      event: 'consent_update',
+      consent_analytics:  !!c.analytics,
+      consent_recording:  !!c.recording,
+      consent_marketing:  !!c.marketing
+    });
+    if (isNew){
+      try { localStorage.setItem(STORE, JSON.stringify({
+        t: Date.now(), analytics: !!c.analytics,
+        recording: !!c.recording, marketing: !!c.marketing
+      })); } catch(e){}
+    }
+  }
+
+  if (saved) apply(saved, false);
+
+  /* ---------- styles ---------- */
+  var CSS = ''
+  + '@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap");'
+  + '.ais-cc,.ais-cc *{box-sizing:border-box}'
+  + '.ais-cc{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#102C21;color:#F2ECD9;'
+  + 'border-top:2px solid #E8FF3A;font-family:Inter,system-ui,sans-serif;'
+  + 'box-shadow:0 -18px 50px rgba(0,0,0,.5);animation:aisUp .35s cubic-bezier(.34,1.2,.64,1)}'
+  + '@keyframes aisUp{from{transform:translateY(100%)}to{transform:none}}'
+  + '@media (prefers-reduced-motion:reduce){.ais-cc{animation:none}}'
+  + '.ais-cc-in{max-width:1080px;margin:0 auto;padding:22px 24px;display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap}'
+  + '.ais-cc-copy{flex:1 1 420px;min-width:280px}'
+  + '.ais-cc h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;color:#E8FF3A;letter-spacing:.01em}'
+  + '.ais-cc p{margin:0;font-size:14.5px;line-height:1.55;color:#F2ECD9;opacity:.94}'
+  + '.ais-cc a{color:#E8FF3A;text-decoration:underline;text-underline-offset:2px}'
+  + '.ais-cc-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}'
+  /* Accept and Reject are deliberately IDENTICAL in size, colour and weight. */
+  + '.ais-b{position:relative;display:inline-flex;align-items:center;justify-content:center;'
+  + 'min-width:150px;padding:14px 24px;border:2px solid rgba(232,255,58,.55);border-radius:10px;'
+  + 'color:#F2ECD9;background:rgba(10,15,12,.92);font-family:"Space Grotesk",sans-serif;'
+  + 'font-weight:700;font-size:15.5px;cursor:pointer;transition:color .2s,border-color .2s,transform .18s;'
+  + '-webkit-tap-highlight-color:transparent}'
+  + '.ais-b:hover{color:#E8FF3A;border-color:#E8FF3A;transform:translateY(-2px)}'
+  + '.ais-b:active{transform:translateY(1px) scale(.98)}'
+  + '.ais-b:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '.ais-link{background:none;border:none;color:#F2ECD9;font-family:Inter,sans-serif;font-size:14px;'
+  + 'text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:8px 4px;opacity:.9}'
+  + '.ais-link:hover{color:#E8FF3A;opacity:1}'
+  + '.ais-cc-panel{width:100%;border-top:1px solid rgba(242,236,217,.18);margin-top:6px;padding-top:16px;display:none}'
+  + '.ais-cc-panel.open{display:block}'
+  + '.ais-row{display:flex;gap:14px;align-items:flex-start;padding:11px 0}'
+  + '.ais-row+.ais-row{border-top:1px solid rgba(242,236,217,.1)}'
+  + '.ais-row .t{flex:1}'
+  + '.ais-row strong{display:block;font-family:"Space Grotesk",sans-serif;font-size:14.5px;margin-bottom:3px}'
+  + '.ais-row span{font-size:13.5px;line-height:1.5;opacity:.85}'
+  + '.ais-sw{position:relative;flex:0 0 auto;width:50px;height:28px;border-radius:99px;border:none;'
+  + 'background:rgba(242,236,217,.22);cursor:pointer;transition:background .2s}'
+  + '.ais-sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;'
+  + 'background:#F2ECD9;transition:transform .2s}'
+  + '.ais-sw[aria-checked="true"]{background:#E8FF3A}'
+  + '.ais-sw[aria-checked="true"]::after{transform:translateX(22px);background:#0A0F0C}'
+  + '.ais-sw[disabled]{opacity:.5;cursor:not-allowed}'
+  + '.ais-sw:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '@media(max-width:640px){.ais-cc-in{padding:18px 16px;gap:16px}.ais-cc-btns{width:100%}'
+  + '.ais-b{flex:1 1 100%;min-width:0}}';
+
+  /* ---------- banner ---------- */
+  function build(){
+    if (document.querySelector('.ais-cc')) return;
+
+    var st = document.createElement('style');
+    st.textContent = CSS;
+    document.head.appendChild(st);
+
+    var w = document.createElement('div');
+    w.className = 'ais-cc';
+    w.setAttribute('role','dialog');
+    w.setAttribute('aria-live','polite');
+    w.setAttribute('aria-label','Cookie choices');
+    w.innerHTML =
+      '<div class="ais-cc-in">'
+      +  '<div class="ais-cc-copy">'
+      +    '<h2>Your call on cookies</h2>'
+      +    '<p>I use a few cookies to see which articles land and where people give up reading. '
+      +    'Nothing fires until you choose. Reject and the site works exactly the same. '
+      +    '<a href="' + POLICY + '">Read the privacy notice</a>.</p>'
+      +  '</div>'
+      +  '<div class="ais-cc-btns">'
+      +    '<button type="button" class="ais-b" data-a="accept">Accept all</button>'
+      +    '<button type="button" class="ais-b" data-a="reject">Reject all</button>'
+      +    '<button type="button" class="ais-link" data-a="manage" aria-expanded="false">Choose what I share</button>'
+      +  '</div>'
+      +  '<div class="ais-cc-panel" id="ais-panel">'
+      +    row('essential','Strictly necessary','Keeps the site working and secure. Always on, and exempt from consent under PECR.',true,true)
+      +    row('analytics','Audience measurement','Google Analytics. Which pages get read, roughly where visitors come from.',false,false)
+      +    row('recording','Session recording','Microsoft Clarity. Anonymised replays and heatmaps showing where people scroll and stop. Text you type is masked.',false,false)
+      +    row('marketing','Marketing','TikTok and Meta advertising pixels. Not currently active, listed so this notice stays honest when they are.',false,false)
+      +    '<div class="ais-cc-btns" style="margin-top:14px">'
+      +      '<button type="button" class="ais-b" data-a="save">Save my choices</button>'
+      +    '</div>'
+      +  '</div>'
+      + '</div>';
+    document.body.appendChild(w);
+
+    function row(k,title,desc,on,lock){
+      return '<div class="ais-row"><div class="t"><strong>'+title+'</strong><span>'+desc+'</span></div>'
+        + '<button type="button" class="ais-sw" data-k="'+k+'" role="switch" aria-label="'+title+'" aria-checked="'
+        + (on?'true':'false') + '"' + (lock?' disabled':'') + '></button></div>';
+    }
+
+    w.addEventListener('click', function(e){
+      var sw = e.target.closest('.ais-sw');
+      if (sw && !sw.disabled){
+        sw.setAttribute('aria-checked', sw.getAttribute('aria-checked')==='true' ? 'false':'true');
+        return;
+      }
+      var b = e.target.closest('[data-a]');
+      if (!b) return;
+      var a = b.getAttribute('data-a');
+
+      if (a === 'manage'){
+        var p = w.querySelector('#ais-panel');
+        var open = p.classList.toggle('open');
+        b.setAttribute('aria-expanded', open ? 'true':'false');
+        b.textContent = open ? 'Hide options' : 'Choose what I share';
+        return;
+      }
+      if (a === 'accept') return close({analytics:1,recording:1,marketing:1});
+      if (a === 'reject') return close({analytics:0,recording:0,marketing:0});
+      if (a === 'save'){
+        var g = function(k){
+          var el = w.querySelector('.ais-sw[data-k="'+k+'"]');
+          return el && el.getAttribute('aria-checked')==='true' ? 1 : 0;
+        };
+        return close({analytics:g('analytics'), recording:g('recording'), marketing:g('marketing')});
+      }
+    });
+
+    function close(c){ apply(c, true); w.remove(); }
+  }
+
+  /* Drop a "Cookie choices" link into the existing footer, so consent can be
+     withdrawn from any page without editing 50 footers by hand. */
+  function footerLink(){
+    var f = document.querySelector('footer');
+    if (!f || f.querySelector('[data-ais-reopen]')) return;
+    var host = f.querySelector('div') || f;
+    var a = document.createElement('a');
+    a.href = '#';
+    a.setAttribute('data-ais-reopen','1');
+    a.textContent = 'COOKIE CHOICES';
+    a.style.cursor = 'pointer';
+    a.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+    host.appendChild(a);
+  }
+
+  /* Public re-opener — also usable directly:
+     <a href="#" onclick="AISConsent.open();return false">Cookie choices</a>  */
+  window.AISConsent = {
+    open: function(){
+      try { localStorage.removeItem(STORE); } catch(e){}
+      var ex = document.querySelector('.ais-cc');
+      if (ex) ex.remove();
+      build();
+    }
+  };
+
+  function init(){ footerLink(); if (!saved) build(); }
+
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+<!-- End AI Sustained consent -->
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
 <script>
