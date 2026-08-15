@@ -20,8 +20,10 @@
 
   var STORE   = 'ais_consent_v1';
   var MAXAGE  = 1000*60*60*24*182;           /* 6 months, then re-ask */
-  var POLICY  = '/privacy/';                  /* overridden per site below */
-  if (location.hostname.indexOf('consulting.') === 0) POLICY = '/privacy.html';
+  /* Both sites serve /privacy/ (the consulting site ships privacy.html plus a
+     byte-identical privacy/index.html), so one root-absolute path covers both
+     and there is no hostname sniffing to go wrong. */
+  var POLICY  = '/privacy/';
 
   window.dataLayer = window.dataLayer || [];
   function gtag(){ dataLayer.push(arguments); }
@@ -79,6 +81,10 @@
 
   if (saved) apply(saved, false);
 
+  /* Current state drives the toggles, so reopening shows what you actually
+     chose rather than a fresh set of defaults. */
+  var current = saved || { analytics:false, recording:false, marketing:false };
+
   /* ---------- styles ---------- */
   var CSS = ''
   + '@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap");'
@@ -125,7 +131,7 @@
   + '.ais-b{flex:1 1 100%;min-width:0}}';
 
   /* ---------- banner ---------- */
-  function build(){
+  function build(reopen){
     if (document.querySelector('.ais-cc')) return;
 
     var st = document.createElement('style');
@@ -152,9 +158,9 @@
       +  '</div>'
       +  '<div class="ais-cc-panel" id="ais-panel">'
       +    row('essential','Strictly necessary','Keeps the site working and secure. Always on, and exempt from consent under PECR.',true,true)
-      +    row('analytics','Audience measurement','Google Analytics. Which pages get read, roughly where visitors come from.',false,false)
-      +    row('recording','Session recording','Microsoft Clarity. Anonymised replays and heatmaps showing where people scroll and stop. Text you type is masked.',false,false)
-      +    row('marketing','Marketing','TikTok and Meta advertising pixels. Not currently active, listed so this notice stays honest when they are.',false,false)
+      +    row('analytics','Audience measurement','Google Analytics. Which pages get read, roughly where visitors come from.',!!current.analytics,false)
+      +    row('recording','Session recording','Microsoft Clarity. Anonymised replays and heatmaps showing where people scroll and stop. Text you type is masked.',!!current.recording,false)
+      +    row('marketing','Marketing','TikTok and Meta advertising pixels. Not currently active, listed so this notice stays honest when they are.',!!current.marketing,false)
       +    '<div class="ais-cc-btns" style="margin-top:14px">'
       +      '<button type="button" class="ais-b" data-a="save">Save my choices</button>'
       +    '</div>'
@@ -196,7 +202,16 @@
       }
     });
 
-    function close(c){ apply(c, true); w.remove(); }
+    function close(c){ current = c; apply(c, true); w.remove(); }
+
+    /* Reopened from the footer: show the detail panel straight away, so the
+       visitor can see and change what they previously chose. */
+    if (reopen){
+      w.querySelector('#ais-panel').classList.add('open');
+      var mb = w.querySelector('[data-a="manage"]');
+      mb.setAttribute('aria-expanded','true');
+      mb.textContent = 'Hide options';
+    }
   }
 
   /* Drop a "Cookie choices" link into the existing footer, so consent can be
@@ -204,28 +219,51 @@
   function footerLink(){
     var f = document.querySelector('footer');
     if (!f || f.querySelector('[data-ais-reopen]')) return;
-    var host = f.querySelector('div') || f;
+
+    /* Footer markup varies page to page, so target the LAST div — on every
+       template that is the links / colophon column, not the brand block. */
+    var divs = f.querySelectorAll('div');
+    var host = divs.length ? divs[divs.length-1] : f;
+
+    var wrap = document.createElement('span');
+    wrap.setAttribute('data-ais-footer','1');
+    wrap.style.cssText = 'display:inline-block;margin-top:6px';
+
+    var onPolicy = /^\/privacy(\.html|\/|$)/.test(location.pathname);
+    if (!onPolicy){
+      var pv = document.createElement('a');
+      pv.href = POLICY;
+      pv.textContent = 'Privacy';
+      wrap.appendChild(document.createTextNode(' · '));
+      wrap.appendChild(pv);
+    }
+
     var a = document.createElement('a');
     a.href = '#';
     a.setAttribute('data-ais-reopen','1');
-    a.textContent = 'COOKIE CHOICES';
+    a.textContent = 'Cookie choices';
     a.style.cursor = 'pointer';
     a.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
-    host.appendChild(a);
+    wrap.appendChild(document.createTextNode(' · '));
+    wrap.appendChild(a);
+
+    host.appendChild(wrap);
   }
 
   /* Public re-opener — also usable directly:
      <a href="#" onclick="AISConsent.open();return false">Cookie choices</a>  */
   window.AISConsent = {
     open: function(){
-      try { localStorage.removeItem(STORE); } catch(e){}
+      /* Deliberately does NOT clear the stored choice. Reopening the banner
+         must never silently revoke consent the visitor already gave — they
+         revoke it by choosing, not by looking. */
       var ex = document.querySelector('.ais-cc');
       if (ex) ex.remove();
-      build();
+      build(true);
     }
   };
 
-  function init(){ footerLink(); if (!saved) build(); }
+  function init(){ footerLink(); if (!saved) build(false); }
 
   if (document.readyState === 'loading')
     document.addEventListener('DOMContentLoaded', init);
