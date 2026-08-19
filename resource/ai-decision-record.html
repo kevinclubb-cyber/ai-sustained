@@ -3,553 +3,532 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The AI Adoption Decision Record | AI Sustained</title>
-<meta name="description" content="One page, one process, four gates. The decision record from Issue 018. Fill it in on screen or print it. Nothing is stored or sent.">
-<meta name="author" content="Kevin Clubb">
+<title>The AI Adoption Record</title>
+<meta name="description" content="One page, one process, four gates. Fill it in on screen or print it. Nothing is stored or sent.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --forest: #1B4332;
-    --ink: #0A0F0C;
-    --paper: #F2ECD9;
-    --paper-2: #E8E1CB;
-    --acid: #E8FF3A;
-    --coral: #FF5A3C;
-    --sage: #74C69D;
-    --muted: #8FA398;
-    --rule: rgba(242,236,217,0.16);
-    --rule-soft: rgba(242,236,217,0.09);
-    --panel: rgba(242,236,217,0.04);
-    --acid-hi: #F4FF7A;
-    --acid-mid: #CFE62E;
-    --acid-deep: #9DB324;
-    --acid-shadow: #6E7F14;
+  :root{
+    --forest:#1B4332; --ink:#0A0F0C; --paper:#F2ECD9; --paper-2:#E8E1CB;
+    --acid:#E8FF3A; --acid-hi:#F4FF7A; --acid-mid:#CFE62E; --acid-deep:#9DB324;
+    --acid-shadow:#6E7F14; --coral:#FF5A3C; --sage:#74C69D; --muted:#9DB0A6;
+    --rule:rgba(242,236,217,.18); --panel:rgba(242,236,217,.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  body{
+    background:var(--forest); color:var(--paper);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:18px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    border-top:4px solid var(--acid);
+    print-color-adjust:exact; -webkit-print-color-adjust:exact;
+  }
+  .sheet{max-width:940px;margin:0 auto;padding:34px 26px 70px}
+
+  /* ---------- head ---------- */
+  .brand{
+    font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;
+    letter-spacing:.24em;text-transform:uppercase;color:var(--acid);
+    padding-bottom:16px;border-bottom:1px solid var(--rule);
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;
+    font-size:clamp(38px,6vw,60px);line-height:1.02;letter-spacing:-.025em;
+    margin:32px 0 16px;
+  }
+  h1 .hl{color:var(--acid)}
+  .standfirst{font-size:20px;line-height:1.5;color:var(--paper-2);max-width:44ch}
+  .creed{
+    margin:22px 0 34px;padding:14px 18px;border-left:4px solid var(--acid);
+    background:var(--panel);border-radius:0 6px 6px 0;
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--acid);line-height:1.5;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  /* ---------- top fields ---------- */
+  .meta{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:34px}
+  .fld{background:var(--panel);border:1.5px solid var(--rule);border-radius:8px;padding:14px 16px}
+  .fld:focus-within{border-color:var(--acid);background:rgba(242,236,217,.08)}
+  .fld label{
+    display:block;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--sage);margin-bottom:8px;
+  }
+  .fld input{
+    width:100%;background:transparent;border:0;outline:0;color:var(--paper);
+    font-family:'Inter',sans-serif;font-size:18px;font-weight:500;
+  }
+  input::placeholder,textarea::placeholder{color:rgba(157,176,166,.55)}
 
-  body {
-    background: var(--forest);
-    color: var(--paper);
-    font-family: 'Inter', sans-serif;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    border-top: 3px solid var(--acid);
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
+  /* ---------- gates ---------- */
+  .gate{
+    background:var(--panel);border:1.5px solid var(--rule);
+    border-left:5px solid var(--sage);border-radius:8px;
+    padding:26px 28px;margin-bottom:18px;
   }
+  .gate.hi{border-left-color:var(--acid)}
+  .gate-top{display:flex;align-items:baseline;gap:14px;margin-bottom:12px}
+  .gate-n{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:600;color:var(--sage);line-height:1}
+  .gate.hi .gate-n{color:var(--acid)}
+  .gate-tag{
+    font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--paper);
+  }
+  .gate h2{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;
+    font-size:25px;line-height:1.25;letter-spacing:-.015em;margin-bottom:10px;
+  }
+  .means{font-size:17px;line-height:1.5;color:var(--muted);margin-bottom:16px;max-width:58ch}
+  .scope{margin:22px 0 34px;padding:16px 20px;border-left:4px solid var(--acid);
+    background:var(--panel);border-radius:0 6px 6px 0}
+  .scope p{font-size:17px;line-height:1.55;color:var(--paper-2)}
+  .scope strong{color:var(--paper);font-weight:600}
+  .scope .creed{margin:12px 0 0;padding:0;border:0;background:none;
+    font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--acid)}
 
-  .sheet { max-width: 900px; margin: 0 auto; padding: 30px 28px 56px; }
+  /* collapsible guidance */
+  .gw{margin:0 0 18px;border-top:1px solid var(--rule);padding-top:12px}
+  .gt{
+    cursor:pointer;display:inline-flex;align-items:center;gap:10px;
+    background:none;border:0;padding:0;
+    font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--sage);
+  }
+  .gt::before{
+    content:"+";display:inline-flex;align-items:center;justify-content:center;
+    width:22px;height:22px;border:1.5px solid currentColor;border-radius:5px;
+    font-size:15px;line-height:1;
+  }
+  .gt[aria-expanded="true"]::before{content:"\2212"}
+  .gt:hover,.gt:focus-visible{color:var(--acid)}
+  .guide{padding:14px 0 2px;font-size:17px;line-height:1.6;color:var(--paper-2);max-width:62ch}
+  .guide p+p{margin-top:12px}
+  .guide strong{color:var(--paper);font-weight:600}
 
-  /* ============ TOPBAR ============ */
-  .topbar {
-    display: flex; justify-content: space-between; align-items: baseline;
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
-    letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper);
-    border-bottom: 1px solid var(--rule); padding-bottom: 12px;
+  /* answers */
+  .ans label{
+    display:block;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--sage);margin-bottom:9px;
   }
-  .wordmark { color: var(--acid); font-weight: 600; }
-  .topbar a { color: var(--muted); text-decoration: none; }
-  .topbar a:hover { color: var(--acid); }
+  .ans textarea{
+    width:100%;min-height:76px;background:rgba(10,15,12,.4);
+    border:1.5px solid var(--rule);border-radius:6px;padding:13px 15px;
+    color:var(--paper);font-family:'Inter',sans-serif;font-size:18px;line-height:1.55;
+    outline:0;resize:vertical;
+  }
+  .ans textarea:focus{border-color:var(--acid)}
 
-  /* ============ HEAD ============ */
-  .kicker {
-    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
-    letter-spacing: 0.24em; text-transform: uppercase; color: var(--acid);
-    margin: 34px 0 18px; display: inline-flex; align-items: center; gap: 14px;
+  .yn{display:flex;gap:12px;margin:0 0 18px;flex-wrap:wrap}
+  .yn button{
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;padding:14px 24px;border-radius:7px;
+    border:2px solid rgba(232,255,58,.4);background:transparent;color:var(--paper);
+    cursor:pointer;transition:all .14s ease;
   }
-  .kicker::before { content: ''; width: 36px; height: 2px; background: var(--acid); }
-  h1 {
-    font-family: 'Fraunces', serif; font-weight: 700;
-    font-size: clamp(34px, 5vw, 52px); line-height: 1.05;
-    letter-spacing: -0.02em; max-width: 18ch; margin-bottom: 18px;
+  .yn button:hover{border-color:var(--acid);color:var(--acid)}
+  .yn button[aria-pressed="true"]{background:var(--acid);color:var(--ink);border-color:var(--acid)}
+  .yn button[aria-pressed="true"].no{background:var(--coral);border-color:var(--coral)}
+  .verdict{
+    display:none;margin:0 0 18px;padding:14px 16px;border-radius:6px;
+    font-size:18px;line-height:1.5;font-weight:500;
   }
-  h1 .accent { font-style: italic; color: var(--acid); }
-  .deck {
-    font-family: 'Fraunces', serif; font-style: italic; font-size: 19px;
-    color: var(--paper-2); max-width: 620px; margin-bottom: 6px;
-  }
-  .rule-line {
-    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600;
-    letter-spacing: 0.16em; text-transform: uppercase; color: var(--sage);
-    margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--rule);
-  }
+  .verdict.on{display:block}
+  .verdict.go{background:rgba(116,198,157,.14);border-left:4px solid var(--sage)}
+  .verdict.stop{background:rgba(255,90,60,.14);border-left:4px solid var(--coral)}
 
-  /* ============ HEADER FIELDS ============ */
-  .meta-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    gap: 14px; margin: 30px 0 8px;
+  /* counters */
+  .counts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:18px}
+  .cnt{background:rgba(10,15,12,.4);border:1.5px solid var(--rule);border-radius:6px;padding:14px 16px}
+  .cnt label{
+    display:block;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--sage);margin-bottom:8px;line-height:1.4;
   }
-  .field {
-    background: var(--panel); border: 1px solid var(--rule);
-    border-bottom: 2px solid rgba(232,255,58,0.4);
-    border-radius: 4px; padding: 12px 14px;
-  }
-  .field label {
-    display: block; font-family: 'JetBrains Mono', monospace;
-    font-size: 9.5px; font-weight: 600; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--sage); margin-bottom: 6px;
-  }
-  .field input, .field textarea {
-    width: 100%; background: transparent; border: none; outline: none;
-    color: var(--paper); font-family: 'Inter', sans-serif; font-size: 15px;
-    line-height: 1.5; resize: vertical;
-  }
-  .field input::placeholder, .field textarea::placeholder { color: rgba(143,163,152,0.55); }
-  .field:focus-within { border-color: rgba(232,255,58,0.5); background: rgba(242,236,217,0.06); }
-
-  /* ============ GATES ============ */
-  .gate {
-    background: var(--panel); border: 1px solid var(--rule);
-    border-left: 3px solid var(--sage); border-radius: 4px;
-    padding: 24px 26px; margin: 16px 0;
-  }
-  .gate.final { border-left-color: var(--acid); }
-  .gate-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; flex-wrap: wrap; }
-  .gate-num {
-    font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 600;
-    color: var(--sage); line-height: 1;
-  }
-  .gate.final .gate-num { color: var(--acid); }
-  .gate-name {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.22em; text-transform: uppercase; color: var(--paper);
-  }
-  .gate h2 {
-    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px;
-    line-height: 1.25; color: var(--paper); margin: 8px 0 6px;
-  }
-  .gate .why {
-    font-size: 13.5px; line-height: 1.55; color: var(--muted);
-    max-width: 640px; margin-bottom: 16px;
-  }
-  .gate .why em { font-family: 'Fraunces', serif; font-style: italic; color: var(--sage); }
-
-  .answer { margin-top: 12px; }
-  .answer > label {
-    display: block; font-family: 'JetBrains Mono', monospace;
-    font-size: 9.5px; font-weight: 600; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--sage); margin-bottom: 7px;
-  }
-  .answer textarea {
-    width: 100%; min-height: 58px; background: rgba(10,15,12,0.35);
-    border: 1px solid var(--rule); border-radius: 3px; padding: 10px 12px;
-    color: var(--paper); font-family: 'Inter', sans-serif; font-size: 14.5px;
-    line-height: 1.55; outline: none; resize: vertical;
-  }
-  .answer textarea:focus { border-color: rgba(232,255,58,0.5); }
-  .answer textarea::placeholder { color: rgba(143,163,152,0.5); }
-
-  /* yes / no toggle */
-  .yn { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
-  .yn button {
-    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700;
-    letter-spacing: 0.14em; text-transform: uppercase; padding: 10px 18px;
-    border-radius: 4px; border: 2px solid rgba(232,255,58,0.35);
-    background: transparent; color: var(--paper-2); cursor: pointer;
-    transition: all .15s ease;
-  }
-  .yn button:hover { border-color: var(--acid); color: var(--acid); transform: translateY(-2px); }
-  .yn button[aria-pressed="true"] { background: var(--acid); color: var(--ink); border-color: var(--acid); }
-  .yn button[aria-pressed="true"].no { background: var(--coral); border-color: var(--coral); color: var(--ink); }
-
-  .verdict {
-    margin-top: 14px; padding: 12px 14px; border-radius: 3px;
-    font-family: 'Fraunces', serif; font-style: italic; font-size: 15px;
-    line-height: 1.45; display: none;
-  }
-  .verdict.show { display: block; }
-  .verdict.pass { background: rgba(116,198,157,0.12); border-left: 3px solid var(--sage); color: var(--paper); }
-  .verdict.stop { background: rgba(255,90,60,0.12); border-left: 3px solid var(--coral); color: var(--paper); }
-
-  /* four counters */
-  .counters { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 12px; }
-  .counter { background: rgba(10,15,12,0.35); border: 1px solid var(--rule); border-radius: 3px; padding: 12px 14px; }
-  .counter label {
-    display: block; font-family: 'JetBrains Mono', monospace; font-size: 9px;
-    font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
-    color: var(--sage); margin-bottom: 6px; line-height: 1.4;
-  }
-  .counter input {
-    width: 100%; background: transparent; border: none; outline: none;
-    color: var(--acid); font-family: 'JetBrains Mono', monospace;
-    font-size: 21px; font-weight: 600;
-  }
-  .counter input::placeholder { color: rgba(143,163,152,0.4); }
-  .counter .hint { font-size: 11px; color: var(--muted); margin-top: 5px; line-height: 1.4; }
-
-  /* the sum */
-  .sum {
-    background: var(--ink); border-radius: 4px; padding: 26px 28px;
-    margin: 20px 0 8px; position: relative; overflow: hidden;
-  }
-  .sum::before {
-    content: ''; position: absolute; top: -40px; right: -40px;
-    width: 170px; height: 170px; border: 32px solid var(--acid);
-    border-radius: 50%; opacity: 0.12;
-  }
-  .sum-label {
-    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600;
-    letter-spacing: 0.24em; text-transform: uppercase; color: var(--acid);
-    margin-bottom: 16px; position: relative; z-index: 1;
-  }
-  .sum-row {
-    display: flex; justify-content: space-between; align-items: center;
-    gap: 16px; padding: 11px 0; border-bottom: 1px solid rgba(242,236,217,0.1);
-    position: relative; z-index: 1; flex-wrap: wrap;
-  }
-  .sum-row:last-of-type { border-bottom: none; }
-  .sum-row span { font-size: 14.5px; color: var(--paper-2); }
-  .sum-row input {
-    width: 110px; background: rgba(242,236,217,0.06); border: 1px solid var(--rule);
-    border-radius: 3px; padding: 8px 10px; color: var(--acid); outline: none;
-    font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 600; text-align: right;
-  }
-  .sum-row input:focus { border-color: rgba(232,255,58,0.5); }
-  .sum-total {
-    display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
-    margin-top: 16px; padding-top: 16px; border-top: 2px solid var(--acid);
-    position: relative; z-index: 1; flex-wrap: wrap;
-  }
-  .sum-total strong {
-    font-family: 'Space Grotesk', sans-serif; font-size: 15px; color: var(--paper);
-  }
-  #net { font-family: 'JetBrains Mono', monospace; font-size: 30px; font-weight: 600; color: var(--acid); }
-  #net.negative { color: var(--coral); }
-  .sum-note {
-    font-family: 'Fraunces', serif; font-style: italic; font-size: 15px;
-    color: var(--paper-2); margin-top: 14px; position: relative; z-index: 1;
+  .cnt input{
+    width:100%;background:transparent;border:0;outline:0;color:var(--acid);
+    font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:600;
   }
 
-  /* ============ HOUSE BUTTONS ============ */
-  .actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin: 40px 0 10px; }
-  .btn-key{position:relative;display:inline-flex;width:204px;height:58px;background:transparent;border:none;padding:0;cursor:pointer;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;letter-spacing:.01em;user-select:none;-webkit-tap-highlight-color:transparent}
-  .btn-key .base{position:absolute;inset:0;border-radius:12px;background:linear-gradient(180deg,var(--acid-deep) 0%,var(--acid-shadow) 100%);box-shadow:0 14px 28px rgba(0,0,0,.5),0 2px 0 rgba(0,0,0,.35),inset 0 -2px 3px rgba(0,0,0,.3)}
-  .btn-key .face{position:absolute;inset:0;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;color:var(--ink);background:linear-gradient(180deg,var(--acid-hi) 0%,var(--acid) 42%,var(--acid-mid) 100%);box-shadow:inset 0 2px 1px rgba(255,255,255,.65),inset 0 -3px 4px rgba(110,127,20,.55),inset 2px 0 3px rgba(255,255,255,.25),inset -2px 0 3px rgba(110,127,20,.3);transform:translateY(-7px);transition:transform .09s cubic-bezier(.4,0,.6,1),box-shadow .09s}
-  .btn-key .face::after{content:"";position:absolute;top:4px;left:10px;right:10px;height:14px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));pointer-events:none}
-  .btn-key:hover .face{background:linear-gradient(180deg,#f8ff8f 0%,var(--acid) 46%,var(--acid-mid) 100%)}
-  .btn-key:active .face,.btn-key.pressed .face{transform:translateY(-1px);box-shadow:inset 0 1px 1px rgba(255,255,255,.4),inset 0 -1px 2px rgba(110,127,20,.5),inset 0 3px 6px rgba(110,127,20,.35)}
-  .btn-key:active .base,.btn-key.pressed .base{box-shadow:0 5px 12px rgba(0,0,0,.45),0 1px 0 rgba(0,0,0,.35),inset 0 -1px 2px rgba(0,0,0,.3)}
-  .btn-key:focus-visible{outline:none}
-  .btn-key:focus-visible .face{outline:2px solid var(--paper);outline-offset:3px}
+  /* sum */
+  .sum{background:var(--ink);border:2px solid var(--acid);border-radius:8px;padding:28px 30px;margin:26px 0 18px}
+  .sum-h{
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--acid);margin-bottom:18px;
+  }
+  .row{
+    display:flex;justify-content:space-between;align-items:center;gap:18px;
+    padding:13px 0;border-bottom:1px solid rgba(242,236,217,.12);flex-wrap:wrap;
+  }
+  .row span{font-size:18px;color:var(--paper-2);flex:1;min-width:220px}
+  .row input{
+    width:120px;background:rgba(242,236,217,.07);border:1.5px solid var(--rule);
+    border-radius:6px;padding:10px 12px;color:var(--acid);outline:0;text-align:right;
+    font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:600;
+  }
+  .row input:focus{border-color:var(--acid)}
+  .total{
+    display:flex;justify-content:space-between;align-items:baseline;gap:18px;
+    margin-top:20px;padding-top:20px;border-top:3px solid var(--acid);flex-wrap:wrap;
+  }
+  .total strong{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700}
+  #net{font-family:'JetBrains Mono',monospace;font-size:42px;font-weight:600;color:var(--acid);line-height:1}
+  #net.bad{color:var(--coral)}
+  #call{margin-top:16px;font-size:18px;line-height:1.5;color:var(--paper-2)}
 
-  @property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
-  .btn-circuit{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;width:204px;height:58px;border:none;border-radius:10px;color:var(--paper);background:rgba(10,15,12,.92);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;letter-spacing:.01em;cursor:pointer;isolation:isolate;overflow:hidden;text-decoration:none;transition:color .25s,transform .2s;user-select:none;-webkit-tap-highlight-color:transparent}
-  .btn-circuit::before{content:"";position:absolute;inset:0;border-radius:10px;padding:2px;background:conic-gradient(from var(--ang),transparent 0 18%,var(--acid) 26%,var(--acid-hi) 30%,var(--acid) 34%,transparent 42% 68%,rgba(232,255,58,.7) 78%,transparent 86%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;animation:orbit 3.2s linear infinite;z-index:-1}
-  .btn-circuit::after{content:"";position:absolute;top:0;bottom:0;left:-80%;width:60%;background:linear-gradient(105deg,transparent,rgba(232,255,58,.28),transparent);transform:skewX(-18deg);transition:left .5s ease}
-  @keyframes orbit{to{--ang:360deg}}
-  .btn-circuit span{position:relative;z-index:1;transition:letter-spacing .25s ease,color .25s}
-  .btn-circuit:hover{color:var(--acid);transform:translateY(-2px);box-shadow:0 12px 34px rgba(10,15,12,.35)}
-  .btn-circuit:hover::before{animation-duration:1.1s}
-  .btn-circuit:hover::after{left:120%}
-  .btn-circuit:hover span.lbl{letter-spacing:.06em}
-  .btn-circuit:active{transform:translateY(1px) scale(.98)}
-  .btn-circuit:focus-visible{outline:2px solid var(--acid);outline-offset:3px}
+  /* actions */
+  .acts{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:44px 0 12px}
+  .key{position:relative;display:inline-flex;width:230px;height:62px;border:0;background:none;
+    padding:0;cursor:pointer;text-decoration:none;font-family:'Space Grotesk',sans-serif;
+    font-weight:700;font-size:17px}
+  .key .b{position:absolute;inset:0;border-radius:12px;
+    background:linear-gradient(180deg,var(--acid-deep),var(--acid-shadow));
+    box-shadow:0 14px 28px rgba(0,0,0,.5)}
+  .key .f{position:absolute;inset:0;border-radius:12px;display:flex;align-items:center;
+    justify-content:center;color:var(--ink);
+    background:linear-gradient(180deg,var(--acid-hi),var(--acid) 42%,var(--acid-mid));
+    box-shadow:inset 0 2px 1px rgba(255,255,255,.65),inset 0 -3px 4px rgba(110,127,20,.55);
+    transform:translateY(-7px);transition:transform .09s}
+  .key:active .f{transform:translateY(-1px)}
+  .ghost{display:inline-flex;align-items:center;justify-content:center;width:230px;height:62px;
+    border:2px solid var(--rule);border-radius:12px;color:var(--paper);text-decoration:none;
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;transition:all .15s}
+  .ghost:hover{border-color:var(--acid);color:var(--acid)}
+  .priv{text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:6px}
 
-  .privacy-line {
-    font-family: 'JetBrains Mono', monospace; font-size: 10px;
-    letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
-    text-align: center; margin-top: 4px;
+
+  /* worked example */
+  .example{border:2px solid var(--sage);border-radius:8px;padding:26px 28px;margin:26px 0 8px}
+  .ex-h{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--sage);margin-bottom:12px}
+  .ex-lead{font-size:18px;line-height:1.5;color:var(--paper);margin-bottom:18px;max-width:62ch}
+  .ex-t{width:100%;border-collapse:collapse}
+  .ex-t th{
+    text-align:left;vertical-align:top;width:34%;padding:12px 16px 12px 0;
+    font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--sage);
+    border-top:1px solid var(--rule);
+  }
+  .ex-t td{vertical-align:top;padding:12px 0;font-size:17px;line-height:1.5;
+    color:var(--paper-2);border-top:1px solid var(--rule)}
+  .ex-t strong{color:var(--acid);font-weight:600}
+  .ex-foot{margin-top:16px;font-size:16px;line-height:1.5;color:var(--muted)}
+  @media (max-width:760px){
+    .example{padding:20px 18px}
+    .ex-t th,.ex-t td{display:block;width:auto;padding:10px 0 0}
+    .ex-t td{padding:4px 0 12px;border-top:0}
   }
 
-  /* ============ FOOTER ============ */
-  .foot {
-    margin-top: 44px; padding-top: 18px; border-top: 3px solid var(--acid);
-    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-    font-family: 'JetBrains Mono', monospace; font-size: 10px;
-    letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
-  }
-  .foot a { color: var(--paper); text-decoration: none; border-bottom: 1px solid rgba(242,236,217,.28); }
-  .foot a:hover { color: var(--acid); border-bottom-color: var(--acid); }
-
-  @media (prefers-reduced-motion: reduce) {
-    .btn-circuit, .btn-circuit::before { animation: none; transition: none; }
-    .btn-circuit:hover, .yn button:hover { transform: none; }
-    .btn-key .face { transform: translateY(-7px); }
+  @media (max-width:760px){
+    body{font-size:17px}
+    .sheet{padding:26px 18px 56px}
+    .meta,.counts{grid-template-columns:1fr}
+    .gate{padding:22px 18px}
+    .key,.ghost{width:100%}
   }
 
-  @media (max-width: 720px) {
-    .sheet { padding: 24px 18px 44px; }
-    .gate { padding: 20px 18px; }
-    .btn-key, .btn-circuit { width: 100%; }
-  }
+  /* =========================================================
+     PRINT. Forest ink on white, no header, no brand, no fluff.
+     Guidance is forced open. Boxes stack evenly. Lines thicken.
+     ========================================================= */
+  @media print{
+    @page{size:A4 portrait;margin:14mm}
+    body{background:#fff;color:#101B15;border:0;font-size:10pt;line-height:1.35}
+    .sheet{max-width:none;padding:0}
+    .brand,.acts,.priv,.verdict,.gt{display:none!important}
 
-  /* ============ PRINT ============ */
-  /* Inverted on purpose. A full-bleed forest A4 is a toner tax on whoever
-     prints it, and this sheet only works printed. */
-  @media print {
-    @page { size: A4; margin: 12mm; }
-    body { background: #fff; color: #14261D; border-top: none; font-size: 11px; }
-    .sheet { max-width: none; padding: 0; }
-    .topbar { color: #14261D; border-bottom: 1.5px solid #1B4332; padding-bottom: 8px; }
-    .wordmark, .topbar a { color: #1B4332; }
-    .kicker { color: #1B4332; margin: 14px 0 8px; font-size: 9px; }
-    .kicker::before { background: #1B4332; }
-    h1 { font-size: 26px; color: #14261D; margin-bottom: 8px; max-width: none; }
-    h1 .accent { color: #1B4332; }
-    .deck { font-size: 12px; color: #3C5147; }
-    .rule-line { color: #3C5147; margin-top: 10px; padding-top: 8px; border-color: #C9D3CD; font-size: 8px; }
-    .meta-grid { gap: 8px; margin: 12px 0 4px; }
-    .field, .gate, .counter, .answer textarea, .sum-row input, .counter input {
-      background: #fff; border: 1px solid #8FA398; color: #14261D;
-    }
-    .field { border-bottom: 1.5px solid #1B4332; padding: 7px 9px; }
-    .field label, .answer > label, .counter label { color: #3C5147; font-size: 7.5px; }
-    .field input, .field textarea { color: #14261D; font-size: 11px; }
-    .gate { border-left: 3px solid #1B4332; padding: 12px 14px; margin: 8px 0; page-break-inside: avoid; }
-    .gate-num, .gate.final .gate-num { color: #1B4332; font-size: 16px; }
-    .gate-name, .gate h2 { color: #14261D; }
-    .gate h2 { font-size: 14px; margin: 5px 0 4px; }
-    .gate .why { color: #3C5147; font-size: 10px; margin-bottom: 8px; }
-    .gate .why em { color: #1B4332; }
-    .answer textarea { min-height: 42px; color: #14261D; font-size: 11px; }
-    .counters { gap: 7px; margin-top: 7px; }
-    .counter input { color: #1B4332; font-size: 15px; }
-    .counter .hint { color: #5A6B62; font-size: 8.5px; }
-    .yn button { border: 1.5px solid #1B4332; color: #14261D; padding: 5px 12px; font-size: 8.5px; }
-    .yn button[aria-pressed="true"] { background: #1B4332; color: #fff; }
-    .verdict { display: none !important; }
-    .sum { background: #fff; border: 2px solid #1B4332; padding: 14px 16px; page-break-inside: avoid; }
-    .sum::before { display: none; }
-    .sum-label { color: #1B4332; font-size: 9px; margin-bottom: 8px; }
-    .sum-row { border-bottom: 1px solid #C9D3CD; padding: 6px 0; }
-    .sum-row span { color: #14261D; font-size: 11px; }
-    .sum-row input { color: #1B4332; width: 80px; }
-    .sum-total { border-top: 2px solid #1B4332; margin-top: 8px; padding-top: 8px; }
-    .sum-total strong { color: #14261D; font-size: 12px; }
-    #net { color: #1B4332; font-size: 22px; }
-    .sum-note { color: #3C5147; font-size: 11px; }
-    .actions, .privacy-line { display: none; }
-    .foot { border-top: 2px solid #1B4332; color: #3C5147; margin-top: 14px; padding-top: 8px; font-size: 8px; }
-    .foot a { color: #1B4332; border: none; }
+    h1{font-size:20pt;margin:0 0 5pt;letter-spacing:-.02em;color:#101B15}
+    h1 .hl{color:#1B4332}
+    .standfirst{font-size:10pt;color:#3A4A42;max-width:none;margin-bottom:6pt}
+    .scope{margin:0 0 9pt;padding:5pt 9pt;border-left:3pt solid #1B4332;background:none}
+    .scope p{font-size:9pt;line-height:1.35;color:#3A4A42}
+    .scope strong{color:#101B15}
+    .scope .creed{margin:4pt 0 0;color:#1B4332;font-size:8pt;letter-spacing:.08em}
+    .means{font-size:9.5pt;line-height:1.35;color:#3A4A42;margin-bottom:6pt;max-width:none}
+
+    .meta{grid-template-columns:repeat(2,1fr);gap:6pt;margin-bottom:9pt}
+    .fld{border:1.2pt solid #101B15;border-radius:3pt;padding:6pt 8pt;background:none;min-height:36pt}
+    .fld label{color:#1B4332;font-size:7.5pt;letter-spacing:.12em;margin-bottom:4pt}
+    .fld input{color:#101B15;font-size:11pt}
+
+    .gate,.gate.hi{background:none;border:1.2pt solid #101B15;
+      border-left:3.5pt solid #1B4332;border-radius:3pt;padding:8pt 11pt;
+      margin-bottom:6pt;display:block;overflow:visible}
+    /* keep the answer field with its question, but let a long gate flow */
+    .gate .ans,.gate .yn,.counts{page-break-inside:avoid;break-inside:avoid}
+    .gate h2{page-break-after:avoid;break-after:avoid}
+    .gate-top{display:block;margin-bottom:4pt}
+    .gate-n{display:inline}
+    .gate-tag{display:inline;margin-left:8pt}
+    .gate h2{display:block;clear:both}
+    .yn{display:block}
+    .yn button{display:inline-block;margin:0 6pt 4pt 0}
+    .ans{display:block;clear:both}
+    .gate-top{margin-bottom:5pt;gap:9pt}
+    .gate-n,.gate.hi .gate-n{color:#1B4332;font-size:15pt}
+    .gate-tag{color:#101B15;font-size:8.5pt}
+    .gate h2{font-size:12.5pt;margin-bottom:6pt;color:#101B15}
+
+    /* guidance is always open on paper */
+    .gw{border-top:0;padding-top:0;margin:0 0 6pt}
+    .guide,.guide[hidden]{display:block!important;padding:0;font-size:9pt;
+      line-height:1.35;color:#3A4A42;max-width:none}
+    .guide strong{color:#101B15}
+
+    .ans label{color:#1B4332;font-size:7.5pt;letter-spacing:.12em;margin-bottom:4pt}
+    .ans textarea{border:1.2pt solid #101B15;border-radius:3pt;background:none;
+      color:#101B15;min-height:40pt;font-size:10pt;padding:5pt 7pt}
+
+    .yn{gap:8pt;margin-bottom:6pt}
+    .yn button{border:1.2pt solid #101B15;color:#101B15;background:none;
+      padding:5pt 12pt;font-size:8pt;border-radius:3pt}
+
+    .counts{grid-template-columns:repeat(4,1fr);gap:6pt;margin-bottom:6pt}
+    .cnt{border:1.2pt solid #101B15;border-radius:3pt;padding:6pt 7pt;background:none;min-height:44pt}
+    .cnt label{color:#1B4332;font-size:7pt;margin-bottom:4pt}
+    .cnt input{color:#101B15;font-size:16pt}
+
+    .sum{background:none;border:2pt solid #101B15;border-radius:3pt;padding:9pt 11pt;
+      margin:8pt 0 6pt;page-break-inside:avoid;break-inside:avoid}
+    .sum-h{color:#1B4332;font-size:8.5pt;margin-bottom:8pt}
+    .row{padding:5pt 0;border-bottom:.8pt solid #A9B7B0}
+    .row span{color:#101B15;font-size:10pt}
+    .row input{border:1.2pt solid #101B15;background:none;color:#101B15;width:80pt;
+      font-size:12pt;padding:4pt 6pt}
+    .total{border-top:2pt solid #101B15;margin-top:7pt;padding-top:7pt}
+    .total strong{font-size:11pt;color:#101B15}
+    #net,#net.bad{color:#1B4332;font-size:24pt}
+    #call{display:none}
+
+    .example{border:1.2pt solid #101B15;border-radius:3pt;padding:9pt 11pt;margin:8pt 0 0;
+      page-break-inside:avoid;break-inside:avoid}
+    .ex-h{color:#1B4332;font-size:8.5pt;margin-bottom:5pt}
+    .ex-lead{font-size:9.5pt;line-height:1.35;color:#101B15;margin-bottom:7pt;max-width:none}
+    .ex-t th{color:#1B4332;font-size:7.5pt;padding:5pt 10pt 5pt 0;border-top:.8pt solid #A9B7B0}
+    .ex-t td{font-size:9pt;line-height:1.35;color:#3A4A42;padding:5pt 0;border-top:.8pt solid #A9B7B0}
+    .ex-t strong{color:#101B15}
+    .ex-foot{font-size:9pt;color:#3A4A42;margin-top:6pt}
+
   }
 </style>
 </head>
 <body>
 <div class="sheet">
 
-  <div class="topbar">
-    <span><span class="wordmark">AI Sustained.</span> &nbsp;Resource 001</span>
-    <span><a href="https://ai-sustained.com/articles/payroll-into-compute/">Issue 018</a></span>
+  <div class="brand">AI Sustained &nbsp;·&nbsp; Free to use, free to copy</div>
+
+  <h1>The AI Adoption <span class="hl">Record</span></h1>
+  <p class="standfirst">You have handed one job to AI. Is it actually working, and is it steady enough to change how the team is staffed? Five questions, answered in order.</p>
+  <div class="scope">
+    <p><strong>Use one sheet per job.</strong> One workflow, one automation, one task. Not one per department, and not one per tool. If AI is drafting your quotes and also sorting your inbox, that is two sheets.</p>
+    <p class="creed">Answer each question with something you have measured. Not something you expect.</p>
   </div>
 
-  <div class="kicker">One process &middot; One page &middot; Four gates</div>
-  <h1>The AI Adoption <span class="accent">Decision Record</span></h1>
-  <p class="deck">Fill one in per process, before anybody talks about headcount. If you cannot complete gate two with real numbers, you have not finished thinking.</p>
-  <p class="rule-line">No gate is passed on a forecast. Only on a measurement.</p>
-
-  <div class="meta-grid">
-    <div class="field">
-      <label for="f-proc">The process</label>
-      <input id="f-proc" type="text" placeholder="e.g. supplier invoice checking">
-    </div>
-    <div class="field">
-      <label for="f-owner">Who owns this decision</label>
-      <input id="f-owner" type="text" placeholder="Name and role">
-    </div>
-    <div class="field">
-      <label for="f-date">Date started</label>
-      <input id="f-date" type="text" placeholder="DD / MM / YYYY">
-    </div>
-    <div class="field">
-      <label for="f-review">Review date</label>
-      <input id="f-review" type="text" placeholder="One month from today">
-    </div>
+  <div class="meta">
+    <div class="fld"><label for="p1">The process</label><input id="p1" type="text" placeholder="e.g. supplier invoice checking"></div>
+    <div class="fld"><label for="p2">Who owns this decision</label><input id="p2" type="text" placeholder="Name and role"></div>
+    <div class="fld"><label for="p3">Date started</label><input id="p3" type="text" placeholder="DD / MM / YYYY"></div>
+    <div class="fld"><label for="p4">Review date</label><input id="p4" type="text" placeholder="One month from today"></div>
   </div>
 
-  <!-- GATE 1 -->
-  <section class="gate">
-    <div class="gate-head">
-      <span class="gate-num">01</span>
-      <span class="gate-name">Map</span>
+  <!-- 01 -->
+  <section class="gate hi">
+    <div class="gate-top"><span class="gate-n">01</span><span class="gate-tag">Is it checkable?</span></div>
+    <h2>Can somebody spot a mistake without doing the whole job again?</h2>
+    <p class="means">Someone has to look over what the AI produced before it goes anywhere. This asks how expensive that look is.</p>
+
+    <div class="gw">
+      <button type="button" class="gt" aria-expanded="false">What this means, with an example</button>
+      <div class="guide" hidden>
+        <p><strong>Cheap to check:</strong> the AI copies figures off a supplier invoice into your accounts. Your bookkeeper holds the invoice next to the entry and knows in twenty seconds.</p>
+        <p><strong>Expensive to check:</strong> the AI writes a quote for a bespoke job. To know the price is right, somebody has to work the job out themselves. That is not checking, that is doing it twice.</p>
+        <p>If checking costs about as much as doing, the saving disappears no matter how good the tool is. <strong>No is a useful answer.</strong> It means pick a different job to automate, not a different AI.</p>
+      </div>
     </div>
-    <h2>Can somebody confirm the output is right without redoing the work?</h2>
-    <p class="why">This is the whole test. Where checking is cheap and already somebody's job, the gain survives. Where checking means rebuilding the reasoning, it costs roughly what doing it cost, and the saving disappears. <em>It predicts which functions reverse better than any list of automatable tasks.</em></p>
-    <div class="yn" role="group" aria-label="Gate 1 answer">
-      <button type="button" class="yes" data-gate="1" aria-pressed="false">Yes, cheaply</button>
-      <button type="button" class="no" data-gate="1" aria-pressed="false">No, or not sure</button>
+
+    <div class="yn" role="group" aria-label="Gate 1">
+      <button type="button" class="yes" data-g="1" aria-pressed="false">Yes, cheaply</button>
+      <button type="button" class="no" data-g="1" aria-pressed="false">No, or not sure</button>
     </div>
     <div class="verdict" id="v1"></div>
-    <div class="answer">
-      <label for="a1">Who does the checking today, and how long does one check take?</label>
-      <textarea id="a1" placeholder="Name the person or role, and the minutes."></textarea>
+
+    <div class="ans">
+      <label for="a1">Who checks the output, and how long does one check take?</label>
+      <textarea id="a1" placeholder="e.g. Bookkeeper, about 20 seconds per invoice."></textarea>
     </div>
   </section>
 
-  <!-- GATE 2 -->
+  <!-- 02 -->
   <section class="gate">
-    <div class="gate-head">
-      <span class="gate-num">02</span>
-      <span class="gate-name">Measure</span>
-    </div>
-    <h2>Run it for one month and count four things.</h2>
-    <p class="why">Not a pilot on tidy data. A month of real work, including the awkward inputs. The fourth counter is the difficult one and the only one that catches cost <em>moving</em> rather than disappearing.</p>
-    <div class="counters">
-      <div class="counter">
-        <label for="c1">Sessions started</label>
-        <input id="c1" type="text" inputmode="numeric" placeholder="0">
-        <div class="hint">Every attempt, not every success</div>
-      </div>
-      <div class="counter">
-        <label for="c2">Restarted or abandoned</label>
-        <input id="c2" type="text" inputmode="numeric" placeholder="0">
-        <div class="hint">Needed a fresh go or a rewrite</div>
-      </div>
-      <div class="counter">
-        <label for="c3">Review minutes per output</label>
-        <input id="c3" type="text" inputmode="numeric" placeholder="0">
-        <div class="hint">Time spent checking, on average</div>
-      </div>
-      <div class="counter">
-        <label for="c4">Defects caught downstream</label>
-        <input id="c4" type="text" inputmode="numeric" placeholder="0">
-        <div class="hint">By somebody other than the operator</div>
+    <div class="gate-top"><span class="gate-n">02</span><span class="gate-tag">Is it really saving time?</span></div>
+    <h2>Run it for a month on real work. Count four things.</h2>
+    <p class="means">Not whether it impresses you. Whether it saves hours once the checking and the fixing are counted too.</p>
+
+    <div class="gw">
+      <button type="button" class="gt" aria-expanded="false">What this means, with an example</button>
+      <div class="guide" hidden>
+        <p>A month of ordinary trading, awkward jobs included. Not a demo, not the ten tidy examples you tested it on.</p>
+        <p><strong>Example:</strong> the invoice workflow ran 240 times. On 31 of those the output was wrong enough to start again. Checking took about two minutes each time. Four errors got through and the accountant caught them at month end.</p>
+        <p><strong>The fourth box is the one everybody forgets.</strong> The first three are costs you can see. The fourth is the cost that has quietly landed on somebody else, and it never shows up as an AI problem.</p>
       </div>
     </div>
-    <div class="answer">
-      <label for="a2">What surprised you? Where did the failures cluster?</label>
-      <textarea id="a2" placeholder="Usually the inputs your pilot never saw."></textarea>
+
+    <div class="counts">
+      <div class="cnt"><label for="c1">Times it was run</label><input id="c1" type="text" inputmode="numeric" placeholder="0"></div>
+      <div class="cnt"><label for="c2">Times you started again</label><input id="c2" type="text" inputmode="numeric" placeholder="0"></div>
+      <div class="cnt"><label for="c3">Minutes checking, each time</label><input id="c3" type="text" inputmode="numeric" placeholder="0"></div>
+      <div class="cnt"><label for="c4">Mistakes somebody else found</label><input id="c4" type="text" inputmode="numeric" placeholder="0"></div>
+    </div>
+
+    <div class="ans">
+      <label for="a2">Where did it go wrong most often?</label>
+      <textarea id="a2" placeholder="e.g. handwritten invoices and anything from one supplier."></textarea>
     </div>
   </section>
 
-  <!-- GATE 3 -->
+  <!-- 03 -->
   <section class="gate">
-    <div class="gate-head">
-      <span class="gate-num">03</span>
-      <span class="gate-name">Deploy</span>
+    <div class="gate-top"><span class="gate-n">03</span><span class="gate-tag">Who runs it day to day?</span></div>
+    <h2>Hand it to a junior person, with somebody experienced signing off.</h2>
+    <p class="means">Whoever runs it needs to be able to keep it running. That should not be your most expensive person.</p>
+
+    <div class="gw">
+      <button type="button" class="gt" aria-expanded="false">What this means, with an example</button>
+      <div class="guide" hidden>
+        <p>The gain is biggest for the person who had furthest to travel, and it is smallest, sometimes negative, for the person who already did the job well. Handing your best tool to your best person is the instinct, and it is the wrong way round.</p>
+        <p><strong>Example:</strong> the office junior runs the invoice workflow every morning and flags anything odd. The bookkeeper reviews a sample once a week and signs it off. The junior gets better and faster; the bookkeeper keeps the responsibility.</p>
+        <p>This is also how you find out whether it can survive without you. <strong>If only one clever person can keep it working, you have not automated anything.</strong> You have created a dependency.</p>
+      </div>
     </div>
-    <h2>Give it to your least experienced people first.</h2>
-    <p class="why">Novice support agents gained 34%. Experienced agents gained close to nothing, and expert developers on their own code went 19% slower. Every study points the same way, and it is the opposite of most people's instinct. <em>Your best people are the wrong pilot group.</em></p>
-    <div class="answer">
-      <label for="a3">Who is running it, and how long have they done the job?</label>
-      <textarea id="a3" placeholder="If the answer is 'our most senior person', reconsider."></textarea>
+
+    <div class="ans">
+      <label for="a3">Who runs it daily, and who signs it off?</label>
+      <textarea id="a3" placeholder="e.g. Runs: office junior. Signs off: bookkeeper, weekly."></textarea>
     </div>
   </section>
 
-  <!-- GATE 4 -->
-  <section class="gate final">
-    <div class="gate-head">
-      <span class="gate-num">04</span>
-      <span class="gate-name">Decide</span>
+  <!-- 04 -->
+  <section class="gate hi">
+    <div class="gate-top"><span class="gate-n">04</span><span class="gate-tag">Is it steady enough to build on?</span></div>
+    <h2>Work out the real hours saved, before anybody discusses staffing.</h2>
+    <p class="means">This is the only number that should ever reach a staffing conversation, and almost nobody calculates it.</p>
+
+    <div class="gw">
+      <button type="button" class="gt" aria-expanded="false">What this means, with an example</button>
+      <div class="guide" hidden>
+        <p>Take the hours the job used to take. Subtract the hours it takes now, the hours spent checking it, and the hours spent fixing what it got wrong. What is left is the real saving.</p>
+        <p><strong>Example:</strong> invoices used to take six hours a week. Now one hour to run, two hours checking, half an hour fixing. Real saving: two and a half hours a week. That is genuinely worth having, and it is not a job.</p>
+        <p>Never work from a remembered saving. People overestimate what a tool saved them by a wide margin, even straight after being timed doing the opposite. <strong>If a box below is blank, you are guessing.</strong></p>
+      </div>
     </div>
-    <h2>Only now, and only on the numbers above.</h2>
-    <p class="why">Never on a self-reported time saving. The one study that measured both found people wrong by 43 points, in the optimistic direction, immediately after experiencing the opposite. <em>Measure it, or drop the claim.</em></p>
   </section>
 
   <div class="sum">
-    <div class="sum-label">The arithmetic</div>
-    <div class="sum-row">
-      <span>Hours a week this used to take</span>
-      <input id="s1" type="text" inputmode="decimal" placeholder="0">
-    </div>
-    <div class="sum-row">
-      <span>Hours a week it takes now, doing it</span>
-      <input id="s2" type="text" inputmode="decimal" placeholder="0">
-    </div>
-    <div class="sum-row">
-      <span>Hours a week spent checking and re-running</span>
-      <input id="s3" type="text" inputmode="decimal" placeholder="0">
-    </div>
-    <div class="sum-row">
-      <span>Hours a week the mistakes cost somebody else</span>
-      <input id="s4" type="text" inputmode="decimal" placeholder="0">
-    </div>
-    <div class="sum-total">
-      <strong>Real hours saved per week</strong>
-      <span id="net">0.0</span>
-    </div>
-    <p class="sum-note" id="verdict-note">Fill the four rows in. This is the number that goes on the slide, not the first one.</p>
+    <div class="sum-h">The arithmetic</div>
+    <div class="row"><span>Hours a week this job used to take</span><input id="s1" type="text" inputmode="decimal" placeholder="0"></div>
+    <div class="row"><span>Hours a week it takes now, running it</span><input id="s2" type="text" inputmode="decimal" placeholder="0"></div>
+    <div class="row"><span>Hours a week spent checking the output</span><input id="s3" type="text" inputmode="decimal" placeholder="0"></div>
+    <div class="row"><span>Hours a week fixing what it got wrong</span><input id="s4" type="text" inputmode="decimal" placeholder="0"></div>
+    <div class="total"><strong>Real hours saved a week</strong><span id="net">0.0</span></div>
+    <p id="call">Fill the four rows in. This is the number that goes on the slide.</p>
   </div>
 
-  <section class="gate final">
-    <h2 style="margin-top:0">The two-year test</h2>
-    <p class="why">Klarna's loop from announcement to correction ran twelve to eighteen months. Gartner expects half of AI-driven cuts to be reversed by 2027, with rehires returning 20% to 35% above the salary that was cut. <em>Push your payback out two years and add the cost of hiring them back.</em></p>
+  <section class="gate hi">
+    <div class="gate-top"><span class="gate-n">05</span><span class="gate-tag">Would it still hold in two years?</span></div>
+    <h2>Only if you would still be glad of this decision after two years.</h2>
+    <p class="means">The last question, and the one that stops an expensive mistake.</p>
+
+    <div class="gw">
+      <button type="button" class="gt" aria-expanded="false">What this means, with an example</button>
+      <div class="guide" hidden>
+        <p>Assume the tool changes, the supplier changes their invoice layout, and the person who ran it leaves. Would the decision still look right?</p>
+        <p>Roughly a third of employers who cut a role because of AI have since hired back into it, and the people came back on more money than they left on. Add that cost to your sums before you commit.</p>
+        <p><strong>If it only works in year one, it does not work.</strong> Two and a half hours a week is a real gain. Give those hours back to the person and spend them on something better. That is a perfectly good outcome, and it is the most common one.</p>
+      </div>
+    </div>
+
     <div class="yn" role="group" aria-label="Two-year test">
-      <button type="button" class="yes" data-gate="2" aria-pressed="false">Still works</button>
-      <button type="button" class="no" data-gate="2" aria-pressed="false">Does not survive</button>
+      <button type="button" class="yes" data-g="2" aria-pressed="false">Still works</button>
+      <button type="button" class="no" data-g="2" aria-pressed="false">Does not survive</button>
     </div>
     <div class="verdict" id="v2"></div>
-    <div class="answer">
-      <label for="a4">Decision, and who signed it off</label>
-      <textarea id="a4" placeholder="Write what you decided and why, so the next person can audit it."></textarea>
+
+    <div class="ans">
+      <label for="a4">What you decided, and who signed it</label>
+      <textarea id="a4" placeholder="e.g. Keep the role. Reinvest the 2.5 hours in chasing late payers. KC, 18 Aug."></textarea>
     </div>
   </section>
 
-  <div class="actions">
-    <button class="btn-key" id="print"><span class="base"></span><span class="face">Print this sheet</span></button>
-    <a class="btn-circuit" href="https://ai-sustained.com/articles/payroll-into-compute/"><span class="lbl">Read Issue 018</span><span aria-hidden="true">&#8594;</span></a>
-  </div>
-  <p class="privacy-line">Nothing here is stored or sent. Close the tab and it is gone.</p>
 
-  <div class="foot">
-    <span><span class="wordmark">AI Sustained.</span> &middot; By Kevin Clubb</span>
-    <span><a href="https://ai-sustained.com/">ai-sustained.com</a> &middot; 2026</span>
+  <section class="example">
+    <div class="ex-h">A worked example</div>
+    <p class="ex-lead">A twelve-person plumbing firm. AI reads supplier invoices and puts the figures into the accounts spreadsheet. One job, so one sheet.</p>
+    <table class="ex-t">
+      <tr><th>01 &nbsp;Is it checkable?</th>
+          <td><strong>Yes.</strong> The bookkeeper holds the invoice next to the entry. Twenty seconds. Cheap.</td></tr>
+      <tr><th>02 &nbsp;Really saving time?</th>
+          <td>One month: ran 240 times, started again 31 times, about 2 minutes checking each, 4 errors caught later by the accountant. Handwritten invoices caused most of it.</td></tr>
+      <tr><th>03 &nbsp;Who runs it?</th>
+          <td>The office junior runs it each morning and flags anything odd. The bookkeeper reviews a sample weekly and signs it off.</td></tr>
+      <tr><th>04 &nbsp;Real hours saved</th>
+          <td>Used to take 6 hrs a week. Now 1 hr running, 2 hrs checking, 0.5 hrs fixing. <strong>Real saving: 2.5 hrs a week.</strong></td></tr>
+      <tr><th>05 &nbsp;Still hold in two years?</th>
+          <td>Yes, but 2.5 hours is not a job. <strong>Decision: keep the role, spend the 2.5 hours chasing late payers.</strong></td></tr>
+    </table>
+    <p class="ex-foot">That is the most common honest outcome. A real saving, given back to the person who was already doing the work.</p>
+  </section>
+
+  <div class="acts">
+    <button class="key" id="pr"><span class="b"></span><span class="f">Print this sheet</span></button>
+    <a class="ghost" href="https://ai-sustained.com/articles/payroll-into-compute/">Read the article</a>
   </div>
+  <p class="priv">Nothing is stored or sent. Close the tab and it is gone.</p>
 
 </div>
 
 <script>
-(function () {
-  /* Yes/no toggles, with a verdict that says the quiet part. */
-  var COPY = {
-    '1': {
-      yes: ['pass', 'Good. That is a real candidate. Carry on to gate two and get the numbers.'],
-      no:  ['stop', 'Then this is not a candidate yet, whatever the demo showed. Either build a cheaper way to check, or pick a different process.']
-    },
-    '2': {
-      yes: ['pass', 'Then you have a business case. Write down who signed it and what the numbers were.'],
-      no:  ['stop', 'Then you have a press release, not a business case. Do not touch headcount.']
-    }
+(function(){
+  var SAY={
+    '1':{yes:['go','Good. Carry on to gate two and get the numbers.'],
+         no:['stop','Then it is not a candidate yet. Pick a different process, or build a cheaper way to check.']},
+    '2':{yes:['go','Then you have a case. Write down who signed it.'],
+         no:['stop','Then you have a press release. Do not touch headcount.']}
   };
-
-  document.querySelectorAll('.yn button').forEach(function (b) {
-    b.addEventListener('click', function () {
-      var g = b.getAttribute('data-gate');
-      var group = document.querySelectorAll('.yn button[data-gate="' + g + '"]');
-      group.forEach(function (o) { o.setAttribute('aria-pressed', 'false'); });
-      b.setAttribute('aria-pressed', 'true');
-      var kind = b.classList.contains('yes') ? 'yes' : 'no';
-      var v = document.getElementById('v' + g);
-      v.className = 'verdict show ' + COPY[g][kind][0];
-      v.textContent = COPY[g][kind][1];
+  document.querySelectorAll('.yn button').forEach(function(b){
+    b.addEventListener('click',function(){
+      var g=b.getAttribute('data-g');
+      document.querySelectorAll('.yn button[data-g="'+g+'"]').forEach(function(o){o.setAttribute('aria-pressed','false')});
+      b.setAttribute('aria-pressed','true');
+      var k=b.classList.contains('yes')?'yes':'no', v=document.getElementById('v'+g);
+      v.className='verdict on '+SAY[g][k][0]; v.textContent=SAY[g][k][1];
     });
   });
 
-  /* Live arithmetic. Old hours, minus doing it, minus checking, minus the
-     mess it makes for other people. */
-  var ids = ['s1', 's2', 's3', 's4'];
-  function num(id) {
-    var v = parseFloat((document.getElementById(id).value || '').replace(/[^0-9.\-]/g, ''));
-    return isNaN(v) ? 0 : v;
+  function n(id){var v=parseFloat((document.getElementById(id).value||'').replace(/[^0-9.\-]/g,''));return isNaN(v)?0:v}
+  function calc(){
+    var net=n('s1')-n('s2')-n('s3')-n('s4'), el=document.getElementById('net');
+    el.textContent=(net>0?'+':'')+net.toFixed(1);
+    el.classList.toggle('bad',net<0);
+    var c=document.getElementById('call');
+    if(!document.getElementById('s1').value){c.textContent='Fill the four rows in. This is the number that goes on the slide.';}
+    else if(net<=0){c.textContent='It costs more than it saves. Useful to know, and cheap to find out. Stop here.';}
+    else if(net<n('s1')*0.25){c.textContent='A real saving, but a modest one. Worth doing. Not worth restructuring around.';}
+    else{c.textContent='A genuine saving, measured rather than remembered. Now do the two-year test.';}
   }
-  function recalc() {
-    var net = num('s1') - num('s2') - num('s3') - num('s4');
-    var el = document.getElementById('net');
-    el.textContent = (net > 0 ? '+' : '') + net.toFixed(1);
-    el.classList.toggle('negative', net < 0);
+  ['s1','s2','s3','s4'].forEach(function(i){document.getElementById(i).addEventListener('input',calc)});
 
-    var note = document.getElementById('verdict-note');
-    if (!document.getElementById('s1').value) {
-      note.textContent = 'Fill the four rows in. This is the number that goes on the slide, not the first one.';
-    } else if (net <= 0) {
-      note.textContent = 'This process costs more than it saves. That is a useful finding, and a cheap one. Stop here.';
-    } else if (net < num('s1') * 0.25) {
-      note.textContent = 'A real saving, but a modest one. Worth doing. Not worth restructuring around.';
-    } else {
-      note.textContent = 'A genuine saving, measured rather than forecast. Now apply the two-year test below before anybody discusses headcount.';
-    }
-  }
-  ids.forEach(function (id) { document.getElementById(id).addEventListener('input', recalc); });
-
-  document.getElementById('print').addEventListener('click', function () { window.print(); });
-
-  document.querySelectorAll('.btn-key').forEach(function (k) {
-    k.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') k.classList.add('pressed'); });
-    k.addEventListener('keyup', function () { k.classList.remove('pressed'); });
+  // Guidance is collapsed on screen. Print CSS forces it open, so nothing
+  // needs opening before printing.
+  document.querySelectorAll('.gt').forEach(function(t){
+    t.addEventListener('click',function(){
+      var g=t.nextElementSibling, open=t.getAttribute('aria-expanded')==='true';
+      t.setAttribute('aria-expanded', String(!open));
+      if(open){g.setAttribute('hidden','')}else{g.removeAttribute('hidden')}
+    });
   });
+  document.getElementById('pr').addEventListener('click',function(){window.print()});
 })();
 </script>
 </body>

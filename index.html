@@ -2035,7 +2035,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         // What each article promised. Add a line per issue; nothing else changes.
         var DELIVERABLES = {
           issue018: {
-            label: "the AI Adoption Decision Record",
+            label: "the AI Adoption Record",
+            cta: "Open the AI Adoption Record",
             url: "/resource/ai-decision-record.html"
           }
         };
@@ -2084,10 +2085,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               var gift = DELIVERABLES[src];
               if (gift) {
                 statusEl.innerHTML =
-                  "You're in. Here is " + gift.label +
-                  ', <a href="' + gift.url + '" target="_blank" rel="noopener">open it now</a>. ' +
-                  "The next issue lands in your inbox when it publishes.";
+                  '<div class="gift-drop">' +
+                    '<div class="gift-eyebrow">You\'re in. Your download is ready</div>' +
+                    '<a class="gift-btn" href="' + gift.url + '" target="_blank" rel="noopener">' +
+                      '<span class="gift-btn-base"></span>' +
+                      '<span class="gift-btn-face">' + gift.cta + ' <span class="gift-arrow">&#8595;</span></span>' +
+                    '</a>' +
+                    '<div class="gift-note">Opens in a new tab. The next issue lands in your inbox when it publishes.</div>' +
+                  '</div>';
                 if (window.gtag) gtag("event", "resource_delivered", { source: src });
+                var g = statusEl.querySelector(".gift-drop");
+                if (g) { g.scrollIntoView({ behavior: "smooth", block: "center" }); }
               } else {
                 statusEl.textContent = "You're in. Check your inbox to confirm.";
               }
@@ -2253,6 +2261,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 .ais-fl a{white-space:nowrap;display:inline-block}
 .ais-fc{display:block}
 @media(max-width:640px){.ais-fl{line-height:2.1}}
+
+  /* ===== Delivered-resource drop. Deliberately loud: it is the one thing the
+     reader came for, and burying it in a status line lost people. ===== */
+  .gift-drop{margin-top:18px;padding:22px 22px 20px;border-radius:10px;
+    background:rgba(10,15,12,.55);border:2px solid var(--acid);
+    box-shadow:0 0 0 0 rgba(232,255,58,.55);
+    animation:giftIn .5s cubic-bezier(.2,.9,.3,1.4) both, giftHalo 2.2s ease-out .5s infinite}
+  @keyframes giftIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+  @keyframes giftHalo{0%{box-shadow:0 0 0 0 rgba(232,255,58,.5)}70%{box-shadow:0 0 0 20px rgba(232,255,58,0)}100%{box-shadow:0 0 0 0 rgba(232,255,58,0)}}
+  .gift-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--acid);margin-bottom:14px}
+  .gift-btn{position:relative;display:inline-flex;width:100%;max-width:420px;height:64px;
+    text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px}
+  .gift-btn-base{position:absolute;inset:0;border-radius:12px;
+    background:linear-gradient(180deg,var(--acid-deep) 0%,var(--acid-shadow) 100%);
+    box-shadow:0 14px 30px rgba(0,0,0,.55)}
+  .gift-btn-face{position:absolute;inset:0;border-radius:12px;display:flex;align-items:center;
+    justify-content:center;gap:12px;color:var(--ink);
+    background:linear-gradient(180deg,var(--acid-hi) 0%,var(--acid) 42%,var(--acid-mid) 100%);
+    box-shadow:inset 0 2px 1px rgba(255,255,255,.65),inset 0 -3px 4px rgba(110,127,20,.55);
+    transform:translateY(-8px);transition:transform .09s cubic-bezier(.4,0,.6,1)}
+  .gift-btn:hover .gift-btn-face{background:linear-gradient(180deg,#f8ff8f 0%,var(--acid) 46%,var(--acid-mid) 100%)}
+  .gift-btn:active .gift-btn-face{transform:translateY(-1px)}
+  .gift-arrow{display:inline-block;animation:giftBob 1.1s ease-in-out infinite}
+  @keyframes giftBob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+  .gift-note{margin-top:14px;font-size:13px;line-height:1.5;color:var(--muted)}
+  @media (prefers-reduced-motion: reduce){
+    .gift-drop{animation:none}.gift-arrow{animation:none}
+  }
 </style>
 
 <button class="ss-fab" type="button" aria-label="Search the site" onclick="ssOpen()">
