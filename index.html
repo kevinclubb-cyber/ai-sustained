@@ -2032,6 +2032,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         var statusEl = document.getElementById("form-status");
         if (!form) return;
 
+        // What each article promised. Add a line per issue; nothing else changes.
+        var DELIVERABLES = {
+          issue018: {
+            label: "the AI Adoption Decision Record",
+            url: "/resource/ai-decision-record.html"
+          }
+        };
+
         // Capture ?src= on arrival, before any in-page navigation loses it.
         try {
           var q = new URLSearchParams(window.location.search).get("src");
@@ -2070,7 +2078,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           .then(function (r) {
             if (r.ok) {
               statusEl.className = "form-status ok";
-              statusEl.textContent = "You're in. Check your inbox to confirm.";
+              // If they arrived from an article that promised something, hand it
+              // over here rather than by email. No workflow needed, no waiting on
+              // a confirmation click, and the promise on the button is kept.
+              var gift = DELIVERABLES[src];
+              if (gift) {
+                statusEl.innerHTML =
+                  "You're in. Here is " + gift.label +
+                  ', <a href="' + gift.url + '" target="_blank" rel="noopener">open it now</a>. ' +
+                  "The next issue lands in your inbox when it publishes.";
+                if (window.gtag) gtag("event", "resource_delivered", { source: src });
+              } else {
+                statusEl.textContent = "You're in. Check your inbox to confirm.";
+              }
               form.reset();
             } else {
               statusEl.className = "form-status err";
