@@ -1891,7 +1891,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span class="muted">8 min read &middot; 18 Aug 2026</span>
         </div>
         <h3 class="card-title">173,568 jobs cut in AI's name.</h3>
-        <p class="card-deck">American firms cut, British firms simply stopped hiring and took 42% off the graduate ladder instead. Three years and several hundred billion pounds in, nobody has produced an audited pound of proof that any of it worked.</p>
+        <p class="card-deck">American firms cut. British firms simply stopped hiring, and took 42% off the graduate ladder instead. Nobody has produced an audited pound of proof that any of it worked.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
@@ -2031,6 +2031,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         var form = document.getElementById("subscribe-form");
         var statusEl = document.getElementById("form-status");
         if (!form) return;
+
+        // Capture ?src= on arrival, before any in-page navigation loses it.
+        try {
+          var q = new URLSearchParams(window.location.search).get("src");
+          if (q) sessionStorage.setItem("ais_src", q.slice(0, 60));
+        } catch (e) {}
         form.addEventListener("submit", function (e) {
           e.preventDefault();
           var email = document.getElementById("hs-email").value.trim();
@@ -2041,9 +2047,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             return;
           }
           statusEl.className = "form-status"; statusEl.textContent = "Subscribing…";
-          var endpoint = "https://api.hsforms.com/submissions/v3/integration/submit/" + HS_PORTAL_ID + "/" + HS_FORM_GUID;
+          var endpoint = "https://api-eu1.hsforms.com/submissions/v3/integration/submit/" + HS_PORTAL_ID + "/" + HS_FORM_GUID;
+
+          // Which article sent them. Read once on load and kept in sessionStorage,
+          // because the hash link scrolls without a reload and the param can be
+          // lost if the visitor navigates before subscribing.
+          var src = "";
+          try { src = sessionStorage.getItem("ais_src") || ""; } catch (e) {}
+
+          var fields = [{ objectTypeId: "0-1", name: "email", value: email }];
+          if (src) fields.push({ objectTypeId: "0-1", name: "ai_lead_source", value: src });
+
           var payload = {
-            fields: [{ objectTypeId: "0-1", name: "email", value: email }],
+            fields: fields,
             context: { pageUri: window.location.href, pageName: document.title }
           };
           fetch(endpoint, {
