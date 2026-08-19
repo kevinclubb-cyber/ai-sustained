@@ -14,6 +14,7 @@
 - [The Victorians out-spent us](https://ai-sustained.com/articles/ai-vs-industrial-revolution/): AI capex against the railways, Apollo and the Manhattan Project as a share of GDP, and why adoption speed is the real anomaly.
 - [Claude now watermarks everything it writes](https://ai-sustained.com/articles/claude-text-watermark-debate/): why an invisible text watermark marks processing rather than authorship, why removal is already trivial, and what that breaks for academia and for anyone writing with AI.
 - [The Engine Under the Bonnet](https://ai-sustained.com/articles/ai-models-v-public-detector-dilemma/): the follow up to Issue 017 and the mechanics explainer. How green-list token biasing leaves a statistical fingerprint, what a cryptographic detection key is, why releasing it to the public enables both scrubbing and forgery, and how to proofread with AI without acquiring a mark. Written by Google Gemini, published unedited.
+- [173,568 jobs cut in AI's name](https://ai-sustained.com/articles/payroll-into-compute/): what actually drove the AI layoff wave. US firms cut, UK firms froze hiring and cut graduate adverts 42%, and no audited case exists of headcount reduction improving returns. The research explaining who AI helps was published in April 2023.
 - [All editorial](https://ai-sustained.com/#editorial)
 
 ## About
