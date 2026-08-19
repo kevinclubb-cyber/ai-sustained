@@ -545,8 +545,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .fig.in .line { stroke-dashoffset: 0; }
   .fig circle { opacity: 0; transition: opacity .4s ease .7s; }
   .fig.in circle { opacity: 1; }
-  .fig .gate { opacity: 0; transition: opacity .5s ease; }
-  .fig.in .gate { opacity: 1; }
+  .fig .gcard { opacity: 0; transition: opacity .5s ease; }
+  .fig.in .gcard { opacity: 1; }
+  /* the gate cards lift under a finger or a cursor */
+  .fig .gcard {
+    transform-box: fill-box; transform-origin: center center; cursor: default;
+    transition: opacity .5s ease, transform .2s cubic-bezier(.2,.8,.2,1), filter .2s ease;
+  }
+  .fig.in .gcard:hover, .fig.in .gcard:active, .fig.in .gcard:focus-visible {
+    transform: translateY(-6px) scale(1.025);
+    filter: drop-shadow(0 12px 20px rgba(10,15,12,.6)) drop-shadow(0 0 10px rgba(232,255,58,.18));
+  }
+  .fig .gcard rect { transition: stroke .2s ease; }
+  .fig.in .gcard:hover rect, .fig.in .gcard:active rect { stroke: var(--acid); }
 
   /* stat cards lift, matching the house card idiom */
   .stat-box { transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
@@ -893,7 +904,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .tick:hover { transform: none; }
     .stat-box:hover { transform: none; }
     .fig .bar { transform: none; transition: none; }
-    .fig .bar-val, .fig circle, .fig .gate { opacity: 1; transition: none; }
+    .fig .bar-val, .fig circle, .fig .gcard { opacity: 1; transition: none; transform: none; }
     .fig .line { stroke-dashoffset: 0; transition: none; }
     .pull-quote.feature { opacity: 1; transform: none; transition: none; }
     .hl { background-size: 100% 100%; color: var(--ink); transition: none; }
@@ -906,7 +917,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .stat-box, .takeaway-point, .pull-quote, .takeaway, .cta-slab, .panel, .fig { page-break-inside: avoid; break-inside: avoid; }
     .depth { display: none; }
     .fig .bar { transform: none; }
-    .fig .bar-val, .fig circle, .fig .gate { opacity: 1; }
+    .fig .bar-val, .fig circle, .fig .gcard { opacity: 1; }
     .fig .line { stroke-dashoffset: 0; }
     .pull-quote.feature { opacity: 1; transform: none; box-shadow: none; }
     .hl { background-size: 100% 100%; color: var(--ink); }
@@ -1268,31 +1279,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h3>Four questions, in this order.</h3>
     <p class="fig-stand">One workflow or automation per pass. A twelve-person firm that has pointed AI at its supplier invoices answers these five before anybody mentions headcount.</p>
     <svg viewBox="0 0 680 300" role="img" aria-label="One workflow or automation per pass. A twelve-person firm that has pointed AI at its supplier invoices answers these five before anybody mentions headcount." xmlns="http://www.w3.org/2000/svg">
-      <rect class="gate" style="transition-delay:0ms" x="12" y="62" width="146" height="124" rx="4" fill="rgba(242,236,217,0.04)" stroke="var(--sage)" stroke-width="2"/>
-      <text x="28" y="92" font-family="'JetBrains Mono',monospace" font-size="17" font-weight="600" fill="var(--sage)">01</text>
-      <text x="28" y="114" font-family="'JetBrains Mono',monospace" font-size="10.5" font-weight="600" letter-spacing="1.6" fill="var(--paper)">CHECKABLE?</text>
-      <text x="28" y="140" font-family="Inter,sans-serif" font-size="11" fill="var(--paper)">Can a mistake be spotted</text>
-      <text x="28" y="156" font-family="Inter,sans-serif" font-size="11" fill="var(--paper)">without redoing the job?</text>
-      <text x="169.0" y="131.0" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="18" fill="var(--muted)">&#8594;</text>
-      <rect class="gate" style="transition-delay:110ms" x="180" y="62" width="146" height="124" rx="4" fill="rgba(242,236,217,0.04)" stroke="var(--sage)" stroke-width="2"/>
-      <text x="196" y="92" font-family="'JetBrains Mono',monospace" font-size="17" font-weight="600" fill="var(--sage)">02</text>
-      <text x="196" y="114" font-family="'JetBrains Mono',monospace" font-size="10.5" font-weight="600" letter-spacing="1.6" fill="var(--paper)">SAVING TIME?</text>
-      <text x="196" y="140" font-family="Inter,sans-serif" font-size="11" fill="var(--paper)">A month of real work.</text>
-      <text x="196" y="156" font-family="Inter,sans-serif" font-size="11" fill="var(--paper)">Count restarts and checking.</text>
-      <text x="337.0" y="131.0" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="18" fill="var(--muted)">&#8594;</text>
-      <rect class="gate" style="transition-delay:220ms" x="348" y="62" width="146" height="124" rx="4" fill="rgba(242,236,217,0.04)" stroke="var(--sage)" stroke-width="2"/>
-      <text x="364" y="92" font-family="'JetBrains Mono',monospace" font-size="17" font-weight="600" fill="var(--sage)">03</text>
-      <text x="364" y="114" font-family="'JetBrains Mono',monospace" font-size="10.5" font-weight="600" letter-spacing="1.6" fill="var(--paper)">WHO RUNS IT?</text>
-      <text x="364" y="140" font-family="Inter,sans-serif" font-size="11" fill="var(--paper)">A junior runs it daily.</text>
-      <text x="364" y="156" font-family="Inter,sans-serif" font-size="11" fill="var(--paper)">Someone senior signs off.</text>
-      <text x="505.0" y="131.0" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="18" fill="var(--muted)">&#8594;</text>
-      <rect class="gate" style="transition-delay:330ms" x="516" y="62" width="146" height="124" rx="4" fill="rgba(242,236,217,0.04)" stroke="var(--acid)" stroke-width="2"/>
-      <text x="532" y="92" font-family="'JetBrains Mono',monospace" font-size="17" font-weight="600" fill="var(--acid)">04</text>
-      <text x="532" y="114" font-family="'JetBrains Mono',monospace" font-size="10.5" font-weight="600" letter-spacing="1.6" fill="var(--paper)">STEADY?</text>
-      <text x="532" y="140" font-family="Inter,sans-serif" font-size="11" fill="var(--paper)">Real hours saved, netted.</text>
-      <text x="532" y="156" font-family="Inter,sans-serif" font-size="11" fill="var(--paper)">Only now discuss staffing.</text>
+      <g class="gcard" style="transition-delay:0ms">
+      <rect class="gate" x="14" y="62" width="154" height="124" rx="6" fill="rgba(242,236,217,0.05)" stroke="var(--sage)" stroke-width="2"/>
+      <text x="30" y="92" font-family="'JetBrains Mono',monospace" font-size="17" font-weight="600" fill="var(--sage)">01</text>
+      <text x="30" y="114" font-family="'JetBrains Mono',monospace" font-size="10.5" font-weight="600" letter-spacing="1.6" fill="var(--paper)">CHECKABLE?</text>
+      <text x="30" y="140" font-family="Inter,sans-serif" font-size="10.5" fill="var(--paper)">Can a mistake be</text>
+      <text x="30" y="156" font-family="Inter,sans-serif" font-size="10.5" fill="var(--paper)">spotted cheaply?</text>
+      </g>
+      <text x="175.0" y="131.0" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="15" fill="var(--muted)">&#8594;</text>
+      <g class="gcard" style="transition-delay:110ms">
+      <rect class="gate" x="182" y="62" width="154" height="124" rx="6" fill="rgba(242,236,217,0.05)" stroke="var(--sage)" stroke-width="2"/>
+      <text x="198" y="92" font-family="'JetBrains Mono',monospace" font-size="17" font-weight="600" fill="var(--sage)">02</text>
+      <text x="198" y="114" font-family="'JetBrains Mono',monospace" font-size="10.5" font-weight="600" letter-spacing="1.6" fill="var(--paper)">SAVING TIME?</text>
+      <text x="198" y="140" font-family="Inter,sans-serif" font-size="10.5" fill="var(--paper)">A month of real</text>
+      <text x="198" y="156" font-family="Inter,sans-serif" font-size="10.5" fill="var(--paper)">work. Count it.</text>
+      </g>
+      <text x="343.0" y="131.0" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="15" fill="var(--muted)">&#8594;</text>
+      <g class="gcard" style="transition-delay:220ms">
+      <rect class="gate" x="350" y="62" width="154" height="124" rx="6" fill="rgba(242,236,217,0.05)" stroke="var(--sage)" stroke-width="2"/>
+      <text x="366" y="92" font-family="'JetBrains Mono',monospace" font-size="17" font-weight="600" fill="var(--sage)">03</text>
+      <text x="366" y="114" font-family="'JetBrains Mono',monospace" font-size="10.5" font-weight="600" letter-spacing="1.6" fill="var(--paper)">WHO RUNS IT?</text>
+      <text x="366" y="140" font-family="Inter,sans-serif" font-size="10.5" fill="var(--paper)">A junior runs it,</text>
+      <text x="366" y="156" font-family="Inter,sans-serif" font-size="10.5" fill="var(--paper)">a senior signs off.</text>
+      </g>
+      <text x="511.0" y="131.0" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="15" fill="var(--muted)">&#8594;</text>
+      <g class="gcard" style="transition-delay:330ms">
+      <rect class="gate" x="518" y="62" width="154" height="124" rx="6" fill="rgba(242,236,217,0.05)" stroke="var(--acid)" stroke-width="2"/>
+      <text x="534" y="92" font-family="'JetBrains Mono',monospace" font-size="17" font-weight="600" fill="var(--acid)">04</text>
+      <text x="534" y="114" font-family="'JetBrains Mono',monospace" font-size="10.5" font-weight="600" letter-spacing="1.6" fill="var(--paper)">STEADY?</text>
+      <text x="534" y="140" font-family="Inter,sans-serif" font-size="10.5" fill="var(--paper)">Net the real hours</text>
+      <text x="534" y="156" font-family="Inter,sans-serif" font-size="10.5" fill="var(--paper)">before staffing.</text>
+      </g>
       <text x="14" y="30" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="600" fill="var(--acid)">ONE SHEET PER JOB YOU HAND TO AI. ANSWER IN ORDER, ON MEASUREMENTS.</text>
-      <text x="14" y="220" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="var(--muted)">STAFFING STRUCTURE IS THE LAST DECISION, NOT THE FIRST</text>
+      <text x="14" y="220" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="var(--muted)">STAFFING IS THE LAST QUESTION. MOST FIRMS HERE STARTED THERE</text>
     </svg>
     <figcaption class="fig-note">Derived from the studies cited throughout. This is our framework, not a published one.</figcaption>
   </figure>
@@ -1320,7 +1339,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <section class="cta-slab" aria-label="Get the decision record">
     <div class="cta-kicker">The instrument</div>
     <h2>Run one automation through it, on <em>one sheet of paper</em>.</h2>
-    <p>Built for owner-run firms rather than boardrooms. You fill in one sheet per job you have handed to AI: is a mistake cheap to spot, is it really saving hours once checking is counted, who runs it day to day, and only then, does anything change about staffing. It carries a worked example from a twelve-person plumbing firm. The method is all above; this is the form.</p>
+    <p>One sheet per job you have handed to AI. Is a mistake cheap to spot? Is it really saving hours once checking is counted? Who runs it day to day? Only then, does anything change about staffing? Written for small firms, with a worked example from a plumbing business of twelve people.</p>
     <div class="cta-row">
       <a class="btn-key on-acid" href="/?src=issue018#subscribe"><span class="base"></span><span class="face">Send me the record <span aria-hidden="true">&#8594;</span></span></a>
       <a class="btn-circuit" href="https://open.substack.com/pub/aisustained/p/173568-jobs-cut-in-ais-name?utm_campaign=post&amp;utm_medium=web&amp;showWelcomeOnShare=true" target="_blank" rel="noopener"><span class="lbl">On Substack</span><span aria-hidden="true">&#8599;</span></a>
