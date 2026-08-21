@@ -18,7 +18,7 @@ Both images are already the live filenames the repo expects, so no rename is nee
 ```html
 <a class="card" data-topic="strategy" data-type="news" href="/articles/ai-models-v-public-detector-dilemma/">
   <div class="card-image">
-    <img src="/articles/ai-models-v-public-detector-dilemma/cover.png" alt="The Engine Under the Bonnet: AI Models v Public Detector Dilemma. Cover image: rows of identical hexagonal bolt heads across a dark engine block, six lit acid green from inside their sockets, a knurled socket key resting over the row." />
+    <img src="/articles/ai-models-v-public-detector-dilemma/cover.webp" alt="The Engine Under the Bonnet: AI Models v Public Detector Dilemma. Cover image: rows of identical hexagonal bolt heads across a dark engine block, six lit acid green from inside their sockets, a knurled socket key resting over the row." />
   </div>
   <div class="card-body">
     <div class="card-meta">
