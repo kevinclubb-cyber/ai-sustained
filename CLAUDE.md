@@ -90,6 +90,25 @@ Current carousel order: `shadow-ai-ask-the-workforce` · `single-source-of-truth
 
 `slop-or-supper`, `A-British-Prompt` and `vibe-coding-capability` had covers referencing a `cover.png` that never existed; their orphaned `cover-v2.png` art is now wired up as `cover.jpg` (+ `cover.webp` for slop-or-supper, the only one with an `<img>` hero). `/learn/og-learn.jpg` generated from the unused `hero-learn.png`. `009_siri_but_make_it_gemini` had its canonical, `og:url` and social images pointing at `/articles/siri-gemini-takeover/`, a slug that doesn't exist — a canonical resolving to a 404 risks de-indexing — now repointed at the real URL. JSON-LD `publisher.logo` in two articles pointed at a missing `/logo.png`, now `ai_sustained_logo.png`.
 
+## The footer utility link row (`.ais-fl`)
+
+The `ai-sustained.com · Privacy · Cookie choices` row is a `<div class="ais-fl">`. **It carries no colour or size of its own in the base stylesheet** — the only `.ais-fl` rule outside a `@media(max-width:640px)` block sets `display` and `white-space`. On the homepage it inherits from `.footer-right a`; on article and case-study pages it sits in `.footer`, which has no descendant `a` rule, so it fell through to browser defaults (`#0000EE`, 16px, underlined) on 23 of 34 pages until 21 Aug 2026.
+
+Every page that has the row now carries this, injected before the last `</style>` in `<head>`:
+
+```css
+.ais-fl{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.02em;color:var(--muted,#8FA398)}
+.ais-fl a{color:var(--acid,#E8FF3A);text-decoration:none;border-bottom:1px solid transparent}
+.ais-fl a:hover,.ais-fl a:focus-visible{border-bottom-color:var(--acid,#E8FF3A)}
+```
+
+Two traps when touching this:
+
+- **The obvious anchor is inside a media query.** `.ais-fl{line-height:2.1}` lives inside `@media(max-width:640px)`. Patch there and your rule silently applies on mobile only.
+- **`articles/A-British-Prompt/` and `articles/vibe-coding-capability/` define no CSS custom properties at all.** `var(--acid)` is invalid on them and the declaration is dropped. Always give `var()` a literal fallback on these pages — and expect any other token-based rule to fail there too.
+
+`privacy/`, `case-studies/`, `case-studies/ifg-data-platform/` and `articles/009_siri_but_make_it_gemini/` were already correct at 11px mono **mint** and were left alone, so the site runs two footer-link colours (28 acid, 4 mint). Unify only if asked. `articles/AI-Space-Race/` and `articles/future-delivery-squad/` use different footer markup entirely — no `.ais-fl` — and render correctly at 10px mono; the `.ais-fl` string in those two files is inside an instructional HTML comment, not live markup.
+
 ### Sizing social images
 
 `og:image` / `twitter:image` are capped at **1200 px** (`sips -Z 1200`), which is ample for every scraper and keeps them roughly 100–500 KB. The earlier bulk conversion left ~14 og JPEGs at full source resolution (up to 2752 px, ~1 MB); they work, but new ones should follow the 1200 px cap.
