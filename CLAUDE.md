@@ -77,9 +77,14 @@ Adding an article: create `articles/<slug>/`, add `index.html` + optimised cover
 
 Not regressions; don't "fix" them by accident, and don't count them as new:
 
-- **`case-studies/ifg-data-platform/`** references a `cover.png` that has never existed, and no source art exists anywhere in the repo. This one needs new artwork, not a wiring fix.
-- **`pilot-competency-pyramid-index.html`** uses a relative `og:image` (`cover-v3.jpg`). Scrapers need an absolute URL.
-- **`README.md`** contains `/articles/<slug>/cover.png` as a template placeholder. A link checker will flag it; it isn't a real reference.
+- **`case-studies/ifg-data-platform/`** is a **draft scaffold**, not a finished page — `[bracketed]` placeholder copy and a visible coral DRAFT banner — and it references a `cover.png` that has never existed, with no source art anywhere in the repo. It carries `noindex, nofollow` so search engines leave it alone, but it is **still publicly reachable at its URL**. Finishing it needs new artwork and real copy; unpublishing it is Kevin's editorial call, not a fix to make unprompted. Its `<head>` also has a duplicated `<meta charset>`.
+- **`README.md`** contains `/articles/<slug>/cover.webp` as a template placeholder. A link checker will flag it; it isn't a real reference.
+
+## Case study numbering — two systems, don't "fix" them
+
+The homepage carousel numbers cards **by display order** (001–005). Each case study's own page carries a different internal number, and they don't line up — `shadow-ai-ask-the-workforce` is carousel 001 but its own page says 004, and both `shadow-ai-ask-the-workforce` and `teach-it-once` claim 004 internally. Leave the carousel numbering alone; it is the sequence a reader sees.
+
+Current carousel order: `shadow-ai-ask-the-workforce` · `single-source-of-truth` · `charles-virtual-agent` · `teach-it-once` · `screenshot-paste-build`. `ifg-data-platform` is deliberately absent (draft). When you add a case study, it needs a card in `index.html`, a card in `case-studies/index.html`, **and** a `sitemap.xml` entry — `screenshot-paste-build` was live and listed on `/case-studies/` but missing from both the homepage and the sitemap for some time.
 
 ### Fixed 21 Aug 2026 — don't re-report these
 
