@@ -77,11 +77,17 @@ Adding an article: create `articles/<slug>/`, add `index.html` + optimised cover
 
 Not regressions; don't "fix" them by accident, and don't count them as new:
 
-- `slop-or-supper`, `A-British-Prompt`, `vibe-coding-capability` reference a `cover.png` that has never existed. Their `cover-v2.png` art is present but unwired.
-- `/learn/og-learn.png` missing → broken social preview on `/learn/`, `/learn/programme/`, `/learn/terms/`.
-- `009_siri_but_make_it_gemini/index.html` points at `/articles/siri-gemini-takeover/` (slug mismatch).
-- `/logo.png` and `case-studies/ifg-data-platform/cover.png` referenced, neither exists.
-- `pilot-competency-pyramid-index.html` uses a relative `og:image`; scrapers need absolute.
+- **`case-studies/ifg-data-platform/`** references a `cover.png` that has never existed, and no source art exists anywhere in the repo. This one needs new artwork, not a wiring fix.
+- **`pilot-competency-pyramid-index.html`** uses a relative `og:image` (`cover-v3.jpg`). Scrapers need an absolute URL.
+- **`README.md`** contains `/articles/<slug>/cover.png` as a template placeholder. A link checker will flag it; it isn't a real reference.
+
+### Fixed 21 Aug 2026 — don't re-report these
+
+`slop-or-supper`, `A-British-Prompt` and `vibe-coding-capability` had covers referencing a `cover.png` that never existed; their orphaned `cover-v2.png` art is now wired up as `cover.jpg` (+ `cover.webp` for slop-or-supper, the only one with an `<img>` hero). `/learn/og-learn.jpg` generated from the unused `hero-learn.png`. `009_siri_but_make_it_gemini` had its canonical, `og:url` and social images pointing at `/articles/siri-gemini-takeover/`, a slug that doesn't exist — a canonical resolving to a 404 risks de-indexing — now repointed at the real URL. JSON-LD `publisher.logo` in two articles pointed at a missing `/logo.png`, now `ai_sustained_logo.png`.
+
+### Sizing social images
+
+`og:image` / `twitter:image` are capped at **1200 px** (`sips -Z 1200`), which is ample for every scraper and keeps them roughly 100–500 KB. The earlier bulk conversion left ~14 og JPEGs at full source resolution (up to 2752 px, ~1 MB); they work, but new ones should follow the 1200 px cap.
 
 ## Identity
 
