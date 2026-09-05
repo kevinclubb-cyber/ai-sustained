@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, follow">
+<title>Page not found — AI Sustained</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,500&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest:#1B4332; --paper:#F2ECD9; --acid:#E8FF3A; --ink:#0A0F0C;
+    --muted:#8FA398; --coral:#FF8C61;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; background:var(--forest); color:var(--paper);
+    font-family:'Inter',system-ui,-apple-system,sans-serif; line-height:1.6;
+    display:flex; align-items:center; justify-content:center; padding:32px 20px;
+  }
+  .wrap{max-width:620px;width:100%}
+  .kicker{
+    font-family:'JetBrains Mono',ui-monospace,monospace; font-size:11px;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--acid); margin-bottom:18px;
+  }
+  h1{
+    font-family:'Fraunces',Georgia,serif; font-style:italic; font-weight:500;
+    font-size:clamp(30px,6vw,46px); line-height:1.15; margin:0 0 16px;
+  }
+  h1 em{font-style:normal;color:var(--acid)}
+  p{font-size:16px;color:rgba(242,236,217,.86);margin:0 0 14px;max-width:52ch}
+  ul{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:10px}
+  a.go{
+    display:inline-flex;align-items:baseline;gap:10px;color:var(--paper);
+    text-decoration:none;border-bottom:1px solid rgba(242,236,217,.22);padding-bottom:3px;
+  }
+  a.go:hover,a.go:focus-visible{color:var(--acid);border-bottom-color:var(--acid)}
+  a.go .arrow{color:var(--acid);font-family:'JetBrains Mono',monospace}
+  .foot{
+    margin-top:34px;padding-top:16px;border-top:3px solid var(--acid);
+    font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  }
+  .foot a{color:var(--acid);text-decoration:none}
+  .foot a:hover,.foot a:focus-visible{text-decoration:underline}
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="kicker">Error 404</div>
+    <h1>That page isn't <em>here</em>.</h1>
+    <p>The address may have changed, or the link that sent you here may be out of date. Nothing is broken on your end.</p>
+    <p>Here's where most people are heading:</p>
+    <ul>
+      <li><a class="go" href="/"><span class="arrow">&#8594;</span> Home — the editorial and the latest issue</a></li>
+      <li><a class="go" href="/case-studies/"><span class="arrow">&#8594;</span> Case studies — real builds, plainly written up</a></li>
+      <li><a class="go" href="/learn/"><span class="arrow">&#8594;</span> Learn — the AI Made Simple hub</a></li>
+      <li><a class="go" href="/learn/score/"><span class="arrow">&#8594;</span> AI Survival Score — where you sit on the curve</a></li>
+      <li><a class="go" href="https://consulting.ai-sustained.com/"><span class="arrow">&#8594;</span> Work with me — the consulting side</a></li>
+    </ul>
+    <div class="foot">AI Sustained. &middot; <a href="mailto:kevin@ai-sustained.com">Report a broken link</a></div>
+  </main>
+</body>
+</html>
