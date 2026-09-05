@@ -90,6 +90,13 @@ Current carousel order: `shadow-ai-ask-the-workforce` · `single-source-of-truth
 
 `slop-or-supper`, `A-British-Prompt` and `vibe-coding-capability` had covers referencing a `cover.png` that never existed; their orphaned `cover-v2.png` art is now wired up as `cover.jpg` (+ `cover.webp` for slop-or-supper, the only one with an `<img>` hero). `/learn/og-learn.jpg` generated from the unused `hero-learn.png`. `009_siri_but_make_it_gemini` had its canonical, `og:url` and social images pointing at `/articles/siri-gemini-takeover/`, a slug that doesn't exist — a canonical resolving to a 404 risks de-indexing — now repointed at the real URL. JSON-LD `publisher.logo` in two articles pointed at a missing `/logo.png`, now `ai_sustained_logo.png`.
 
+## Site plumbing (added 5 Sep 2026)
+
+- **`404.html`** at the repo root. Cloudflare Pages serves it with a genuine 404 status; before it existed, unknown paths returned the homepage with a 200. Don't delete it.
+- **`og-card.png`** (1200x630) is the social card for the homepage, `/ledger/` and `/advertise/`. Built from `learn/wordmark_white.png` + `learn/logo_mark_white.png`. Note both of those assets carry a semi-opaque backing plate at alpha 1-31 across the whole canvas — strip anything under alpha 40 or you get a faint box. `ai_sustained_wordmark.png` is the **dark** version and disappears on forest.
+- **`sitemap.xml` is hand-maintained** — 33 entries, `changefreq`/`priority`, no `lastmod`. Add new articles and case studies when you publish them. `case-studies/ifg-data-platform/` is deliberately excluded: it is a DRAFT scaffold carrying `noindex, nofollow`.
+- **Never inline images as base64.** Two pages did and were 563KB and 372KB, ~90% of which was one data URI. They are now 55KB and 53KB with WebP files alongside.
+
 ## The footer utility link row (`.ais-fl`)
 
 The `ai-sustained.com · Privacy · Cookie choices` row is a `<div class="ais-fl">`. **It carries no colour or size of its own in the base stylesheet** — the only `.ais-fl` rule outside a `@media(max-width:640px)` block sets `display` and `white-space`. On the homepage it inherits from `.footer-right a`; on article and case-study pages it sits in `.footer`, which has no descendant `a` rule, so it fell through to browser defaults (`#0000EE`, 16px, underlined) on 23 of 34 pages until 21 Aug 2026.
