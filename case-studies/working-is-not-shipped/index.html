@@ -372,7 +372,7 @@
     <p>So can self-improvement get a non-engineer to safely shippable? Further than the sceptics think, provided the effort goes in before the first prompt rather than after the first incident. The gaps above were predictable, and predictable gaps can be specified out. Where does the logic run. Who can do what, enforced where. Who owns the environment. How many users does this design assume. How is the code split. What is the test for each change. How does a change get from my laptop to live. A viber who writes that down up front produces a very different prototype from one who opens a blank chat and describes a screen. Two assistants walked me through authentication step by step, and both were right about the steps. Neither asked where the access rules would be enforced or how many users the design assumed, because I had not asked either. An assistant will build the decision you give it. Checking whether that decision holds at scale is your job.</p>
     <p>What no amount of reading replaces is the person who inspects the result and signs it. The aim is to change the engineer's job from rescue to sign-off. A review that says "build the missing backend and rework the front end around it" is a rescue. A review that says "two rules to tighten, ship it" is a sign-off. Same reviewer, same day rate, a fraction of the hours.</p>
     <p>If you have an internal engineering team, ask them to review before the pilot goes wide, and hand them the brief above so they know what they are marking. If you have no engineers, an external agency can review a small tool in days. Either way, give them the code, your notes and permission to be blunt. The blunt version is the one you are paying for.</p>
-    <p>The up-front list exists as a one-page best practice sheet, written for non-engineers who build with AI. The four-question gate test above, what to write down before the first prompt, how to structure the build so it can be reviewed, how to get changes to live without hand-carrying them, and what to hand the reviewer. If you would like it, <a href="#optin">tell me where to send it</a>.</p>
+    <p>The up-front list exists as a one-page best practice sheet, written for non-engineers who build with AI. The four-question gate test above, what to write down before the first prompt, how to structure the build so it can be reviewed, how to get changes to live without hand-carrying them, and what to hand the reviewer. If you would like it, <a href="#optin">leave your email and I&rsquo;ll take you to it</a>.</p>
 
   </article>
 
@@ -530,7 +530,7 @@
     var consent = document.getElementById('oi-consent').checked;
     var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
     if (!firstname || !emailOk) { say('Name and a real email address needed.', 'err'); return; }
-    if (!consent) { say('Tick the consent box so I can send it.', 'err'); return; }
+    if (!consent) { say('Tick the consent box to continue.', 'err'); return; }
 
     btn.disabled = true;
     say('Sending…');
