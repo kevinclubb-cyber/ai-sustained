@@ -261,6 +261,15 @@
       "date": "2026-09-08",
       "summary": "A business analyst vibe coded an internal tool, then had independent engineers review it. Keep the core, build the plumbing, and what a demo cannot tell you.",
       "tags": "vibe coding business analyst code review production readiness prototype non-engineer AI governance build sheet"
+    },
+    {
+      "type": "Editorial",
+      "ref": "Issue 019",
+      "title": "Claude now signs your work. ChatGPT wants your mouse.",
+      "url": "/articles/fable-5-1-vs-gpt-6-astra/",
+      "date": "2026-09-05",
+      "summary": "Fable 5.1 watermarks every word and skips the $20 plan. GPT-6 Astra drives your screen and fluffed its own tax demo. What the room is saying.",
+      "tags": "claude fable 5.1 gpt-6 astra watermark anthropic openai computer use pro plan max plan mythos reddit reaction"
     }
   ]
 }
