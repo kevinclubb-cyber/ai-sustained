@@ -243,6 +243,24 @@
       "date": "2026",
       "summary": "One issue per release in your inbox. No hype, unsubscribe any time.",
       "tags": "subscribe newsletter email substack"
+    },
+    {
+      "type": "Case study",
+      "ref": "Case study 005",
+      "title": "Screenshot. Paste. Build.",
+      "url": "/case-studies/screenshot-paste-build/",
+      "date": "2026-08-17",
+      "summary": "55+ quiz results and counting, one CRM data warehouse. A complete HubSpot beginner built it by pasting screenshots into an AI, with zero training.",
+      "tags": "hubspot crm no-code quiz analytics screenshot prompting ai made simple beginner data warehouse"
+    },
+    {
+      "type": "Case study",
+      "ref": "Case study 006",
+      "title": "A working app is not a shippable one.",
+      "url": "/case-studies/working-is-not-shipped/",
+      "date": "2026-09-08",
+      "summary": "A business analyst vibe coded an internal tool, then had independent engineers review it. Keep the core, build the plumbing, and what a demo cannot tell you.",
+      "tags": "vibe coding business analyst code review production readiness prototype non-engineer AI governance build sheet"
     }
   ]
 }

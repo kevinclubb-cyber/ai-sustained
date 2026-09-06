@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-07-04",
+  "updated": "2026-09-06",
   "source": "https://ai-sustained.com/case-studies/",
   "caseStudies": [
     {
@@ -12,12 +12,28 @@
       "summary": "The workforce was already using AI on personal and business accounts. Rather than a policy written in the dark, we ran an anonymous workforce survey — and handed the build to an AI agent that designed and configured it through a browser in about fifteen minutes.",
       "url": "https://ai-sustained.com/case-studies/shadow-ai-ask-the-workforce/",
       "metrics": [
-        { "value": "~150", "label": "Shadow AI users" },
-        { "value": "~15 min", "label": "Agent build time" },
-        { "value": "12", "label": "Survey questions" }
+        {
+          "value": "~150",
+          "label": "Shadow AI users"
+        },
+        {
+          "value": "~15 min",
+          "label": "Agent build time"
+        },
+        {
+          "value": "12",
+          "label": "Survey questions"
+        }
       ],
-      "capabilities": ["AI adoption", "Agentic AI", "AI policy & governance"],
-      "tiers": ["AI Adoption Programme", "Team Training"]
+      "capabilities": [
+        "AI adoption",
+        "Agentic AI",
+        "AI policy & governance"
+      ],
+      "tiers": [
+        "AI Adoption Programme",
+        "Team Training"
+      ]
     },
     {
       "id": "single-source-of-truth",
@@ -28,12 +44,28 @@
       "summary": "A group of 1,400–1,800 sites taking till and app sales, running on disconnected systems and load-bearing spreadsheets — joined up into one governed warehouse (finance, CRM, sales and more), so AI finally had trustworthy data to stand on. With the part nobody publishes: what it costs at every size of business.",
       "url": "https://ai-sustained.com/case-studies/single-source-of-truth/",
       "metrics": [
-        { "value": "1,400+", "label": "Sites / stores" },
-        { "value": "£180–300m", "label": "Revenue scale" },
-        { "value": "3 routes", "label": "From £5k to £3m" }
+        {
+          "value": "1,400+",
+          "label": "Sites / stores"
+        },
+        {
+          "value": "£180–300m",
+          "label": "Revenue scale"
+        },
+        {
+          "value": "3 routes",
+          "label": "From £5k to £3m"
+        }
       ],
-      "capabilities": ["Data platform", "Business intelligence", "Right-sized roadmaps"],
-      "tiers": ["AI Opportunity Audit", "Fractional AI Advisor"]
+      "capabilities": [
+        "Data platform",
+        "Business intelligence",
+        "Right-sized roadmaps"
+      ],
+      "tiers": [
+        "AI Opportunity Audit",
+        "Fractional AI Advisor"
+      ]
     },
     {
       "id": "charles-virtual-agent",
@@ -44,12 +76,124 @@
       "summary": "\"Charles\" — my first virtual hire — runs a Jira backlog, drafts meeting notes and books meetings. When the email and Teams connectors turned out read-only, a Power Automate, OneNote and SharePoint bridge did the sending. No engineers required.",
       "url": "https://ai-sustained.com/case-studies/charles-virtual-agent/",
       "metrics": [
-        { "value": "001", "label": "First agent" },
-        { "value": "Jira", "label": "Backlog owned" },
-        { "value": "No-code", "label": "Send bridge" }
+        {
+          "value": "001",
+          "label": "First agent"
+        },
+        {
+          "value": "Jira",
+          "label": "Backlog owned"
+        },
+        {
+          "value": "No-code",
+          "label": "Send bridge"
+        }
       ],
-      "capabilities": ["Agentic AI", "Automation", "Low-code integration"],
-      "tiers": ["Implementation Sprint", "AI Adoption Programme"]
+      "capabilities": [
+        "Agentic AI",
+        "Automation",
+        "Low-code integration"
+      ],
+      "tiers": [
+        "Implementation Sprint",
+        "AI Adoption Programme"
+      ]
+    },
+    {
+      "id": "teach-it-once",
+      "number": "004",
+      "title": "Prompts forget. Skills remember.",
+      "category": "Practical AI · Skills",
+      "date": "2026-08-03",
+      "summary": "A compliance task that took days of repeated prompting was taught once as a reusable skill, then ran in about five minutes.",
+      "url": "https://ai-sustained.com/case-studies/teach-it-once/",
+      "metrics": [
+        {
+          "value": "Days→~5min",
+          "label": "Compliance run"
+        },
+        {
+          "value": "12",
+          "label": "Steps captured"
+        },
+        {
+          "value": "30–60 min",
+          "label": "To teach it once"
+        }
+      ],
+      "capabilities": [
+        "Practical AI",
+        "AI skills",
+        "Process automation"
+      ],
+      "tiers": [
+        "Team Training",
+        "AI Adoption Programme"
+      ]
+    },
+    {
+      "id": "screenshot-paste-build",
+      "number": "005",
+      "title": "Screenshot. Paste. Build.",
+      "category": "AI Made Simple · No-code",
+      "date": "2026-08-17",
+      "summary": "55+ quiz results needed a home, so a complete HubSpot beginner built a CRM data warehouse by pasting screenshots into an AI, with zero training.",
+      "url": "https://ai-sustained.com/case-studies/screenshot-paste-build/",
+      "metrics": [
+        {
+          "value": "55+",
+          "label": "Quiz submissions"
+        },
+        {
+          "value": "0 hrs",
+          "label": "HubSpot training"
+        },
+        {
+          "value": "~0 min",
+          "label": "Ongoing admin"
+        }
+      ],
+      "capabilities": [
+        "Practical AI",
+        "No-code",
+        "CRM & analytics"
+      ],
+      "tiers": [
+        "AI Adoption Programme",
+        "Team Training"
+      ]
+    },
+    {
+      "id": "working-is-not-shipped",
+      "number": "006",
+      "title": "A working app is not a shippable one.",
+      "category": "Vibe coding · Code review",
+      "date": "2026-09-08",
+      "summary": "A business analyst vibe coded an internal tool, put it in front of real users, then commissioned an independent engineering review. Keep the core, build the plumbing.",
+      "url": "https://ai-sustained.com/case-studies/working-is-not-shipped/",
+      "metrics": [
+        {
+          "value": "Red/Amber",
+          "label": "Readiness verdict"
+        },
+        {
+          "value": "10",
+          "label": "Risks, two critical"
+        },
+        {
+          "value": "3,200",
+          "label": "Lines, one file"
+        }
+      ],
+      "capabilities": [
+        "Vibe coding",
+        "AI governance",
+        "Production readiness"
+      ],
+      "tiers": [
+        "AI Adoption Programme",
+        "Advisory"
+      ]
     }
   ]
 }
