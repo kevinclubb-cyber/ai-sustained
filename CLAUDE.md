@@ -114,9 +114,8 @@ Deliberately without it: `learn/score/` is `@type: Quiz` and `ledger/` is `@type
 | `articles/openai-hugging-face-hack/openai_hugging_face_hack_cover.html` | social-image render template |
 | `articles/openai-hugging-face-hack/openai_hugging_face_hack_feed.html` | LinkedIn feed image template |
 | `article-score-cta-snippet.html` | copy-paste HTML fragment |
-| `privacy-learn-section.html` | copy-paste HTML fragment |
 
-The render templates and fragments are **build tooling — keep them**, but they should carry `noindex` so they stop being indexable thin pages. The pilot layout is Kevin's editorial call.
+`privacy-learn-section.html` was **deleted 6 Sep 2026** — it contained nothing but a comment declaring itself SUPERSEDED and pointing at `privacy/index.html`, which is live. The remaining render templates and fragment are **build tooling — keep them**, but they should carry `noindex` so they stop being indexable thin pages. The pilot layout is Kevin's editorial call.
 
 ## The footer utility link row (`.ais-fl`)
 
