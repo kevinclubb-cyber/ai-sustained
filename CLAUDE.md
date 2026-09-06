@@ -97,6 +97,14 @@ Current carousel order: `shadow-ai-ask-the-workforce` · `single-source-of-truth
 - **`sitemap.xml` is hand-maintained** — 33 entries, `changefreq`/`priority`, no `lastmod`. Add new articles and case studies when you publish them. `case-studies/ifg-data-platform/` is deliberately excluded: it is a DRAFT scaffold carrying `noindex, nofollow`.
 - **Never inline images as base64.** Two pages did and were 563KB and 372KB, ~90% of which was one data URI. They are now 55KB and 53KB with WebP files alongside.
 
+### Structured data
+
+Every `Article` JSON-LD block carries `publisher.logo` pointing at `ai_sustained_logo.png` (714x714). Added across 17 files on 6 Sep 2026. Keep it on new articles and case studies — it is a Google-recommended Article property.
+
+Deliberately without it: `learn/score/` is `@type: Quiz` and `ledger/` is `@type: WebPage`, where it is not the Article rich-result property.
+
+**`articles/openai-hugging-face-hack/openai_hugging_face_hack.html` is an orphan duplicate.** A 49KB older copy of the 73KB real article, sitting in the same folder. It is **live and returns 200** at `/articles/openai-hugging-face-hack/openai_hugging_face_hack` (Cloudflare 308s the `.html` away), carries `@type: Article` with **no canonical**, and is in no sitemap, no search index, and linked from nowhere. That is duplicate content competing with the real article. Either delete it or give it a canonical pointing at `index.html` — Kevin's call, not a fix to make unprompted.
+
 ## The footer utility link row (`.ais-fl`)
 
 The `ai-sustained.com · Privacy · Cookie choices` row is a `<div class="ais-fl">`. **It carries no colour or size of its own in the base stylesheet** — the only `.ais-fl` rule outside a `@media(max-width:640px)` block sets `display` and `white-space`. On the homepage it inherits from `.footer-right a`; on article and case-study pages it sits in `.footer`, which has no descendant `a` rule, so it fell through to browser defaults (`#0000EE`, 16px, underlined) on 23 of 34 pages until 21 Aug 2026.
