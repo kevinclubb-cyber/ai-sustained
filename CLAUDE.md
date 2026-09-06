@@ -103,7 +103,20 @@ Every `Article` JSON-LD block carries `publisher.logo` pointing at `ai_sustained
 
 Deliberately without it: `learn/score/` is `@type: Quiz` and `ledger/` is `@type: WebPage`, where it is not the Article rich-result property.
 
-**`articles/openai-hugging-face-hack/openai_hugging_face_hack.html` is an orphan duplicate.** A 49KB older copy of the 73KB real article, sitting in the same folder. It is **live and returns 200** at `/articles/openai-hugging-face-hack/openai_hugging_face_hack` (Cloudflare 308s the `.html` away), carries `@type: Article` with **no canonical**, and is in no sitemap, no search index, and linked from nowhere. That is duplicate content competing with the real article. Either delete it or give it a canonical pointing at `index.html` — Kevin's call, not a fix to make unprompted.
+**Deleted 6 Sep 2026: `articles/openai-hugging-face-hack/openai_hugging_face_hack.html`** — a 49KB older copy of the 73KB real article in the same folder, live and unlinked with no canonical. Zero of its 139 substantive sentences were absent from the real article, so nothing was lost. Recoverable from git. Don't re-add it.
+
+**Six other unlinked `.html` files are still live and indexable.** Cloudflare serves them at their extensionless path (all return 200), none carry `noindex`, and nothing links to them:
+
+| File | What it is |
+|---|---|
+| `articles/ai-competency-pyramid/pilot-competency-pyramid-index.html` | a 252-word pilot layout of the pyramid article — thin content |
+| `articles/openai-hugging-face-hack/cover-source.html` | social-image render template |
+| `articles/openai-hugging-face-hack/openai_hugging_face_hack_cover.html` | social-image render template |
+| `articles/openai-hugging-face-hack/openai_hugging_face_hack_feed.html` | LinkedIn feed image template |
+| `article-score-cta-snippet.html` | copy-paste HTML fragment |
+| `privacy-learn-section.html` | copy-paste HTML fragment |
+
+The render templates and fragments are **build tooling — keep them**, but they should carry `noindex` so they stop being indexable thin pages. The pilot layout is Kevin's editorial call.
 
 ## The footer utility link row (`.ais-fl`)
 
