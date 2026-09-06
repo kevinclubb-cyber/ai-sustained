@@ -398,14 +398,14 @@
   <section class="optin" id="optin" aria-labelledby="optin-title">
     <div class="optin-kicker">Free · one page · Build sheet 001</div>
     <h2 id="optin-title">Want the build sheet?</h2>
-    <p>The up-front list from this case study as a one-page A4 sheet: the four-question gate test, what to write down before the first prompt, how to structure the build so it can be reviewed, how a change gets to live without you hand-carrying it, and what to hand the reviewer. Tell me where to send it. Yes you can unsubscribe. No other fluff.</p>
+    <p>The up-front list from this case study as a one-page A4 sheet: the four-question gate test, what to write down before the first prompt, how to structure the build so it can be reviewed, how a change gets to live without you hand-carrying it, and what to hand the reviewer. Leave your email and I&rsquo;ll take you straight to it. Yes you can unsubscribe. No other fluff.</p>
     <form id="optin-form" novalidate>
       <input type="text" id="oi-firstname" name="firstname" placeholder="First name" autocomplete="given-name" required>
       <input type="email" id="oi-email" name="email" placeholder="Email address" autocomplete="email" required>
-      <button type="submit" class="btn-mail" id="oi-send"><span class="env"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 6.5 12 13l8.5-6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">Send me the sheet</span></button>
+      <button type="submit" class="btn-mail" id="oi-send"><span class="env"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 6.5 12 13l8.5-6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">Take me to the sheet</span></button>
       <label class="consent">
         <input type="checkbox" id="oi-consent" required>
-        <span>I'm happy for Kevin at AI Sustained to email me the build sheet and occasional related updates. Unsubscribe any time. <a href="https://ai-sustained.com/privacy/">Privacy note</a>.</span>
+        <span>I'm happy for Kevin at AI Sustained to email me occasional related updates. Unsubscribe any time. <a href="https://ai-sustained.com/privacy/">Privacy note</a>.</span>
       </label>
       <div class="form-msg" id="oi-msg" aria-live="polite"></div>
     </form>
@@ -456,6 +456,7 @@
   var HS_PORTAL = '148698319';
   var HS_FORM_GUID = '26680384-4b5a-4ef4-b88f-a3d0b7363cb9';
   var RESOURCE = 'build-sheet-001';
+  var DESTINATION = 'https://consulting.ai-sustained.com/resources';
   var ENDPOINT = 'https://api-eu1.hsforms.com/submissions/v3/integration/submit/' + HS_PORTAL + '/' + HS_FORM_GUID;
 
   var form = document.getElementById('optin-form');
@@ -506,7 +507,7 @@
       body.legalConsentOptions = {
         consent: {
           consentToProcess: true,
-          text: 'I am happy for Kevin at AI Sustained to email me the build sheet and occasional related updates. Unsubscribe any time.',
+          text: 'I am happy for Kevin at AI Sustained to email me occasional related updates. Unsubscribe any time.',
           communications: []
         }
       };
@@ -542,9 +543,12 @@
     }).then(function(r){
       if (!r.ok) throw new Error('HubSpot ' + r.status);
       flyEnvelope(btn);
-      say('Done. The sheet is on its way.', 'ok');
+      say('Done. Taking you to the sheet…', 'ok');
       form.querySelectorAll('input').forEach(function(i){ i.disabled = true; });
       if (typeof gtag === 'function') gtag('event', 'generate_lead', { resource: RESOURCE, placement: 'case-study-006' });
+      /* The sheet is not emailed. HubSpot captures the address; the resource
+         lives on the consulting site and we hand the reader straight to it. */
+      setTimeout(function(){ window.location.href = DESTINATION; }, 900);
     }).catch(function(){
       btn.disabled = false;
       say('That didn’t go through. Give it a minute and try again.', 'err');
