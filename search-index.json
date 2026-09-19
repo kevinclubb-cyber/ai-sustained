@@ -279,6 +279,15 @@
       "date": "2026-09-10",
       "summary": "An Anthropic researcher quit over the AI race. His alignment lead put extinction above 10%. Geoffrey Hinton called that not unreasonable.",
       "tags": "jacob coxon anthropic resignation geoffrey hinton godfather of ai evan hubinger existential risk superintelligence longevity healthy life expectancy ai safety"
+    },
+    {
+      "type": "Editorial",
+      "ref": "Issue 021",
+      "title": "Forget the breakthrough. Look at the receipt.",
+      "url": "/articles/look-at-the-receipt/",
+      "date": "2026-09-19",
+      "summary": "An AI cut the cost of one scientific guess from up to $10,000 to about $150. It discovered nothing. That is the point: what would you try if trying were nearly free?",
+      "tags": "anthropic biomolecular modeling protein design adaptyv bio cost per guess ai economics open source tools gpu hours cost per accepted outcome business case plain english ai"
     }
   ]
 }

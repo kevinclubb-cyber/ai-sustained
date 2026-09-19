@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- AI Sustained cookie consent + Google Consent Mode v2 (must precede GTM/GA4) -->
+<script>
+(function(){
+  "use strict";
+  /* ------------------------------------------------------------------
+     AI Sustained cookie consent + Google Consent Mode v2
+     Self-contained: sets consent defaults, injects banner CSS + DOM.
+     MUST load before the GTM and GA4 snippets.
+     ------------------------------------------------------------------ */
+
+  var STORE   = 'ais_consent_v1';
+  var MAXAGE  = 1000*60*60*24*182;           /* 6 months, then re-ask */
+  /* Both sites serve /privacy/ (the consulting site ships privacy.html plus a
+     byte-identical privacy/index.html), so one root-absolute path covers both
+     and there is no hostname sniffing to go wrong. */
+  var POLICY  = '/privacy/';
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  window.gtag = window.gtag || gtag;
+
+  /* ---------- read any stored decision ---------- */
+  var saved = null;
+  try {
+    var raw = localStorage.getItem(STORE);
+    if (raw) {
+      var o = JSON.parse(raw);
+      if (o && o.t && (Date.now() - o.t) < MAXAGE) saved = o;
+    }
+  } catch(e){}
+
+  var DENIED = {
+    ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied',
+    analytics_storage:'denied', functionality_storage:'denied',
+    personalization_storage:'denied', security_storage:'granted',
+    wait_for_update: 500
+  };
+
+  /* Defaults are DENIED for everything non-essential. Nothing fires until
+     the visitor chooses. security_storage stays granted: it is strictly
+     necessary and exempt under PECR. */
+  gtag('consent','default', DENIED);
+
+  function stateFrom(c){
+    return {
+      ad_storage:            c.marketing ? 'granted':'denied',
+      ad_user_data:          c.marketing ? 'granted':'denied',
+      ad_personalization:    c.marketing ? 'granted':'denied',
+      analytics_storage:     c.analytics ? 'granted':'denied',
+      functionality_storage: c.recording ? 'granted':'denied',
+      personalization_storage: c.recording ? 'granted':'denied',
+      security_storage:      'granted'
+    };
+  }
+
+  function apply(c, isNew){
+    gtag('consent','update', stateFrom(c));
+    dataLayer.push({
+      event: 'consent_update',
+      consent_analytics:  !!c.analytics,
+      consent_recording:  !!c.recording,
+      consent_marketing:  !!c.marketing
+    });
+    if (isNew){
+      try { localStorage.setItem(STORE, JSON.stringify({
+        t: Date.now(), analytics: !!c.analytics,
+        recording: !!c.recording, marketing: !!c.marketing
+      })); } catch(e){}
+    }
+  }
+
+  if (saved) apply(saved, false);
+
+  /* Current state drives the toggles, so reopening shows what you actually
+     chose rather than a fresh set of defaults. */
+  var current = saved || { analytics:false, recording:false, marketing:false };
+
+  /* ---------- styles ---------- */
+  var CSS = ''
+  + '@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap");'
+  + '.ais-cc,.ais-cc *{box-sizing:border-box}'
+  + '.ais-cc{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#102C21;color:#F2ECD9;'
+  + 'border-top:2px solid #E8FF3A;font-family:Inter,system-ui,sans-serif;'
+  + 'box-shadow:0 -18px 50px rgba(0,0,0,.5);animation:aisUp .35s cubic-bezier(.34,1.2,.64,1)}'
+  + '@keyframes aisUp{from{transform:translateY(100%)}to{transform:none}}'
+  + '@media (prefers-reduced-motion:reduce){.ais-cc{animation:none}}'
+  + '.ais-cc-in{max-width:1080px;margin:0 auto;padding:22px 24px;display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap}'
+  + '.ais-cc-copy{flex:1 1 420px;min-width:280px}'
+  + '.ais-cc h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;color:#E8FF3A;letter-spacing:.01em}'
+  + '.ais-cc p{margin:0;font-size:14.5px;line-height:1.55;color:#F2ECD9;opacity:.94}'
+  + '.ais-cc a{color:#E8FF3A;text-decoration:underline;text-underline-offset:2px}'
+  + '.ais-cc-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}'
+  /* Accept and Reject are deliberately IDENTICAL in size, colour and weight. */
+  + '.ais-b{position:relative;display:inline-flex;align-items:center;justify-content:center;'
+  + 'min-width:150px;padding:14px 24px;border:2px solid rgba(232,255,58,.55);border-radius:10px;'
+  + 'color:#F2ECD9;background:rgba(10,15,12,.92);font-family:"Space Grotesk",sans-serif;'
+  + 'font-weight:700;font-size:15.5px;cursor:pointer;transition:color .2s,border-color .2s,transform .18s;'
+  + '-webkit-tap-highlight-color:transparent}'
+  + '.ais-b:hover{color:#E8FF3A;border-color:#E8FF3A;transform:translateY(-2px)}'
+  + '.ais-b:active{transform:translateY(1px) scale(.98)}'
+  + '.ais-b:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '.ais-link{background:none;border:none;color:#F2ECD9;font-family:Inter,sans-serif;font-size:14px;'
+  + 'text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:8px 4px;opacity:.9}'
+  + '.ais-link:hover{color:#E8FF3A;opacity:1}'
+  + '.ais-cc-panel{width:100%;border-top:1px solid rgba(242,236,217,.18);margin-top:6px;padding-top:16px;display:none}'
+  + '.ais-cc-panel.open{display:block}'
+  + '.ais-row{display:flex;gap:14px;align-items:flex-start;padding:11px 0}'
+  + '.ais-row+.ais-row{border-top:1px solid rgba(242,236,217,.1)}'
+  + '.ais-row .t{flex:1}'
+  + '.ais-row strong{display:block;font-family:"Space Grotesk",sans-serif;font-size:14.5px;margin-bottom:3px}'
+  + '.ais-row span{font-size:13.5px;line-height:1.5;opacity:.85}'
+  + '.ais-sw{position:relative;flex:0 0 auto;width:50px;height:28px;border-radius:99px;border:none;'
+  + 'background:rgba(242,236,217,.22);cursor:pointer;transition:background .2s}'
+  + '.ais-sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;'
+  + 'background:#F2ECD9;transition:transform .2s}'
+  + '.ais-sw[aria-checked="true"]{background:#E8FF3A}'
+  + '.ais-sw[aria-checked="true"]::after{transform:translateX(22px);background:#0A0F0C}'
+  + '.ais-sw[disabled]{opacity:.5;cursor:not-allowed}'
+  + '.ais-sw:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '@media(max-width:640px){.ais-cc-in{padding:18px 16px;gap:16px}.ais-cc-btns{width:100%}'
+  + '.ais-b{flex:1 1 100%;min-width:0}}';
+
+  /* ---------- banner ---------- */
+  function build(reopen){
+    if (document.querySelector('.ais-cc')) return;
+
+    var st = document.createElement('style');
+    st.textContent = CSS;
+    document.head.appendChild(st);
+
+    var w = document.createElement('div');
+    w.className = 'ais-cc';
+    w.setAttribute('role','dialog');
+    w.setAttribute('aria-live','polite');
+    w.setAttribute('aria-label','Cookie choices');
+    w.innerHTML =
+      '<div class="ais-cc-in">'
+      +  '<div class="ais-cc-copy">'
+      +    '<h2>Your call on cookies</h2>'
+      +    '<p>I use a few cookies to see which articles land and where people give up reading. '
+      +    'Nothing fires until you choose. Reject and the site works exactly the same. '
+      +    '<a href="' + POLICY + '">Read the privacy notice</a>.</p>'
+      +  '</div>'
+      +  '<div class="ais-cc-btns">'
+      +    '<button type="button" class="ais-b" data-a="accept">Accept all</button>'
+      +    '<button type="button" class="ais-b" data-a="reject">Reject all</button>'
+      +    '<button type="button" class="ais-link" data-a="manage" aria-expanded="false">Choose what I share</button>'
+      +  '</div>'
+      +  '<div class="ais-cc-panel" id="ais-panel">'
+      +    row('essential','Strictly necessary','Keeps the site working and secure. Always on, and exempt from consent under PECR.',true,true)
+      +    row('analytics','Audience measurement','Google Analytics. Which pages get read, roughly where visitors come from.',!!current.analytics,false)
+      +    row('recording','Session recording','Microsoft Clarity. Anonymised replays and heatmaps showing where people scroll and stop. Text you type is masked.',!!current.recording,false)
+      +    row('marketing','Marketing','TikTok and Meta advertising pixels. Not currently active, listed so this notice stays honest when they are.',!!current.marketing,false)
+      +    '<div class="ais-cc-btns" style="margin-top:14px">'
+      +      '<button type="button" class="ais-b" data-a="save">Save my choices</button>'
+      +    '</div>'
+      +  '</div>'
+      + '</div>';
+    document.body.appendChild(w);
+
+    function row(k,title,desc,on,lock){
+      return '<div class="ais-row"><div class="t"><strong>'+title+'</strong><span>'+desc+'</span></div>'
+        + '<button type="button" class="ais-sw" data-k="'+k+'" role="switch" aria-label="'+title+'" aria-checked="'
+        + (on?'true':'false') + '"' + (lock?' disabled':'') + '></button></div>';
+    }
+
+    w.addEventListener('click', function(e){
+      var sw = e.target.closest('.ais-sw');
+      if (sw && !sw.disabled){
+        sw.setAttribute('aria-checked', sw.getAttribute('aria-checked')==='true' ? 'false':'true');
+        return;
+      }
+      var b = e.target.closest('[data-a]');
+      if (!b) return;
+      var a = b.getAttribute('data-a');
+
+      if (a === 'manage'){
+        var p = w.querySelector('#ais-panel');
+        var open = p.classList.toggle('open');
+        b.setAttribute('aria-expanded', open ? 'true':'false');
+        b.textContent = open ? 'Hide options' : 'Choose what I share';
+        return;
+      }
+      if (a === 'accept') return close({analytics:1,recording:1,marketing:1});
+      if (a === 'reject') return close({analytics:0,recording:0,marketing:0});
+      if (a === 'save'){
+        var g = function(k){
+          var el = w.querySelector('.ais-sw[data-k="'+k+'"]');
+          return el && el.getAttribute('aria-checked')==='true' ? 1 : 0;
+        };
+        return close({analytics:g('analytics'), recording:g('recording'), marketing:g('marketing')});
+      }
+    });
+
+    function close(c){ current = c; apply(c, true); w.remove(); }
+
+    /* Reopened from the footer: show the detail panel straight away, so the
+       visitor can see and change what they previously chose. */
+    if (reopen){
+      w.querySelector('#ais-panel').classList.add('open');
+      var mb = w.querySelector('[data-a="manage"]');
+      mb.setAttribute('aria-expanded','true');
+      mb.textContent = 'Hide options';
+    }
+  }
+
+  /* Drop a "Cookie choices" link into the existing footer, so consent can be
+     withdrawn from any page without editing 50 footers by hand. */
+  function footerLink(){
+    var f = document.querySelector('footer');
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
+
+    /* Footer markup varies page to page, so target the LAST div: on every
+       template that is the links / colophon column, not the brand block. */
+    var divs = f.querySelectorAll('div');
+    var host = divs.length ? divs[divs.length-1] : f;
+
+    var wrap = document.createElement('span');
+    wrap.setAttribute('data-ais-footer','1');
+    wrap.style.cssText = 'display:inline-block;margin-top:6px';
+
+    var onPolicy = /^\/privacy(\.html|\/|$)/.test(location.pathname);
+    if (!onPolicy){
+      var pv = document.createElement('a');
+      pv.href = POLICY;
+      pv.textContent = 'Privacy';
+      wrap.appendChild(document.createTextNode(' · '));
+      wrap.appendChild(pv);
+    }
+
+    var a = document.createElement('a');
+    a.href = '#';
+    a.setAttribute('data-ais-reopen','1');
+    a.textContent = 'Cookie choices';
+    a.style.cursor = 'pointer';
+    a.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+    wrap.appendChild(document.createTextNode(' · '));
+    wrap.appendChild(a);
+
+    host.appendChild(wrap);
+  }
+
+  /* Public re-opener, also usable directly:
+     <a href="#" onclick="AISConsent.open();return false">Cookie choices</a>  */
+  window.AISConsent = {
+    open: function(){
+      /* Deliberately does NOT clear the stored choice. Reopening the banner
+         must never silently revoke consent the visitor already gave. They
+         revoke it by choosing, not by looking. */
+      var ex = document.querySelector('.ais-cc');
+      if (ex) ex.remove();
+      build(true);
+    }
+  };
+
+  function init(){ footerLink(); if (!saved) build(false); }
+
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K3HFQT6S');</script>
+
+<!-- Google Analytics — site-wide ID, leave as-is -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+
+<title>Forget the breakthrough. Look at the receipt. | AI Sustained</title>
+<meta name="description" content="An AI cut the cost of one scientific guess from up to $10,000 to about $150. It discovered nothing. That is the point: what would you try if trying were nearly free?">
+<meta name="keywords" content="plain english ai, ai economics, cost of trying, ai in science, protein design, anthropic biomolecular modeling, open-source biology tools, adaptyv competition, ai business case, ai adoption uk, business analysis, evidence review, cost per accepted outcome">
+<meta name="author" content="Kevin Clubb">
+<link rel="canonical" href="https://ai-sustained.com/articles/look-at-the-receipt/">
+<meta property="og:title" content="Forget the breakthrough. Look at the receipt.">
+<meta property="og:description" content="An AI cut the cost of one scientific guess from up to $10,000 to about $150. It discovered nothing. That is the point: what would you try if trying were nearly free?">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ai-sustained.com/articles/look-at-the-receipt/">
+<meta property="og:image" content="https://ai-sustained.com/articles/look-at-the-receipt/look-at-the-receipt_hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Forget the breakthrough. Look at the receipt.">
+<meta name="twitter:description" content="An AI cut the cost of one scientific guess from up to $10,000 to about $150. It discovered nothing. That is the point: what would you try if trying were nearly free?">
+<meta name="twitter:image" content="https://ai-sustained.com/articles/look-at-the-receipt/look-at-the-receipt_hero.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Forget the breakthrough. Look at the receipt.",
+  "author": { "@type": "Person", "name": "Kevin Clubb" },
+  "datePublished": "2026-09-19",
+  "url": "https://ai-sustained.com/articles/look-at-the-receipt/",
+  "description": "An AI cut the cost of one scientific guess from up to $10,000 to about $150. It discovered nothing. That is the point: what would you try if trying were nearly free?",
+  "keywords": "plain english ai, ai economics, cost of trying, ai in science, protein design, anthropic biomolecular modeling, open-source biology tools, adaptyv competition, ai business case, ai adoption uk, business analysis, evidence review, cost per accepted outcome",
+  "image": "https://ai-sustained.com/articles/look-at-the-receipt/look-at-the-receipt_hero.jpg",
+  "publisher": { "@type": "Organization", "name": "AI Sustained", "logo": { "@type": "ImageObject", "url": "https://ai-sustained.com/ai_sustained_logo.png" } }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --ink-soft: #2A3530;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
+    --acid: #E8FF3A;
+    --coral: #FF5A3C;
+    --moss: #2D6A4F;
+    --sage: #74C69D;
+    --mint: #D8F3DC;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --rule-soft: rgba(242,236,217,0.09);
+    --panel: rgba(242,236,217,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--forest);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    border-top: 3px solid var(--acid);
+  }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ HERO (centred) ============ */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+  }
+  .kicker::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    background: var(--acid);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(46px, 7vw, 84px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin: 0 auto 26px;
+    max-width: 14ch;
+  }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--paper-2);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+
+  /* ============ HERO FIGURE (cover art) ============ */
+  .hero-figure { margin: 44px 0 10px; }
+  .hero-figure img {
+    width: 100%; height: auto; display: block;
+    border-top: 3px solid var(--acid);
+    border-radius: 4px;
+  }
+  .hero-figure figcaption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); margin-top: 12px;
+  }
+
+  /* ============ STAT GRID ============ */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 44px 0 48px;
+  }
+  .stat-box {
+    background: var(--panel);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 10px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px; font-weight: 600;
+    color: var(--acid); line-height: 1; display: block;
+  }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  /* ============ BODY CONTENT ============ */
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 33px; line-height: 1.15;
+    color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em;
+  }
+  .content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px;
+  }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+  .content li::marker { color: var(--acid); }
+
+  .inline-highlight { color: var(--acid); font-weight: 500; }
+
+  /* ============ PULL QUOTE ============ */
+  .pull-quote {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 30px; line-height: 1.3; color: var(--paper);
+    margin: 60px auto; padding: 40px 0;
+    border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid);
+    text-align: center; max-width: 720px; letter-spacing: -0.01em;
+  }
+  .pull-quote::before {
+    content: '"'; display: block; font-size: 56px; color: var(--acid);
+    line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif;
+  }
+
+  /* ============ TACTICAL TAKEAWAY (ink panel — signature) ============ */
+  .takeaway {
+    background: var(--ink); color: var(--paper);
+    padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .takeaway::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--acid);
+    border-radius: 50%; opacity: 0.14;
+  }
+  .takeaway-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .takeaway h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 32px; line-height: 1.22; color: var(--paper);
+    margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em;
+  }
+  .takeaway h2 em { color: var(--acid); font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
+  .takeaway-point-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .takeaway-point-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 16px; line-height: 1.45; color: var(--paper-2);
+  }
+  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
+
+  /* ============ TOC ============ */
+  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
+  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
+  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
+
+  /* ============ SUBSCRIBE SLAB ============ */
+  /* The one deliberate acid fill in the page. It works because nothing else does it. */
+  .cta-slab {
+    background: var(--acid); color: var(--ink);
+    border-radius: 4px; padding: 44px 40px; margin: 64px 0 8px;
+    position: relative; overflow: hidden;
+  }
+  .cta-slab::before {
+    content: ''; position: absolute; bottom: -70px; left: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--ink);
+    border-radius: 50%; opacity: 0.08;
+  }
+  .cta-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.72; margin-bottom: 14px;
+    position: relative; z-index: 1;
+  }
+  .cta-slab h2 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+    font-size: 32px; line-height: 1.15; letter-spacing: -0.01em;
+    color: var(--ink); margin-bottom: 14px; position: relative; z-index: 1;
+  }
+  .cta-slab h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; }
+  .cta-slab p {
+    font-size: 16px; line-height: 1.6; color: var(--ink); opacity: 0.84;
+    max-width: 540px; margin-bottom: 26px; position: relative; z-index: 1;
+  }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .cta-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
+    padding: 14px 22px; border-radius: 3px;
+    border: 1.5px solid var(--ink); color: var(--ink);
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta-btn span { transition: transform 0.15s ease; }
+  .cta-btn:hover { background: rgba(10,15,12,0.08); transform: translateY(-2px); }
+  .cta-btn:hover span { transform: translateX(4px); }
+  .cta-btn.primary { background: var(--ink); color: var(--acid); animation: ctaPulse 2.6s ease-out infinite; }
+  .cta-btn.primary:hover { background: #000; box-shadow: 0 10px 28px rgba(10,15,12,0.35); }
+  @keyframes ctaPulse {
+    0% { box-shadow: 0 0 0 0 rgba(10,15,12,0.35); }
+    70% { box-shadow: 0 0 0 14px rgba(10,15,12,0); }
+    100% { box-shadow: 0 0 0 0 rgba(10,15,12,0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-btn.primary { animation: none; }
+    .cta-btn:hover, .cta-btn:hover span { transform: none; }
+  }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 300px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
+  .hashtag-list span { font-weight: 500; }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ AI SLIDER (optional) ============ */
+  .depth {
+    background: var(--ink);
+    border: 2px solid var(--acid);
+    border-radius: 6px;
+    padding: 26px 28px 22px;
+    margin: 44px 0 48px;
+    position: relative;
+    overflow: hidden;
+    animation: depthGlow 3.2s ease-in-out infinite alternate;
+  }
+  .depth::before {
+    content: ''; position: absolute; top: -46px; right: -46px;
+    width: 170px; height: 170px; border: 30px solid var(--acid);
+    border-radius: 50%; opacity: 0.12; pointer-events: none;
+  }
+  @keyframes depthGlow {
+    from { box-shadow: 0 10px 30px rgba(10,15,12,0.3); }
+    to   { box-shadow: 0 10px 30px rgba(10,15,12,0.3), 0 0 30px 2px rgba(232,255,58,0.22); }
+  }
+  .depth-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--acid); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .depth-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .depth-sub {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 15px; color: var(--paper-2); margin-bottom: 18px;
+    position: relative; z-index: 1;
+  }
+  .ticks {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 10px; margin-bottom: 6px;
+    position: relative; z-index: 1;
+  }
+  .tick {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 12px 8px; border-radius: 4px;
+    border: 2px solid rgba(232,255,58,0.35);
+    background: transparent; color: var(--paper-2);
+    cursor: pointer; text-align: center; width: 100%;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: border-color .15s ease, color .15s ease, background .15s ease, transform .15s ease, box-shadow .15s ease;
+  }
+  .tick:hover { border-color: var(--acid); color: var(--acid); transform: translateY(-2px); box-shadow: 0 8px 22px rgba(232,255,58,0.18); }
+  .tick[aria-pressed="true"] {
+    background: var(--acid); color: var(--ink);
+    border-color: var(--acid);
+    box-shadow: 0 8px 24px rgba(232,255,58,0.3);
+  }
+  .tick:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+  @media (max-width: 720px) {
+    .ticks { grid-template-columns: repeat(2, 1fr); }
+    .depth { padding: 22px 20px 18px; }
+  }
+  .depth-range {
+    width: 100%; margin: 16px 0 12px;
+    -webkit-appearance: none; appearance: none;
+    height: 3px; background: rgba(232,255,58,0.25); cursor: pointer;
+    position: relative; z-index: 1; border-radius: 2px;
+  }
+  .depth-range::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--acid); border: none; cursor: pointer;
+    box-shadow: 0 0 12px rgba(232,255,58,0.5);
+  }
+  .depth-range::-moz-range-thumb {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--acid); border: none; cursor: pointer;
+    box-shadow: 0 0 12px rgba(232,255,58,0.5);
+  }
+  .depth-range:focus-visible { outline: 2px solid var(--acid); outline-offset: 4px; }
+  .reading-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted); position: relative; z-index: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .depth { animation: none; }
+    .tick:hover { transform: none; }
+  }
+  #reading { transition: opacity 0.19s ease; }
+  #reading.swapping { opacity: 0; }
+
+  /* ============ BACK NAV ============ */
+  .backnav {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+    text-decoration: none; display: inline-block; padding: 10px 0 4px;
+  }
+  .backnav:hover { color: var(--acid); }
+
+  /* ============ DISCLOSURE STRIP ============ */
+  .disclosure {
+    border: 1px solid var(--rule); border-radius: 4px; background: var(--panel);
+    padding: 12px 18px; margin: 28px auto 0; max-width: 620px;
+    display: flex; gap: 14px; align-items: baseline; justify-content: center;
+    flex-wrap: wrap; text-align: left;
+  }
+  .disclosure-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid);
+  }
+  .disclosure p { font-size: 13px; line-height: 1.5; color: var(--muted); margin: 0; }
+
+  /* ============ FEATURED QUOTE (acid marker sweep) ============ */
+  /* For quoted people. The .pull-quote stays for the house voice, so the two
+     never read as the same device. */
+  .fquote {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--acid);
+    border-radius: 4px;
+    padding: 28px 30px 24px;
+    margin: 44px 0;
+  }
+  .fquote p {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 25px; line-height: 1.36; color: var(--paper);
+    margin: 0 0 16px; letter-spacing: -0.01em;
+  }
+  .fquote .sweep {
+    background-image: linear-gradient(rgba(232,255,58,0.92), rgba(232,255,58,0.92));
+    background-repeat: no-repeat;
+    background-position: 0 0.06em;
+    background-size: 0% 92%;
+    transition: background-size 0.75s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease 0.35s;
+    padding: 0 3px;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  }
+  .fquote .sweep.lit { background-size: 100% 92%; color: var(--ink); }
+  .fquote cite {
+    font-family: 'JetBrains Mono', monospace; font-style: normal;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sage); display: block;
+    padding-top: 12px; border-top: 1px solid var(--rule-soft);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fquote .sweep { transition: none; background-size: 100% 92%; color: var(--ink); }
+  }
+
+  /* Attribution line under a house pull-quote, as Issue 019 does it. */
+  .pull-quote cite {
+    display: block; margin-top: 18px;
+    font-family: 'JetBrains Mono', monospace; font-style: normal;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  /* ============ WHAT THE ROOM IS SAYING ============ */
+  .room { margin: 64px 0 8px; }
+  .room-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+  }
+  .room-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .room h2 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 29px;
+    line-height: 1.15; color: var(--paper); margin: 0 0 8px; letter-spacing: -0.01em;
+  }
+  .room-sub { font-size: 15px; color: var(--muted); margin-bottom: 22px; }
+  .room-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .room-card {
+    background: var(--panel); border: 1px solid var(--rule); border-left: 3px solid var(--muted);
+    border-radius: 4px; padding: 20px 22px; text-decoration: none; display: block;
+    transition: transform .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .room-card:hover { transform: translateY(-2px); background: rgba(242,236,217,0.07); }
+  .room-card.pos { border-left-color: var(--sage); }
+  .room-card.neg { border-left-color: var(--coral); }
+  .room-card.neu { border-left-color: var(--muted); }
+  .room-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px; color: var(--muted);
+  }
+  .room-card.pos .room-tag { color: var(--sage); }
+  .room-card.neg .room-tag { color: var(--coral); }
+  .room-quote { font-size: 16px; line-height: 1.5; color: var(--paper); margin: 0 0 12px; }
+  .room-src {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; line-height: 1.5;
+    letter-spacing: 0.06em; color: var(--muted); display: block;
+  }
+
+  /* ============ PAST, PRESENT, NEXT ============ */
+  .ppn { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 22px 0 0; }
+  .ppn-col { border-top: 2px solid var(--acid); padding-top: 14px; }
+  .ppn-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 10px;
+  }
+  .ppn-col p { font-size: 15px; line-height: 1.6; color: var(--paper-2); margin: 0; }
+  .ppn-col a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ============ ARGUE ABOUT THIS AT LUNCH ============ */
+  .debate {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--acid);
+    border-radius: 4px;
+    padding: 36px 34px 30px;
+    margin: 60px 0 8px;
+  }
+  .debate-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+  }
+  .debate-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .debate h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 27px; line-height: 1.25; color: var(--paper);
+    margin: 0 0 8px; letter-spacing: -0.01em;
+  }
+  .debate ol { list-style: none; margin: 0; padding: 0; }
+  .debate-item { border-top: 1px solid var(--rule); padding-top: 16px; margin-top: 22px; }
+  .debate-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 10px;
+  }
+  .debate-claim {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 19px; line-height: 1.45; color: var(--paper); margin: 0 0 10px;
+  }
+  .debate-claim em { color: var(--acid); font-style: italic; }
+  .debate-counter {
+    font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6;
+    color: var(--muted); margin: 0;
+  }
+  .debate-counter span {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage);
+    margin-right: 10px;
+  }
+
+  /* ============ FOOTER LINK ROW ============ */
+  .footer-links {
+    margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+  }
+  .footer-links a { color: var(--muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--acid); }
+
+  @media (max-width: 720px) {
+    .debate { padding: 26px 22px 22px; }
+    .debate h2 { font-size: 22px; }
+    .fquote { padding: 22px 20px 18px; }
+    .fquote p { font-size: 20px; }
+    .ppn { grid-template-columns: 1fr; }
+    .room h2 { font-size: 24px; }
+  }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 44px; }
+    .deck { font-size: 19px; }
+    .cta-slab { padding: 32px 26px; }
+    .cta-slab h2 { font-size: 26px; }
+    .cta-btn { width: 100%; justify-content: space-between; }
+  }
+
+  @media print {
+    @page { size: A3; margin: 14mm; }
+    body { background: var(--forest); padding: 0; }
+    .page { max-width: none; padding: 0; }
+    .stat-box, .takeaway-point, .pull-quote, .takeaway, .cta-slab { page-break-inside: avoid; break-inside: avoid; }
+  }
+
+  /* Sources block carries links this week; without this they fall through to
+     browser-default blue, which is the trap documented in CLAUDE.md. */
+  .sources a { color: var(--sage, #74C69D); text-decoration: none; border-bottom: 1px solid rgba(116,198,157,0.35); }
+  .sources a:hover { color: var(--acid, #E8FF3A); border-bottom-color: var(--acid, #E8FF3A); }
+
+  /* ============ CROSS-REFERENCE LINKS (issue 021) ============ */
+  /* Internal links to other AI Sustained work carry a mono badge so they read
+     as "more of this site", not as another citation heading off-platform. */
+  .content a.xref, .ppn-col a.xref {
+    color: var(--acid);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(232,255,58,0.45);
+    white-space: nowrap;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .content a.xref::before, .ppn-col a.xref::before {
+    content: 'AIS';
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 600; letter-spacing: 0.14em;
+    color: var(--ink); background: var(--acid);
+    padding: 2px 5px; border-radius: 2px; margin-right: 7px;
+    vertical-align: 1px; white-space: nowrap;
+  }
+  .content a.xref:hover, .ppn-col a.xref:hover { color: var(--paper); border-bottom-color: var(--paper); }
+
+  /* ============ WORKSHEET (issue 021) ============ */
+  .worksheet { margin: 34px 0 28px; border: 1px solid var(--rule); border-top: 3px solid var(--acid); border-radius: 4px; background: var(--panel); overflow: hidden; }
+  .worksheet-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 22px 12px; border-bottom: 1px solid var(--rule); }
+  .worksheet-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); }
+  .worksheet-flag { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral); white-space: nowrap; }
+  .worksheet table { width: 100%; border-collapse: collapse; }
+  .worksheet th, .worksheet td { text-align: left; vertical-align: top; padding: 12px 22px; border-bottom: 1px solid var(--rule-soft); font-size: 14.5px; line-height: 1.5; }
+  .worksheet tr:last-child th, .worksheet tr:last-child td { border-bottom: none; }
+  .worksheet th { width: 34%; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sage); padding-top: 14px; }
+  .worksheet td { color: var(--paper-2); font-family: 'Inter', sans-serif; }
+  .worksheet td .num { font-family: 'JetBrains Mono', monospace; color: var(--acid); font-weight: 600; font-size: 13.5px; }
+  .worksheet tr.decision th { color: var(--acid); }
+  .worksheet tr.decision td { color: var(--paper); font-weight: 500; }
+  .worksheet-foot { padding: 12px 22px 14px; font-size: 12px; color: var(--muted); line-height: 1.5; border-top: 1px solid var(--rule-soft); }
+
+  @media (max-width: 720px) {
+    .worksheet th { width: 42%; }
+    .worksheet th, .worksheet td { padding: 10px 14px; font-size: 13.5px; }
+    .worksheet-head { padding: 14px 14px 10px; flex-direction: column; gap: 6px; }
+    .worksheet-foot { padding: 12px 14px 14px; }
+  }
+
+  @media print {
+    .worksheet, .debate-item, .room-card { page-break-inside: avoid; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K3HFQT6S"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<article class="page">
+
+  <a class="backnav" href="/">&#8592; All articles</a>
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <span class="wordmark">AI Sustained.</span>
+      <span>Issue 021</span>
+    </div>
+    <div class="masthead-right">
+      <span>19 SEP 2026</span>
+      <span>Plain English AI</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">Plain English AI &middot; The economics of trying</div>
+    <h1>Forget the breakthrough. Look at <span class="accent">the receipt</span>.</h1>
+    <p class="deck">An AI just cut the cost of one scientific guess from up to $10,000 to about $150. It discovered nothing. That is the interesting part. Think about what you would try if <span class="accent">trying were nearly free</span>.</p>
+    <div class="disclosure">
+      <span class="disclosure-label">Disclosure</span>
+      <p>Written by Claude Opus 5. Curated, fact-checked and edited by Kevin Clubb.</p>
+    </div>
+  </section>
+
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">One guess, before</div>
+      <span class="stat-value">$10,000</span>
+      <div class="stat-note">The allowance per protein target, in computer time. Roughly 2,500 H100 GPU hours. About the price of a second-hand Fiesta.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">One guess, after</div>
+      <span class="stat-value">~$150</span>
+      <div class="stat-note">Combined GPU and token spend for a comparable computer score, averaged over sixteen targets. About a decent pair of trainers.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Time it took</div>
+      <span class="stat-value">4<span class="unit">wks</span></span>
+      <div class="stat-note">Just under. One AI, two scientists supervising, more than thirty open-source tools tuned.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Real-world test</div>
+      <span class="stat-value">5,000<span class="unit">+</span></span>
+      <div class="stat-note">Designs booked for a real laboratory. Verdict due 15 December, on a schedule marked subject to change.</div>
+    </div>
+  </section>
+
+  <section class="depth" aria-label="Reading depth">
+    <div class="depth-label">Reading depth</div>
+    <p class="depth-sub">How deep do you want to go? Pick a level and the article rewrites itself.</p>
+    <div class="ticks" role="group" aria-label="Choose reading depth">
+      <button class="tick" type="button" aria-pressed="false">Explain like I&rsquo;m 5</button>
+      <button class="tick" type="button" aria-pressed="true">Curious</button>
+      <button class="tick" type="button" aria-pressed="false">Practitioner</button>
+      <button class="tick" type="button" aria-pressed="false">Expert</button>
+    </div>
+    <input id="depth-range" class="depth-range" type="range"
+           min="0" max="3" step="1" value="1" aria-label="Reading depth">
+    <div class="reading-meta" id="reading-meta">Curious &middot; &asymp;2,100 words &middot; 10 min</div>
+  </section>
+
+  <div id="reading">
+
+    <nav class="toc" aria-label="Table of contents">
+      <div class="toc-label">In this issue</div>
+      <ol>
+        <li><span class="toc-num">01</span><a href="#albums">Your grandparents&rsquo; photo albums</a></li>
+        <li><span class="toc-num">02</span><a href="#mechanic">Two scientists and a very fast mechanic</a></li>
+        <li><span class="toc-num">03</span><a href="#cheap">What gets cheap gets tried</a></li>
+        <li><span class="toc-num">04</span><a href="#smallprint">Now, the small print</a></li>
+        <li><span class="toc-num">05</span><a href="#mechanics">Send the mechanics where they are needed</a></li>
+        <li><span class="toc-num">06</span><a href="#drawer">Everyone has a drawer</a></li>
+        <li><span class="toc-num">07</span><a href="#envelope">The back of an envelope</a></li>
+        <li><span class="toc-num">08</span><a href="#december">December</a></li>
+        <li><span class="toc-num">09</span><a href="#room">Straight from the sources</a></li>
+        <li><span class="toc-num">10</span><a href="#next">Past, present, next</a></li>
+      </ol>
+    </nav>
+
+    <section class="content" id="section-1">
+
+      <h2 id="albums">Your grandparents&rsquo; photo albums.</h2>
+
+      <p>Think about the last photograph you took. Your lunch, probably. Or the gas meter. Or a screenshot of a train ticket you will never look at again.</p>
+
+      <p>Now think about your grandparents&rsquo; albums. A wedding. A christening. One blurry week in a caravan at Skegness. They were not less interested in their lives than you are in yours. Every photograph cost money: the film, the trip to Boots, the week&rsquo;s wait to discover half of them were thumbs. So they pointed the camera only at things that were certain to matter.</p>
+
+      <p>Then photographs became free, and we did not take the same pictures more cheaply. We took completely different pictures. <em>Nobody photographed their lunch when film cost money.</em></p>
+
+      <p>Hold that thought. It is the whole of this week&rsquo;s story about AI and biology, and the story is not really about biology.</p>
+
+      <h2 id="mechanic">Two scientists and a very fast mechanic.</h2>
+
+      <p>On 17 September, Anthropic published a <a href="https://www.anthropic.com/research/claude-uplifts-biomolecular-modeling" target="_blank" rel="noopener">piece of research</a> with an unglamorous title and a remarkable receipt.</p>
+
+      <p>Proteins are the tiny machines that do almost everything in your body. Designing a new one, say one that grips a virus and stops it working, means guessing a shape that will fit another shape you can barely see. Computers have become good at that guessing, and biologists use a set of free, open-source tools to do it. But each guess costs computer time, and until this week it cost a great deal of it.</p>
+
+      <p>So Anthropic pointed one of its AI models at those tools. An internal research version of Claude, not the one in the app. Not at the biology: <strong>at the tools</strong>. For just under four weeks it worked through more than thirty of them, making them run faster. Two Anthropic scientists supervised. Both knew the biology tools well. Neither, by the company&rsquo;s own account, had ever done the kind of low-level engineering the AI was doing.</p>
+
+      <p>It did not drive the car. It tuned the engine.</p>
+
+      <p>The results, as Anthropic reports them: the tools ran about <span class="inline-highlight">four times faster</span> on average if you accept tiny rounding differences in the answers, and <span class="inline-highlight">nearly twice as fast</span> if you insist the answers stay identical. Then came the receipt. In earlier campaigns, Anthropic had let its AI spend up to <span class="inline-highlight">$10,000</span> of computer time per protein target. Now one model, on one chip, for one day, produced comparably good computer scores for about <span class="inline-highlight">$150</span> of computing and AI usage, averaged across sixteen targets.</p>
+
+      <figure class="fquote">
+        <p>Averaged over 16 targets &hellip; a combined spend of <span class="sweep">approximately $150 on GPUs and tokens</span>, we can achieve in silico performance matching the levels of our previous campaigns.</p>
+        <cite>Anthropic &middot; How Claude is uplifting biomolecular modeling &middot; 17 Sep 2026</cite>
+      </figure>
+
+      <p>A second-hand Fiesta, down to a pair of trainers.</p>
+
+      <h2 id="cheap">What gets cheap gets tried.</h2>
+
+      <p>Here is where the photo albums come in, and here is where I move from reporting to arguing.</p>
+
+      <p>Every headline about AI in science is about capability. It discovered. It solved. It cured. Nothing was discovered here. No new protein exists because of this work. What changed was the price of a guess, and Anthropic puts the drop in computer hours at roughly a hundredfold.</p>
+
+      <p>That matters because price decides who gets to play. Ten thousand dollars of computer time per target is, as Anthropic itself notes, more than the vast majority of protein designers could ever get their hands on.</p>
+
+      <figure class="fquote">
+        <p>&hellip; more resources than would be available to <span class="sweep">the vast majority of protein designers</span>.</p>
+        <cite>Anthropic &middot; on the $10,000-per-target allowance &middot; 17 Sep 2026</cite>
+      </figure>
+
+      <p>A hundred and fifty dollars goes on the department card without a meeting. A PhD student can run one. A small lab can run twenty. A team in a country with no supercomputer can have a go.</p>
+
+      <p>And when the price of a guess collapses, you do not run the same guesses cheaper. You run the ones that never got a budget. The long-shot target. Twenty variations instead of one. The check you always skipped because it was not worth the money.</p>
+
+      <p>Anthropic has put the sped-up tools online for free and, with a laboratory company called Adaptyv Bio, is running an <a href="https://proteinbase.com/competitions/anthropic-adaptyv-2026" target="_blank" rel="noopener">open competition</a>. It is open to everyone and free to enter, with AI credits for selected teams who apply by 24 September. More than five thousand designs will then be made and tested for real, in a real laboratory, with a million dollars of testing paid for and a further million in AI credits. There is no cash prize. The prize is finding out whether your guess was right.</p>
+
+      <blockquote class="pull-quote">Your grandparents were not less interested in their lives. Every photograph cost money.
+        <cite>The whole argument, in two sentences</cite>
+      </blockquote>
+
+      <h2 id="smallprint">Now, the small print.</h2>
+
+      <p>Before anyone gets carried away, four things to hold onto. None of them makes the story untrue. All of them make it smaller than the headline.</p>
+
+      <p><strong>The $150 buys a guess, not a protein.</strong> It buys a computer&rsquo;s estimate of how well the designed protein would grip its target. Anthropic cites evidence that the estimate tends to predict real results, and it may well be right. But a prediction is not a result. The results come from that laboratory, and they are due on 15 December, on a schedule marked subject to change. Until then, this is Anthropic marking its own homework.</p>
+
+      <p><strong>&ldquo;Four times faster&rdquo; has two speeds.</strong> The big number involves tiny rounding differences in the answers, which Anthropic says sit within the tools&rsquo; own natural wobble from one run to the next. If you want the answers identical, you get nearly twice as fast. Somebody has to choose, and the choice is not free.</p>
+
+      <p><strong>This was not a Claude subscription.</strong> The AI was an internal research model, working inside Anthropic, supervised by specialists. Nobody reproduces this from the app on a laptop.</p>
+
+      <p><strong>And the code has been left on the doorstep.</strong> Anthropic&rsquo;s <a href="https://github.com/anthropics/uplifting-biomolecular-modeling" target="_blank" rel="noopener">public repository</a> of the sped-up tools describes itself, in its own words, as not maintained and not accepting contributions. Provided as-is, no updates planned. That is not evidence anything is wrong with it. It is a reminder that the $150 does not include a mechanic on call. Nor does it include the four weeks of tuning, the two scientists, or the far more expensive earlier experiments that produced the yardstick. <em>The last mile got cheap because someone paid for the first ninety-nine.</em></p>
+
+      <p>There is also a fair objection, raised by a handful of commenters under Anthropic&rsquo;s own LinkedIn post. Cheap guesses may simply produce a longer queue outside the expensive laboratory. If a lab can test five thousand designs a season and you can now afford to generate fifty thousand, the bottleneck has not gone. It has moved. Small sample, right question.</p>
+
+      <h2 id="mechanics">Send the mechanics where they are needed.</h2>
+
+      <p>Step back from the receipt and look at who wrote it. One company. Two staff. One model. Four weeks. Aimed at a corner of biology because somebody inside a frontier lab decided it was worth doing. Nobody made them.</p>
+
+      <p>Now look at what the same company <a href="https://www.anthropic.com/news/accenture-embedded-evaluation" target="_blank" rel="noopener">announced the following day</a>: it and Accenture each expect to put at least a billion dollars over five years into embedded evaluation, the work of checking that frontier models behave. Good. Security, privacy and control are exactly where you want the serious money. But notice the shape of the week. The safety spend got a press release and a ten-figure number. The science got a research post and a repository the company says it will not maintain.</p>
+
+      <p>Here is the case I would make to all three frontier labs, OpenAI, Google and Anthropic, and to the governments and big institutions that buy from them.</p>
+
+      <p><strong>Second the experts in.</strong> Not two staff but two hundred: biologists, epidemiologists, materials scientists, climate modellers, embedded with the people who tune these models, with one brief. Drive down the price of a guess in the fields that help people and that nobody profits from quickly. <strong>Then publish the receipt.</strong> Anthropic itself says the money for safety evaluation should eventually come from pooled or government sources, so that it is not marking its own homework.</p>
+
+      <figure class="fquote">
+        <p>Long-term, we think funding should come from <span class="sweep">pooled or government sources</span>.</p>
+        <cite>Anthropic &middot; on funding embedded evaluation &middot; 18 Sep 2026</cite>
+      </figure>
+
+      <p>The same logic applies to the science. If public money or public trust goes into these companies, we should be told which problems it is pointed at and what one attempt costs afterwards.</p>
+
+      <p><em>Cost should decide which spreadsheet gets automated. It should never decide whether a disease gets studied.</em> When the price of a guess is what stops a laboratory trying, that price is a choice, and someone made it.</p>
+
+      <h2 id="drawer">Everyone has a drawer.</h2>
+
+      <p>Nobody reading this designs proteins, and most of us do not run a frontier lab. But everyone reading this has a drawer.</p>
+
+      <p>It is the folder of things you would do if each go were cheap. The report you produce monthly and would run weekly if it didn&rsquo;t eat two days. The check you do on a sample, because doing all of it costs a week of the one person who knows how. The idea you would love to test but cannot justify, because a single attempt costs more than the odds of it working.</p>
+
+      <p>Nothing in that drawer is a bad idea. Each one lost an argument about the price of a single attempt.</p>
+
+      <p>For two years the AI conversation in business has been about the work you already do, and how many hours a machine can shave off it. That case has a long audit trail now, and it is mixed; <a class="xref" href="/articles/payroll-into-compute/">issue 018</a> went through it. This is a different question. Not <em>what can we do cheaper?</em> but <em>what did we stop doing because it was too dear to try, and has the price moved?</em></p>
+
+      <p>The unit that matters is not hours saved. It is what one good result actually costs, all in, with the checking included.</p>
+
+      <blockquote class="pull-quote">$150 buys a very good guess. December tells us whether it was right.
+        <cite>Anthropic research, 17 Sep 2026 &middot; Adaptyv results planned 15 Dec</cite>
+      </blockquote>
+
+      <h2 id="envelope">The back of an envelope.</h2>
+
+      <p>So here is a Monday experiment. Take one thing out of the drawer and run it through ten questions. The example below is invented; the questions are the point.</p>
+
+      <div class="worksheet" role="table" aria-label="Cost per accepted outcome worksheet">
+        <div class="worksheet-head">
+          <span class="worksheet-label">Ten questions &middot; What one good result really costs</span>
+          <span class="worksheet-flag">Made-up example</span>
+        </div>
+        <table>
+          <tbody>
+            <tr><th>What&rsquo;s the job?</th><td>A monthly report pack for 40 clients. Made-up business, made-up numbers.</td></tr>
+            <tr><th>How many, how often?</th><td><span class="num">40</span> packs a month, <span class="num">2.5</span> hours each, review included.</td></tr>
+            <tr><th>How good is it today?</th><td><span class="num">35 of 40</span> accepted first time. Five bounce back for corrections.</td></tr>
+            <tr><th>What does one good result cost now?</th><td><span class="num">100 hrs &times; &pound;45 = &pound;4,500</span>, spread over 35 good packs. About <span class="num">&pound;129</span> each.</td></tr>
+            <tr><th>What would change?</th><td>AI drafts the commentary from the numbers. The analyst checks every figure and edits.</td></tr>
+            <tr><th>Who checks it, and can they say no?</th><td>A senior analyst who did not build the prompt. They own the pass/fail test.</td></tr>
+            <tr><th>What happened in the trial?</th><td>20 packs: <span class="num">18</span> accepted first time at <span class="num">50 min</span> each. Both failures traced to a stale lookup table, not the AI.</td></tr>
+            <tr><th>What did it cost to set up?</th><td>Three days of build work, once. About <span class="num">&pound;1,800</span>.</td></tr>
+            <tr><th>Who looks after it, forever?</th><td>A named owner, <span class="num">2 hrs</span> a month. Every change to the prompt or the model gets re-tested.</td></tr>
+            <tr class="decision"><th>What do you do with the saving?</th><td>If a good pack stays under <span class="num">&pound;50</span> for three months, fund the weekly packs shelved in 2024. Don&rsquo;t just bank the hours.</td></tr>
+          </tbody>
+        </table>
+        <div class="worksheet-foot">All figures invented for illustration; nothing here is promised by the study&rsquo;s speed-up. For the record, the ten fields are: process; current volume; baseline quality; cost per accepted outcome; proposed change; technical reviewer; test result; implementation cost; ongoing ownership; reinvestment decision.</div>
+      </div>
+
+      <p>Three rules. Write the baseline down before you touch anything, or you will never know what changed. Hand the pass/fail test to someone with no stake in passing. And count the checker&rsquo;s time as part of the cost, because it is; <a class="xref" href="/case-studies/working-is-not-shipped/">case study 006</a> covers that one properly.</p>
+
+      <p>The last row is the one this issue is about. It is also the one most business cases don&rsquo;t have.</p>
+
+      <h2 id="december">December.</h2>
+
+      <p>The science gets its verdict in December, from a laboratory, not a press office. Your drawer does not need to wait that long.</p>
+
+      <p>Your grandparents did not skip photographing their Tuesdays because Tuesdays were dull. Each frame cost money, so they spent it on certainties. What is in your drawer, and what would you try if one go cost a tenth of what it does now?</p>
+
+    </section>
+
+  </div>
+
+  <section class="room" aria-label="Straight from the sources">
+    <div class="room-label">Straight from the sources</div>
+    <h2 id="room">Six lines, four documents.</h2>
+    <p class="room-sub">No commentary and no reaction round-up this week. Every card is a verbatim quote from a primary source, and links to it.</p>
+    <div class="room-grid">
+      <a class="room-card pos" href="https://www.anthropic.com/research/claude-uplifts-biomolecular-modeling" target="_blank" rel="noopener">
+        <div class="room-tag">The claim &middot; What was done</div>
+        <p class="room-quote">&ldquo;optimized more than 30 of these models in just under four weeks&rdquo;</p>
+        <span class="room-src">Anthropic research post, 17 Sep 2026</span>
+      </a>
+      <a class="room-card neu" href="https://www.anthropic.com/research/claude-uplifts-biomolecular-modeling" target="_blank" rel="noopener">
+        <div class="room-tag">The speed-up &middot; Two numbers, not one</div>
+        <p class="room-quote">&ldquo;roughly 4x while sacrificing a minimal amount of precision, and nearly 2x with identical outputs&rdquo;</p>
+        <span class="room-src">Anthropic research post, 17 Sep 2026</span>
+      </a>
+      <a class="room-card pos" href="https://www.anthropic.com/research/claude-uplifts-biomolecular-modeling" target="_blank" rel="noopener">
+        <div class="room-tag">Who was in the room</div>
+        <p class="room-quote">&ldquo;supervised by two members of Anthropic&rsquo;s technical staff who are experienced in biomolecular modeling but who had no prior experience in inference optimization or kernel engineering&rdquo;</p>
+        <span class="room-src">Anthropic research post, 17 Sep 2026</span>
+      </a>
+      <a class="room-card neg" href="https://github.com/anthropics/uplifting-biomolecular-modeling" target="_blank" rel="noopener">
+        <div class="room-tag">The small print &middot; The repository</div>
+        <p class="room-quote">&ldquo;not maintained and not accepting contributions &hellip; provided as-is&rdquo;</p>
+        <span class="room-src">GitHub README, anthropics/uplifting-biomolecular-modeling</span>
+      </a>
+      <a class="room-card neu" href="https://proteinbase.com/competitions/anthropic-adaptyv-2026" target="_blank" rel="noopener">
+        <div class="room-tag">The prize &middot; What you win</div>
+        <p class="room-quote">&ldquo;The competition won&rsquo;t have a cash prize, but there will be special non-cash prizes&rdquo;</p>
+        <span class="room-src">Proteinbase, Anthropic &times; Adaptyv competition</span>
+      </a>
+      <a class="room-card neg" href="https://proteinbase.com/competitions/anthropic-adaptyv-2026" target="_blank" rel="noopener">
+        <div class="room-tag">The verdict &middot; When we find out</div>
+        <p class="room-quote">&ldquo;DEC 15 Results published &hellip; Planned schedule, subject to change&rdquo;</p>
+        <span class="room-src">Proteinbase, competition timeline</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="room" aria-label="Past, present, next">
+    <div class="room-label">Past, present, next</div>
+    <h2 id="next">How this issue got here.</h2>
+    <div class="ppn">
+    <div class="ppn-col">
+      <div class="ppn-label">Past</div>
+      <p>Two years of business cases built on hours saved. <a class="xref" href="/articles/payroll-into-compute/">Issue 018</a> went through the audit trail and found it mixed. <a class="xref" href="/case-studies/working-is-not-shipped/">Case study 006</a> counted the checker&rsquo;s time, which is where most of those cases quietly fall over.</p>
+    </div>
+    <div class="ppn-col">
+      <div class="ppn-label">Present</div>
+      <p>17 September: the research post and the receipt, with the sped-up tools open-sourced the same day. 18 September: a billion dollars each, from Anthropic and Accenture, pointed at checking that models behave. One got a press release. One got a repository marked as-is.</p>
+    </div>
+    <div class="ppn-col">
+      <div class="ppn-label">Next</div>
+      <p>24 September closes applications for the supported competition tracks. Then the laboratory does the only thing that settles this, and publishes on 15 December. Watch whether anybody outside a frontier lab shows up with a guess they could not previously afford.</p>
+    </div>
+    </div>
+  </section>
+
+  <section class="debate" aria-label="Points to argue with">
+    <div class="debate-label">Argue about this at lunch</div>
+    <h2 id="argue">Three questions. I am not certain of my own answers.</h2>
+    <ol>
+      <li class="debate-item">
+        <div class="debate-num">01 &middot; The moved bottleneck</div>
+        <p class="debate-claim">If guesses get a hundred times cheaper and the laboratory does not, <em>have you solved anything or just lengthened the queue?</em></p>
+        <p class="debate-counter"><span>The counter</span> A longer queue with better-ranked entries is not the same queue. The screening score is doing work that a bench used to do, and the competition is the test of whether the ranking holds.</p>
+      </li>
+      <li class="debate-item">
+        <div class="debate-num">02 &middot; Who paid for the first ninety-nine</div>
+        <p class="debate-claim">The $150 excludes four weeks of tuning, two specialists and the expensive campaigns that produced the yardstick. <em>Is the cheap number honest?</em></p>
+        <p class="debate-counter"><span>The counter</span> Every tool you use was subsidised by somebody&rsquo;s first attempt. The marginal price is the one that decides what gets tried next, and it is the one that just moved.</p>
+      </li>
+      <li class="debate-item">
+        <div class="debate-num">03 &middot; Bank it or spend it</div>
+        <p class="debate-claim">A saving in the drawer is a saving on the P&amp;L. <em>Why should it be reinvested rather than taken?</em></p>
+        <p class="debate-counter"><span>The counter</span> Because banking it is a one-off and reinvesting it compounds. Although if the margin is thin enough, taking the money is a perfectly defensible answer, and nobody should pretend otherwise.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="takeaway" aria-label="Tactical takeaway for leaders">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2>Stop asking what AI can do. Ask what you would try if <em>one go cost a tenth</em>.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 &middot; LOOK</div>
+        <div class="takeaway-point-text"><strong>Find the drawer.</strong> The work you stopped doing, or never started, because each attempt was too dear. Write the list down.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 &middot; CHECK</div>
+        <div class="takeaway-point-text"><strong>A guess is not a result.</strong> Budget the checking, the owner and the as-is code before you budget the tool.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 &middot; REINVEST</div>
+        <div class="takeaway-point-text"><strong>Spend the saving on the drawer.</strong> Cheap attempts are for the ideas that never got a budget, not just the same work done faster.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-slab" aria-label="Read more and subscribe">
+    <div class="cta-kicker">Read more &middot; Subscribe</div>
+    <h2>One issue a week, and <em>the workings underneath it</em>.</h2>
+    <p>No paywall and no pitch. If the cost-per-good-result argument is the useful part of this issue, the two pieces below are where it came from: what the hours-saved case actually proved, and why counting the checker&rsquo;s time changes the answer.</p>
+    <div class="cta-row">
+      <a class="cta-btn primary" href="/?src=issue021#subscribe">Subscribe <span aria-hidden="true">&#8594;</span></a>
+      <a class="cta-btn" href="/articles/payroll-into-compute/">Issue 018 &middot; The hours-saved case <span aria-hidden="true">&#8594;</span></a>
+      <a class="cta-btn" href="/case-studies/working-is-not-shipped/">Case 006 &middot; Working is not shipped <span aria-hidden="true">&#8594;</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">What is in your drawer, and what would you try if <strong>one go cost a tenth of what it does now</strong>?</p>
+      <div class="footer-links">
+        <a href="/">ai-sustained.com</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="#" data-ais-reopen>Cookie choices</a>
+      </div>
+    </div>
+    <div class="sources">
+      Sources &middot; <a href="https://www.anthropic.com/research/claude-uplifts-biomolecular-modeling" target="_blank" rel="noopener">Anthropic, How Claude is uplifting biomolecular modeling, 17 Sep 2026</a> &middot; <a href="https://www-cdn.anthropic.com/c93593cb8990d6c0e2644c22b1e4e74228eeb013.pdf" target="_blank" rel="noopener">Technical report (PDF)</a> &middot; <a href="https://github.com/anthropics/uplifting-biomolecular-modeling" target="_blank" rel="noopener">GitHub, anthropics/uplifting-biomolecular-modeling, README status</a> &middot; <a href="https://proteinbase.com/competitions/anthropic-adaptyv-2026" target="_blank" rel="noopener">Proteinbase, Anthropic &times; Adaptyv competition</a> &middot; <a href="https://www.anthropic.com/news/accenture-embedded-evaluation" target="_blank" rel="noopener">Anthropic, Partnering with Accenture on embedded evaluation, 18 Sep 2026</a> &middot; Anthropic LinkedIn post, comments observed 19 Sep. Dollar figures are Anthropic&rsquo;s. $150 is approximate combined GPU and token spend, not an all-in cost. Worksheet figures are invented. AI Sustained Issue 018, Case study 006.
+    </div>
+  </footer>
+
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#PlainEnglishAI</span> <span>#AIEconomics</span> <span>#AIinScience</span> <span>#ProteinDesign</span> <span>#AIAdoption</span> <span>#BusinessAnalysis</span> <span>#EvidenceReview</span> <span>#Leadership</span> <span>#FutureOfWork</span> <span>#BusinessStrategy</span> <span>#Innovation</span> <span>#UKBusiness</span> <span>#UKTech</span> <span>#AISustained</span>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span><span class="wordmark">AI Sustained.</span> &middot; Written by Claude Opus 5 &middot; Curated by Kevin Clubb</span>
+    <span>2026</span>
+  </div>
+
+</article>
+<script>
+(function () {
+  /* Marker sweep on featured quotes. Runs on load and again after a depth
+     swap, because the reading column gets replaced wholesale. */
+  function sweep(root) {
+    var marks = (root || document).querySelectorAll('.sweep:not(.lit)');
+    if (!marks.length) return;
+    if (!('IntersectionObserver' in window)) {
+      Array.prototype.forEach.call(marks, function (m) { m.classList.add('lit'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('lit'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.3 });
+    Array.prototype.forEach.call(marks, function (m) { io.observe(m); });
+  }
+
+  var DEPTHS = [
+    {
+      name: "Explain like I'm 5",
+      meta: "≈250 words · 2 min",
+      html: `
+        <section class="content">
+          <p>An AI did something useful in science this week. It did not discover anything. It made something cheaper.</p>
+          <p>Scientists design tiny machines called proteins, to do jobs like grabbing hold of a virus. They use free computer programs to guess the right shape. Every guess costs money, because computers cost money to run. One guess used to be allowed up to ten thousand dollars of computer time.</p>
+          <p>A company called Anthropic pointed an AI at the programs themselves. Not at the biology. At the tools, like a mechanic tuning an engine rather than driving the car. In under four weeks it made more than thirty of those programs run faster. After that, a similar guess cost about a hundred and fifty dollars.</p>
+          <p>Nothing was cured. No new protein exists. What changed is the price.</p>
+          <p>Price matters, because price decides who is allowed to have a go. Ten thousand dollars needs a meeting and a grant. A hundred and fifty goes on a card. A student can try. A small lab can try twenty times.</p>
+          <p>Think about photographs. When film cost money, your grandparents only photographed weddings. When photographs became free, we did not take the same pictures more cheaply. We took completely different pictures, including our lunch.</p>
+          <p>Everybody at work has a list of things they would try if each attempt were cheap. Those things did not lose an argument about whether they were good ideas. They lost an argument about price.</p>
+          <p>A real laboratory will now test whether the cheap guesses were any good. The answer is due in December.</p>
+        </section>`
+    },
+    {
+      name: "Curious",
+      meta: "≈2,100 words · 10 min",
+      html: null
+    },
+    {
+      name: "Practitioner",
+      meta: "≈1,050 words · 6 min",
+      html: `
+        <section class="content">
+          <p>The facts first. On 17 September Anthropic published research describing what happened when it pointed an internal, general-purpose research model at the open-source models biologists use to predict and design proteins. Not at the biology: at the inference code. In just under four weeks the model optimised more than thirty of them.</p>
+
+          <p>The supervision detail is the one worth carrying into your own shop. Two members of Anthropic's technical staff oversaw the work. Both were experienced in biomolecular modelling. Neither had any prior experience in inference optimisation or kernel engineering, which is precisely the work being done.</p>
+
+          <figure class="fquote">
+            <p>&hellip; two members of Anthropic&rsquo;s technical staff who are experienced in biomolecular modeling but who had <span class="sweep">no prior experience in inference optimization or kernel engineering</span>.</p>
+            <cite>Anthropic &middot; on who supervised the work &middot; 17 Sep 2026</cite>
+          </figure>
+
+          <p>Two speed-up numbers, and you have to pick one. Roughly 4x while sacrificing a minimal amount of precision, or nearly 2x with identical outputs. The precision loss is described as sitting inside the tools' own seed-to-seed variation, which is a defensible engineering call and still a call somebody has to sign.</p>
+
+          <h2 id="receipt">The receipt, and what it excludes.</h2>
+
+          <p>The headline economics. Earlier campaigns allowed the model up to $10,000 per protein target on a cloud compute platform, roughly equivalent to 2,500 NVIDIA H100 GPU hours. The new run gave a single model one NVIDIA H200 and 24 hours of wall time, with no sub-agents and no human steering.</p>
+
+          <figure class="fquote">
+            <p>Averaged over 16 targets &hellip; a combined spend of <span class="sweep">approximately $150 on GPUs and tokens</span>, we can achieve in silico performance matching the levels of our previous campaigns.</p>
+            <cite>Anthropic &middot; How Claude is uplifting biomolecular modeling &middot; 17 Sep 2026</cite>
+          </figure>
+
+          <p>Read the units carefully, because this is where write-ups go wrong. Anthropic claims two orders of magnitude fewer GPU hours. The dollar ratio is closer to 67x, and the company never calls that a hundredfold. And "in silico performance" means a computed binding score, ipSAE, which Anthropic says has been shown to predict wet-lab binding. It is a prediction about a result, not a result.</p>
+
+          <blockquote class="pull-quote">The last mile got cheap because someone paid for the first ninety-nine.
+            <cite>Issue 021 &middot; AI Sustained</cite>
+          </blockquote>
+
+          <h2 id="gate">Price is an access-control list.</h2>
+
+          <p>The operational point is not speed, it is eligibility. Anthropic notes that $10,000 a target is more resources than would be available to the vast majority of protein designers. At $150 the approval path changes shape entirely: no grant committee, no capital request, no queue for institutional compute. The sped-up code is open-sourced, and Anthropic is co-sponsoring a competition with Adaptyv Bio that is open to everyone and free to enter, with more than 5,000 designs to be tested in an automated lab, $1m of experimental validation and up to $1m in Claude credits. Applications for the supported tracks close 24 September; results are planned for 15 December, subject to change. There is no cash prize.</p>
+
+          <p>Four caveats belong in any internal summary you write of this. The $150 buys a score, not a protein. The 4x figure carries a precision trade-off. The model was an internal research build, not a subscription product. And the repository states it is not maintained and not accepting contributions, provided as-is, with no further updates planned. Forks are welcome, which is the open-source way of saying the maintenance is now yours.</p>
+
+          <h2 id="translate">What this translates to on Monday.</h2>
+
+          <p>The transferable idea is a unit change. Most AI business cases in the last two years have been denominated in hours saved. This one is denominated in cost per attempt, and the interesting consequence is not efficiency, it is eligibility: work that was never attempted becomes attemptable. Every organisation has a drawer of those. The monthly report that would be weekly. The sample check that would be a full population check. The experiment nobody could justify.</p>
+
+          <p>Run one of them through ten questions before you run it through a tool. What is the job, and how often. What is the baseline quality, stated as a pass rate, not a feeling. What does one accepted output cost today, all in. What specifically changes. Who reviews it, and can they say no. What the trial produced on a real sample. What the build cost, once. Who owns it forever, and what re-testing happens when the prompt or the model changes. And last, the row most business cases do not have: what you do with the saving.</p>
+
+          <p>Three rules make the rest of it honest. Write the baseline down before you touch anything, or you will never know what changed. Give the pass/fail test to someone with no stake in passing. Count the reviewer's time inside the unit cost, because it is the cost, and the case study on that is <a class="xref" href="/case-studies/working-is-not-shipped/">case study 006</a>. The hours-saved audit trail is in <a class="xref" href="/articles/payroll-into-compute/">issue 018</a>, and it is mixed.</p>
+
+          <p>Two places this bites hardest in a normal organisation. Sampling: any control where you check 5% because checking 100% costs a person-week. If the per-item cost of checking falls by an order of magnitude, the sampling frame was a budget decision, not a risk decision, and it should be revisited on those terms. And variant testing: anywhere you ship one version of something because producing three was unaffordable. Neither of those shows up as a saving on a business case, because neither of them is currently a line item at all.</p>
+
+          <p>Note also what Anthropic did not do, because it is the more copyable half. It did not point the model at the science. It pointed it at the plumbing underneath the science, supervised by people who understood the science but not the plumbing. That pattern, domain expert plus model on the unglamorous layer, is available to most teams that have a slow internal tool and nobody spare who knows why it is slow.</p>
+
+          <p>One more, less comfortable. There is a fair objection that cheap generation just lengthens the queue outside an expensive validation step. That objection applies to you too. If your bottleneck is review capacity rather than drafting capacity, a tool that makes drafting ten times cheaper moves the problem rather than solving it, and you will discover this in month three rather than in the business case.</p>
+        </section>`
+    },
+    {
+      name: "Expert",
+      meta: "≈875 words · 5 min",
+      html: `
+        <section class="content">
+          <p>Strip the biology and this is a paper about marginal cost. An internal general-purpose research model was pointed at the inference layer of more than thirty open-source biomolecular models and spent just under four weeks on kernel and inference optimisation, supervised by two domain scientists with no prior experience in that discipline. The reported outcome is roughly 4x throughput with minimal precision loss, or nearly 2x with bit-identical outputs; the structure-prediction subset is quoted at roughly 1.6x under the identical-output constraint, which is the honest figure to use if your pipeline cannot tolerate seed-level drift.</p>
+
+          <figure class="fquote">
+            <p>&hellip; roughly 4x while sacrificing a minimal amount of precision, and <span class="sweep">nearly 2x with identical outputs</span>.</p>
+            <cite>Anthropic &middot; the two speed-up regimes &middot; 17 Sep 2026</cite>
+          </figure>
+
+          <p>The economic claim is cleaner than the engineering one. Prior campaigns allowed up to $10,000 per target, roughly 2,500 H100-hours. The replacement configuration is a single model on one H200 for 24 hours of wall time, no sub-agents, no human steering, averaged over 16 targets, at approximately $150 of combined GPU and token spend for in-silico performance matching the previous campaigns. Note the two different denominators in circulation: two orders of magnitude on GPU hours, about 67x on dollars. Anthropic applies the hundredfold language only to GPU hours, and the distinction survives scrutiny because token spend is a new line item that did not exist in the old campaign.</p>
+
+          <h2 id="metric">The metric is the weak joint.</h2>
+
+          <p>Performance here is ipSAE, an in-silico interface score that Anthropic says has been shown to predict wet-lab binding, citing a preprint. Everything downstream of that sentence is conditional on score-to-assay transfer holding at the new operating point. The specific risk is not that the score is bad; it is that optimising cheaply against a proxy at a hundred times the volume is exactly the regime in which proxy divergence stops being noise and starts being selection pressure. That is Goodhart in a lab coat, and the only thing that settles it is the wet lab.</p>
+
+          <p>Which is scheduled. The Adaptyv Bio competition will test more than 5,000 designs in an automated lab, $1m of validation plus up to $1m in credits, results planned 15 December and explicitly marked subject to change, with no cash prize. Until that reads out, the correct epistemic status of the whole story is a well-documented in-silico claim by an interested party, and the company says as much in its own units.</p>
+
+          <blockquote class="pull-quote">Cost should decide which spreadsheet gets automated. It should never decide whether a disease gets studied.
+            <cite>Issue 021 &middot; AI Sustained</cite>
+          </blockquote>
+
+          <h2 id="access">Marginal cost as access control.</h2>
+
+          <p>The interesting variable is not throughput, it is the distribution of who can afford one draw. Anthropic's own framing is that $10,000 a target exceeds what is available to the vast majority of protein designers. A hundredfold reduction in compute hours does not make existing programmes faster so much as it makes a different population of programmes possible: single investigators, teaching labs, institutions without national compute allocations. Historically this is how a field's experiment count changes shape, and the composition of what gets attempted changes with it. Cheap attempts are disproportionately spent on hypotheses with low expected value and high variance, which is precisely the class of work grant committees are structurally worst at funding.</p>
+
+          <p>The obvious counter, raised in public discussion of the post, is that generation capacity and validation capacity are separate constraints and only one of them moved. That is correct and incomplete. A screening score that transfers even moderately well converts a throughput problem into a ranking problem, and ranking is cheap. The queue lengthens, but the front of it is better ordered. Whether the ordering is good enough to matter is, again, a December question.</p>
+
+          <h2 id="sustain">The maintenance and funding asymmetry.</h2>
+
+          <p>Two structural notes that will outlast the numbers. First, the artefact: the optimised code is open-sourced, and the repository states it is not maintained, not accepting contributions, provided as-is, with no planned updates and forks welcome. A hundredfold cost reduction embedded in an unmaintained dependency is a cost reduction with a half-life. Anybody building on it is accepting a fork's maintenance burden, and that burden is real money that does not appear on the $150 receipt, alongside the four weeks of tuning, the two specialists and the expensive prior campaigns that produced the comparison baseline.</p>
+
+          <p>Second, the funding shape of the same week. On 18 September Anthropic and Accenture each committed to at least $1bn over five years for embedded evaluation, with Anthropic funding Accenture's work directly and stating that long-term funding should come from pooled or government sources. Set that beside a research post and an unmaintained repository, and the revealed preference is legible: assurance capacity gets institutional funding and a press release, beneficial-science capability gets a four-week side project. Both matter. Only one is being resourced as infrastructure.</p>
+
+          <p>The generalisable claim, for anyone running a programme rather than a lab: the unit worth tracking is cost per accepted outcome, including verification, not hours saved. A hundredfold move in that unit does not primarily produce efficiency. It produces eligibility, and eligibility is where the compounding is. The audit trail on the hours-saved framing is in <a class="xref" href="/articles/payroll-into-compute/">issue 018</a>; the verification cost that framing keeps omitting is in <a class="xref" href="/case-studies/working-is-not-shipped/">case study 006</a>.</p>
+        </section>`
+    }
+  ];
+
+  var KEY = 'aisustained_reading_depth';
+  var reading = document.getElementById('reading');
+  var range   = document.getElementById('depth-range');
+  var meta    = document.getElementById('reading-meta');
+  var ticks   = Array.prototype.slice.call(document.querySelectorAll('.tick'));
+  if (!reading || !range || !meta) return;
+
+  /* The Curious tier already exists as real HTML in the page. Capture it
+     rather than duplicating it in DEPTHS, so there is one copy to maintain
+     and the canonical version survives with JavaScript disabled. */
+  DEPTHS[1].html = reading.innerHTML;
+
+  function render(i, animate) {
+    var d = DEPTHS[i];
+    if (!d || !d.html) return;
+
+    ticks.forEach(function (t, n) { t.setAttribute('aria-pressed', String(n === i)); });
+    range.value = i;
+    try { localStorage.setItem(KEY, String(i)); } catch (e) {}
+
+    function paint() {
+      reading.innerHTML = d.html;
+      meta.textContent = d.name + ' · ' + d.meta;
+      reading.classList.remove('swapping');
+      sweep(reading);
+    }
+
+    if (animate) {
+      /* Only log deliberate reader choices, not the restore on page load. */
+      if (window.gtag) gtag('event', 'depth_change', { level: d.name });
+      reading.classList.add('swapping');
+      setTimeout(paint, 190);
+    } else {
+      paint();
+    }
+  }
+
+  ticks.forEach(function (t, i) {
+    t.addEventListener('click', function () { render(i, true); });
+  });
+  range.addEventListener('input', function () { render(Number(range.value), true); });
+
+  var start = parseInt((function () {
+    try { return localStorage.getItem(KEY); } catch (e) { return null; }
+  })(), 10);
+  if (!(start >= 0 && start <= 3)) start = 1;
+  render(start, false);
+  sweep(document);
+})();
+</script>
+
+</body>
+</html>
