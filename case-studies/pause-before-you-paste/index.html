@@ -445,9 +445,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .disclosure b { color: var(--sage); font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; margin-right: 8px; }
 
   /* ============ HERO FIGURE (cover art) ============ */
-  .hero-figure { margin: 44px 0 10px; }
+  /* height:auto matters here: the <img> carries width/height attributes, and
+     without it the height attribute lands as a presentational hint and the
+     cover renders at its full 1071px, stretched. Sized to the text column. */
+  .hero-figure { margin: 44px auto 10px; max-width: 680px; }
   .hero-figure img {
-    width: 100%; display: block;
+    width: 100%; height: auto; display: block;
     border-top: 3px solid var(--acid);
     border-radius: 4px;
   }
