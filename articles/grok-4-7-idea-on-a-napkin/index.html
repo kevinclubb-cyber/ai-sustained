@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- AI Sustained cookie consent + Google Consent Mode v2 (must precede GTM/GA4) -->
+<script>
+(function(){
+  "use strict";
+  /* ------------------------------------------------------------------
+     AI Sustained cookie consent + Google Consent Mode v2
+     Self-contained: sets consent defaults, injects banner CSS + DOM.
+     MUST load before the GTM and GA4 snippets.
+     ------------------------------------------------------------------ */
+
+  var STORE   = 'ais_consent_v1';
+  var MAXAGE  = 1000*60*60*24*182;           /* 6 months, then re-ask */
+  /* Both sites serve /privacy/ (the consulting site ships privacy.html plus a
+     byte-identical privacy/index.html), so one root-absolute path covers both
+     and there is no hostname sniffing to go wrong. */
+  var POLICY  = '/privacy/';
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  window.gtag = window.gtag || gtag;
+
+  /* ---------- read any stored decision ---------- */
+  var saved = null;
+  try {
+    var raw = localStorage.getItem(STORE);
+    if (raw) {
+      var o = JSON.parse(raw);
+      if (o && o.t && (Date.now() - o.t) < MAXAGE) saved = o;
+    }
+  } catch(e){}
+
+  var DENIED = {
+    ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied',
+    analytics_storage:'denied', functionality_storage:'denied',
+    personalization_storage:'denied', security_storage:'granted',
+    wait_for_update: 500
+  };
+
+  /* Defaults are DENIED for everything non-essential. Nothing fires until
+     the visitor chooses. security_storage stays granted: it is strictly
+     necessary and exempt under PECR. */
+  gtag('consent','default', DENIED);
+
+  function stateFrom(c){
+    return {
+      ad_storage:            c.marketing ? 'granted':'denied',
+      ad_user_data:          c.marketing ? 'granted':'denied',
+      ad_personalization:    c.marketing ? 'granted':'denied',
+      analytics_storage:     c.analytics ? 'granted':'denied',
+      functionality_storage: c.recording ? 'granted':'denied',
+      personalization_storage: c.recording ? 'granted':'denied',
+      security_storage:      'granted'
+    };
+  }
+
+  function apply(c, isNew){
+    gtag('consent','update', stateFrom(c));
+    dataLayer.push({
+      event: 'consent_update',
+      consent_analytics:  !!c.analytics,
+      consent_recording:  !!c.recording,
+      consent_marketing:  !!c.marketing
+    });
+    if (isNew){
+      try { localStorage.setItem(STORE, JSON.stringify({
+        t: Date.now(), analytics: !!c.analytics,
+        recording: !!c.recording, marketing: !!c.marketing
+      })); } catch(e){}
+    }
+  }
+
+  if (saved) apply(saved, false);
+
+  /* Current state drives the toggles, so reopening shows what you actually
+     chose rather than a fresh set of defaults. */
+  var current = saved || { analytics:false, recording:false, marketing:false };
+
+  /* ---------- styles ---------- */
+  var CSS = ''
+  + '@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap");'
+  + '.ais-cc,.ais-cc *{box-sizing:border-box}'
+  + '.ais-cc{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#102C21;color:#F2ECD9;'
+  + 'border-top:2px solid #E8FF3A;font-family:Inter,system-ui,sans-serif;'
+  + 'box-shadow:0 -18px 50px rgba(0,0,0,.5);animation:aisUp .35s cubic-bezier(.34,1.2,.64,1)}'
+  + '@keyframes aisUp{from{transform:translateY(100%)}to{transform:none}}'
+  + '@media (prefers-reduced-motion:reduce){.ais-cc{animation:none}}'
+  + '.ais-cc-in{max-width:1080px;margin:0 auto;padding:22px 24px;display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap}'
+  + '.ais-cc-copy{flex:1 1 420px;min-width:280px}'
+  + '.ais-cc h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;color:#E8FF3A;letter-spacing:.01em}'
+  + '.ais-cc p{margin:0;font-size:14.5px;line-height:1.55;color:#F2ECD9;opacity:.94}'
+  + '.ais-cc a{color:#E8FF3A;text-decoration:underline;text-underline-offset:2px}'
+  + '.ais-cc-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}'
+  /* Accept and Reject are deliberately IDENTICAL in size, colour and weight. */
+  + '.ais-b{position:relative;display:inline-flex;align-items:center;justify-content:center;'
+  + 'min-width:150px;padding:14px 24px;border:2px solid rgba(232,255,58,.55);border-radius:10px;'
+  + 'color:#F2ECD9;background:rgba(10,15,12,.92);font-family:"Space Grotesk",sans-serif;'
+  + 'font-weight:700;font-size:15.5px;cursor:pointer;transition:color .2s,border-color .2s,transform .18s;'
+  + '-webkit-tap-highlight-color:transparent}'
+  + '.ais-b:hover{color:#E8FF3A;border-color:#E8FF3A;transform:translateY(-2px)}'
+  + '.ais-b:active{transform:translateY(1px) scale(.98)}'
+  + '.ais-b:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '.ais-link{background:none;border:none;color:#F2ECD9;font-family:Inter,sans-serif;font-size:14px;'
+  + 'text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:8px 4px;opacity:.9}'
+  + '.ais-link:hover{color:#E8FF3A;opacity:1}'
+  + '.ais-cc-panel{width:100%;border-top:1px solid rgba(242,236,217,.18);margin-top:6px;padding-top:16px;display:none}'
+  + '.ais-cc-panel.open{display:block}'
+  + '.ais-row{display:flex;gap:14px;align-items:flex-start;padding:11px 0}'
+  + '.ais-row+.ais-row{border-top:1px solid rgba(242,236,217,.1)}'
+  + '.ais-row .t{flex:1}'
+  + '.ais-row strong{display:block;font-family:"Space Grotesk",sans-serif;font-size:14.5px;margin-bottom:3px}'
+  + '.ais-row span{font-size:13.5px;line-height:1.5;opacity:.85}'
+  + '.ais-sw{position:relative;flex:0 0 auto;width:50px;height:28px;border-radius:99px;border:none;'
+  + 'background:rgba(242,236,217,.22);cursor:pointer;transition:background .2s}'
+  + '.ais-sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;'
+  + 'background:#F2ECD9;transition:transform .2s}'
+  + '.ais-sw[aria-checked="true"]{background:#E8FF3A}'
+  + '.ais-sw[aria-checked="true"]::after{transform:translateX(22px);background:#0A0F0C}'
+  + '.ais-sw[disabled]{opacity:.5;cursor:not-allowed}'
+  + '.ais-sw:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '@media(max-width:640px){.ais-cc-in{padding:18px 16px;gap:16px}.ais-cc-btns{width:100%}'
+  + '.ais-b{flex:1 1 100%;min-width:0}}';
+
+  /* ---------- banner ---------- */
+  function build(reopen){
+    if (document.querySelector('.ais-cc')) return;
+
+    var st = document.createElement('style');
+    st.textContent = CSS;
+    document.head.appendChild(st);
+
+    var w = document.createElement('div');
+    w.className = 'ais-cc';
+    w.setAttribute('role','dialog');
+    w.setAttribute('aria-live','polite');
+    w.setAttribute('aria-label','Cookie choices');
+    w.innerHTML =
+      '<div class="ais-cc-in">'
+      +  '<div class="ais-cc-copy">'
+      +    '<h2>Your call on cookies</h2>'
+      +    '<p>I use a few cookies to see which articles land and where people give up reading. '
+      +    'Nothing fires until you choose. Reject and the site works exactly the same. '
+      +    '<a href="' + POLICY + '">Read the privacy notice</a>.</p>'
+      +  '</div>'
+      +  '<div class="ais-cc-btns">'
+      +    '<button type="button" class="ais-b" data-a="accept">Accept all</button>'
+      +    '<button type="button" class="ais-b" data-a="reject">Reject all</button>'
+      +    '<button type="button" class="ais-link" data-a="manage" aria-expanded="false">Choose what I share</button>'
+      +  '</div>'
+      +  '<div class="ais-cc-panel" id="ais-panel">'
+      +    row('essential','Strictly necessary','Keeps the site working and secure. Always on, and exempt from consent under PECR.',true,true)
+      +    row('analytics','Audience measurement','Google Analytics. Which pages get read, roughly where visitors come from.',!!current.analytics,false)
+      +    row('recording','Session recording','Microsoft Clarity. Anonymised replays and heatmaps showing where people scroll and stop. Text you type is masked.',!!current.recording,false)
+      +    row('marketing','Marketing','TikTok and Meta advertising pixels. Not currently active, listed so this notice stays honest when they are.',!!current.marketing,false)
+      +    '<div class="ais-cc-btns" style="margin-top:14px">'
+      +      '<button type="button" class="ais-b" data-a="save">Save my choices</button>'
+      +    '</div>'
+      +  '</div>'
+      + '</div>';
+    document.body.appendChild(w);
+
+    function row(k,title,desc,on,lock){
+      return '<div class="ais-row"><div class="t"><strong>'+title+'</strong><span>'+desc+'</span></div>'
+        + '<button type="button" class="ais-sw" data-k="'+k+'" role="switch" aria-label="'+title+'" aria-checked="'
+        + (on?'true':'false') + '"' + (lock?' disabled':'') + '></button></div>';
+    }
+
+    w.addEventListener('click', function(e){
+      var sw = e.target.closest('.ais-sw');
+      if (sw && !sw.disabled){
+        sw.setAttribute('aria-checked', sw.getAttribute('aria-checked')==='true' ? 'false':'true');
+        return;
+      }
+      var b = e.target.closest('[data-a]');
+      if (!b) return;
+      var a = b.getAttribute('data-a');
+
+      if (a === 'manage'){
+        var p = w.querySelector('#ais-panel');
+        var open = p.classList.toggle('open');
+        b.setAttribute('aria-expanded', open ? 'true':'false');
+        b.textContent = open ? 'Hide options' : 'Choose what I share';
+        return;
+      }
+      if (a === 'accept') return close({analytics:1,recording:1,marketing:1});
+      if (a === 'reject') return close({analytics:0,recording:0,marketing:0});
+      if (a === 'save'){
+        var g = function(k){
+          var el = w.querySelector('.ais-sw[data-k="'+k+'"]');
+          return el && el.getAttribute('aria-checked')==='true' ? 1 : 0;
+        };
+        return close({analytics:g('analytics'), recording:g('recording'), marketing:g('marketing')});
+      }
+    });
+
+    function close(c){ current = c; apply(c, true); w.remove(); }
+
+    /* Reopened from the footer: show the detail panel straight away, so the
+       visitor can see and change what they previously chose. */
+    if (reopen){
+      w.querySelector('#ais-panel').classList.add('open');
+      var mb = w.querySelector('[data-a="manage"]');
+      mb.setAttribute('aria-expanded','true');
+      mb.textContent = 'Hide options';
+    }
+  }
+
+  /* Drop a "Cookie choices" link into the existing footer, so consent can be
+     withdrawn from any page without editing 50 footers by hand. */
+  function footerLink(){
+    var f = document.querySelector('footer');
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
+
+    /* Footer markup varies page to page, so target the LAST div: on every
+       template that is the links / colophon column, not the brand block. */
+    var divs = f.querySelectorAll('div');
+    var host = divs.length ? divs[divs.length-1] : f;
+
+    var wrap = document.createElement('span');
+    wrap.setAttribute('data-ais-footer','1');
+    wrap.style.cssText = 'display:inline-block;margin-top:6px';
+
+    var onPolicy = /^\/privacy(\.html|\/|$)/.test(location.pathname);
+    if (!onPolicy){
+      var pv = document.createElement('a');
+      pv.href = POLICY;
+      pv.textContent = 'Privacy';
+      wrap.appendChild(document.createTextNode(' · '));
+      wrap.appendChild(pv);
+    }
+
+    var a = document.createElement('a');
+    a.href = '#';
+    a.setAttribute('data-ais-reopen','1');
+    a.textContent = 'Cookie choices';
+    a.style.cursor = 'pointer';
+    a.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+    wrap.appendChild(document.createTextNode(' · '));
+    wrap.appendChild(a);
+
+    host.appendChild(wrap);
+  }
+
+  /* Public re-opener, also usable directly:
+     <a href="#" onclick="AISConsent.open();return false">Cookie choices</a>  */
+  window.AISConsent = {
+    open: function(){
+      /* Deliberately does NOT clear the stored choice. Reopening the banner
+         must never silently revoke consent the visitor already gave. They
+         revoke it by choosing, not by looking. */
+      var ex = document.querySelector('.ais-cc');
+      if (ex) ex.remove();
+      build(true);
+    }
+  };
+
+  function init(){ footerLink(); if (!saved) build(false); }
+
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K3HFQT6S');</script>
+
+<!-- Google Analytics — site-wide ID, leave as-is -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+
+<title>Grok 4.7 is built for the idea on your napkin. | AI Sustained</title>
+<meta name="description" content="Grok 4.7 is free to try and works on its own for hours. What a plumber, a shopkeeper and an IT desk manager could build with it, and why.">
+<meta name="keywords" content="Grok 4.7, SpaceXAI, xAI, vibe coding, small business AI, build an app without coding, Grok Build, GitHub Copilot, Claude Fable 5.1, GPT-6 Astra, Claude Opus 5.5, AI for plumbers, heat pump sizing, Boiler Upgrade Scheme, AI Made Simple, AI Sustained">
+<meta name="author" content="Kevin Clubb">
+<link rel="canonical" href="https://ai-sustained.com/articles/grok-4-7-idea-on-a-napkin/">
+<meta property="og:title" content="Grok 4.7 is built for the idea on your napkin.">
+<meta property="og:description" content="Grok 4.7 is free to try and works on its own for hours. What a plumber, a shopkeeper and an IT desk manager could build with it, and why.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ai-sustained.com/articles/grok-4-7-idea-on-a-napkin/">
+<meta property="og:image" content="https://ai-sustained.com/articles/grok-4-7-idea-on-a-napkin/grok-4-7-idea-on-a-napkin_hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Grok 4.7 is built for the idea on your napkin.">
+<meta name="twitter:description" content="Grok 4.7 is free to try and works on its own for hours. What a plumber, a shopkeeper and an IT desk manager could build with it, and why.">
+<meta name="twitter:image" content="https://ai-sustained.com/articles/grok-4-7-idea-on-a-napkin/grok-4-7-idea-on-a-napkin_hero.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Grok 4.7 is built for the idea on your napkin.",
+  "author": { "@type": "Person", "name": "Kevin Clubb", "url": "https://www.linkedin.com/in/kevin-clubb" },
+  "datePublished": "2026-09-23",
+  "url": "https://ai-sustained.com/articles/grok-4-7-idea-on-a-napkin/",
+  "description": "Grok 4.7 is free to try and works on its own for hours. What a plumber, a shopkeeper and an IT desk manager could build with it, and why.",
+  "keywords": "Grok 4.7, SpaceXAI, xAI, vibe coding, small business AI, build an app without coding, Grok Build, GitHub Copilot, Claude Fable 5.1, GPT-6 Astra, Claude Opus 5.5, AI for plumbers, heat pump sizing, Boiler Upgrade Scheme, AI Made Simple, AI Sustained",
+  "image": "https://ai-sustained.com/articles/grok-4-7-idea-on-a-napkin/grok-4-7-idea-on-a-napkin_hero.jpg",
+  "publisher": { "@type": "Organization", "name": "AI Sustained", "url": "https://ai-sustained.com", "logo": { "@type": "ImageObject", "url": "https://ai-sustained.com/ai_sustained_logo.png" } },
+  "mainEntityOfPage": "https://ai-sustained.com/articles/grok-4-7-idea-on-a-napkin/"
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --ink-soft: #2A3530;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
+    --acid: #E8FF3A;
+    --coral: #FF5A3C;
+    --moss: #2D6A4F;
+    --sage: #74C69D;
+    --mint: #D8F3DC;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --rule-soft: rgba(242,236,217,0.09);
+    --panel: rgba(242,236,217,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--forest);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    border-top: 3px solid var(--acid);
+  }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ HERO (centred) ============ */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+  }
+  .kicker::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    background: var(--acid);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(46px, 7vw, 84px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin: 0 auto 26px;
+    max-width: 14ch;
+  }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--paper-2);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+
+  /* ============ HERO FIGURE (cover art) ============ */
+  .hero-figure { margin: 44px 0 10px; }
+  .hero-figure img {
+    width: 100%; height: auto; display: block;
+    border-top: 3px solid var(--acid);
+    border-radius: 4px;
+  }
+  .hero-figure figcaption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); margin-top: 12px;
+  }
+
+  /* ============ STAT GRID ============ */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 44px 0 48px;
+  }
+  .stat-box {
+    background: var(--panel);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 10px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px; font-weight: 600;
+    color: var(--acid); line-height: 1; display: block;
+  }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  /* ============ BODY CONTENT ============ */
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 33px; line-height: 1.15;
+    color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em;
+  }
+  .content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px;
+  }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+  .content li::marker { color: var(--acid); }
+
+  .inline-highlight { color: var(--acid); font-weight: 500; }
+
+  /* ============ PULL QUOTE ============ */
+  .pull-quote {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 30px; line-height: 1.3; color: var(--paper);
+    margin: 60px auto; padding: 40px 0;
+    border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid);
+    text-align: center; max-width: 720px; letter-spacing: -0.01em;
+  }
+  .pull-quote::before {
+    content: '"'; display: block; font-size: 56px; color: var(--acid);
+    line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif;
+  }
+
+  /* ============ TACTICAL TAKEAWAY (ink panel — signature) ============ */
+  .takeaway {
+    background: var(--ink); color: var(--paper);
+    padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .takeaway::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--acid);
+    border-radius: 50%; opacity: 0.14;
+  }
+  .takeaway-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .takeaway h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 32px; line-height: 1.22; color: var(--paper);
+    margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em;
+  }
+  .takeaway h2 em { color: var(--acid); font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
+  .takeaway-point-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .takeaway-point-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 16px; line-height: 1.45; color: var(--paper-2);
+  }
+  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
+
+  /* ============ TOC ============ */
+  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
+  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
+  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
+
+  /* ============ SUBSCRIBE SLAB ============ */
+  /* The one deliberate acid fill in the page. It works because nothing else does it. */
+  .cta-slab {
+    background: var(--acid); color: var(--ink);
+    border-radius: 4px; padding: 44px 40px; margin: 64px 0 8px;
+    position: relative; overflow: hidden;
+  }
+  .cta-slab::before {
+    content: ''; position: absolute; bottom: -70px; left: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--ink);
+    border-radius: 50%; opacity: 0.08;
+  }
+  .cta-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.72; margin-bottom: 14px;
+    position: relative; z-index: 1;
+  }
+  .cta-slab h2 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+    font-size: 32px; line-height: 1.15; letter-spacing: -0.01em;
+    color: var(--ink); margin-bottom: 14px; position: relative; z-index: 1;
+  }
+  .cta-slab h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; }
+  .cta-slab p {
+    font-size: 16px; line-height: 1.6; color: var(--ink); opacity: 0.84;
+    max-width: 540px; margin-bottom: 26px; position: relative; z-index: 1;
+  }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .cta-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
+    padding: 14px 22px; border-radius: 3px;
+    border: 1.5px solid var(--ink); color: var(--ink);
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta-btn span { transition: transform 0.15s ease; }
+  .cta-btn:hover { background: rgba(10,15,12,0.08); transform: translateY(-2px); }
+  .cta-btn:hover span { transform: translateX(4px); }
+  .cta-btn.primary { background: var(--ink); color: var(--acid); animation: ctaPulse 2.6s ease-out infinite; }
+  .cta-btn.primary:hover { background: #000; box-shadow: 0 10px 28px rgba(10,15,12,0.35); }
+  @keyframes ctaPulse {
+    0% { box-shadow: 0 0 0 0 rgba(10,15,12,0.35); }
+    70% { box-shadow: 0 0 0 14px rgba(10,15,12,0); }
+    100% { box-shadow: 0 0 0 0 rgba(10,15,12,0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-btn.primary { animation: none; }
+    .cta-btn:hover, .cta-btn:hover span { transform: none; }
+  }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 300px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
+  .hashtag-list span { font-weight: 500; }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ AI SLIDER (optional) ============ */
+  .depth {
+    background: var(--ink);
+    border: 2px solid var(--acid);
+    border-radius: 6px;
+    padding: 26px 28px 22px;
+    margin: 44px 0 48px;
+    position: relative;
+    overflow: hidden;
+    animation: depthGlow 3.2s ease-in-out infinite alternate;
+  }
+  .depth::before {
+    content: ''; position: absolute; top: -46px; right: -46px;
+    width: 170px; height: 170px; border: 30px solid var(--acid);
+    border-radius: 50%; opacity: 0.12; pointer-events: none;
+  }
+  @keyframes depthGlow {
+    from { box-shadow: 0 10px 30px rgba(10,15,12,0.3); }
+    to   { box-shadow: 0 10px 30px rgba(10,15,12,0.3), 0 0 30px 2px rgba(232,255,58,0.22); }
+  }
+  .depth-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--acid); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .depth-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .depth-sub {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 15px; color: var(--paper-2); margin-bottom: 18px;
+    position: relative; z-index: 1;
+  }
+  .ticks {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 10px; margin-bottom: 6px;
+    position: relative; z-index: 1;
+  }
+  .tick {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 12px 8px; border-radius: 4px;
+    border: 2px solid rgba(232,255,58,0.35);
+    background: transparent; color: var(--paper-2);
+    cursor: pointer; text-align: center; width: 100%;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: border-color .15s ease, color .15s ease, background .15s ease, transform .15s ease, box-shadow .15s ease;
+  }
+  .tick:hover { border-color: var(--acid); color: var(--acid); transform: translateY(-2px); box-shadow: 0 8px 22px rgba(232,255,58,0.18); }
+  .tick[aria-pressed="true"] {
+    background: var(--acid); color: var(--ink);
+    border-color: var(--acid);
+    box-shadow: 0 8px 24px rgba(232,255,58,0.3);
+  }
+  .tick:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+  @media (max-width: 720px) {
+    .ticks { grid-template-columns: repeat(2, 1fr); }
+    .depth { padding: 22px 20px 18px; }
+  }
+  .depth-range {
+    width: 100%; margin: 16px 0 12px;
+    -webkit-appearance: none; appearance: none;
+    height: 3px; background: rgba(232,255,58,0.25); cursor: pointer;
+    position: relative; z-index: 1; border-radius: 2px;
+  }
+  .depth-range::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--acid); border: none; cursor: pointer;
+    box-shadow: 0 0 12px rgba(232,255,58,0.5);
+  }
+  .depth-range::-moz-range-thumb {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--acid); border: none; cursor: pointer;
+    box-shadow: 0 0 12px rgba(232,255,58,0.5);
+  }
+  .depth-range:focus-visible { outline: 2px solid var(--acid); outline-offset: 4px; }
+  .reading-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted); position: relative; z-index: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .depth { animation: none; }
+    .tick:hover { transform: none; }
+  }
+  #reading { transition: opacity 0.19s ease; }
+  #reading.swapping { opacity: 0; }
+
+  /* ============ BACK NAV ============ */
+  .backnav {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+    text-decoration: none; display: inline-block; padding: 10px 0 4px;
+  }
+  .backnav:hover { color: var(--acid); }
+
+  /* ============ DISCLOSURE STRIP ============ */
+  .disclosure {
+    border: 1px solid var(--rule); border-radius: 4px; background: var(--panel);
+    padding: 12px 18px; margin: 28px auto 0; max-width: 620px;
+    display: flex; gap: 14px; align-items: baseline; justify-content: center;
+    flex-wrap: wrap; text-align: left;
+  }
+  .disclosure-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid);
+  }
+  .disclosure p { font-size: 13px; line-height: 1.5; color: var(--muted); margin: 0; }
+
+  /* ============ FEATURED QUOTE (acid marker sweep) ============ */
+  /* For quoted people. The .pull-quote stays for the house voice, so the two
+     never read as the same device. */
+  .fquote {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--acid);
+    border-radius: 4px;
+    padding: 28px 30px 24px;
+    margin: 44px 0;
+  }
+  .fquote p {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 25px; line-height: 1.36; color: var(--paper);
+    margin: 0 0 16px; letter-spacing: -0.01em;
+  }
+  .fquote .sweep {
+    background-image: linear-gradient(rgba(232,255,58,0.92), rgba(232,255,58,0.92));
+    background-repeat: no-repeat;
+    background-position: 0 0.06em;
+    background-size: 0% 92%;
+    transition: background-size 0.75s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease 0.35s;
+    padding: 0 3px;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  }
+  .fquote .sweep.lit { background-size: 100% 92%; color: var(--ink); }
+  .fquote cite {
+    font-family: 'JetBrains Mono', monospace; font-style: normal;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sage); display: block;
+    padding-top: 12px; border-top: 1px solid var(--rule-soft);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fquote .sweep { transition: none; background-size: 100% 92%; color: var(--ink); }
+  }
+
+  /* Attribution line under a house pull-quote, as Issue 019 does it. */
+  .pull-quote cite {
+    display: block; margin-top: 18px;
+    font-family: 'JetBrains Mono', monospace; font-style: normal;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  /* ============ WHAT THE ROOM IS SAYING ============ */
+  .room { margin: 64px 0 8px; }
+  .room-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+  }
+  .room-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .room h2 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 29px;
+    line-height: 1.15; color: var(--paper); margin: 0 0 8px; letter-spacing: -0.01em;
+  }
+  .room-sub { font-size: 15px; color: var(--muted); margin-bottom: 22px; }
+  .room-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .room-card {
+    background: var(--panel); border: 1px solid var(--rule); border-left: 3px solid var(--muted);
+    border-radius: 4px; padding: 20px 22px; text-decoration: none; display: block;
+    transition: transform .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .room-card:hover { transform: translateY(-2px); background: rgba(242,236,217,0.07); }
+  .room-card.pos { border-left-color: var(--sage); }
+  .room-card.neg { border-left-color: var(--coral); }
+  .room-card.neu { border-left-color: var(--muted); }
+  .room-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px; color: var(--muted);
+  }
+  .room-card.pos .room-tag { color: var(--sage); }
+  .room-card.neg .room-tag { color: var(--coral); }
+  .room-quote { font-size: 16px; line-height: 1.5; color: var(--paper); margin: 0 0 12px; }
+  .room-src {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; line-height: 1.5;
+    letter-spacing: 0.06em; color: var(--muted); display: block;
+  }
+
+  /* ============ PAST, PRESENT, NEXT ============ */
+  .ppn { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 22px 0 0; }
+  .ppn-col { border-top: 2px solid var(--acid); padding-top: 14px; }
+  .ppn-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 10px;
+  }
+  .ppn-col p { font-size: 15px; line-height: 1.6; color: var(--paper-2); margin: 0; }
+  .ppn-col a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ============ ARGUE ABOUT THIS AT LUNCH ============ */
+  .debate {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--acid);
+    border-radius: 4px;
+    padding: 36px 34px 30px;
+    margin: 60px 0 8px;
+  }
+  .debate-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+  }
+  .debate-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .debate h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 27px; line-height: 1.25; color: var(--paper);
+    margin: 0 0 8px; letter-spacing: -0.01em;
+  }
+  .debate ol { list-style: none; margin: 0; padding: 0; }
+  .debate-item { border-top: 1px solid var(--rule); padding-top: 16px; margin-top: 22px; }
+  .debate-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 10px;
+  }
+  .debate-claim {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 19px; line-height: 1.45; color: var(--paper); margin: 0 0 10px;
+  }
+  .debate-claim em { color: var(--acid); font-style: italic; }
+  .debate-counter {
+    font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6;
+    color: var(--muted); margin: 0;
+  }
+  .debate-counter span {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage);
+    margin-right: 10px;
+  }
+
+  /* ============ FOOTER LINK ROW ============ */
+  .footer-links {
+    margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+  }
+  .footer-links a { color: var(--muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--acid); }
+
+  @media (max-width: 720px) {
+    .debate { padding: 26px 22px 22px; }
+    .debate h2 { font-size: 22px; }
+    .fquote { padding: 22px 20px 18px; }
+    .fquote p { font-size: 20px; }
+    .ppn { grid-template-columns: 1fr; }
+    .room h2 { font-size: 24px; }
+  }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 44px; }
+    .deck { font-size: 19px; }
+    .cta-slab { padding: 32px 26px; }
+    .cta-slab h2 { font-size: 26px; }
+    .cta-btn { width: 100%; justify-content: space-between; }
+  }
+
+  @media print {
+    @page { size: A3; margin: 14mm; }
+    body { background: var(--forest); padding: 0; }
+    .page { max-width: none; padding: 0; }
+    .stat-box, .takeaway-point, .pull-quote, .takeaway, .cta-slab { page-break-inside: avoid; break-inside: avoid; }
+  }
+
+  /* Sources block carries links this week; without this they fall through to
+     browser-default blue, which is the trap documented in CLAUDE.md. */
+  .sources a { color: var(--sage, #74C69D); text-decoration: none; border-bottom: 1px solid rgba(116,198,157,0.35); }
+  .sources a:hover { color: var(--acid, #E8FF3A); border-bottom-color: var(--acid, #E8FF3A); }
+
+  /* ============ CROSS-REFERENCE LINKS (issue 021) ============ */
+  /* Internal links to other AI Sustained work carry a mono badge so they read
+     as "more of this site", not as another citation heading off-platform. */
+  .content a.xref, .ppn-col a.xref {
+    color: var(--acid);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(232,255,58,0.45);
+    white-space: nowrap;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .content a.xref::before, .ppn-col a.xref::before {
+    content: 'AIS';
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 600; letter-spacing: 0.14em;
+    color: var(--ink); background: var(--acid);
+    padding: 2px 5px; border-radius: 2px; margin-right: 7px;
+    vertical-align: 1px; white-space: nowrap;
+  }
+  .content a.xref:hover, .ppn-col a.xref:hover { color: var(--paper); border-bottom-color: var(--paper); }
+
+  /* ============ WORKSHEET (issue 021) ============ */
+  .worksheet { margin: 34px 0 28px; border: 1px solid var(--rule); border-top: 3px solid var(--acid); border-radius: 4px; background: var(--panel); overflow: hidden; }
+  .worksheet-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 22px 12px; border-bottom: 1px solid var(--rule); }
+  .worksheet-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); }
+  .worksheet-flag { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral); white-space: nowrap; }
+  .worksheet table { width: 100%; border-collapse: collapse; }
+  .worksheet th, .worksheet td { text-align: left; vertical-align: top; padding: 12px 22px; border-bottom: 1px solid var(--rule-soft); font-size: 14.5px; line-height: 1.5; }
+  .worksheet tr:last-child th, .worksheet tr:last-child td { border-bottom: none; }
+  .worksheet th { width: 34%; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sage); padding-top: 14px; }
+  .worksheet td { color: var(--paper-2); font-family: 'Inter', sans-serif; }
+  .worksheet td .num { font-family: 'JetBrains Mono', monospace; color: var(--acid); font-weight: 600; font-size: 13.5px; }
+  .worksheet tr.decision th { color: var(--acid); }
+  .worksheet tr.decision td { color: var(--paper); font-weight: 500; }
+  .worksheet-foot { padding: 12px 22px 14px; font-size: 12px; color: var(--muted); line-height: 1.5; border-top: 1px solid var(--rule-soft); }
+
+  @media (max-width: 720px) {
+    .worksheet th { width: 42%; }
+    .worksheet th, .worksheet td { padding: 10px 14px; font-size: 13.5px; }
+    .worksheet-head { padding: 14px 14px 10px; flex-direction: column; gap: 6px; }
+    .worksheet-foot { padding: 12px 14px 14px; }
+  }
+
+  @media print {
+    .worksheet, .debate-item, .room-card { page-break-inside: avoid; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K3HFQT6S"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<article class="page">
+
+  <a class="backnav" href="/">&#8592; All articles</a>
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <span class="wordmark">AI Sustained.</span>
+      <span>Issue 022</span>
+    </div>
+    <div class="masthead-right">
+      <span>23 SEP 2026</span>
+      <span>AI Made Simple</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">AI Made Simple &middot; Model release</div>
+    <h1>Grok 4.7 is built for <span class="accent">the idea on your napkin</span>.</h1>
+    <p class="deck">SpaceXAI&rsquo;s new model is not the best one you can buy. It is free to try, it works on its own for hours, and at two things, <span class="accent">engineering and paperwork</span>, it beats the expensive ones.</p>
+    <div class="disclosure">
+      <span class="disclosure-label">Disclosure</span>
+      <p>Written by Claude Opus 5. Curated, fact-checked and edited by Kevin Clubb.</p>
+    </div>
+  </section>
+
+  <figure class="hero-figure">
+    <img src="grok-4-7-idea-on-a-napkin_hero.webp" width="1920" height="1071"
+         alt="A paper napkin on a dark table, with a pencil sketch of a house, a small box and arrows between them. A stub of pencil rests on the napkin. Beside it, a mug of tea, van keys and a folded tape measure, lit by the acid-green glow of a phone screen lying face up.">
+    <figcaption>Cover &middot; AI Sustained</figcaption>
+  </figure>
+
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">Cost to try</div>
+      <span class="stat-value">Free</span>
+      <div class="stat-note">In Grok Build, SpaceXAI&rsquo;s own build-it tool. Paid rate $2 in, $6 out, per million tokens.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Engineering test</div>
+      <span class="stat-value">64.0<span class="unit">%</span></span>
+      <div class="stat-note">EEBench, on SpaceXAI&rsquo;s own table. Claude Fable 5.1 scored 56.4%. The one place Grok 4.7 leads outright.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Landed the next day</div>
+      <span class="stat-value">$4/$20</span>
+      <div class="stat-note">Claude Opus 5.5, Tuesday, at Fable-level scores. &ldquo;Cheapest at the top table&rdquo; lasted a day.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Guess rate</div>
+      <span class="stat-value">29<span class="unit">%</span></span>
+      <div class="stat-note">When it does not know, that is how often it invents an answer. GPT-6 Astra: 51%. Independently measured.</div>
+    </div>
+  </section>
+
+  <section class="depth" aria-label="Reading depth">
+    <div class="depth-label">Reading depth</div>
+    <p class="depth-sub">How deep do you want to go? Pick a level and the article rewrites itself.</p>
+    <div class="ticks" role="group" aria-label="Choose reading depth">
+      <button class="tick" type="button" aria-pressed="false">Explain like I&rsquo;m 5</button>
+      <button class="tick" type="button" aria-pressed="true">Curious</button>
+      <button class="tick" type="button" aria-pressed="false">Practitioner</button>
+      <button class="tick" type="button" aria-pressed="false">Expert</button>
+    </div>
+    <input id="depth-range" class="depth-range" type="range"
+           min="0" max="3" step="1" value="1" aria-label="Reading depth">
+    <div class="reading-meta" id="reading-meta">Curious &middot; &asymp;1,530 words &middot; 8 min</div>
+  </section>
+
+  <div id="reading">
+
+    <nav class="toc" aria-label="Table of contents">
+      <div class="toc-label">In this issue</div>
+      <ol>
+        <li><span class="toc-num">01</span><a href="#people">Three people who are not programmers</a></li>
+        <li><span class="toc-num">02</span><a href="#landed">What landed, and how it went down</a></li>
+        <li><span class="toc-num">03</span><a href="#average">Not the best on average. The best at two things</a></li>
+        <li><span class="toc-num">04</span><a href="#build">What Graham could actually build</a></li>
+        <li><span class="toc-num">05</span><a href="#before">Before you start</a></li>
+        <li><span class="toc-num">06</span><a href="#room">Straight from the sources</a></li>
+        <li><span class="toc-num">07</span><a href="#next">Past, present, next</a></li>
+      </ol>
+    </nav>
+
+    <section class="content" id="section-1">
+
+      <h2 id="people">Three people who are not programmers.</h2>
+
+      <p><strong>Bryan</strong> runs an IT support desk and has been asked to squeeze forty new desk phones and a dozen Wi-Fi points into a comms cabinet nobody has looked at properly since it went in. <strong>Graham</strong> is a plumber with his own van, and for the first time customers are ringing him for heat pump quotes. <strong>Miriam</strong> owns a small shop and has a lease renewal on the desk that she does not fully understand.</p>
+
+      <p>None of them can code. All three have had the same thought this year: <em>I&rsquo;ve got an idea for the business, but I&rsquo;d need to pay someone to build it.</em> On Monday a new answer to that thought arrived. This issue is about whether it is worth the bother, and, more to the point, why they would pick this model over the better ones.</p>
+
+      <h2 id="landed">What landed, and how it went down.</h2>
+
+      <p>The company is <strong>SpaceXAI</strong>. That is what Elon Musk&rsquo;s AI lab xAI became after <a href="https://finance.yahoo.com/news/musks-spacex-merge-xai-combined-212232679.html" target="_blank" rel="noopener">SpaceX bought it in February</a>, so the rockets, Starlink and the Grok models now sit under one roof. The product is <strong>Grok 4.7</strong>, <a href="https://x.ai/news/grok-4-7" target="_blank" rel="noopener">released on 21 September</a> as its main model for coding and office work.</p>
+
+      <p>Without the jargon: you describe a job in plain English, the model goes away, sometimes for hours, writes the software, runs it, spots its own mistakes, fixes them, and comes back with a thing you can use. That is the whole of what the company claims is new this time.</p>
+
+      <figure class="fquote">
+        <p>It works longer on difficult tasks, <span class="sweep">checks its own work more carefully</span>.</p>
+        <cite>SpaceXAI &middot; Introducing Grok 4.7 &middot; 21 Sep 2026 &middot; the vendor&rsquo;s own claim</cite>
+      </figure>
+
+      <p>It also reads a lot at once: <a href="https://docs.x.ai/developers/grok-4-7" target="_blank" rel="noopener">500,000 tokens</a>, roughly 375,000 words, so a whole house survey, the relevant standards and the code can all sit in front of it together.</p>
+
+      <p>You can try it for nothing in <a href="https://x.ai/news/grok-4-7" target="_blank" rel="noopener">Grok Build</a>, SpaceXAI&rsquo;s own build-it tool. If your workplace already has <a href="https://github.blog/changelog/2026-09-21-grok-4-7-is-now-available-in-github-copilot/" target="_blank" rel="noopener">GitHub Copilot</a>, Bryan, it is turning up in there this week too.</p>
+
+      <p>Two days on, the reception is lukewarm. The <a href="https://news.ycombinator.com/item?id=49788838" target="_blank" rel="noopener">Hacker News thread</a> on the launch runs past 500 comments and the tone is <a href="https://daily.dev/posts/grok-4-7-lands-at-6-output-while-matching-opus-class-performance-1kukjbdbw" target="_blank" rel="noopener">underwhelmed</a>: the release slipped about a fortnight, Musk said on X that a training step had gone wrong, and it landed the day before Anthropic shipped <a href="https://venturebeat.com/technology/anthropic-releases-claude-opus-5-5-beating-fable-5-1-on-key-agentic-benchmarks-at-60-cheaper-api-price" target="_blank" rel="noopener">Claude Opus 5.5</a>, which performs at Fable&rsquo;s level for $4 in and $20 out, with OpenAI&rsquo;s cheaper GPT-6 Sol and Luna arriving the same afternoon. Grok&rsquo;s &ldquo;cheapest at the top table&rdquo; line lasted a day.</p>
+
+      <p>The complaint that comes up most from people actually running it is not about the scores. It is about manners.</p>
+
+      <figure class="fquote">
+        <p>It regularly seems to come up with terms and descriptions for things in its chain of reasoning and then <span class="sweep">uses these terms in its output assuming you understand what it&rsquo;s talking about</span>.</p>
+        <cite>imron &middot; Hacker News launch thread &middot; observed 23 Sep 2026</cite>
+      </figure>
+
+      <p>Worth knowing before you start, and easy enough to handle: tell it, in the brief, to write for someone who does not work in software. It is good at that when asked.</p>
+
+      <p>Read the same threads for what people are doing rather than what they think, and a pattern shows up that matters for our three. Nobody is replacing their main model with Grok. Plenty are adding it: as the second reviewer that finds bugs the others miss, as the model that gets to the point in legal research, as the one that writes plain English. That is the whole argument of this issue, made by strangers before I got to it.</p>
+
+      <h2 id="average">Not the best on average. The best at two things.</h2>
+
+      <p>On the independent testing, <a href="https://artificialanalysis.ai/articles/benchmarking-grok-4-7" target="_blank" rel="noopener">Artificial Analysis</a> is direct about where this model sits.</p>
+
+      <figure class="fquote">
+        <p>Grok 4.7 scores 46 on the Artificial Analysis Intelligence Index to bring SpaceXAI <span class="sweep">into the top 4 AI labs</span>.</p>
+        <cite>Artificial Analysis &middot; Benchmarking Grok 4.7 &middot; independent testing</cite>
+      </figure>
+
+      <p>Top four is the honest summary, and fourth is the honest ranking: behind Claude Fable 5.1, GPT-6 Astra and Claude Opus 5, and that was before Tuesday, when <a href="https://artificialanalysis.ai/models/releases/claude-opus-5-5" target="_blank" rel="noopener">Opus 5.5 went to the top of the same table at 58</a>. Fable and Astra charge about <a href="https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra" target="_blank" rel="noopener">five times as much</a>; Opus 5.5 charges about twice. If price were the only reason to pick Grok, this would be a short article and already a dated one.</p>
+
+      <p>It is not the only reason. On <a href="https://x.ai/news/grok-4-7" target="_blank" rel="noopener">SpaceXAI&rsquo;s own comparison table</a> there are two rows where Grok 4.7 beats Fable outright. <strong>Engineering with physics in it</strong> (circuits, power, heat, signal): <span class="inline-highlight">64.0%</span> to Fable&rsquo;s 56.4%, with Astra not entered. And <strong>legal paperwork</strong>, read and compared by the model working on its own: <span class="inline-highlight">19.6%</span> to Fable&rsquo;s 6.7%. Every model is poor at the second; Grok is three times less poor.</p>
+
+      <p>Those two are the vendor&rsquo;s own numbers, so treat them as a claim rather than a finding until somebody independent runs the same tests. Two numbers that are independent point the same way: on finished documents Grok scores above Astra, and when it does not know something it invents an answer <a href="https://artificialanalysis.ai/articles/benchmarking-grok-4-7" target="_blank" rel="noopener">29% of the time</a> to Astra&rsquo;s 51%, which matters a great deal when the document is a contract. Opus 5.5 and the new Sol were not on SpaceXAI&rsquo;s table; Anthropic says Opus 5.5 performs at Fable&rsquo;s level on most work, so assume a similar gap until someone runs the tests.</p>
+
+      <p>Where it is plainly worse: very long, fiddly programming jobs that a professional would have to finish anyway, and Opus 5.5 just made that gap wider. Bryan, Graham and Miriam are not doing those.</p>
+
+      <blockquote class="pull-quote">Pick the model that is best at your problem, not the one that is best on average.
+        <cite>The whole argument, in one sentence</cite>
+      </blockquote>
+
+      <h2 id="build">What Graham could actually build.</h2>
+
+      <p>Call it the <strong>Heat Pump Checker</strong>. Graham types in a house: floor area, roughly when it was built, what insulation it has, the radiators, the current boiler, and the number on the main fuse next to the meter. Three things come back. A heat-loss figure for the coldest day the house should be designed for. A heat pump size, with a verdict on whether the existing radiators will cope at a lower flow temperature or need swapping. And the question that catches installers out: can the house&rsquo;s electricity supply take it, does the network operator need telling first, and is the supply shared with next door?</p>
+
+      <p>That last part is electrical engineering. The first part is the same kind of physics, with the numbers pinned down by reality. It is the one area where Grok 4.7 beats Fable on the tests, and it ends in a finished document, which is its other strength. A description of a plausible build, not a case study; the model came out on Monday.</p>
+
+      <p>Why Graham&rsquo;s customers care: the <a href="https://energysavingtrust.org.uk/advice/boiler-upgrade-scheme/" target="_blank" rel="noopener">Boiler Upgrade Scheme</a> pays &pound;7,500 towards a heat pump (&pound;9,000 for homes on oil or LPG until March 2027), but only through an MCS-certified installer, and MCS wants a room-by-room heat-loss calculation behind every install. Graham is not replacing that calculation. He is turning up to the first visit already knowing whether the job is a goer, and quoting on the spot instead of a week later.</p>
+
+      <p>The other two napkins pass the same test. <strong>Miriam</strong> drops in the old lease and the landlord&rsquo;s proposal and gets back what changed, which clauses bite (rent review, break clause, who fixes the roof) and a list of questions for her solicitor, who still reads it. Legal paperwork is Grok&rsquo;s second lead, and its habit of saying &ldquo;I don&rsquo;t know&rdquo; rather than guessing is exactly what you want near a contract. <strong>Bryan</strong> gives it the kit list for the cabinet and gets back the power budget for the new phones and Wi-Fi points, how long the battery backup lasts, how hot the room will get, and a Wi-Fi channel plan. Electrical engineering again.</p>
+
+      <p>None of this is new as an idea. <a class="xref" href="/articles/vibe-coding-capability/">Issue 004</a> made the case that if you can describe it, you can build it. What changed on Monday is not the describing. It is that the describing now lands on a model that happens to be best in class at Graham&rsquo;s particular sort of sum.</p>
+
+      <blockquote class="pull-quote">The idea on the napkin was never the hard part. Getting it built was.
+        <cite>Issue 022 &middot; 23 September 2026</cite>
+      </blockquote>
+
+      <h2 id="before">Before you start.</h2>
+
+      <p>Three things, and then go and have a go.</p>
+
+      <ul>
+        <li><strong>Keep real customer details out while you build.</strong> SpaceXAI is a US company; read its <a href="https://x.ai/legal/data-processing-addendum" target="_blank" rel="noopener">data-processing terms</a> before real names and addresses go anywhere near it. Build with made-up houses. Switch to real ones when it runs on your own kit.</li>
+        <li><strong>Check its work like a new apprentice&rsquo;s.</strong> 29% is not zero. Test the checker against a house Graham already knows the answer for. The certified installer signs the calculation, the solicitor reads Miriam&rsquo;s lease, and an electrician looks at Bryan&rsquo;s cabinet before anything is switched on.</li>
+        <li><strong>Know the baggage.</strong> Grok, the chatbot, was <a href="https://www.techloy.com/elon-musks-spacex-acquires-xai-in-1-25-trillion-deal-eyes-june-ipo/" target="_blank" rel="noopener">temporarily banned in three countries in January</a> over sexualised imagery. That is the chatbot, not the tool you would be using, but if it bothers you or your customers, that is a fair reason to pick another model.</li>
+      </ul>
+
+      <p>Bryan, Graham, Miriam: the thing you were going to pay someone to build now takes about as long as getting three quotes for it, and for once the cheap option is also the best one at your particular job. Write the idea down properly, paste it in, and see what comes back.</p>
+
+    </section>
+
+  </div>
+
+  <section class="room" aria-label="Straight from the sources">
+    <div class="room-label">Straight from the sources</div>
+    <h2 id="room">Six lines, two sources.</h2>
+    <p class="room-sub">No commentary. Every card is a verbatim quote from the independent testers or from a named person using the model, and links to it. Where a quote is shortened, the cut is marked.</p>
+    <div class="room-grid">
+      <a class="room-card pos" href="https://news.ycombinator.com/item?id=49788838" target="_blank" rel="noopener">
+        <div class="room-tag">Plain English &middot; The reason it suits this audience</div>
+        <p class="room-quote">&ldquo;My favorite part of the new Groks has been how they speak in plain english.&rdquo;</p>
+        <span class="room-src">moojacob &middot; Hacker News launch thread</span>
+      </a>
+      <a class="room-card pos" href="https://news.ycombinator.com/item?id=49788838" target="_blank" rel="noopener">
+        <div class="room-tag">Working on its own &middot; What that looks like</div>
+        <p class="room-quote">&ldquo;the ultimate grandmaster of parallel tool-calls, routinely kicking off four or five at once.&rdquo;</p>
+        <span class="room-src">octoberfranklin &middot; Hacker News launch thread</span>
+      </a>
+      <a class="room-card neg" href="https://news.ycombinator.com/item?id=49788838" target="_blank" rel="noopener">
+        <div class="room-tag">The dissent &middot; Somebody who tried it and left</div>
+        <p class="room-quote">&ldquo;4.7 is definitely slower &amp; more expensive &hellip; it just isn&rsquo;t there for me&rdquo;</p>
+        <span class="room-src">mchusma &middot; Hacker News, comparing against Sol and Opus</span>
+      </a>
+      <a class="room-card neu" href="https://artificialanalysis.ai/articles/benchmarking-grok-4-7" target="_blank" rel="noopener">
+        <div class="room-tag">Building things &middot; The score that moved most</div>
+        <p class="room-quote">&ldquo;Grok Build with Grok 4.7 (xhigh) scores 56 on the Artificial Analysis Coding Agent Index, up +9 points from Grok 4.6 (xhigh).&rdquo;</p>
+        <span class="room-src">Artificial Analysis &middot; Benchmarking Grok 4.7</span>
+      </a>
+      <a class="room-card pos" href="https://artificialanalysis.ai/articles/benchmarking-grok-4-7" target="_blank" rel="noopener">
+        <div class="room-tag">Guessing &middot; The number that matters near a contract</div>
+        <p class="room-quote">&ldquo;Grok 4.7 (xhigh) has a lower AA-Omniscience Hallucination Rate than Grok 4.6 (high): 29% versus 34%.&rdquo;</p>
+        <span class="room-src">Artificial Analysis &middot; Benchmarking Grok 4.7</span>
+      </a>
+      <a class="room-card neg" href="https://artificialanalysis.ai/articles/benchmarking-grok-4-7" target="_blank" rel="noopener">
+        <div class="room-tag">The catch &middot; Why the cheap rate is not the bill</div>
+        <p class="room-quote">&ldquo;Grok 4.7&rsquo;s gains come with higher token usage &hellip; 81k output tokens per Intelligence Index task, compared with 36k for Grok 4.6&rdquo;</p>
+        <span class="room-src">Artificial Analysis &middot; Benchmarking Grok 4.7</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="room" aria-label="Past, present, next">
+    <div class="room-label">Past, present, next</div>
+    <h2 id="next">How this issue got here.</h2>
+    <div class="ppn">
+    <div class="ppn-col">
+      <div class="ppn-label">Past</div>
+      <p><a class="xref" href="/articles/vibe-coding-capability/">Issue 004</a> argued that if you can describe it, you can build it, back when that meant paying for the best model on the market. <a class="xref" href="/articles/ai-made-simple/">Issue 013</a> is the starting point for anyone who has not yet typed anything into one of these.</p>
+    </div>
+    <div class="ppn-col">
+      <div class="ppn-label">Present</div>
+      <p>21 September: Grok 4.7, free to try, fourth on the independent table, first on two vendor-reported tests that happen to be exactly the sums a tradesperson needs. 22 September: Opus 5.5 and two new GPT-6 models take away the price argument and leave the physics one standing.</p>
+    </div>
+    <div class="ppn-col">
+      <div class="ppn-label">Next</div>
+      <p>Watch for independent runs of EEBench and the legal benchmark. If the two vendor numbers hold up under someone else&rsquo;s testing, the case in this issue holds with them. If they shrink, so does the reason to pick this model over a cheaper-per-task rival.</p>
+    </div>
+    </div>
+  </section>
+
+  <section class="debate" aria-label="Points to argue with">
+    <div class="debate-label">Argue about this at lunch</div>
+    <h2 id="argue">Three questions. I am not certain of my own answers.</h2>
+    <ol>
+      <li class="debate-item">
+        <div class="debate-num">01 &middot; Vendor numbers</div>
+        <p class="debate-claim">The entire &ldquo;why this model&rdquo; case rests on two scores SpaceXAI published about itself. <em>Is that good enough to recommend it to a plumber?</em></p>
+        <p class="debate-counter"><span>The counter</span> It is good enough to try for free and test against a house you know the answer for. It would not be good enough to sign a contract on. The free tier is what makes the weak evidence acceptable, and that is not nothing.</p>
+      </li>
+      <li class="debate-item">
+        <div class="debate-num">02 &middot; The second model</div>
+        <p class="debate-claim">Everyone who rates it uses it alongside something else. <em>Is &ldquo;best at your problem&rdquo; just a polite way of saying you now need two subscriptions?</em></p>
+        <p class="debate-counter"><span>The counter</span> For Graham, no: he builds once, on a free tier, and then runs a tool that costs pennies. For a team shipping software every day, yes, and they were already paying for two.</p>
+      </li>
+      <li class="debate-item">
+        <div class="debate-num">03 &middot; Who carries the risk</div>
+        <p class="debate-claim">Graham quotes on the spot using a number a model produced. <em>When it is wrong, whose problem is it?</em></p>
+        <p class="debate-counter"><span>The counter</span> His, which is precisely why the MCS survey still happens and the output is marked indicative. The tool is not there to replace the certificate. It is there so he stops driving to jobs that were never going to work.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="takeaway" aria-label="Tactical takeaway for leaders">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2>You do not need the best model on average. You need <em>the best one at your problem</em>.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 &middot; IDEA</div>
+        <div class="takeaway-point-text">Pick one job you keep meaning to fix. Write it like a brief to a tradesperson: <strong>what, for whom, and what done looks like</strong>. Paste it into Grok Build.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 &middot; FIT</div>
+        <div class="takeaway-point-text">If the job has <strong>physics or paperwork</strong> in it, Grok 4.7 has a real claim over the expensive models. If it is a long, hard programming job, it does not, and Tuesday&rsquo;s Opus 5.5 widened that gap.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 &middot; CHECK</div>
+        <div class="takeaway-point-text">Build with made-up customers and keep the sign-off human: <strong>the installer, the solicitor, the electrician</strong>. Read where the data goes; SpaceXAI is a US company.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-slab" aria-label="Read more and subscribe">
+    <div class="cta-kicker">Read more &middot; Subscribe</div>
+    <h2>One issue a week, and <em>the workings underneath it</em>.</h2>
+    <p>No paywall and no pitch. If the napkin is the useful part of this issue, the two below are where the argument started: the case that describing a thing is now most of building it, and the plain-English starting point for anyone who has not begun.</p>
+    <div class="cta-row">
+      <a class="cta-btn primary" href="/?src=issue022#subscribe">Subscribe <span aria-hidden="true">&#8594;</span></a>
+      <a class="cta-btn" href="/articles/vibe-coding-capability/">Issue 004 &middot; If you can describe it <span aria-hidden="true">&#8594;</span></a>
+      <a class="cta-btn" href="/articles/ai-made-simple/">Issue 013 &middot; AI Made Simple <span aria-hidden="true">&#8594;</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">What is the one job you would hand to a keen apprentice tomorrow, <strong>if the apprentice were free?</strong></p>
+      <div class="footer-links">
+        <a href="/">ai-sustained.com</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="#" data-ais-reopen>Cookie choices</a>
+      </div>
+    </div>
+    <div class="sources">
+      Sources &middot; <a href="https://x.ai/news/grok-4-7" target="_blank" rel="noopener">SpaceXAI, Introducing Grok 4.7, 21 Sep 2026</a> &middot; <a href="https://docs.x.ai/developers/grok-4-7" target="_blank" rel="noopener">SpaceXAI docs, Grok 4.7</a> &middot; <a href="https://artificialanalysis.ai/articles/benchmarking-grok-4-7" target="_blank" rel="noopener">Artificial Analysis, Benchmarking Grok 4.7</a> &middot; <a href="https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra" target="_blank" rel="noopener">Artificial Analysis, Benchmarking GPT-6 Astra</a> &middot; <a href="https://artificialanalysis.ai/models/releases/claude-opus-5-5" target="_blank" rel="noopener">Artificial Analysis, Claude Opus 5.5</a> &middot; <a href="https://news.ycombinator.com/item?id=49788838" target="_blank" rel="noopener">Hacker News, Grok 4.7 launch thread, comments observed 23 Sep</a> &middot; <a href="https://github.blog/changelog/2026-09-21-grok-4-7-is-now-available-in-github-copilot/" target="_blank" rel="noopener">GitHub Changelog</a> &middot; <a href="https://finance.yahoo.com/news/musks-spacex-merge-xai-combined-212232679.html" target="_blank" rel="noopener">Reuters via Yahoo Finance, SpaceX acquires xAI</a> &middot; <a href="https://venturebeat.com/technology/anthropic-releases-claude-opus-5-5-beating-fable-5-1-on-key-agentic-benchmarks-at-60-cheaper-api-price" target="_blank" rel="noopener">VentureBeat, Claude Opus 5.5, GPT-6 Sol and Luna</a> &middot; <a href="https://daily.dev/posts/grok-4-7-lands-at-6-output-while-matching-opus-class-performance-1kukjbdbw" target="_blank" rel="noopener">daily.dev, Grok 4.7 reactions</a> &middot; <a href="https://energysavingtrust.org.uk/advice/boiler-upgrade-scheme/" target="_blank" rel="noopener">Energy Saving Trust, Boiler Upgrade Scheme</a> &middot; <a href="https://www.techloy.com/elon-musks-spacex-acquires-xai-in-1-25-trillion-deal-eyes-june-ipo/" target="_blank" rel="noopener">Techloy, regulatory context</a> &middot; <a href="https://x.ai/legal/data-processing-addendum" target="_blank" rel="noopener">SpaceXAI DPA</a>. EEBench and the legal agent score are SpaceXAI&rsquo;s own figures. The Heat Pump Checker is a described build, not a case study. AI Sustained Issue 004, Issue 013.
+    </div>
+  </footer>
+
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#AIMadeSimple</span> <span>#Grok47</span> <span>#SpaceXAI</span> <span>#VibeCoding</span> <span>#SmallBusiness</span> <span>#HeatPumps</span> <span>#PlainEnglishAI</span> <span>#AIAdoption</span> <span>#Tradespeople</span> <span>#UKBusiness</span> <span>#UKTech</span> <span>#FutureOfWork</span> <span>#AISustained</span>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span><span class="wordmark">AI Sustained.</span> &middot; Written by Claude Opus 5 &middot; Curated by Kevin Clubb</span>
+    <span>2026</span>
+  </div>
+
+</article>
+<script>
+(function () {
+  /* Marker sweep on featured quotes. Runs on load and again after a depth
+     swap, because the reading column gets replaced wholesale. */
+  function sweep(root) {
+    var marks = (root || document).querySelectorAll('.sweep:not(.lit)');
+    if (!marks.length) return;
+    if (!('IntersectionObserver' in window)) {
+      Array.prototype.forEach.call(marks, function (m) { m.classList.add('lit'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('lit'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.3 });
+    Array.prototype.forEach.call(marks, function (m) { io.observe(m); });
+  }
+
+  var DEPTHS = [
+    {
+      name: "Explain like I'm 5",
+      meta: "≈470 words · 2 min",
+      html: `
+        <section class="content">
+          <h2 id="people">Three people who are not programmers.</h2>
+          <p><strong>Bryan</strong> runs an IT help desk and has to fit forty new phones into a cupboard full of network kit. <strong>Graham</strong> is a plumber who is being asked to quote for heat pumps. <strong>Miriam</strong> has a small shop and a lease renewal she does not understand. None of them can write software.</p>
+
+          <h2 id="landed">What landed, and how it went down.</h2>
+          <p>A company called <strong>SpaceXAI</strong> (the rocket firm SpaceX bought the AI lab behind Grok earlier this year) released a new assistant called <strong>Grok 4.7</strong>. You tell it what you want in plain English. It goes off, sometimes for hours, builds it, checks it, and brings it back. You can try it for free.</p>
+
+          <figure class="fquote">
+            <p>It works longer on difficult tasks, <span class="sweep">checks its own work more carefully</span>.</p>
+            <cite>SpaceXAI · what the company says about it · 21 Sep 2026</cite>
+          </figure>
+
+          <p>The day after, two rivals released newer models too, including a Claude one that is better and costs about twice as much. So Grok is no longer the cheap one at the top. It is still the free one to try.</p>
+
+          <h2 id="average">Is it the best one?</h2>
+          <p>Not overall. It comes fourth, behind Claude Fable 5.1, GPT-6 Astra and Claude Opus 5.</p>
+
+          <figure class="fquote">
+            <p>Grok 4.7 scores 46 on the Artificial Analysis Intelligence Index to bring SpaceXAI <span class="sweep">into the top 4 AI labs</span>.</p>
+            <cite>Artificial Analysis · the independent testers · on where it ranks</cite>
+          </figure>
+
+          <p>But it is the best of them at one thing: engineering sums, the kind with physics in them. And it is the least bad at legal paperwork. People who use it say the same: they keep it as a second opinion for particular jobs, not as their main one. Those two things are the reason to pick it, not the price. One more reason, which matters if you are not a programmer:</p>
+
+          <figure class="fquote">
+            <p>My favorite part of the new Groks has been how they <span class="sweep">speak in plain english</span>.</p>
+            <cite>moojacob · a person using it, on Hacker News</cite>
+          </figure>
+
+          <h2 id="build">What Graham could actually build.</h2>
+          <p>A tool that takes a house's details and works out how big a heat pump it needs, whether the radiators will do, and whether the house's electricity supply can cope. That is exactly the kind of sum Grok 4.7 is best at, and it matters because the government grant for heat pumps only comes through a certified installer who has done the sums properly. Miriam could get her lease explained in plain English, with questions for her solicitor. Bryan could find out whether his cupboard of kit has enough power and cooling for the new phones.</p>
+
+          <h2 id="before">Before you start.</h2>
+          <p>Use made-up houses and customers while you build, because SpaceXAI is an American company and your real data would go there. Check what it gives you, because when it does not know something it sometimes guesses, and a certified installer still signs Graham's numbers. And know that the Grok chatbot got banned in three countries in January; if that puts you off, use something else.</p>
+        </section>`
+    },
+    {
+      name: "Curious",
+      meta: "≈1,530 words · 8 min",
+      html: null            /* captured from the page — do not fill */
+    },
+    {
+      name: "Practitioner",
+      meta: "≈1,670 words · 8 min",
+      html: `
+        <nav class="toc" aria-label="Table of contents">
+          <div class="toc-label">In this issue</div>
+          <ol>
+            <li><span class="toc-num">01</span><a href="#people">Three people who are not programmers</a></li>
+            <li><span class="toc-num">02</span><a href="#landed">What landed, and how it went down</a></li>
+            <li><span class="toc-num">03</span><a href="#average">Not the best on average. The best at two things</a></li>
+            <li><span class="toc-num">04</span><a href="#build">What Graham could actually build</a></li>
+            <li><span class="toc-num">05</span><a href="#before">Before you start</a></li>
+          </ol>
+        </nav>
+        <section class="content">
+          <h2 id="people">Three people who are not programmers.</h2>
+          <p><strong>Bryan</strong> manages an IT support desk. He has used Copilot for the odd script and given up twice, and he has a phone and Wi-Fi refresh to fit into a comms cabinet nobody has audited. <strong>Graham</strong> runs a plumbing business from a van and a spreadsheet, has asked ChatGPT to write his quotes, and is now being asked for heat pump quotes he is not sure how to size. <strong>Miriam</strong> owns a shop, once got an AI to draft her Christmas newsletter, and has a lease renewal on the desk. All three have dipped a toe. None has built anything that runs without them.</p>
+          <p>That last step, from "it wrote me a paragraph" to "it built me a thing that works", is what changed this year. <a class="xref" href="/articles/vibe-coding-capability/">Issue 004</a> made the general case. Grok 4.7 is the newest way to take the step, and for these three in particular, the evidence says it is the right one.</p>
+
+          <h2 id="landed">What landed, and how it went down.</h2>
+          <p><strong>SpaceXAI</strong> is xAI after <a href="https://finance.yahoo.com/news/musks-spacex-merge-xai-combined-212232679.html" target="_blank" rel="noopener">SpaceX acquired it in February 2026</a>. <strong>Grok 4.7</strong> <a href="https://x.ai/news/grok-4-7" target="_blank" rel="noopener">shipped on 21 September</a> as its flagship for coding, agentic tasks and knowledge work. "Agentic" is the word to understand: instead of answering one question, the model is given a goal and a set of tools, and it plans, writes code, runs it, reads the errors, fixes them and keeps going until the goal is met or it gets stuck.</p>
+
+          <figure class="fquote">
+            <p>It works longer on difficult tasks, <span class="sweep">checks its own work more carefully</span>.</p>
+            <cite>SpaceXAI · Introducing Grok 4.7 · 21 Sep 2026 · the vendor's own claim</cite>
+          </figure>
+
+          <p>Where you meet it: <a href="https://x.ai/news/grok-4-7" target="_blank" rel="noopener">Grok Build</a>, SpaceXAI's own agent, which has a free tier; Cursor, the code editor most vibe coders use; <a href="https://github.blog/changelog/2026-09-21-grok-4-7-is-now-available-in-github-copilot/" target="_blank" rel="noopener">GitHub Copilot</a>, rolling out now, where Bryan's admins can switch it on through model policy; and the API for anyone wiring it into their own tools. It holds <a href="https://docs.x.ai/developers/grok-4-7" target="_blank" rel="noopener">500,000 tokens</a> of context, about 375,000 words, which in practice means you hand it the whole problem at once rather than feeding it pieces.</p>
+          <p><strong>How it went down.</strong> Lukewarm. The <a href="https://news.ycombinator.com/item?id=49788838" target="_blank" rel="noopener">Hacker News launch thread</a> runs past 500 comments; the release slipped about a fortnight, Musk said on X that a training step had gone wrong, and it landed the day before Opus 5.5. Then Tuesday happened: Anthropic released <a href="https://venturebeat.com/technology/anthropic-releases-claude-opus-5-5-beating-fable-5-1-on-key-agentic-benchmarks-at-60-cheaper-api-price" target="_blank" rel="noopener">Claude Opus 5.5</a> at $4 in and $20 out, performing at Fable's level, and OpenAI released GPT-6 Sol at $2 and $10 and GPT-6 Luna at $0.10 and $0.50. Grok is no longer the cheap seat at the frontier; it is one of several.</p>
+          <p>Two grumbles recur among people actually using it. The first is the bill: cached input is priced at a quarter of the input rate where rivals charge nearer a tenth, so long-context work costs more than the headline suggests. The second is manners.</p>
+
+          <figure class="fquote">
+            <p>It regularly seems to come up with terms and descriptions for things in its chain of reasoning and then <span class="sweep">uses these terms in its output assuming you understand what it's talking about</span>.</p>
+            <cite>imron · Hacker News launch thread · observed 23 Sep 2026</cite>
+          </figure>
+
+          <p>Fixable in the brief: tell it to write for a reader who does not work in software, and it will. Against that, one pattern recurs among the same people: they keep it as a second reviewer that finds bugs the others miss, as the model that gets to the point in legal research, and as the one that writes plain English. A second opinion for particular jobs. Which is the argument here.</p>
+
+          <h2 id="average">Not the best on average. The best at two things.</h2>
+          <p><a href="https://artificialanalysis.ai/articles/benchmarking-grok-4-7" target="_blank" rel="noopener">Artificial Analysis</a>, the independent testers, are direct about the ranking.</p>
+
+          <figure class="fquote">
+            <p>Grok 4.7 scores 46 on the Artificial Analysis Intelligence Index to bring SpaceXAI <span class="sweep">into the top 4 AI labs</span>.</p>
+            <cite>Artificial Analysis · Benchmarking Grok 4.7 · independent testing</cite>
+          </figure>
+
+          <p>Fourth on their Coding Agent Index, behind Claude Fable 5.1, GPT-6 Astra and Claude Opus 5, at 56 in Grok Build, up nine points on Grok 4.6. Since Tuesday <a href="https://artificialanalysis.ai/models/releases/claude-opus-5-5" target="_blank" rel="noopener">Opus 5.5 sits above all of them at 58</a>, and costs $5.98 per Index task at maximum effort or $1.82 at high, against Fable's $7.63. Fable and Astra both cost <a href="https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra" target="_blank" rel="noopener">$10 in and $50 out</a> per million tokens; Opus 5.5 is $4 and $20; Grok 4.7 is $2 and $6, with a free tier the others do not match.</p>
+          <p>Now the two rows on <a href="https://x.ai/news/grok-4-7" target="_blank" rel="noopener">SpaceXAI's own table</a> that make it the right pick for our three rather than merely the cheap one. <strong>EEBench</strong>, an electrical engineering exam: Grok 4.7 <span class="inline-highlight">64.0%</span>, Fable 56.4%, GPT-5.6 Sol 39.4%; Astra was not tested. <strong>Harvey's legal agent benchmark</strong>, reading and acting on legal documents: Grok <span class="inline-highlight">19.6%</span>, Fable 6.7%, Sol 2.5%. Everyone is poor at that; Grok is three times less poor.</p>
+          <p>Two independent numbers back it up against Astra specifically: on GDPval, which grades finished documents, spreadsheets and slides, Grok scores 1,695 to Astra's 1,542, and when it does not know an answer it invents one 29% of the time to Astra's 51%.</p>
+          <p>Three caveats. Opus 5.5 and GPT-6 Sol were not on SpaceXAI's table; Anthropic says Opus 5.5 performs at Fable's level on most work, so assume a similar gap until someone runs EEBench and Harvey on it. The CursorBench figures come from Cursor, which is a <a href="https://kingy.ai/blog/grok-4-7-benchmarks-specs-frontier-comparison/" target="_blank" rel="noopener">Grok distribution partner</a>, so treat that column as friendly ground. And everything except the Artificial Analysis lines is vendor-reported.</p>
+          <p>Where it trails: very long autonomous programming sessions on hard codebases (Terminal-Bench 38.0% to Fable's 57.9%), speed at full effort (around seven minutes on a hard step), and talkativeness, which on a paid plan means the bill runs higher than the sticker suggests. None of that touches what Bryan, Graham or Miriam want to build.</p>
+
+          <blockquote class="pull-quote">Pick the model that is best at your problem, not the one that is best on average.
+            <cite>The whole argument, in one sentence</cite>
+          </blockquote>
+
+          <h2 id="build">What Graham could actually build.</h2>
+          <p><strong>The Heat Pump Checker.</strong> A description of a plausible build, not a case study. Inputs: floor area and room list, construction age or a rough insulation grade, glazing, existing radiators and their sizes, the current boiler output, the region (for the design outdoor temperature), and the rating on the main fuse plus whether the supply is shared with a neighbour. Outputs: a room-by-room heat-loss estimate at design temperature; a recommended heat pump size including hot water; a radiator verdict at a lower flow temperature (which ones cope, which need upsizing); and an electrical verdict: does the supply have headroom, does the network operator need notifying or an application first, does a looped supply need splitting. Plus a one-page customer report and a sizing sheet the MCS paperwork can start from.</p>
+          <p><strong>Why this model.</strong> Every one of those outputs is a constrained physics or electrical calculation, which is the one benchmark Grok 4.7 leads outright, and the whole thing ends in a finished document, which is its other measured strength. The design temperatures, radiator correction factors and the network operator's rules all fit in the context window alongside the code, so it can cite them rather than guess them.</p>
+          <p><strong>Why it pays.</strong> The <a href="https://energysavingtrust.org.uk/advice/boiler-upgrade-scheme/" target="_blank" rel="noopener">Boiler Upgrade Scheme</a> gives customers £7,500 towards a heat pump (£9,000 for oil and LPG homes until 31 March 2027), claimed by an MCS-certified installer who must have a room-by-room heat-loss calculation behind the install. Undersize it and the house is cold; oversize it and the customer pays for a machine that cycles itself to death. Graham is not replacing the certified calculation. He is arriving at the first visit with a credible answer and a quote, instead of a week later.</p>
+          <p><strong>The brief.</strong> Write it like you would brief a subcontractor: what it does, who it is for, what "done" looks like, what it must never do. "Never present a sizing as final; every output carries 'indicative, subject to MCS survey'" goes in the brief, not in your head. Paste it into Grok Build with three made-up houses and let it work. Expect code, a set-up guide and questions. Expect the first run to break on something dull. Paste the error back in. That loop, brief, build, break, paste, is the whole skill.</p>
+          <p><strong>The test that matters.</strong> Run it on a house Graham has already fitted and knows the answer for. If it disagrees with reality, the model is wrong, not the house. If it goes round the same error three times, take that one problem to Fable or Astra, get the fix, bring it back. Two models is normal.</p>
+          <p><strong>The other two napkins.</strong> Miriam drops in the old lease and the landlord's proposal and asks for a plain-English comparison: what changed, which clauses bite (rent review, break clause, repair obligations, service charge), and a list of questions for the solicitor. Legal agent work is Grok's second lead, and its lower guess rate is the quality you want near a contract. The solicitor still reads it. Bryan drops in the cabinet kit list and the new phones and access points, and asks for the power-over-Ethernet budget per switch, the UPS runtime at the new load, the heat load and whether the room needs cooling, and a Wi-Fi channel plan from readings his team take on their phones. Electrical engineering, start to finish, and an electrician signs off before anything is switched on.</p>
+
+          <blockquote class="pull-quote">The idea on the napkin was never the hard part. Getting it built was.
+            <cite>Issue 022 · 23 September 2026</cite>
+          </blockquote>
+
+          <h2 id="before">Before you start.</h2>
+          <ul>
+            <li><strong>Data.</strong> SpaceXAI is a US company. Read the <a href="https://x.ai/legal/data-processing-addendum" target="_blank" rel="noopener">data-processing addendum</a>. Build with made-up houses and customers; run with real ones only once it lives on your own kit or a provider you have vetted.</li>
+            <li><strong>Sign-off.</strong> The checker is indicative. The MCS-certified installer owns the calculation and the grant claim. The solicitor owns the lease. The electrician owns the cabinet. Build that into the brief and the output.</li>
+            <li><strong>Checking.</strong> 29% invention-when-wrong is better than Astra's 51% and Grok 4.6's 34%, but it is not zero. Test against a known answer before you trust it on an unknown one.</li>
+            <li><strong>Baggage.</strong> The Grok chatbot was <a href="https://www.techloy.com/elon-musks-spacex-acquires-xai-in-1-25-trillion-deal-eyes-june-ipo/" target="_blank" rel="noopener">temporarily banned in Indonesia, Malaysia and the Philippines in January</a> over sexualised imagery. Different product, same company. Decide whether that matters to you and your customers before you start.</li>
+          </ul>
+          <p>Then pick the napkin, write the brief, and give it the length of a football match.</p>
+        </section>`
+    },
+    {
+      name: "Expert",
+      meta: "≈1,390 words · 7 min",
+      html: `
+        <nav class="toc" aria-label="Table of contents">
+          <div class="toc-label">In this issue</div>
+          <ol>
+            <li><span class="toc-num">01</span><a href="#people">Three people who are not programmers</a></li>
+            <li><span class="toc-num">02</span><a href="#landed">What landed, and how it went down</a></li>
+            <li><span class="toc-num">03</span><a href="#average">Not the best on average. The best at two things</a></li>
+            <li><span class="toc-num">04</span><a href="#build">What Graham could actually build</a></li>
+            <li><span class="toc-num">05</span><a href="#before">Before you start</a></li>
+          </ol>
+        </nav>
+        <section class="content">
+          <h2 id="people">Three people who are not programmers.</h2>
+          <p>The audience for this release is not the engineering community, who will benchmark it themselves. It is the person one rung up from "I asked ChatGPT to write my newsletter": <strong>Bryan</strong> on the help desk with Copilot switched on and a cabinet refresh to plan, <strong>Graham</strong> the plumber being asked to size heat pumps, <strong>Miriam</strong> the shopkeeper with a lease renewal. The question is not whether Grok 4.7 can build their tools; all three frontier models can. It is whether there is a defensible reason to choose it, and for these three workloads there is.</p>
+
+          <h2 id="landed">What landed, and how it went down.</h2>
+          <p><strong>Grok 4.7</strong> (grok-4.7, <a href="https://x.ai/news/grok-4-7" target="_blank" rel="noopener">21 Sep 2026</a>) is <strong>SpaceXAI's</strong> first flagship since <a href="https://finance.yahoo.com/news/musks-spacex-merge-xai-combined-212232679.html" target="_blank" rel="noopener">SpaceX absorbed xAI in February</a>. New, larger base model; longer RL run weighted toward multi-hour tasks; native training on the Grok Bot harness; better self-verification and long-context handling. Unchanged from 4.6: the <a href="https://docs.x.ai/developers/grok-4-7" target="_blank" rel="noopener">500k context</a>, $2/$6 per million with $0.50 cache hits, the low-to-xhigh effort ladder. Fast variant at 2x speed and 2x price in Cursor and Grok Build only. Day-one distribution: Grok Build (free tier), Cursor, <a href="https://github.blog/changelog/2026-09-21-grok-4-7-is-now-available-in-github-copilot/" target="_blank" rel="noopener">GitHub Copilot</a> (admin-gated via model policy), the API, the usual routers.</p>
+          <p><strong>Reception, 48 hours in.</strong> <a href="https://daily.dev/posts/grok-4-7-lands-at-6-output-while-matching-opus-class-performance-1kukjbdbw" target="_blank" rel="noopener">Underwhelmed</a>. The <a href="https://news.ycombinator.com/item?id=49788838" target="_blank" rel="noopener">HN thread</a> leads with the fortnight's slip, Musk's X post attributing it to an RL problem, and the timing against Opus 5.5. Substantive complaints: cache reads at $0.50 (25% of input, where rivals sit near 10%); poor token efficiency on the AA coding-agent chart; and a register problem that will bite non-technical users hardest.</p>
+
+          <figure class="fquote">
+            <p>It regularly seems to come up with terms and descriptions for things in its chain of reasoning and then <span class="sweep">uses these terms in its output assuming you understand what it's talking about</span>.</p>
+            <cite>imron · Hacker News launch thread · observed 23 Sep 2026</cite>
+          </figure>
+
+          <p>Substantive praise, from people who run it in anger: parallel tool calls ("the ultimate grandmaster of parallel tool-calls, routinely kicking off four or five at once", per octoberfranklin), one-line progress narration, fewer refusals, plain English, and repeated use as an adjunct reviewer that finds bugs the frontier pair miss, plus one practitioner's note that it gets to the point in legal research faster than Opus 5. Nobody is making it primary. Many are making it second.</p>
+          <p><strong>Then Tuesday.</strong> Anthropic shipped <a href="https://venturebeat.com/technology/anthropic-releases-claude-opus-5-5-beating-fable-5-1-on-key-agentic-benchmarks-at-60-cheaper-api-price" target="_blank" rel="noopener">Claude Opus 5.5</a>: $4/$20, 1M context, Fable-level on most work, Terminal-Bench 4.0 66.4% vendor-reported, <a href="https://artificialanalysis.ai/models/releases/claude-opus-5-5" target="_blank" rel="noopener">AA Intelligence Index 58 at max</a> (56 xhigh, 54 high) at $5.98, $3.46 and $1.82 per Index task respectively. OpenAI shipped GPT-6 Sol ($2/$10) and GPT-6 Luna ($0.10/$0.50). Grok 4.7's price position is now: cheapest output tokens among the frontier-adjacent, not cheapest per task, and not the cheapest model on the market by an order of magnitude.</p>
+
+          <h2 id="average">Not the best on average. The best at two things.</h2>
+          <figure class="fquote">
+            <p>Grok 4.7 scores 46 on the Artificial Analysis Intelligence Index to bring SpaceXAI <span class="sweep">into the top 4 AI labs</span>.</p>
+            <cite>Artificial Analysis · Benchmarking Grok 4.7 · xhigh effort</cite>
+          </figure>
+
+          <p>Against 53 for both Claude Fable 5.1 and GPT-6 Astra. Coding Agent Index in Grok Build 56 (+9), fourth behind Fable in Claude Code (62), Astra in Codex (62) and Opus 5 (60). Terminal-Bench 4.0 on the <a href="https://x.ai/news/grok-4-7" target="_blank" rel="noopener">vendor table</a> 38.0% against Fable 57.9%: the hard autonomous tail is not this model's territory. Both rivals are <a href="https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra" target="_blank" rel="noopener">$10/$50</a>; Opus 5.5 is $4/$20 at 58; AA has not yet published a Coding Agent Index score for Opus 5.5, so "fourth" is Monday's ranking.</p>
+          <p>The case for choosing it rests on four numbers. Two vendor-reported, where it beats Fable outright: <strong>EEBench 64.0%</strong> against Fable 56.4% and Sol 39.4% (Astra not entered), and <strong>Harvey Legal Agent 19.6%</strong> against Fable 6.7% and Sol 2.5%. Two independent, where it beats Astra: <strong>GDPval 1,695</strong> against Astra 1,542 (Fable 1,735), and <strong>AA-Omniscience hallucination rate 29%</strong> against Astra 51%. Read together: constrained-physics reasoning, legal document work, deliverable-shaped output, and a stronger tendency to abstain than to invent. Caveat the vendor numbers as vendor numbers: Artificial Analysis has not reproduced EEBench or Harvey; Opus 5.5 and GPT-6 Sol were not on the table (assume Fable-level for Opus 5.5 until measured); and CursorBench comes from a <a href="https://kingy.ai/blog/grok-4-7-benchmarks-specs-frontier-comparison/" target="_blank" rel="noopener">Grok distribution partner</a>.</p>
+          <p>The pricing caveat is not the sticker, it is the throughput.</p>
+
+          <figure class="fquote">
+            <p>Grok 4.7's gains come with higher token usage &hellip; <span class="sweep">81k output tokens per Intelligence Index task</span>, compared with 36k for Grok 4.6</p>
+            <cite>Artificial Analysis · Benchmarking Grok 4.7 · on token efficiency</cite>
+          </figure>
+
+          <p>Level with Fable's 78k and three times Astra's 27k, so the fivefold sticker gap holds against Fable and compresses to under 2x on output against Astra. Latency around 7.1 minutes per task at xhigh. Against Opus 5.5 at high effort ($1.82 per Index task for 54 points) the per-task case for Grok is now thin; the output-only floor of about $0.49 is a floor, not a bill. For a build-once, run-cheaply tool with a free tier, neither matters much. For a metered production workload, run the comparison on your own tasks before choosing.</p>
+
+          <blockquote class="pull-quote">Pick the model that is best at your problem, not the one that is best on average.
+            <cite>The whole argument, in one sentence</cite>
+          </blockquote>
+
+          <h2 id="build">What Graham could actually build.</h2>
+          <p><strong>Heat Pump Checker</strong>, plausible build, not a case study. Inputs: room list with floor area, external wall area, glazing area and type, construction age mapped to default U-values (overridable), ventilation assumption, region for design external temperature, existing radiator dimensions and type, current boiler output, main fuse rating, single or three phase, looped or dedicated service. Compute: fabric loss (sum of U×A×ΔT) plus ventilation loss per room at design conditions; heat pump size including domestic hot water allowance; radiator output at the target flow temperature via the ΔT correction factor against nominal ΔT50, flagging rooms below requirement; electrical headroom: unit running current at design load plus a diversity assumption for the rest of the house against the main fuse, and the network operator's notify-versus-apply threshold. Emit: room table, sizing sheet in the format the MCS calculation expects as a starting point, customer one-pager, and an explicit "indicative, subject to MCS survey" banner on everything.</p>
+          <p><strong>Model fit.</strong> Every stage is a physics or electrical calculation with published constants: EEBench territory. The constants, the network operator's connection rules and the MCS requirements sit in the 500k context alongside the code, so the model cites them rather than recalls them. Output is document-shaped, where it beats Astra. The <a href="https://energysavingtrust.org.uk/advice/boiler-upgrade-scheme/" target="_blank" rel="noopener">Boiler Upgrade Scheme</a> (£7,500; £9,000 for oil and LPG homes to 31 March 2027, MCS-certified installer only) is what makes a credible first-visit sizing commercially valuable.</p>
+          <p><strong>Verification and routing.</strong> Deterministic tests against three houses Graham has already fitted, with tolerance bands agreed up front; the model is wrong when it disagrees with a commissioned system, never the other way round. Unit tests on the two rules that must not fail: the radiator correction factor and the fuse-headroom check. Three failed attempts on one error escalate that unit to Fable or Astra; the fix comes back. Effort: xhigh for the build, low for the runtime, since a lookup and some arithmetic do not need seven minutes of reasoning.</p>
+          <p><strong>Miriam:</strong> old lease and proposed renewal in; clause-level diff, plain-English gloss per clause, a risk-ranked list (rent review mechanism, break, repairing covenant, service charge cap, alienation), and questions for the solicitor. Harvey is the relevant benchmark; the 29% versus 51% abstention gap is the relevant safety property. <strong>Bryan:</strong> cabinet inventory in; PoE budget per switch against the new endpoint load, UPS runtime at the revised draw, heat load and cooling verdict, and a 2.4/5/6 GHz channel plan from phone-reported RSSI by room. EEBench again. Electrician signs off.</p>
+
+          <h2 id="before">Before you start.</h2>
+          <ul>
+            <li><strong>Residency.</strong> US processor. Read the <a href="https://x.ai/legal/data-processing-addendum" target="_blank" rel="noopener">DPA</a>. Synthetic houses and tenants to build; real data only on infrastructure you control or have vetted. A run touching personal data is a processing decision and belongs in your records.</li>
+            <li><strong>Sign-off.</strong> The checker is indicative by construction. The MCS installer owns the calculation and the grant claim; the solicitor owns the lease; the electrician owns the cabinet. Encode the banner in the output, not in a footnote.</li>
+            <li><strong>Vendor numbers.</strong> EEBench and Harvey are SpaceXAI's table, with GPT-5.6 Sol as the OpenAI comparator, not Astra. If either shrinks under independent testing, the "why Grok" shrinks with it. The Astra comparisons (GDPval, hallucination) are Artificial Analysis and stand on their own.</li>
+            <li><strong>Reputation.</strong> The Grok chatbot was <a href="https://www.techloy.com/elon-musks-spacex-acquires-xai-in-1-25-trillion-deal-eyes-june-ipo/" target="_blank" rel="noopener">temporarily banned in three countries in January</a> over sexualised imagery. Different surface, same vendor. Decide before the build whether that is a customer-facing problem.</li>
+            <li><strong>Unverified.</strong> Pre-release, <a href="https://www.cometapi.com/grok-4-7-release-date/" target="_blank" rel="noopener">Musk claimed supplemental training on SpaceX company data</a>. Not in the launch notes. Treat as marketing until it is.</li>
+          </ul>
+        </section>`
+    }
+  ];
+
+  var KEY = 'aisustained_reading_depth';
+  var reading = document.getElementById('reading');
+  var range   = document.getElementById('depth-range');
+  var meta    = document.getElementById('reading-meta');
+  var ticks   = Array.prototype.slice.call(document.querySelectorAll('.tick'));
+  if (!reading || !range || !meta) return;
+
+  /* The Curious tier already exists as real HTML in the page. Capture it
+     rather than duplicating it in DEPTHS, so there is one copy to maintain
+     and the canonical version survives with JavaScript disabled. */
+  DEPTHS[1].html = reading.innerHTML;
+
+  function render(i, animate) {
+    var d = DEPTHS[i];
+    if (!d || !d.html) return;
+
+    ticks.forEach(function (t, n) { t.setAttribute('aria-pressed', String(n === i)); });
+    range.value = i;
+    try { localStorage.setItem(KEY, String(i)); } catch (e) {}
+
+    function paint() {
+      reading.innerHTML = d.html;
+      meta.textContent = d.name + ' · ' + d.meta;
+      reading.classList.remove('swapping');
+      sweep(reading);
+    }
+
+    if (animate) {
+      /* Only log deliberate reader choices, not the restore on page load. */
+      if (window.gtag) gtag('event', 'depth_change', { level: d.name });
+      reading.classList.add('swapping');
+      setTimeout(paint, 190);
+    } else {
+      paint();
+    }
+  }
+
+  ticks.forEach(function (t, i) {
+    t.addEventListener('click', function () { render(i, true); });
+  });
+  range.addEventListener('input', function () { render(Number(range.value), true); });
+
+  var start = parseInt((function () {
+    try { return localStorage.getItem(KEY); } catch (e) { return null; }
+  })(), 10);
+  if (!(start >= 0 && start <= 3)) start = 1;
+  render(start, false);
+  sweep(document);
+})();
+</script>
+
+</body>
+</html>
