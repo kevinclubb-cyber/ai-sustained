@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- AI Sustained cookie consent + Google Consent Mode v2 (must precede GTM/GA4) -->
+<script>
+(function(){
+  "use strict";
+  /* ------------------------------------------------------------------
+     AI Sustained cookie consent + Google Consent Mode v2
+     Self-contained: sets consent defaults, injects banner CSS + DOM.
+     MUST load before the GTM and GA4 snippets.
+     ------------------------------------------------------------------ */
+
+  var STORE   = 'ais_consent_v1';
+  var MAXAGE  = 1000*60*60*24*182;           /* 6 months, then re-ask */
+  /* Both sites serve /privacy/ (the consulting site ships privacy.html plus a
+     byte-identical privacy/index.html), so one root-absolute path covers both
+     and there is no hostname sniffing to go wrong. */
+  var POLICY  = '/privacy/';
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  window.gtag = window.gtag || gtag;
+
+  /* ---------- read any stored decision ---------- */
+  var saved = null;
+  try {
+    var raw = localStorage.getItem(STORE);
+    if (raw) {
+      var o = JSON.parse(raw);
+      if (o && o.t && (Date.now() - o.t) < MAXAGE) saved = o;
+    }
+  } catch(e){}
+
+  var DENIED = {
+    ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied',
+    analytics_storage:'denied', functionality_storage:'denied',
+    personalization_storage:'denied', security_storage:'granted',
+    wait_for_update: 500
+  };
+
+  /* Defaults are DENIED for everything non-essential. Nothing fires until
+     the visitor chooses. security_storage stays granted: it is strictly
+     necessary and exempt under PECR. */
+  gtag('consent','default', DENIED);
+
+  function stateFrom(c){
+    return {
+      ad_storage:            c.marketing ? 'granted':'denied',
+      ad_user_data:          c.marketing ? 'granted':'denied',
+      ad_personalization:    c.marketing ? 'granted':'denied',
+      analytics_storage:     c.analytics ? 'granted':'denied',
+      functionality_storage: c.recording ? 'granted':'denied',
+      personalization_storage: c.recording ? 'granted':'denied',
+      security_storage:      'granted'
+    };
+  }
+
+  function apply(c, isNew){
+    gtag('consent','update', stateFrom(c));
+    dataLayer.push({
+      event: 'consent_update',
+      consent_analytics:  !!c.analytics,
+      consent_recording:  !!c.recording,
+      consent_marketing:  !!c.marketing
+    });
+    if (isNew){
+      try { localStorage.setItem(STORE, JSON.stringify({
+        t: Date.now(), analytics: !!c.analytics,
+        recording: !!c.recording, marketing: !!c.marketing
+      })); } catch(e){}
+    }
+  }
+
+  if (saved) apply(saved, false);
+
+  /* Current state drives the toggles, so reopening shows what you actually
+     chose rather than a fresh set of defaults. */
+  var current = saved || { analytics:false, recording:false, marketing:false };
+
+  /* ---------- styles ---------- */
+  var CSS = ''
+  + '@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap");'
+  + '.ais-cc,.ais-cc *{box-sizing:border-box}'
+  + '.ais-cc{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#102C21;color:#F2ECD9;'
+  + 'border-top:2px solid #E8FF3A;font-family:Inter,system-ui,sans-serif;'
+  + 'box-shadow:0 -18px 50px rgba(0,0,0,.5);animation:aisUp .35s cubic-bezier(.34,1.2,.64,1)}'
+  + '@keyframes aisUp{from{transform:translateY(100%)}to{transform:none}}'
+  + '@media (prefers-reduced-motion:reduce){.ais-cc{animation:none}}'
+  + '.ais-cc-in{max-width:1080px;margin:0 auto;padding:22px 24px;display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap}'
+  + '.ais-cc-copy{flex:1 1 420px;min-width:280px}'
+  + '.ais-cc h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;color:#E8FF3A;letter-spacing:.01em}'
+  + '.ais-cc p{margin:0;font-size:14.5px;line-height:1.55;color:#F2ECD9;opacity:.94}'
+  + '.ais-cc a{color:#E8FF3A;text-decoration:underline;text-underline-offset:2px}'
+  + '.ais-cc-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}'
+  /* Accept and Reject are deliberately IDENTICAL in size, colour and weight. */
+  + '.ais-b{position:relative;display:inline-flex;align-items:center;justify-content:center;'
+  + 'min-width:150px;padding:14px 24px;border:2px solid rgba(232,255,58,.55);border-radius:10px;'
+  + 'color:#F2ECD9;background:rgba(10,15,12,.92);font-family:"Space Grotesk",sans-serif;'
+  + 'font-weight:700;font-size:15.5px;cursor:pointer;transition:color .2s,border-color .2s,transform .18s;'
+  + '-webkit-tap-highlight-color:transparent}'
+  + '.ais-b:hover{color:#E8FF3A;border-color:#E8FF3A;transform:translateY(-2px)}'
+  + '.ais-b:active{transform:translateY(1px) scale(.98)}'
+  + '.ais-b:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '.ais-link{background:none;border:none;color:#F2ECD9;font-family:Inter,sans-serif;font-size:14px;'
+  + 'text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:8px 4px;opacity:.9}'
+  + '.ais-link:hover{color:#E8FF3A;opacity:1}'
+  + '.ais-cc-panel{width:100%;border-top:1px solid rgba(242,236,217,.18);margin-top:6px;padding-top:16px;display:none}'
+  + '.ais-cc-panel.open{display:block}'
+  + '.ais-row{display:flex;gap:14px;align-items:flex-start;padding:11px 0}'
+  + '.ais-row+.ais-row{border-top:1px solid rgba(242,236,217,.1)}'
+  + '.ais-row .t{flex:1}'
+  + '.ais-row strong{display:block;font-family:"Space Grotesk",sans-serif;font-size:14.5px;margin-bottom:3px}'
+  + '.ais-row span{font-size:13.5px;line-height:1.5;opacity:.85}'
+  + '.ais-sw{position:relative;flex:0 0 auto;width:50px;height:28px;border-radius:99px;border:none;'
+  + 'background:rgba(242,236,217,.22);cursor:pointer;transition:background .2s}'
+  + '.ais-sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;'
+  + 'background:#F2ECD9;transition:transform .2s}'
+  + '.ais-sw[aria-checked="true"]{background:#E8FF3A}'
+  + '.ais-sw[aria-checked="true"]::after{transform:translateX(22px);background:#0A0F0C}'
+  + '.ais-sw[disabled]{opacity:.5;cursor:not-allowed}'
+  + '.ais-sw:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '@media(max-width:640px){.ais-cc-in{padding:18px 16px;gap:16px}.ais-cc-btns{width:100%}'
+  + '.ais-b{flex:1 1 100%;min-width:0}}';
+
+  /* ---------- banner ---------- */
+  function build(reopen){
+    if (document.querySelector('.ais-cc')) return;
+
+    var st = document.createElement('style');
+    st.textContent = CSS;
+    document.head.appendChild(st);
+
+    var w = document.createElement('div');
+    w.className = 'ais-cc';
+    w.setAttribute('role','dialog');
+    w.setAttribute('aria-live','polite');
+    w.setAttribute('aria-label','Cookie choices');
+    w.innerHTML =
+      '<div class="ais-cc-in">'
+      +  '<div class="ais-cc-copy">'
+      +    '<h2>Your call on cookies</h2>'
+      +    '<p>I use a few cookies to see which articles land and where people give up reading. '
+      +    'Nothing fires until you choose. Reject and the site works exactly the same. '
+      +    '<a href="' + POLICY + '">Read the privacy notice</a>.</p>'
+      +  '</div>'
+      +  '<div class="ais-cc-btns">'
+      +    '<button type="button" class="ais-b" data-a="accept">Accept all</button>'
+      +    '<button type="button" class="ais-b" data-a="reject">Reject all</button>'
+      +    '<button type="button" class="ais-link" data-a="manage" aria-expanded="false">Choose what I share</button>'
+      +  '</div>'
+      +  '<div class="ais-cc-panel" id="ais-panel">'
+      +    row('essential','Strictly necessary','Keeps the site working and secure. Always on, and exempt from consent under PECR.',true,true)
+      +    row('analytics','Audience measurement','Google Analytics. Which pages get read, roughly where visitors come from.',!!current.analytics,false)
+      +    row('recording','Session recording','Microsoft Clarity. Anonymised replays and heatmaps showing where people scroll and stop. Text you type is masked.',!!current.recording,false)
+      +    row('marketing','Marketing','TikTok and Meta advertising pixels. Not currently active, listed so this notice stays honest when they are.',!!current.marketing,false)
+      +    '<div class="ais-cc-btns" style="margin-top:14px">'
+      +      '<button type="button" class="ais-b" data-a="save">Save my choices</button>'
+      +    '</div>'
+      +  '</div>'
+      + '</div>';
+    document.body.appendChild(w);
+
+    function row(k,title,desc,on,lock){
+      return '<div class="ais-row"><div class="t"><strong>'+title+'</strong><span>'+desc+'</span></div>'
+        + '<button type="button" class="ais-sw" data-k="'+k+'" role="switch" aria-label="'+title+'" aria-checked="'
+        + (on?'true':'false') + '"' + (lock?' disabled':'') + '></button></div>';
+    }
+
+    w.addEventListener('click', function(e){
+      var sw = e.target.closest('.ais-sw');
+      if (sw && !sw.disabled){
+        sw.setAttribute('aria-checked', sw.getAttribute('aria-checked')==='true' ? 'false':'true');
+        return;
+      }
+      var b = e.target.closest('[data-a]');
+      if (!b) return;
+      var a = b.getAttribute('data-a');
+
+      if (a === 'manage'){
+        var p = w.querySelector('#ais-panel');
+        var open = p.classList.toggle('open');
+        b.setAttribute('aria-expanded', open ? 'true':'false');
+        b.textContent = open ? 'Hide options' : 'Choose what I share';
+        return;
+      }
+      if (a === 'accept') return close({analytics:1,recording:1,marketing:1});
+      if (a === 'reject') return close({analytics:0,recording:0,marketing:0});
+      if (a === 'save'){
+        var g = function(k){
+          var el = w.querySelector('.ais-sw[data-k="'+k+'"]');
+          return el && el.getAttribute('aria-checked')==='true' ? 1 : 0;
+        };
+        return close({analytics:g('analytics'), recording:g('recording'), marketing:g('marketing')});
+      }
+    });
+
+    function close(c){ current = c; apply(c, true); w.remove(); }
+
+    /* Reopened from the footer: show the detail panel straight away, so the
+       visitor can see and change what they previously chose. */
+    if (reopen){
+      w.querySelector('#ais-panel').classList.add('open');
+      var mb = w.querySelector('[data-a="manage"]');
+      mb.setAttribute('aria-expanded','true');
+      mb.textContent = 'Hide options';
+    }
+  }
+
+  /* Drop a "Cookie choices" link into the existing footer, so consent can be
+     withdrawn from any page without editing 50 footers by hand. */
+  function footerLink(){
+    var f = document.querySelector('footer');
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
+
+    /* Footer markup varies page to page, so target the LAST div: on every
+       template that is the links / colophon column, not the brand block. */
+    var divs = f.querySelectorAll('div');
+    var host = divs.length ? divs[divs.length-1] : f;
+
+    var wrap = document.createElement('span');
+    wrap.setAttribute('data-ais-footer','1');
+    wrap.style.cssText = 'display:inline-block;margin-top:6px';
+
+    var onPolicy = /^\/privacy(\.html|\/|$)/.test(location.pathname);
+    if (!onPolicy){
+      var pv = document.createElement('a');
+      pv.href = POLICY;
+      pv.textContent = 'Privacy';
+      wrap.appendChild(document.createTextNode(' · '));
+      wrap.appendChild(pv);
+    }
+
+    var a = document.createElement('a');
+    a.href = '#';
+    a.setAttribute('data-ais-reopen','1');
+    a.textContent = 'Cookie choices';
+    a.style.cursor = 'pointer';
+    a.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+    wrap.appendChild(document.createTextNode(' · '));
+    wrap.appendChild(a);
+
+    host.appendChild(wrap);
+  }
+
+  /* Public re-opener, also usable directly:
+     <a href="#" onclick="AISConsent.open();return false">Cookie choices</a>  */
+  window.AISConsent = {
+    open: function(){
+      /* Deliberately does NOT clear the stored choice. Reopening the banner
+         must never silently revoke consent the visitor already gave. They
+         revoke it by choosing, not by looking. */
+      var ex = document.querySelector('.ais-cc');
+      if (ex) ex.remove();
+      build(true);
+    }
+  };
+
+  function init(){ footerLink(); if (!saved) build(false); }
+
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K3HFQT6S');</script>
+
+<!-- Google Analytics — site-wide ID, leave as-is -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+
+<title>Pause Before You Paste: An AI Policy That Speaks Up | AI Sustained Case Study</title>
+<meta name="description" content="How a business analyst wrote an AI data policy into Claude itself: a guardrail that pauses risky prompts, names the data and offers a safer route.">
+<meta name="keywords" content="AI governance, AI policy, shadow AI, Claude Team, organisation instructions, Claude skills, UK GDPR, data residency, personal data, AI guardrails, data loss prevention, AI case study">
+<meta name="author" content="Kevin Clubb">
+<link rel="canonical" href="https://ai-sustained.com/case-studies/pause-before-you-paste/">
+<meta property="og:title" content="Pause before you paste.">
+<meta property="og:description" content="An AI policy written into the chatbot itself: 3,000 characters that pause a risky prompt, name the data and offer a safer route. A nudge, stated as one.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ai-sustained.com/case-studies/pause-before-you-paste/">
+<meta property="og:site_name" content="AI Sustained">
+<meta property="og:image" content="https://ai-sustained.com/case-studies/pause-before-you-paste/cover.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pause before you paste.">
+<meta name="twitter:description" content="A field note on writing an AI data policy into Claude itself, what it catches, and where it stops being any use.">
+<meta name="twitter:image" content="https://ai-sustained.com/case-studies/pause-before-you-paste/cover.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Pause before you paste.",
+  "author": { "@type": "Person", "name": "Kevin Clubb", "url": "https://www.linkedin.com/in/kevin-clubb" },
+  "datePublished": "2026-09-23",
+  "url": "https://ai-sustained.com/case-studies/pause-before-you-paste/",
+  "description": "How a business analyst wrote an AI data policy into Claude itself: a guardrail that pauses risky prompts, names the data and offers a safer route.",
+  "keywords": "AI governance, AI policy, shadow AI, Claude Team, organisation instructions, Claude skills, UK GDPR, data residency",
+  "image": "https://ai-sustained.com/case-studies/pause-before-you-paste/cover.jpg",
+  "publisher": { "@type": "Organization", "name": "AI Sustained", "url": "https://ai-sustained.com", "logo": { "@type": "ImageObject", "url": "https://ai-sustained.com/ai_sustained_logo.png" } },
+  "mainEntityOfPage": "https://ai-sustained.com/case-studies/pause-before-you-paste/"
+}
+</script>
+<script>document.documentElement.className += ' js';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --ink-soft: #2A3530;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
+    --acid: #E8FF3A;
+    --coral: #FF5A3C;
+    --moss: #2D6A4F;
+    --sage: #74C69D;
+    --mint: #D8F3DC;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --rule-soft: rgba(242,236,217,0.09);
+    --panel: rgba(242,236,217,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--forest);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    border-top: 3px solid var(--acid);
+  }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
+
+  /* ============ BREADCRUMB (case studies) ============ */
+  .breadcrumb {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+    margin-bottom: 18px; display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline;
+  }
+  .breadcrumb a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .breadcrumb a:hover { color: var(--acid); border-bottom-color: var(--acid); }
+  .breadcrumb .sep { color: var(--acid); }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ HERO (centred) ============ */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+  }
+  .kicker::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    background: var(--acid);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(46px, 7vw, 84px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin: 0 auto 26px;
+    max-width: 14ch;
+  }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--paper-2);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+
+  /* Disclosure strip, as on recent issues */
+  .disclosure {
+    margin: 28px auto 0; max-width: 560px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.08em; color: var(--muted); line-height: 1.6;
+  }
+  .disclosure b { color: var(--sage); font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; margin-right: 8px; }
+
+  /* ============ HERO FIGURE (cover art) ============ */
+  .hero-figure { margin: 44px 0 10px; }
+  .hero-figure img {
+    width: 100%; display: block;
+    border-top: 3px solid var(--acid);
+    border-radius: 4px;
+  }
+  .hero-figure figcaption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); margin-top: 12px;
+  }
+
+  /* ============ STAT GRID ============ */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 44px 0 48px;
+  }
+  .stat-box {
+    background: var(--panel);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 10px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px; font-weight: 600;
+    color: var(--acid); line-height: 1; display: block;
+  }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  /* ============ BODY CONTENT ============ */
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong, .content li strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 33px; line-height: 1.15;
+    color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em;
+  }
+  .content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px;
+  }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+  .content li::marker { color: var(--acid); }
+
+  .inline-highlight { color: var(--acid); font-weight: 500; }
+
+  /* ============ FEATURE ASIDE (as case study 006) ============ */
+  .feature {
+    background: var(--panel); border: 1px solid var(--rule); border-left: 3px solid var(--acid);
+    border-radius: 4px; padding: 24px 26px; margin: 36px 0 32px;
+  }
+  .flabel {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .fterm { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 21px; color: var(--paper); margin-bottom: 16px; }
+  .layers { list-style: none; margin: 0 !important; padding: 0; display: grid; gap: 12px; }
+  .layers li { margin: 0 !important; padding: 14px 16px; border: 1px solid var(--rule-soft); border-radius: 3px; background: rgba(10,15,12,0.22); font-size: 15px; line-height: 1.55; color: var(--paper-2); }
+  .layers .ltag {
+    display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage); margin-bottom: 4px;
+  }
+  .fsrc { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-top: 14px; }
+
+  /* ============ ILLUSTRATIVE EXCHANGE ============ */
+  .exchange { border: 1px solid var(--rule); border-radius: 4px; margin: 36px 0 32px; overflow: hidden; }
+  .ex-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage);
+    padding: 12px 20px; border-bottom: 1px solid var(--rule-soft);
+  }
+  .ex-turn { padding: 18px 20px; font-size: 16px; line-height: 1.6; }
+  .ex-turn + .ex-turn { border-top: 1px solid var(--rule-soft); }
+  .ex-who { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 6px; }
+  .ex-user { background: var(--panel); color: var(--paper-2); }
+  .ex-user .ex-who { color: var(--muted); }
+  .ex-user .ex-attach { display: block; margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+  .ex-claude { background: rgba(10,15,12,0.4); color: var(--paper); border-left: 3px solid var(--acid); }
+  .ex-claude .ex-who { color: var(--acid); }
+
+  /* ============ PULL QUOTE ============ */
+  .pull-quote {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 30px; line-height: 1.3; color: var(--paper);
+    margin: 60px auto; padding: 40px 0;
+    border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid);
+    text-align: center; max-width: 720px; letter-spacing: -0.01em;
+  }
+  .pull-quote::before {
+    content: '"'; display: block; font-size: 56px; color: var(--acid);
+    line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif;
+  }
+  .pull-quote cite {
+    display: block; margin-top: 16px; font-style: normal;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+  }
+
+/* ============ FEATURED QUOTE (acid marker sweep) ============ */
+  /* For quoted people. The .pull-quote stays for the house voice, so the two
+     never read as the same device. */
+  .fquote {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--acid);
+    border-radius: 4px;
+    padding: 28px 30px 24px;
+    margin: 44px 0;
+  }
+  .fquote p {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 25px; line-height: 1.36; color: var(--paper);
+    margin: 0 0 16px; letter-spacing: -0.01em;
+  }
+  .fquote .sweep {
+    background-image: linear-gradient(rgba(232,255,58,0.92), rgba(232,255,58,0.92));
+    background-repeat: no-repeat;
+    background-position: 0 0.06em;
+    background-size: 0% 92%;
+    transition: background-size 0.75s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease 0.35s;
+    padding: 0 3px;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  }
+  .fquote .sweep.lit { background-size: 100% 92%; color: var(--ink); }
+  .fquote cite {
+    font-family: 'JetBrains Mono', monospace; font-style: normal;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sage); display: block;
+    padding-top: 12px; border-top: 1px solid var(--rule-soft);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fquote .sweep { transition: none; background-size: 100% 92%; color: var(--ink); }
+  }
+
+  /* Attribution line under a house pull-quote, as Issue 019 does it. */
+  .pull-quote cite {
+    display: block; margin-top: 18px;
+    font-family: 'JetBrains Mono', monospace; font-style: normal;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  /* ============ FOOTER LINK ROW ============ */
+  .footer-links { margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.02em; color: var(--muted); }
+  .footer-links a { color: var(--acid); text-decoration: none; border-bottom: 1px solid transparent; }
+  .footer-links a:hover, .footer-links a:focus-visible { border-bottom-color: var(--acid); }
+
+  /* ============ TACTICAL TAKEAWAY (ink panel, signature) ============ */
+  .takeaway {
+    background: var(--ink); color: var(--paper);
+    padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .takeaway::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--acid);
+    border-radius: 50%; opacity: 0.14;
+  }
+  .takeaway-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .takeaway h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 32px; line-height: 1.22; color: var(--paper);
+    margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em;
+  }
+  .takeaway h2 em { color: var(--acid); font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
+  .takeaway-point-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .takeaway-point-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 16px; line-height: 1.45; color: var(--paper-2);
+  }
+  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
+
+  /* ============ TOC ============ */
+  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
+  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
+  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
+
+  /* ============ SUBSCRIBE SLAB ============ */
+  /* The one deliberate acid fill in the page. It works because nothing else does it. */
+  .cta-slab {
+    background: var(--acid); color: var(--ink);
+    border-radius: 4px; padding: 44px 40px; margin: 64px 0 8px;
+    position: relative; overflow: hidden;
+  }
+  .cta-slab::before {
+    content: ''; position: absolute; bottom: -70px; left: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--ink);
+    border-radius: 50%; opacity: 0.08;
+  }
+  .cta-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.72; margin-bottom: 14px;
+    position: relative; z-index: 1;
+  }
+  .cta-slab h2 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+    font-size: 32px; line-height: 1.15; letter-spacing: -0.01em;
+    color: var(--ink); margin-bottom: 14px; position: relative; z-index: 1;
+  }
+  .cta-slab h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; }
+  .cta-slab p {
+    font-size: 16px; line-height: 1.6; color: var(--ink); opacity: 0.84;
+    max-width: 540px; margin-bottom: 26px; position: relative; z-index: 1;
+  }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .cta-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
+    padding: 14px 22px; border-radius: 3px;
+    border: 1.5px solid var(--ink); color: var(--ink);
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta-btn span { transition: transform 0.15s ease; }
+  .cta-btn:hover { background: rgba(10,15,12,0.08); transform: translateY(-2px); }
+  .cta-btn:hover span { transform: translateX(4px); }
+  .cta-btn.primary { background: var(--ink); color: var(--acid); animation: ctaPulse 2.6s ease-out infinite; }
+  .cta-btn.primary:hover { background: #000; box-shadow: 0 10px 28px rgba(10,15,12,0.35); }
+  @keyframes ctaPulse {
+    0% { box-shadow: 0 0 0 0 rgba(10,15,12,0.35); }
+    70% { box-shadow: 0 0 0 14px rgba(10,15,12,0); }
+    100% { box-shadow: 0 0 0 0 rgba(10,15,12,0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-btn.primary { animation: none; }
+    .cta-btn:hover, .cta-btn:hover span { transform: none; }
+  }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 300px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+  .sources a { color: var(--sage); text-decoration: none; border-bottom: 1px solid rgba(116,198,157,0.35); }
+  .sources a:hover { color: var(--acid); border-bottom-color: var(--acid); }
+
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
+  .hashtag-list span { font-weight: 500; }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+
+
+  /* ============ UPFRONT NOTE (names and settings) ============ */
+  .upfront {
+    margin: 30px auto 0; max-width: 640px; text-align: left;
+    background: rgba(10,15,12,0.35); border: 1px solid var(--rule);
+    border-left: 3px solid var(--acid); border-radius: 4px; padding: 18px 22px;
+  }
+  .upfront-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .upfront p { font-size: 15px; line-height: 1.6; color: var(--paper-2); margin: 0; }
+  .upfront p + p { margin-top: 8px; }
+  .upfront strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+
+  /* ============ KEY STATEMENTS: glow pulse ============ */
+  /* Static acid underlay for everyone. Only the statement in the middle of the
+     screen pulses (JS adds .live), so there is never more than one pulse in view. */
+  .key {
+    color: var(--paper); font-weight: 600; font-family: 'Space Grotesk', sans-serif;
+    background: none; padding: 0 2px; border-radius: 2px;
+    box-shadow: inset 0 -0.42em 0 rgba(232,255,58,0.16);
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+    transition: box-shadow .4s ease, color .4s ease;
+  }
+  .key.live { animation: keyGlow 2.6s ease-in-out infinite; }
+  @keyframes keyGlow {
+    0%, 100% { box-shadow: inset 0 -0.42em 0 rgba(232,255,58,0.16); text-shadow: 0 0 0 rgba(232,255,58,0); color: var(--paper); }
+    50%      { box-shadow: inset 0 -0.42em 0 rgba(232,255,58,0.34), 0 0 22px rgba(232,255,58,0.18); text-shadow: 0 0 12px rgba(232,255,58,0.55); color: #F8FFD2; }
+  }
+
+  /* ============ THE VERDICT (animated quote) ============ */
+  .verdict { margin: 72px auto; max-width: 720px; text-align: center; position: relative; padding: 46px 0 40px; }
+  .verdict::before, .verdict::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 1px; background: var(--acid);
+    transform-origin: center;
+  }
+  .verdict::before { top: 0; }
+  .verdict::after { bottom: 0; }
+  .v-mark { display: block; font-family: 'Fraunces', serif; font-size: 72px; line-height: 0.5; color: var(--acid); margin-bottom: 22px; }
+  .verdict blockquote { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: clamp(30px, 5vw, 44px); line-height: 1.22; letter-spacing: -0.01em; color: var(--paper); }
+  .v-line { display: block; }
+  .v-word { position: relative; display: inline-block; }
+  .v-nudge { color: var(--acid); }
+  .v-control { color: var(--paper); }
+  .v-control::after {
+    content: ''; position: absolute; left: -2%; right: -2%; top: 55%; height: 4px;
+    background: var(--coral); border-radius: 2px; transform-origin: left center;
+  }
+  .verdict figcaption { margin-top: 22px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .v-legend { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; margin-top: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; }
+  .v-legend .ok { color: var(--acid); }
+  .v-legend .no { color: var(--coral); }
+
+  /* Animated state: only when JS has confirmed support (html.js) */
+  html.js .verdict:not(.in)::before, html.js .verdict:not(.in)::after { transform: scaleX(0); }
+  html.js .verdict:not(.in) .v-mark, html.js .verdict:not(.in) .v-line, html.js .verdict:not(.in) figcaption, html.js .verdict:not(.in) .v-legend { opacity: 0; transform: translateY(14px); }
+  html.js .verdict:not(.in) .v-control::after { transform: scaleX(0); }
+  .verdict::before, .verdict::after { transition: transform .9s cubic-bezier(.2,.7,.2,1); }
+  .v-mark, .v-line, .verdict figcaption, .v-legend { transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+  .verdict.in .v-mark { transition-delay: .15s; }
+  .verdict.in .v-good { transition-delay: .45s; }
+  .verdict.in .v-bad { transition-delay: 1.15s; }
+  .v-control::after { transition: transform .6s cubic-bezier(.6,0,.2,1) 1.9s; }
+  .verdict.in figcaption { transition-delay: 2.4s; }
+  .verdict.in .v-legend { transition-delay: 2.6s; }
+  .verdict.in .v-nudge { animation: nudgeGlow 2.6s ease-in-out 1.4s infinite; }
+  @keyframes nudgeGlow {
+    0%, 100% { text-shadow: 0 0 0 rgba(232,255,58,0); }
+    50%      { text-shadow: 0 0 18px rgba(232,255,58,0.75), 0 0 4px rgba(232,255,58,0.5); }
+  }
+
+  /* ============ BEFORE YOU COPY THIS: consideration cards ============ */
+  .consider { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 28px 0 12px; }
+  .c-card {
+    background: var(--panel); border: 1px solid var(--rule); border-top: 3px solid var(--acid);
+    border-radius: 4px; padding: 18px 20px;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+  }
+  .c-card:hover { transform: translateY(-3px); border-color: rgba(232,255,58,.4); box-shadow: 0 18px 40px rgba(10,15,12,.35); }
+  .c-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 6px; }
+  .c-q { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px; line-height: 1.25; color: var(--paper); margin-bottom: 6px; }
+  .c-a { font-size: 15px; line-height: 1.55; color: var(--paper-2); }
+
+  /* ============ IN SHORT: the three-step flow ============ */
+  .flow { display: grid; grid-template-columns: 1fr 34px 1fr 34px 1fr; align-items: stretch; margin: 30px 0 28px; }
+  .f-step { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 18px 18px 20px; position: relative; }
+  .f-step.last { border-color: rgba(232,255,58,0.55); background: rgba(232,255,58,0.05); }
+  .f-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 6px; }
+  .f-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.25; color: var(--paper); margin-bottom: 6px; }
+  .f-text { font-size: 14.5px; line-height: 1.55; color: var(--paper-2); }
+  .f-arrow { position: relative; display: flex; align-items: center; justify-content: center; }
+  .f-arrow::before { content: ''; position: absolute; left: 4px; right: 8px; top: 50%; height: 2px; background: rgba(232,255,58,0.35); }
+  .f-arrow::after { content: ''; position: absolute; right: 4px; top: calc(50% - 5px); border-left: 8px solid var(--acid); border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
+  .f-arrow i { position: absolute; top: calc(50% - 3px); left: 4px; width: 6px; height: 6px; border-radius: 50%; background: var(--acid); box-shadow: 0 0 10px rgba(232,255,58,0.8); opacity: 0; }
+  .flow.in .f-arrow i { animation: travel 2.6s ease-in-out infinite; }
+  .flow.in .f-arrow.a2 i { animation-delay: 1.3s; }
+  @keyframes travel { 0% { left: 4px; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { left: calc(100% - 14px); opacity: 0; } }
+  html.js .flow:not(.in) .f-step { opacity: 0; transform: translateY(12px); }
+  .f-step { transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
+  .flow.in .f-step:nth-child(3) { transition-delay: .35s; }
+  .flow.in .f-step:nth-child(5) { transition-delay: .7s; }
+  .f-caption { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-top: -12px; margin-bottom: 24px; }
+
+  @media (max-width: 720px) {
+    .consider { grid-template-columns: 1fr; }
+    .flow { grid-template-columns: 1fr; }
+    .f-arrow { height: 34px; }
+    .f-arrow::before { left: 50%; right: auto; top: 4px; bottom: 10px; width: 2px; height: auto; }
+    .f-arrow::after { right: auto; left: calc(50% - 5px); top: auto; bottom: 2px; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid var(--acid); border-bottom: 0; }
+    .f-arrow i { left: calc(50% - 3px) !important; top: 4px; }
+    @keyframes travel { 0% { top: 4px; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { top: 22px; opacity: 0; } }
+    .verdict blockquote { font-size: 28px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .key.live, .verdict.in .v-nudge, .flow.in .f-arrow i { animation: none; }
+    html.js .verdict:not(.in)::before, html.js .verdict:not(.in)::after,
+    html.js .verdict:not(.in) .v-control::after { transform: none; }
+    html.js .verdict:not(.in) .v-mark, html.js .verdict:not(.in) .v-line,
+    html.js .verdict:not(.in) figcaption, html.js .verdict:not(.in) .v-legend,
+    html.js .flow:not(.in) .f-step { opacity: 1; transform: none; }
+    .v-mark, .v-line, .verdict figcaption, .v-legend, .f-step, .v-control::after, .verdict::before, .verdict::after { transition: none; }
+    .c-card:hover { transform: none; }
+  }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 44px; }
+    .deck { font-size: 19px; }
+    .cta-slab { padding: 32px 26px; }
+    .cta-slab h2 { font-size: 26px; }
+    .cta-btn { width: 100%; justify-content: space-between; }
+    .masthead { flex-wrap: wrap; gap: 8px; }
+    .page { padding: 24px 16px 40px; }
+    .feature { padding: 20px 18px; }
+  }
+
+  @media print {
+    @page { size: A3; margin: 14mm; }
+    body { background: var(--forest); padding: 0; }
+    .page { max-width: none; padding: 0; }
+    .stat-box, .takeaway-point, .pull-quote, .fquote, .takeaway, .cta-slab, .feature, .exchange, .verdict, .c-card, .f-step, .upfront { page-break-inside: avoid; break-inside: avoid; }
+    html.js .verdict .v-mark, html.js .verdict .v-line, html.js .verdict figcaption, html.js .verdict .v-legend, html.js .flow .f-step { opacity: 1 !important; transform: none !important; }
+    html.js .verdict::before, html.js .verdict::after, html.js .verdict .v-control::after { transform: none !important; }
+  }
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K3HFQT6S"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<article class="page">
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a><span class="sep">/</span><a href="/case-studies/">Case studies</a><span class="sep">/</span><span>Pause before you paste</span>
+  </nav>
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <span class="wordmark">AI Sustained.</span>
+      <span>Case Study 007</span>
+    </div>
+    <div class="masthead-right">
+      <span>AI governance</span>
+      <span>Sep 2026</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">AI governance · Case study</div>
+    <h1>Pause before you <span class="accent">paste</span>.</h1>
+    <p class="deck">Nobody opens the AI policy at the moment they paste a spreadsheet into a chatbot, so I wrote the policy into the chatbot itself: <span class="accent">a guardrail that pauses, names the risk and offers a safer route</span>.</p>
+    <p class="disclosure"><b>Disclosure</b>Written by Claude Opus 5.5. Curated, fact-checked and edited by Kevin Clubb.</p>
+    <aside class="upfront" aria-label="About the names and settings in this case study">
+      <div class="upfront-label">Read this first · the names are not real</div>
+      <p><strong>The build is real. The people are not.</strong> Hannah, Sanjay and Marcus, and any business or sector attached to them, come from the AI Sustained persona skill, which generates a wide range of UK reader personas. They are composites, not people I work with.</p>
+      <p>The organisation is described generically on purpose. The exchange shown is illustrative, written with synthetic data. The configuration, its limits and the three test results are real.</p>
+    </aside>
+  </section>
+
+  <figure class="hero-figure">
+    <img src="cover.webp" width="1920" height="1071"
+         alt="An open office photocopier in a dark room with a sheet of printed rows on the glass, the scan bar halted at the edge before it starts, its thin acid-lime line the only light.">
+    <figcaption>Cover · AI Sustained · Case Study 007</figcaption>
+  </figure>
+
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">Shadow AI, UK</div>
+      <span class="stat-value">71<span class="unit">%</span></span>
+      <div class="stat-note">Of UK employees have used unapproved consumer AI tools at work. Microsoft-commissioned survey of 2,003, October 2025.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">The budget</div>
+      <span class="stat-value">3,000<span class="unit">chars</span></span>
+      <div class="stat-note">Hard limit on Claude organisation instructions. This build uses 2,660 of them.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Named outright</div>
+      <span class="stat-value">5<span class="unit">types</span></span>
+      <div class="stat-note">Data types spelled out by name, plus one residency rule. Columns you would spot in a spreadsheet.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Live tests</div>
+      <span class="stat-value">3<span class="unit">/ 3</span></span>
+      <div class="stat-note">Correct so far: two prompts stopped, one waved through. A small sample, and stated as one.</div>
+    </div>
+  </section>
+
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-label">In this note</div>
+    <ol>
+      <li><span class="toc-num">01</span><a href="#section-1">The PDF nobody opens</a></li>
+      <li><span class="toc-num">02</span><a href="#section-2">What a Team plan gives you</a></li>
+      <li><span class="toc-num">03</span><a href="#section-3">Two layers and a floor</a></li>
+      <li><span class="toc-num">04</span><a href="#section-4">What happens when it fires</a></li>
+      <li><span class="toc-num">05</span><a href="#section-5">What it cannot do</a></li>
+      <li><span class="toc-num">06</span><a href="#section-6">The UK bit</a></li>
+      <li><span class="toc-num">07</span><a href="#section-7">Before you copy this</a></li>
+      <li><span class="toc-num">08</span><a href="#section-8">In short</a></li>
+    </ol>
+  </nav>
+
+  <section class="content">
+    <p>Most AI policies live in a PDF. Staff meet it at induction, tick a box and never see it again. The moment it matters comes later, with a spreadsheet on the clipboard and a chat window open, and nobody goes looking for the PDF then.</p>
+
+    <p><mark class="key">So I put the policy in the chat window.</mark> This note covers how it was built, what it catches, and where it stops being any use.</p>
+
+    <p>The setting is a UK organisation running a small Claude Team plan. Its staff handle the kind of data that makes headlines when it leaks: personal details of the people it serves, staff records, payment information, and contracts that say where data is allowed to live. Before the plan existed, plenty of them were already using AI on personal accounts. <a href="/case-studies/shadow-ai-ask-the-workforce/">Case Study 001</a> was the survey that found them.</p>
+
+    <p>Three readers in particular. <strong>Hannah</strong>, the HR business partner who is the only person in her building really using AI and has become the unofficial helpdesk as a result. <strong>Sanjay</strong>, who owns a 14-person business and wants to know whether any of this applies below enterprise scale. And <strong>Marcus</strong>, who runs information security and will spot the weakness before this paragraph ends. He is right, and it gets its own section.</p>
+
+    <h2 id="section-1">The PDF nobody opens.</h2>
+
+    <p>Microsoft’s UK research in October 2025 found that <span class="inline-highlight">71% of UK employees</span> had used unapproved consumer AI tools at work, and <a href="https://ukstories.microsoft.com/features/rise-in-shadow-ai-tools-raising-security-concerns-for-uk/">51% still did every week</a>. The more useful numbers sit further down the same release. Only 32% said they were concerned about the privacy of company or customer data they typed in. And 28% said their employer did not offer an approved tool at all.</p>
+
+    <figure class="fquote">
+      <p>The use of Shadow AI poses security risks because <span class="sweep">sensitive company or customer data may not be protected effectively</span>, leaving organisations vulnerable to data leaks, regulatory non-compliance, and increased risk of cyber-attack.</p>
+      <cite>Microsoft UK &middot; Rise in Shadow AI &middot; 13 Oct 2025 &middot; Censuswide, 2,003 UK employees</cite>
+    </figure>
+
+    <p>A company that sells the approved tool paid for that research, so weigh it accordingly. The shape still holds. Buying licences deals with the 28%. It does nothing about the fact that only about a third were worried about what they pasted. Hand those people a sanctioned tool and they paste the same things, only into something with better terms.</p>
+
+    <p>Training helps, once. A policy helps, if someone reads it. <mark class="key">Neither is in the room when the pasting happens, and that is where the risk sits.</mark></p>
+
+    <h2 id="section-2">What a Team plan gives you.</h2>
+
+    <p>My first question to Claude was blunt: could I put guardrails in at team level, so that a prompt containing personal data is blocked or at least warned? The answer was no, not natively. The Team plan has no built-in prompt filter. True blocking needs data loss prevention (DLP) tooling on the network, the browser or the device, and the admin feed of what people typed, the <a href="https://support.claude.com/en/articles/13015708-access-the-compliance-api">Compliance API</a>, is an Enterprise feature.</p>
+
+    <p>What Team does give an owner is two levers.</p>
+
+    <ul>
+      <li><strong>Organisation instructions.</strong> Up to <a href="https://support.claude.com/en/articles/14546867-set-organization-instructions">3,000 characters</a> that sit on top of every conversation for every member. They win where they conflict with personal preferences, members cannot see or edit them, and a change can take up to an hour to reach everyone.</li>
+      <li><strong>Organisation skills.</strong> A skill is a written rulebook Claude loads when a task matches its description (<a href="/case-studies/teach-it-once/">Case Study 004</a> covers how they work). An owner can <a href="https://support.claude.com/en/articles/13119606-provision-and-manage-skills-for-your-organization">provision one for everyone</a>. It arrives switched on, and each member can switch it off.</li>
+    </ul>
+
+    <p><mark class="key">Neither lever enforces anything.</mark> Organisation instructions do take precedence over a member’s own preferences, and only owners can view or edit them. But precedence is not enforcement, and Anthropic’s own help page says so plainly.</p>
+
+    <figure class="fquote">
+      <p>In rare edge cases involving directly contradictory instructions, <span class="sweep">behavior may vary</span>. Test your instructions to confirm they produce the results you expect.</p>
+      <cite>Claude Help Center &middot; Set organization instructions &middot; Anthropic&rsquo;s own caveat</cite>
+    </figure>
+
+    <p>You are asking the model to behave, and it usually does. That is the whole mechanism, and it shaped everything that followed.</p>
+
+    <h2 id="section-3">Two layers and a floor.</h2>
+
+    <p>The first version was about 450 words of organisation instructions trying to spell out every rule. It sat right against the limit, and it carried a hidden cost: Anthropic notes that whatever goes in that box travels with every message anyone in the organisation sends. The second version splits the job three ways.</p>
+
+    <aside class="feature" aria-label="How the guardrail is built">
+      <div class="flabel">The build</div>
+      <div class="fterm">Two layers and a floor</div>
+      <ol class="layers">
+        <li><span class="ltag">Layer 1 · The skill</span>The detailed rulebook. Named data types, the safer alternatives, the escalation route, the residency rule, and a routing table that sends legitimate work to whichever skill can do it without personal data.</li>
+        <li><span class="ltag">Layer 2 · The instructions</span>A short cascade. Data handling first, on any turn that touches the organisation’s data. Then external voice for anything leaving the building, brand for anything carrying the logo, and data architecture for questions about where data lives.</li>
+        <li><span class="ltag">The floor</span>The five data types again, in plain text inside the instructions, with the response to give. If the skill fails to load, the floor still holds.</li>
+      </ol>
+      <div class="fsrc">2,660 of 3,000 characters · data handling is the only unconditional step</div>
+    </aside>
+
+    <p>The floor exists because of a detail that is easy to miss. A skill loads only when Claude judges that the request matches its description, and an instruction cannot force it to load. A member can also switch it off. The organisation instructions are the one place a member can neither see nor change, so the non-negotiables live there too.</p>
+
+    <p>Only the data skill runs on every relevant turn. Loading every skill on every message would burn context for nothing, so the cascade simply names the skills and stays short, and the others load when the work calls for them.</p>
+
+    <p>The five types are spelled out by name:</p>
+
+    <ol>
+      <li>Data that identifies the people the organisation serves, with particular care for vulnerable people and for health information tied to a named person.</li>
+      <li>Staff personal data: home addresses, payroll, bank details, National Insurance numbers, HR and occupational health records.</li>
+      <li>Payment and cardholder data.</li>
+      <li>Credentials: passwords, API keys, tokens and connection strings.</li>
+      <li>Client commercials and confidential tender material.</li>
+    </ol>
+
+    <p>Naming them was the most useful decision in the build. “Don’t share personal data” is a principle, and principles get nodded past, by people and by models alike. “National Insurance number” is a column you can see in a spreadsheet. <mark class="key">Name the column, and the model and the member of staff both recognise it.</mark></p>
+
+    <h2 id="section-4">What happens when it fires.</h2>
+
+    <p>When a prompt trips the guardrail, Claude stops before doing the work. It says what it spotted in a sentence or two and offers a safer route. It points to the policy, then the line manager, then whoever owns data protection. Then it waits.</p>
+
+    <div class="exchange" role="group" aria-label="Illustrative exchange">
+      <div class="ex-label">Illustrative exchange · synthetic data, reconstructed for this note</div>
+      <div class="ex-turn ex-user">
+        <div class="ex-who">Member of staff</div>
+        Tidy this list up and draft a letter to each person on it.
+        <span class="ex-attach">[pasted: 40 rows · names, home addresses, NI numbers]</span>
+      </div>
+      <div class="ex-turn ex-claude">
+        <div class="ex-who">Claude</div>
+        Before I go further: this list includes home addresses and National Insurance numbers, which our AI policy keeps out of AI tools. I can draft the letter as a template with placeholder fields, or work from a copy with those columns removed. If you’re unsure, the AI policy or your line manager can confirm. Is this data already anonymised?
+      </div>
+    </div>
+
+    <p>The safer routes are deliberately dull: counts instead of rows, “Location A” instead of a real address, a job title instead of a person, synthetic or redacted rows instead of the real extract. Where the work can stay inside systems the organisation already controls, it says so. Most cloud data warehouses now ship AI functions that run inside the platform, so analysis that needs the real rows can often happen where the data already sits.</p>
+
+    <p>I describe it as a warning, and that is how it feels to use. The wording underneath is stricter. “It’s fine”, “I own this data” and “it’s only a test” do not get through. “It’s already anonymised” does. Think of it as a pause with exactly one way out.</p>
+
+    <p>The tone rule took longer to get right than the categories: flag once, offer the alternative, name the check, move on. No lectures, and no repeating a warning the person has already dealt with. Nag people and they go back to the free account on their phone, where there is no guardrail at all.</p>
+
+    <blockquote class="pull-quote">Design for the irritated user. The careless one is easier to catch.
+      <cite>Case Study 007 &middot; the tone rule</cite>
+    </blockquote>
+
+    <p>There have been three live tests. The first was mine and deliberate: two rows of invented personal records. It stopped and offered to build the same table anonymised. The second arrived in the course of real work: a draft email about correcting some records, with named individuals in it. It stopped, and redirected the request to the colleague who could correct the records at source. The third was the same kind of request with the names left out, and it went straight through. That pass matters as much as the catches. <mark class="key">A guardrail that fires on everything gets switched off.</mark></p>
+
+    <h2 id="section-5">What it cannot do.</h2>
+
+    <p>Marcus will have got here first. <mark class="key">By the time the warning appears, the prompt has already reached the provider.</mark> The guardrail stops the processing; it cannot recall the transmission. Anything pasted has left the building, warning or no warning.</p>
+
+    <p>The rest of the list is shorter but no kinder:</p>
+
+    <ul>
+      <li>It depends on the model following instructions. Organisation instructions take precedence on paper, but Anthropic’s own page warns that behaviour may vary where instructions directly contradict each other, and tells owners to test theirs.</li>
+      <li>It trusts the answer. Anyone can type “yes, it’s anonymised” when it is not.</li>
+      <li>A member can switch the skill off. The floor in the organisation instructions still applies, but it is the shorter, blunter version.</li>
+      <li>Team has no audit log or live feed. The Primary Owner can export conversations after the fact, but nothing flags that a pause happened.</li>
+      <li>What was pasted stays in the chat history, stored in the US, until someone deletes it.</li>
+      <li>It covers Claude and nothing else. Every other AI assistant in the business needs its own controls; in Microsoft 365, that means Purview data loss prevention and sensitivity labels.</li>
+      <li>Upkeep is manual. Every change means uploading a new version, and renaming a skill breaks the cascade without telling anyone.</li>
+    </ul>
+
+    <figure class="verdict" aria-label="Quote: Useful as a nudge, worthless as a control. Claude, reviewing its own guardrail during the build.">
+      <span class="v-mark" aria-hidden="true">&ldquo;</span>
+      <blockquote>
+        <span class="v-line v-good">Useful as a <span class="v-word v-nudge">nudge</span>,</span>
+        <span class="v-line v-bad">worthless as a <span class="v-word v-control">control</span>.</span>
+      </blockquote>
+      <figcaption>Claude, reviewing its own guardrail during the build</figcaption>
+      <div class="v-legend" aria-hidden="true"><span class="ok">&#10003; Changes behaviour</span><span class="no">&#10007; Stops a leak</span></div>
+    </figure>
+
+    <p>So why bother? Because a small team is governable, provided the rules turn up at the moment of risk. My working view: pair the guardrail with a policy people have been walked through in person, and make an annual refresher the price of keeping a licence.</p>
+
+    <h2 id="section-6">The UK bit.</h2>
+
+    <p>There is a second reason for the guardrail, and it is geographical. Anthropic’s <a href="https://privacy.claude.com/en/articles/7996890-where-are-your-servers-located-do-you-host-your-models-on-eu-servers">privacy centre</a> is explicit that data is stored in the US, and that routing is wider still. A Team plan has no UK option and no routing control. So the guardrail carries one rule outside the five types: <mark class="key">treat every prompt as having left UK-controlled systems</mark>.</p>
+
+    <figure class="fquote">
+      <p>By default, we may route customer traffic to <span class="sweep">select countries in the US, Europe, Asia and Australia</span>, unless otherwise agreed upon or at your instructions.</p>
+      <cite>Anthropic Privacy Center &middot; Where are your servers located? &middot; no UK option on Team</cite>
+    </figure>
+
+    <p>Under UK GDPR, sending personal data to a US provider is usually a restricted transfer, and it needs a lawful route: the <a href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/international-transfers/adequacy-regulations/how-does-the-uk-extension-to-the-eu-us-data-privacy-framework-work/">UK Extension to the EU-US Data Privacy Framework</a> (the “data bridge”, in force since 12 October 2023) where the US company is certified and has opted in, or contractual safeguards such as standard contractual clauses with the ICO’s UK Addendum, backed by a transfer risk assessment. Check which route your provider actually relies on. The <a href="https://privacymatters.dlapiper.com/2026/02/uk-commencement-of-the-data-protection-provisions-in-the-data-use-and-access-act/">Data (Use and Access) Act 2025</a> changed the bar for those routes to protection “not materially lower” than the UK’s, with its main data protection changes in force from 5 February 2026. The ICO refreshed its international transfers guidance on 15 January 2026.</p>
+
+    <p>Lawful is only half the question. Plenty of client contracts and data processing agreements promise UK-only processing, and <mark class="key">a transfer the law allows can still break a promise you signed</mark>. That is why residency is a separate rule in the guardrail: data covered by an onshore clause, or not cleared for third-party cloud at all, does not go in.</p>
+
+    <p><strong>Hannah</strong>, this is where HR lives. Staff records, occupational health and grievance notes all sit in the five types, and most of them are covered by what your organisation has promised its own people. <strong>Sanjay</strong>, none of this needs enterprise money. Organisation instructions and skills come with the Team plan, and a smaller team makes the approach easier to run, because you can explain the rule to everyone face to face.</p>
+
+    <p>One practical note for any Team owner. Members can publish their own skills to the organisation library, and <a href="https://support.claude.com/en/articles/13119606-provision-and-manage-skills-for-your-organization">on Team the default is “Open”</a>, with no review. Switch it to “Requires review”, or your guardrail may soon share the library with skills nobody has read.</p>
+
+    <h2 id="section-7">Before you copy this.</h2>
+
+    <p>Six questions. If you cannot answer one, do not switch it on yet.</p>
+
+    <div class="consider">
+      <div class="c-card">
+        <div class="c-num">01 · Name it</div>
+        <div class="c-q">Which data, exactly?</div>
+        <div class="c-a">List the columns you never want pasted: NI number, bank details, home address. If it is not named, it will not be caught.</div>
+      </div>
+      <div class="c-card">
+        <div class="c-num">02 · Place it</div>
+        <div class="c-q">Where does each rule live?</div>
+        <div class="c-a">Detail in the skill. Non-negotiables in the organisation instructions, where members can neither see them nor switch them off.</div>
+      </div>
+      <div class="c-card">
+        <div class="c-num">03 · Route it</div>
+        <div class="c-q">What is the way out?</div>
+        <div class="c-a">Every pause needs a safer route: counts, placeholders, synthetic rows. A pause with no alternative sends people straight back to their phone.</div>
+      </div>
+      <div class="c-card">
+        <div class="c-num">04 · Test it</div>
+        <div class="c-q">Does clean work get through?</div>
+        <div class="c-a">Test a harmless request as hard as a risky one. False alarms are what get guardrails switched off.</div>
+      </div>
+      <div class="c-card">
+        <div class="c-num">05 · Check it</div>
+        <div class="c-q">What have you promised?</div>
+        <div class="c-a">Read client contracts and data processing agreements for UK-only clauses. What the law allows and what you signed are separate tests.</div>
+      </div>
+      <div class="c-card">
+        <div class="c-num">06 · Label it</div>
+        <div class="c-q">What will you call it?</div>
+        <div class="c-a">Behavioural guidance, in the risk register, alongside DLP, training and a licence that can be taken away. Never a control.</div>
+      </div>
+    </div>
+
+    <h2 id="section-8">In short.</h2>
+
+    <p>Strip it back and the whole approach fits in three steps.</p>
+
+    <div class="flow" role="list" aria-label="How the guardrail works in three steps">
+      <div class="f-step" role="listitem">
+        <div class="f-num">01 · The admin</div>
+        <div class="f-title">Your admin writes the rule</div>
+        <div class="f-text">The Team plan owner sets the organisation instructions and provisions the data-handling skill. Once, centrally, for everyone.</div>
+      </div>
+      <div class="f-arrow a1" aria-hidden="true"><i></i></div>
+      <div class="f-step" role="listitem">
+        <div class="f-num">02 · Every prompt</div>
+        <div class="f-title">Every prompt is read against it</div>
+        <div class="f-text">The rule sits on top of every conversation for every member of the team. Nobody has to remember the PDF.</div>
+      </div>
+      <div class="f-arrow a2" aria-hidden="true"><i></i></div>
+      <div class="f-step last" role="listitem">
+        <div class="f-num">03 · The nudge</div>
+        <div class="f-title">Risky prompts get the nudge</div>
+        <div class="f-text">A prompt that names protected data gets a pause, a reason and a safer route. Everything else goes straight through.</div>
+      </div>
+    </div>
+    <div class="f-caption">Organisation instructions + one skill · included with the Team plan</div>
+
+    <p>It will not stop a determined leak, and it was never meant to; the prompt has left before the pause appears. What it does is put the rule in front of people at the one moment the policy PDF never reaches, in plain words, with a way forward.</p>
+
+    <p>It is early. Three live tests, three correct calls: an anecdote, and I treat it as one. The pattern has still earned its keep. The same two layers now carry the organisation’s external voice, brand and data architecture into every conversation. And when the governance board asks what stops someone pasting a staff list into a chatbot, there is a straight answer, written in the risk register as exactly what it is: a nudge, placed where the pasting happens.</p>
+  </section>
+
+  <section class="takeaway" aria-label="Tactical takeaway">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2>Put the policy where the pasting happens, and <em>call it a nudge</em>.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 · Name it · for Hannah</div>
+        <div class="takeaway-point-text">Write your worst cases into the tool as <strong>columns you would recognise in a spreadsheet</strong>: NI number, bank details, home address. “Personal data” gets nodded past.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 · Layer it · for Sanjay</div>
+        <div class="takeaway-point-text">Detail in a skill, <strong>non-negotiables in the organisation instructions</strong>. Members can switch a skill off; they cannot see or edit the instructions. Both come with the Team plan.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 · Admit it · for Marcus</div>
+        <div class="takeaway-point-text">Call it <strong>behavioural guidance in every board paper</strong>. The prompt has left before the warning appears. Pair it with DLP, training and a licence that can be taken away.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-slab" aria-label="Read more and subscribe">
+    <div class="cta-kicker">Read more · Subscribe</div>
+    <h2>One issue a week, and <em>the workings underneath it</em>.</h2>
+    <p>No paywall and no pitch. This note is the third in a line: the survey that found the shadow AI, the skill that taught the rule once, and now the guardrail that puts it where the pasting happens.</p>
+    <div class="cta-row">
+      <a class="cta-btn primary" href="/?src=cs007#subscribe">Subscribe <span aria-hidden="true">&#8594;</span></a>
+      <a class="cta-btn" href="/case-studies/shadow-ai-ask-the-workforce/">Case 001 &middot; Ask the workforce <span aria-hidden="true">&#8594;</span></a>
+      <a class="cta-btn" href="/case-studies/teach-it-once/">Case 004 &middot; Teach it once <span aria-hidden="true">&#8594;</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">Where does your AI policy live: <strong>in a PDF, or where people paste</strong>?</p>
+      <div class="footer-links">
+        <a href="/">ai-sustained.com</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="#" data-ais-reopen>Cookie choices</a>
+      </div>
+    </div>
+    <div class="sources">
+      Sources · <a href="https://ukstories.microsoft.com/features/rise-in-shadow-ai-tools-raising-security-concerns-for-uk/">Microsoft UK, Rise in Shadow AI, 13 Oct 2025 (Censuswide, 2,003 UK employees)</a> · <a href="https://support.claude.com/en/articles/14546867-set-organization-instructions">Claude Help Center, Set organization instructions</a> · <a href="https://support.claude.com/en/articles/13119606-provision-and-manage-skills-for-your-organization">Claude Help Center, Provision and manage skills</a> · <a href="https://support.claude.com/en/articles/13015708-access-the-compliance-api">Claude Help Center, Access the Compliance API</a> · <a href="https://privacy.claude.com/en/articles/7996890-where-are-your-servers-located-do-you-host-your-models-on-eu-servers">Anthropic Privacy Center, Where are your servers located?</a> · <a href="https://www.legislation.gov.uk/uksi/2023/1028/made">SI 2023/1028 (UK data bridge)</a> · <a href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/international-transfers/adequacy-regulations/how-does-the-uk-extension-to-the-eu-us-data-privacy-framework-work/">ICO, UK Extension to the EU-US DPF</a> · <a href="https://privacymatters.dlapiper.com/2026/02/uk-commencement-of-the-data-protection-provisions-in-the-data-use-and-access-act/">DLA Piper, DUAA commencement, 6 Feb 2026</a> · AI Sustained <a href="/case-studies/shadow-ai-ask-the-workforce/">Case Study 001</a>, <a href="/case-studies/teach-it-once/">004</a>. Build figures (2,660 characters, five types, three tests) are from the author’s own configuration and test log. The exchange is illustrative, with synthetic data. Not legal advice.
+    </div>
+  </footer>
+
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#AIGovernance</span> <span>#ShadowAI</span> <span>#AIPolicy</span> <span>#ClaudeTeam</span> <span>#UKGDPR</span> <span>#DataResidency</span> <span>#AISkills</span> <span>#UKBusiness</span> <span>#AISustained</span>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span><span class="wordmark">AI Sustained.</span> · Written by Claude Opus 5.5 · Curated by Kevin Clubb</span>
+    <span>2026</span>
+  </div>
+
+</article>
+<script>
+/* Reveal the verdict quote and the three-step flow once, when they scroll into view.
+   Pulse only the key statement in the middle band of the screen: one pulse at a time. */
+(function () {
+  /* Acid marker sweep on featured quotes, as issues 021 and 022. */
+  var marks = document.querySelectorAll('.fquote .sweep');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('lit'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.3 });
+    Array.prototype.forEach.call(marks, function (m) { io.observe(m); });
+  } else {
+    Array.prototype.forEach.call(marks, function (m) { m.classList.add('lit'); });
+  }
+
+  var targets = document.querySelectorAll('.verdict, .flow');
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var reveal = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); reveal.unobserve(e.target); }
+    });
+  }, { threshold: 0.35 });
+  targets.forEach(function (el) { reveal.observe(el); });
+
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var live = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { e.target.classList.toggle('live', e.isIntersecting); });
+  }, { rootMargin: '-38% 0px -38% 0px' });
+  document.querySelectorAll('.key').forEach(function (el) { live.observe(el); });
+})();
+</script>
+</body>
+</html>

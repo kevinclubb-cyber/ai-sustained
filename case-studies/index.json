@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-09-06",
+  "updated": "2026-09-23",
   "source": "https://ai-sustained.com/case-studies/",
   "caseStudies": [
     {
@@ -193,6 +193,40 @@
       "tiers": [
         "AI Adoption Programme",
         "Advisory"
+      ]
+    },
+    {
+      "id": "pause-before-you-paste",
+      "number": "007",
+      "title": "Pause before you paste.",
+      "category": "AI governance · Shadow AI",
+      "date": "2026-09-23",
+      "summary": "Nobody opens the AI policy at the moment they paste a spreadsheet into a chatbot, so the policy went into the chatbot instead — 2,660 characters of organisation instructions plus one provisioned skill that pause a risky prompt, name the data type and offer a safer route. Three live tests, three correct calls, and a candid account of why it is a nudge rather than a control.",
+      "url": "https://ai-sustained.com/case-studies/pause-before-you-paste/",
+      "metrics": [
+        {
+          "value": "71%",
+          "label": "UK shadow AI use"
+        },
+        {
+          "value": "5",
+          "label": "Data types named"
+        },
+        {
+          "value": "3 / 3",
+          "label": "Live tests correct"
+        }
+      ],
+      "capabilities": [
+        "AI governance",
+        "AI policy",
+        "Shadow AI",
+        "Claude Team administration",
+        "UK GDPR and data residency"
+      ],
+      "tiers": [
+        "Fractional AI Advisor",
+        "AI Adoption Programme"
       ]
     }
   ]
