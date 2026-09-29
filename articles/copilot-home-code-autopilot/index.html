@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- AI Sustained cookie consent + Google Consent Mode v2 (must precede GTM/GA4) -->
+<script>
+(function(){
+  "use strict";
+  /* ------------------------------------------------------------------
+     AI Sustained cookie consent + Google Consent Mode v2
+     Self-contained: sets consent defaults, injects banner CSS + DOM.
+     MUST load before the GTM and GA4 snippets.
+     ------------------------------------------------------------------ */
+
+  var STORE   = 'ais_consent_v1';
+  var MAXAGE  = 1000*60*60*24*182;           /* 6 months, then re-ask */
+  /* Both sites serve /privacy/ (the consulting site ships privacy.html plus a
+     byte-identical privacy/index.html), so one root-absolute path covers both
+     and there is no hostname sniffing to go wrong. */
+  var POLICY  = '/privacy/';
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  window.gtag = window.gtag || gtag;
+
+  /* ---------- read any stored decision ---------- */
+  var saved = null;
+  try {
+    var raw = localStorage.getItem(STORE);
+    if (raw) {
+      var o = JSON.parse(raw);
+      if (o && o.t && (Date.now() - o.t) < MAXAGE) saved = o;
+    }
+  } catch(e){}
+
+  var DENIED = {
+    ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied',
+    analytics_storage:'denied', functionality_storage:'denied',
+    personalization_storage:'denied', security_storage:'granted',
+    wait_for_update: 500
+  };
+
+  /* Defaults are DENIED for everything non-essential. Nothing fires until
+     the visitor chooses. security_storage stays granted: it is strictly
+     necessary and exempt under PECR. */
+  gtag('consent','default', DENIED);
+
+  function stateFrom(c){
+    return {
+      ad_storage:            c.marketing ? 'granted':'denied',
+      ad_user_data:          c.marketing ? 'granted':'denied',
+      ad_personalization:    c.marketing ? 'granted':'denied',
+      analytics_storage:     c.analytics ? 'granted':'denied',
+      functionality_storage: c.recording ? 'granted':'denied',
+      personalization_storage: c.recording ? 'granted':'denied',
+      security_storage:      'granted'
+    };
+  }
+
+  function apply(c, isNew){
+    gtag('consent','update', stateFrom(c));
+    dataLayer.push({
+      event: 'consent_update',
+      consent_analytics:  !!c.analytics,
+      consent_recording:  !!c.recording,
+      consent_marketing:  !!c.marketing
+    });
+    if (isNew){
+      try { localStorage.setItem(STORE, JSON.stringify({
+        t: Date.now(), analytics: !!c.analytics,
+        recording: !!c.recording, marketing: !!c.marketing
+      })); } catch(e){}
+    }
+  }
+
+  if (saved) apply(saved, false);
+
+  /* Current state drives the toggles, so reopening shows what you actually
+     chose rather than a fresh set of defaults. */
+  var current = saved || { analytics:false, recording:false, marketing:false };
+
+  /* ---------- styles ---------- */
+  var CSS = ''
+  + '@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap");'
+  + '.ais-cc,.ais-cc *{box-sizing:border-box}'
+  + '.ais-cc{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#102C21;color:#F2ECD9;'
+  + 'border-top:2px solid #E8FF3A;font-family:Inter,system-ui,sans-serif;'
+  + 'box-shadow:0 -18px 50px rgba(0,0,0,.5);animation:aisUp .35s cubic-bezier(.34,1.2,.64,1)}'
+  + '@keyframes aisUp{from{transform:translateY(100%)}to{transform:none}}'
+  + '@media (prefers-reduced-motion:reduce){.ais-cc{animation:none}}'
+  + '.ais-cc-in{max-width:1080px;margin:0 auto;padding:22px 24px;display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap}'
+  + '.ais-cc-copy{flex:1 1 420px;min-width:280px}'
+  + '.ais-cc h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;color:#E8FF3A;letter-spacing:.01em}'
+  + '.ais-cc p{margin:0;font-size:14.5px;line-height:1.55;color:#F2ECD9;opacity:.94}'
+  + '.ais-cc a{color:#E8FF3A;text-decoration:underline;text-underline-offset:2px}'
+  + '.ais-cc-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}'
+  /* Accept and Reject are deliberately IDENTICAL in size, colour and weight. */
+  + '.ais-b{position:relative;display:inline-flex;align-items:center;justify-content:center;'
+  + 'min-width:150px;padding:14px 24px;border:2px solid rgba(232,255,58,.55);border-radius:10px;'
+  + 'color:#F2ECD9;background:rgba(10,15,12,.92);font-family:"Space Grotesk",sans-serif;'
+  + 'font-weight:700;font-size:15.5px;cursor:pointer;transition:color .2s,border-color .2s,transform .18s;'
+  + '-webkit-tap-highlight-color:transparent}'
+  + '.ais-b:hover{color:#E8FF3A;border-color:#E8FF3A;transform:translateY(-2px)}'
+  + '.ais-b:active{transform:translateY(1px) scale(.98)}'
+  + '.ais-b:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '.ais-link{background:none;border:none;color:#F2ECD9;font-family:Inter,sans-serif;font-size:14px;'
+  + 'text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:8px 4px;opacity:.9}'
+  + '.ais-link:hover{color:#E8FF3A;opacity:1}'
+  + '.ais-cc-panel{width:100%;border-top:1px solid rgba(242,236,217,.18);margin-top:6px;padding-top:16px;display:none}'
+  + '.ais-cc-panel.open{display:block}'
+  + '.ais-row{display:flex;gap:14px;align-items:flex-start;padding:11px 0}'
+  + '.ais-row+.ais-row{border-top:1px solid rgba(242,236,217,.1)}'
+  + '.ais-row .t{flex:1}'
+  + '.ais-row strong{display:block;font-family:"Space Grotesk",sans-serif;font-size:14.5px;margin-bottom:3px}'
+  + '.ais-row span{font-size:13.5px;line-height:1.5;opacity:.85}'
+  + '.ais-sw{position:relative;flex:0 0 auto;width:50px;height:28px;border-radius:99px;border:none;'
+  + 'background:rgba(242,236,217,.22);cursor:pointer;transition:background .2s}'
+  + '.ais-sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;'
+  + 'background:#F2ECD9;transition:transform .2s}'
+  + '.ais-sw[aria-checked="true"]{background:#E8FF3A}'
+  + '.ais-sw[aria-checked="true"]::after{transform:translateX(22px);background:#0A0F0C}'
+  + '.ais-sw[disabled]{opacity:.5;cursor:not-allowed}'
+  + '.ais-sw:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '@media(max-width:640px){.ais-cc-in{padding:18px 16px;gap:16px}.ais-cc-btns{width:100%}'
+  + '.ais-b{flex:1 1 100%;min-width:0}}';
+
+  /* ---------- banner ---------- */
+  function build(reopen){
+    if (document.querySelector('.ais-cc')) return;
+
+    var st = document.createElement('style');
+    st.textContent = CSS;
+    document.head.appendChild(st);
+
+    var w = document.createElement('div');
+    w.className = 'ais-cc';
+    w.setAttribute('role','dialog');
+    w.setAttribute('aria-live','polite');
+    w.setAttribute('aria-label','Cookie choices');
+    w.innerHTML =
+      '<div class="ais-cc-in">'
+      +  '<div class="ais-cc-copy">'
+      +    '<h2>Your call on cookies</h2>'
+      +    '<p>I use a few cookies to see which articles land and where people give up reading. '
+      +    'Nothing fires until you choose. Reject and the site works exactly the same. '
+      +    '<a href="' + POLICY + '">Read the privacy notice</a>.</p>'
+      +  '</div>'
+      +  '<div class="ais-cc-btns">'
+      +    '<button type="button" class="ais-b" data-a="accept">Accept all</button>'
+      +    '<button type="button" class="ais-b" data-a="reject">Reject all</button>'
+      +    '<button type="button" class="ais-link" data-a="manage" aria-expanded="false">Choose what I share</button>'
+      +  '</div>'
+      +  '<div class="ais-cc-panel" id="ais-panel">'
+      +    row('essential','Strictly necessary','Keeps the site working and secure. Always on, and exempt from consent under PECR.',true,true)
+      +    row('analytics','Audience measurement','Google Analytics. Which pages get read, roughly where visitors come from.',!!current.analytics,false)
+      +    row('recording','Session recording','Microsoft Clarity. Anonymised replays and heatmaps showing where people scroll and stop. Text you type is masked.',!!current.recording,false)
+      +    row('marketing','Marketing','TikTok and Meta advertising pixels. Not currently active, listed so this notice stays honest when they are.',!!current.marketing,false)
+      +    '<div class="ais-cc-btns" style="margin-top:14px">'
+      +      '<button type="button" class="ais-b" data-a="save">Save my choices</button>'
+      +    '</div>'
+      +  '</div>'
+      + '</div>';
+    document.body.appendChild(w);
+
+    function row(k,title,desc,on,lock){
+      return '<div class="ais-row"><div class="t"><strong>'+title+'</strong><span>'+desc+'</span></div>'
+        + '<button type="button" class="ais-sw" data-k="'+k+'" role="switch" aria-label="'+title+'" aria-checked="'
+        + (on?'true':'false') + '"' + (lock?' disabled':'') + '></button></div>';
+    }
+
+    w.addEventListener('click', function(e){
+      var sw = e.target.closest('.ais-sw');
+      if (sw && !sw.disabled){
+        sw.setAttribute('aria-checked', sw.getAttribute('aria-checked')==='true' ? 'false':'true');
+        return;
+      }
+      var b = e.target.closest('[data-a]');
+      if (!b) return;
+      var a = b.getAttribute('data-a');
+
+      if (a === 'manage'){
+        var p = w.querySelector('#ais-panel');
+        var open = p.classList.toggle('open');
+        b.setAttribute('aria-expanded', open ? 'true':'false');
+        b.textContent = open ? 'Hide options' : 'Choose what I share';
+        return;
+      }
+      if (a === 'accept') return close({analytics:1,recording:1,marketing:1});
+      if (a === 'reject') return close({analytics:0,recording:0,marketing:0});
+      if (a === 'save'){
+        var g = function(k){
+          var el = w.querySelector('.ais-sw[data-k="'+k+'"]');
+          return el && el.getAttribute('aria-checked')==='true' ? 1 : 0;
+        };
+        return close({analytics:g('analytics'), recording:g('recording'), marketing:g('marketing')});
+      }
+    });
+
+    function close(c){ current = c; apply(c, true); w.remove(); }
+
+    /* Reopened from the footer: show the detail panel straight away, so the
+       visitor can see and change what they previously chose. */
+    if (reopen){
+      w.querySelector('#ais-panel').classList.add('open');
+      var mb = w.querySelector('[data-a="manage"]');
+      mb.setAttribute('aria-expanded','true');
+      mb.textContent = 'Hide options';
+    }
+  }
+
+  /* Drop a "Cookie choices" link into the existing footer, so consent can be
+     withdrawn from any page without editing 50 footers by hand. */
+  function footerLink(){
+    var f = document.querySelector('footer');
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
+
+    /* Footer markup varies page to page, so target the LAST div: on every
+       template that is the links / colophon column, not the brand block. */
+    var divs = f.querySelectorAll('div');
+    var host = divs.length ? divs[divs.length-1] : f;
+
+    var wrap = document.createElement('span');
+    wrap.setAttribute('data-ais-footer','1');
+    wrap.style.cssText = 'display:inline-block;margin-top:6px';
+
+    var onPolicy = /^\/privacy(\.html|\/|$)/.test(location.pathname);
+    if (!onPolicy){
+      var pv = document.createElement('a');
+      pv.href = POLICY;
+      pv.textContent = 'Privacy';
+      wrap.appendChild(document.createTextNode(' · '));
+      wrap.appendChild(pv);
+    }
+
+    var a = document.createElement('a');
+    a.href = '#';
+    a.setAttribute('data-ais-reopen','1');
+    a.textContent = 'Cookie choices';
+    a.style.cursor = 'pointer';
+    a.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+    wrap.appendChild(document.createTextNode(' · '));
+    wrap.appendChild(a);
+
+    host.appendChild(wrap);
+  }
+
+  /* Public re-opener, also usable directly:
+     <a href="#" onclick="AISConsent.open();return false">Cookie choices</a>  */
+  window.AISConsent = {
+    open: function(){
+      /* Deliberately does NOT clear the stored choice. Reopening the banner
+         must never silently revoke consent the visitor already gave. They
+         revoke it by choosing, not by looking. */
+      var ex = document.querySelector('.ais-cc');
+      if (ex) ex.remove();
+      build(true);
+    }
+  };
+
+  function init(){ footerLink(); if (!saved) build(false); }
+
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K3HFQT6S');</script>
+
+<!-- Google Analytics — site-wide ID, leave as-is -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+
+<title>Microsoft has rebuilt Copilot. Not the one you hate. | AI Sustained</title>
+<meta name="description" content="Home, Code and Autopilot hit the paid work Copilot, on the models Claude and ChatGPT use, as a licence plus a meter. Early users&rsquo; verdict, in pounds.">
+<meta name="keywords" content="Microsoft Copilot, new Copilot, Copilot Home, Copilot Code, Copilot Autopilot, Copilot Cowork, Copilot Credits, Microsoft 365 Copilot price UK, Frontier program, Copilot vs Claude, Copilot vs ChatGPT, Copilot Managed Runtime, free Copilot, AI Made Simple, AI Sustained">
+<meta name="author" content="Kevin Clubb">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="theme-color" content="#1B4332">
+<link rel="canonical" href="https://ai-sustained.com/articles/copilot-home-code-autopilot/">
+<meta property="og:title" content="Microsoft has rebuilt Copilot. Not the one you hate.">
+<meta property="og:description" content="Home, Code and Autopilot hit the paid work Copilot, on the models Claude and ChatGPT use, as a licence plus a meter. Early users&rsquo; verdict, in pounds.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ai-sustained.com/articles/copilot-home-code-autopilot/">
+<meta property="og:image" content="https://ai-sustained.com/articles/copilot-home-code-autopilot/copilot-home-code-autopilot_hero.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="669">
+<meta property="og:image:alt" content="A garage at night under a single green bulb. A child’s bike with stabilisers and a small helmet stand at the front; behind them a road bike, half covered by a dust sheet, leans against a workbench, with stacked boxes, old tyres and a tool board in the dark.">
+<meta property="og:site_name" content="AI Sustained">
+<meta property="og:locale" content="en_GB">
+<meta property="article:published_time" content="2026-09-29T07:00:00+01:00">
+<meta property="article:author" content="Kevin Clubb">
+<meta property="article:section" content="AI Made Simple">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Microsoft has rebuilt Copilot. Not the one you hate.">
+<meta name="twitter:description" content="Home, Code and Autopilot hit the paid work Copilot, on the models Claude and ChatGPT use, as a licence plus a meter. Early users&rsquo; verdict, in pounds.">
+<meta name="twitter:image" content="https://ai-sustained.com/articles/copilot-home-code-autopilot/copilot-home-code-autopilot_hero.jpg">
+<meta name="twitter:image:alt" content="A garage at night under a single green bulb. A child’s bike with stabilisers and a small helmet stand at the front; behind them a road bike, half covered by a dust sheet, leans against a workbench, with stacked boxes, old tyres and a tool board in the dark.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Microsoft has rebuilt Copilot. Not the one you hate.",
+  "author": { "@type": "Person", "name": "Kevin Clubb", "url": "https://www.linkedin.com/in/kevin-clubb" },
+  "datePublished": "2026-09-29",
+  "url": "https://ai-sustained.com/articles/copilot-home-code-autopilot/",
+  "description": "Home, Code and Autopilot hit the paid work Copilot, on the models Claude and ChatGPT use, as a licence plus a meter. Early users&rsquo; verdict, in pounds.",
+  "keywords": "Microsoft Copilot, new Copilot, Copilot Home, Copilot Code, Copilot Autopilot, Copilot Cowork, Copilot Credits, Microsoft 365 Copilot price UK, Frontier program, Copilot vs Claude, Copilot vs ChatGPT, Copilot Managed Runtime, free Copilot, AI Made Simple, AI Sustained",
+  "dateModified": "2026-09-29",
+  "inLanguage": "en-GB",
+  "articleSection": "AI Made Simple",
+  "image": { "@type": "ImageObject", "url": "https://ai-sustained.com/articles/copilot-home-code-autopilot/copilot-home-code-autopilot_hero.jpg", "width": 1200, "height": 669 },
+  "publisher": { "@type": "Organization", "name": "AI Sustained", "url": "https://ai-sustained.com", "logo": { "@type": "ImageObject", "url": "https://ai-sustained.com/ai_sustained_logo.png" } },
+  "mainEntityOfPage": "https://ai-sustained.com/articles/copilot-home-code-autopilot/"
+}
+</script>
+<script>document.documentElement.className += " js";</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --ink-soft: #2A3530;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
+    --acid: #E8FF3A;
+    --coral: #FF5A3C;
+    --moss: #2D6A4F;
+    --sage: #74C69D;
+    --mint: #D8F3DC;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --rule-soft: rgba(242,236,217,0.09);
+    --panel: rgba(242,236,217,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--forest);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    border-top: 3px solid var(--acid);
+  }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ HERO (centred) ============ */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+  }
+  .kicker::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    background: var(--acid);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(46px, 7vw, 84px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin: 0 auto 26px;
+    max-width: 14ch;
+  }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--paper-2);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+
+  /* ============ HERO FIGURE (cover art) ============ */
+  .hero-figure { margin: 44px 0 10px; }
+  .hero-figure img {
+    width: 100%; height: auto; display: block;
+    border-top: 3px solid var(--acid);
+    border-radius: 4px;
+  }
+  .hero-figure figcaption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); margin-top: 12px;
+  }
+
+  /* ============ STAT GRID ============ */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 44px 0 48px;
+  }
+  .stat-box {
+    background: var(--panel);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 10px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px; font-weight: 600;
+    color: var(--acid); line-height: 1; display: block;
+  }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  /* ============ BODY CONTENT ============ */
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 33px; line-height: 1.15;
+    color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em;
+  }
+  .content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px;
+  }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+  .content li::marker { color: var(--acid); }
+
+  .inline-highlight { color: var(--acid); font-weight: 500; }
+
+  /* ============ PULL QUOTE ============ */
+  .pull-quote {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 30px; line-height: 1.3; color: var(--paper);
+    margin: 60px auto; padding: 40px 0;
+    border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid);
+    text-align: center; max-width: 720px; letter-spacing: -0.01em;
+  }
+  .pull-quote::before {
+    content: '"'; display: block; font-size: 56px; color: var(--acid);
+    line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif;
+  }
+
+  /* ============ TACTICAL TAKEAWAY (ink panel — signature) ============ */
+  .takeaway {
+    background: var(--ink); color: var(--paper);
+    padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .takeaway::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--acid);
+    border-radius: 50%; opacity: 0.14;
+  }
+  .takeaway-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .takeaway h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 32px; line-height: 1.22; color: var(--paper);
+    margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em;
+  }
+  .takeaway h2 em { color: var(--acid); font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
+  .takeaway-point-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .takeaway-point-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 16px; line-height: 1.45; color: var(--paper-2);
+  }
+  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
+
+  /* ============ TOC ============ */
+  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
+  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
+  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
+
+  /* ============ SUBSCRIBE SLAB ============ */
+  /* The one deliberate acid fill in the page. It works because nothing else does it. */
+  .cta-slab {
+    background: var(--acid); color: var(--ink);
+    border-radius: 4px; padding: 44px 40px; margin: 64px 0 8px;
+    position: relative; overflow: hidden;
+  }
+  .cta-slab::before {
+    content: ''; position: absolute; bottom: -70px; left: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--ink);
+    border-radius: 50%; opacity: 0.08;
+  }
+  .cta-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.72; margin-bottom: 14px;
+    position: relative; z-index: 1;
+  }
+  .cta-slab h2 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+    font-size: 32px; line-height: 1.15; letter-spacing: -0.01em;
+    color: var(--ink); margin-bottom: 14px; position: relative; z-index: 1;
+  }
+  .cta-slab h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; }
+  .cta-slab p {
+    font-size: 16px; line-height: 1.6; color: var(--ink); opacity: 0.84;
+    max-width: 540px; margin-bottom: 26px; position: relative; z-index: 1;
+  }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .cta-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
+    padding: 14px 22px; border-radius: 3px;
+    border: 1.5px solid var(--ink); color: var(--ink);
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta-btn span { transition: transform 0.15s ease; }
+  .cta-btn:hover { background: rgba(10,15,12,0.08); transform: translateY(-2px); }
+  .cta-btn:hover span { transform: translateX(4px); }
+  .cta-btn.primary { background: var(--ink); color: var(--acid); animation: ctaPulse 2.6s ease-out infinite; }
+  .cta-btn.primary:hover { background: #000; box-shadow: 0 10px 28px rgba(10,15,12,0.35); }
+  @keyframes ctaPulse {
+    0% { box-shadow: 0 0 0 0 rgba(10,15,12,0.35); }
+    70% { box-shadow: 0 0 0 14px rgba(10,15,12,0); }
+    100% { box-shadow: 0 0 0 0 rgba(10,15,12,0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-btn.primary { animation: none; }
+    .cta-btn:hover, .cta-btn:hover span { transform: none; }
+  }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 300px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
+  .hashtag-list span { font-weight: 500; }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ AI SLIDER (optional) ============ */
+  .depth {
+    background: var(--ink);
+    border: 2px solid var(--acid);
+    border-radius: 6px;
+    padding: 26px 28px 22px;
+    margin: 44px 0 48px;
+    position: relative;
+    overflow: hidden;
+    animation: depthGlow 3.2s ease-in-out infinite alternate;
+  }
+  .depth::before {
+    content: ''; position: absolute; top: -46px; right: -46px;
+    width: 170px; height: 170px; border: 30px solid var(--acid);
+    border-radius: 50%; opacity: 0.12; pointer-events: none;
+  }
+  @keyframes depthGlow {
+    from { box-shadow: 0 10px 30px rgba(10,15,12,0.3); }
+    to   { box-shadow: 0 10px 30px rgba(10,15,12,0.3), 0 0 30px 2px rgba(232,255,58,0.22); }
+  }
+  .depth-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--acid); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .depth-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .depth-sub {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 15px; color: var(--paper-2); margin-bottom: 18px;
+    position: relative; z-index: 1;
+  }
+  .ticks {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 10px; margin-bottom: 6px;
+    position: relative; z-index: 1;
+  }
+  .tick {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 12px 8px; border-radius: 4px;
+    border: 2px solid rgba(232,255,58,0.35);
+    background: transparent; color: var(--paper-2);
+    cursor: pointer; text-align: center; width: 100%;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: border-color .15s ease, color .15s ease, background .15s ease, transform .15s ease, box-shadow .15s ease;
+  }
+  .tick:hover { border-color: var(--acid); color: var(--acid); transform: translateY(-2px); box-shadow: 0 8px 22px rgba(232,255,58,0.18); }
+  .tick[aria-pressed="true"] {
+    background: var(--acid); color: var(--ink);
+    border-color: var(--acid);
+    box-shadow: 0 8px 24px rgba(232,255,58,0.3);
+  }
+  .tick:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+  @media (max-width: 720px) {
+    .ticks { grid-template-columns: repeat(2, 1fr); }
+    .depth { padding: 22px 20px 18px; }
+  }
+  .depth-range {
+    width: 100%; margin: 16px 0 12px;
+    -webkit-appearance: none; appearance: none;
+    height: 3px; background: rgba(232,255,58,0.25); cursor: pointer;
+    position: relative; z-index: 1; border-radius: 2px;
+  }
+  .depth-range::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--acid); border: none; cursor: pointer;
+    box-shadow: 0 0 12px rgba(232,255,58,0.5);
+  }
+  .depth-range::-moz-range-thumb {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--acid); border: none; cursor: pointer;
+    box-shadow: 0 0 12px rgba(232,255,58,0.5);
+  }
+  .depth-range:focus-visible { outline: 2px solid var(--acid); outline-offset: 4px; }
+  .reading-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted); position: relative; z-index: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .depth { animation: none; }
+    .tick:hover { transform: none; }
+  }
+  #reading { transition: opacity 0.19s ease; }
+  #reading.swapping { opacity: 0; }
+
+  /* ============ BACK NAV ============ */
+  .backnav {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+    text-decoration: none; display: inline-block; padding: 10px 0 4px;
+  }
+  .backnav:hover { color: var(--acid); }
+
+  /* ============ DISCLOSURE STRIP ============ */
+  .disclosure {
+    border: 1px solid var(--rule); border-radius: 4px; background: var(--panel);
+    padding: 12px 18px; margin: 28px auto 0; max-width: 620px;
+    display: flex; gap: 14px; align-items: baseline; justify-content: center;
+    flex-wrap: wrap; text-align: left;
+  }
+  .disclosure-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid);
+  }
+  .disclosure p { font-size: 13px; line-height: 1.5; color: var(--muted); margin: 0; }
+
+  /* ============ FEATURED QUOTE (acid marker sweep) ============ */
+  /* For quoted people. The .pull-quote stays for the house voice, so the two
+     never read as the same device. */
+  .fquote {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--acid);
+    border-radius: 4px;
+    padding: 28px 30px 24px;
+    margin: 44px 0;
+  }
+  .fquote p {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 25px; line-height: 1.36; color: var(--paper);
+    margin: 0 0 16px; letter-spacing: -0.01em;
+  }
+  .fquote .sweep {
+    background-image: linear-gradient(rgba(232,255,58,0.92), rgba(232,255,58,0.92));
+    background-repeat: no-repeat;
+    background-position: 0 0.06em;
+    background-size: 0% 92%;
+    transition: background-size 0.75s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease 0.35s;
+    padding: 0 3px;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  }
+  .fquote .sweep.lit { background-size: 100% 92%; color: var(--ink); }
+  .fquote cite {
+    font-family: 'JetBrains Mono', monospace; font-style: normal;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--sage); display: block;
+    padding-top: 12px; border-top: 1px solid var(--rule-soft);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fquote .sweep { transition: none; background-size: 100% 92%; color: var(--ink); }
+  }
+
+  /* Attribution line under a house pull-quote, as Issue 019 does it. */
+  .pull-quote cite {
+    display: block; margin-top: 18px;
+    font-family: 'JetBrains Mono', monospace; font-style: normal;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  /* ============ WHAT THE ROOM IS SAYING ============ */
+  .room { margin: 64px 0 8px; }
+  .room-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+  }
+  .room-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .room h2 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 29px;
+    line-height: 1.15; color: var(--paper); margin: 0 0 8px; letter-spacing: -0.01em;
+  }
+  .room-sub { font-size: 15px; color: var(--muted); margin-bottom: 22px; }
+  .room-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .room-card {
+    background: var(--panel); border: 1px solid var(--rule); border-left: 3px solid var(--muted);
+    border-radius: 4px; padding: 20px 22px; text-decoration: none; display: block;
+    transition: transform .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .room-card:hover { transform: translateY(-2px); background: rgba(242,236,217,0.07); }
+  .room-card.pos { border-left-color: var(--sage); }
+  .room-card.neg { border-left-color: var(--coral); }
+  .room-card.neu { border-left-color: var(--muted); }
+  .room-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px; color: var(--muted);
+  }
+  .room-card.pos .room-tag { color: var(--sage); }
+  .room-card.neg .room-tag { color: var(--coral); }
+  .room-quote { font-size: 16px; line-height: 1.5; color: var(--paper); margin: 0 0 12px; }
+  .room-src {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; line-height: 1.5;
+    letter-spacing: 0.06em; color: var(--muted); display: block;
+  }
+
+  /* ============ PAST, PRESENT, NEXT ============ */
+  .ppn { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 22px 0 0; }
+  .ppn-col { border-top: 2px solid var(--acid); padding-top: 14px; }
+  .ppn-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 10px;
+  }
+  .ppn-col p { font-size: 15px; line-height: 1.6; color: var(--paper-2); margin: 0; }
+  .ppn-col a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ============ ARGUE ABOUT THIS AT LUNCH ============ */
+  .debate {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--acid);
+    border-radius: 4px;
+    padding: 36px 34px 30px;
+    margin: 60px 0 8px;
+  }
+  .debate-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+  }
+  .debate-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .debate h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 27px; line-height: 1.25; color: var(--paper);
+    margin: 0 0 8px; letter-spacing: -0.01em;
+  }
+  .debate ol { list-style: none; margin: 0; padding: 0; }
+  .debate-item { border-top: 1px solid var(--rule); padding-top: 16px; margin-top: 22px; }
+  .debate-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 10px;
+  }
+  .debate-claim {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 19px; line-height: 1.45; color: var(--paper); margin: 0 0 10px;
+  }
+  .debate-claim em { color: var(--acid); font-style: italic; }
+  .debate-counter {
+    font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6;
+    color: var(--muted); margin: 0;
+  }
+  .debate-counter span {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage);
+    margin-right: 10px;
+  }
+
+  /* ============ FOOTER LINK ROW ============ */
+  .footer-links {
+    margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+  }
+  .footer-links a { color: var(--muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--acid); }
+
+  /* ============ WHERE DOES YOUR PROMPT GO (issue 023) ============ */
+  /* Interactive route map. The Curious tier holds the one copy; the other
+     tiers reuse it, and the wiring is delegated so it survives depth swaps. */
+  .router { margin: 34px 0 40px; border: 2px solid var(--acid); border-radius: 6px; background: var(--ink); padding: 22px 24px 18px; position: relative; overflow: hidden; }
+  .router::before { content: ''; position: absolute; top: -46px; right: -46px; width: 170px; height: 170px; border: 30px solid var(--acid); border-radius: 50%; opacity: 0.10; pointer-events: none; }
+  .router-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 6px; position: relative; z-index: 1; }
+  .router-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid); }
+  .router-flag { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+  .router-sub { font-family: 'Fraunces', serif; font-style: italic; font-size: 15px; line-height: 1.5; color: var(--paper-2); margin: 0 0 16px; position: relative; z-index: 1; }
+  .router-ctl { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; position: relative; z-index: 1; }
+  .router-ctl-label { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); flex: 0 0 100%; margin-bottom: 2px; }
+  .router-ctl button {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 9px 12px; border-radius: 4px; border: 2px solid rgba(232,255,58,0.35); background: transparent; color: var(--paper-2);
+    cursor: pointer; transition: border-color .15s ease, color .15s ease, background .15s ease, transform .15s ease;
+  }
+  .router-ctl button:hover { border-color: var(--acid); color: var(--acid); transform: translateY(-2px); }
+  .router-ctl button[aria-pressed="true"] { background: var(--acid); color: var(--ink); border-color: var(--acid); }
+  .router-ctl button:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+  .router-svg { width: 100%; height: auto; display: block; margin: 14px 0 10px; position: relative; z-index: 1; font-family: 'Inter', sans-serif; }
+  .router-line { fill: none; stroke: rgba(242,236,217,0.18); stroke-width: 2; }
+  .router-line-busy { stroke-dasharray: 4 5; }
+  .router-node { cursor: default; }
+  .router-node rect { fill: rgba(242,236,217,0.05); stroke: rgba(242,236,217,0.28); stroke-width: 1.5; transition: stroke .3s ease, fill .3s ease, filter .3s ease, opacity .3s ease; }
+  .router-node:hover rect { stroke: var(--paper); fill: rgba(242,236,217,0.10); }
+  .router-node.off { opacity: 0.35; }
+  .router-svg .router-t2 { fill: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.04em; }
+  .router-t-direct { opacity: 0.7; }
+  .router-line-direct { stroke-dasharray: 2 5; opacity: 0.7; }
+  .router-groups { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 4px 0 6px; position: relative; z-index: 1; }
+  .router-group { border: 1px solid rgba(242,236,217,0.14); border-radius: 5px; padding: 12px 14px 8px; }
+  .router-group-in { border-color: rgba(232,255,58,0.45); }
+  .router-group-out { border-color: rgba(255,90,60,0.45); }
+  .router-group-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+  .router-pill { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink); background: var(--acid); padding: 3px 8px; border-radius: 2px; }
+  .router-pill.out { background: var(--coral); }
+  .router-group-note { font-size: 13px; color: var(--muted); }
+  .router-ctl button small { display: block; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 10.5px; letter-spacing: 0; text-transform: none; color: var(--muted); margin-top: 2px; }
+  .router-ctl button[aria-pressed="true"] small { color: rgba(10,15,12,0.7); }
+  .router-group-out .router-ctl button { border-color: rgba(255,90,60,0.4); }
+  .router-group-out .router-ctl button:hover { border-color: var(--coral); color: var(--coral); }
+  .router-group-out .router-ctl button[aria-pressed="true"] { background: var(--coral); border-color: var(--coral); color: var(--ink); }
+  .router-legend { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 4px 0 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: var(--muted); position: relative; z-index: 1; }
+  .router-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; vertical-align: -1px; }
+  .router-legend i.ok { background: var(--acid); }
+  .router-legend i.risk { background: var(--coral); }
+  .router-legend i.maybe { background: transparent; border: 1.5px dashed rgba(232,255,58,0.7); }
+  .router-node .router-t1 { fill: var(--paper); font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; }
+  .router-node .router-t2 { fill: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.04em; }
+  .router-node-you rect { stroke: var(--acid); }
+  .router-node-ghost rect { stroke-dasharray: 4 4; fill: transparent; }
+  .router-node.lit rect { stroke: var(--acid); fill: rgba(232,255,58,0.08); filter: drop-shadow(0 0 8px rgba(232,255,58,0.35)); }
+  .router-node.lit-risk rect { stroke: var(--coral); fill: rgba(255,90,60,0.10); filter: drop-shadow(0 0 8px rgba(255,90,60,0.35)); }
+  .router-node.maybe rect { stroke: rgba(232,255,58,0.5); stroke-dasharray: 3 4; }
+  .router-node.lit.pulse rect, .router-node.lit-risk.pulse rect { animation: routerPulse 2.4s ease-out infinite; }
+  @keyframes routerPulse { 0%, 84% { stroke-width: 1.5; } 90% { stroke-width: 3.5; } 100% { stroke-width: 1.5; } }
+  .router-ring { fill: none; stroke: var(--acid); stroke-width: 2; opacity: 0; pointer-events: none; }
+  .router-ring.risk { stroke: var(--coral); }
+  .router-node.lit .router-t1, .router-node.lit-risk .router-t1 { fill: var(--paper); }
+  .router-active { stroke: var(--acid); stroke-width: 2.5; stroke-dasharray: 6 6; stroke-linejoin: round; animation: routerFlow 1.2s linear infinite; }
+  .router-active.risk { stroke: var(--coral); }
+  @keyframes routerFlow { to { stroke-dashoffset: -24; } }
+  .router-dot { fill: var(--acid); filter: drop-shadow(0 0 6px rgba(232,255,58,0.9)); }
+  .router-dot.risk { fill: var(--coral); filter: drop-shadow(0 0 6px rgba(255,90,60,0.9)); }
+  .router-verdict { display: grid; grid-template-columns: 180px 1fr; gap: 14px 18px; align-items: start; border-top: 1px solid rgba(232,255,58,0.3); padding-top: 16px; position: relative; z-index: 1; }
+  .router-badge { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; line-height: 1.25; padding: 12px 14px; border-radius: 4px; border-left: 3px solid var(--sage); background: rgba(116,198,157,0.10); color: var(--paper); transition: border-color .3s ease, background .3s ease; }
+  .router-badge.risk { border-left-color: var(--coral); background: rgba(255,90,60,0.12); }
+  .router-badge.neutral { border-left-color: var(--muted); background: rgba(242,236,217,0.06); }
+  .router-verdict dl { margin: 0; display: grid; grid-template-columns: 90px 1fr; gap: 8px 12px; }
+  .router-verdict dt { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage); padding-top: 3px; }
+  .router-verdict dd { margin: 0; font-size: 14px; line-height: 1.5; color: var(--paper-2); }
+  .router-foot { margin-top: 14px; font-size: 11.5px; line-height: 1.5; color: var(--muted); position: relative; z-index: 1; }
+  .router-foot a { color: var(--sage); text-decoration: none; border-bottom: 1px solid rgba(116,198,157,0.35); }
+  .router-foot a:hover { color: var(--acid); border-bottom-color: var(--acid); }
+  @media (max-width: 720px) {
+    .router { padding: 18px 16px 14px; }
+    .router-verdict { grid-template-columns: 1fr; }
+    .router-verdict dl { grid-template-columns: 1fr; gap: 2px 0; }
+    .router-verdict dd { margin-bottom: 8px; }
+    .router-node .router-t1 { font-size: 16px; }
+    .router-svg .router-t2 { font-size: 11px; }
+    .router-ctl button { flex: 1 1 45%; }
+  }
+  @media (prefers-reduced-motion: reduce) { .router-active { animation: none; } .router-node.pulse rect { animation: none; } }
+  @media print { .router { page-break-inside: avoid; break-inside: avoid; } }
+
+  /* ============ WHICH COPILOT IS WHICH (issue 023) ============ */
+  /* Four-column ladder of the Copilot versions. Stacks into cards on a phone. */
+  .tiers { margin: 34px 0 28px; border: 1px solid var(--rule); border-top: 3px solid var(--acid); border-radius: 4px; background: var(--panel); overflow: hidden; }
+  .tiers-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 22px 12px; border-bottom: 1px solid var(--rule); }
+  .tiers-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); }
+  .tiers-flag { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral); white-space: nowrap; }
+  .tiers table { width: 100%; border-collapse: collapse; }
+  .tiers thead th { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--rule); }
+  .tiers tbody th, .tiers tbody td { text-align: left; vertical-align: top; padding: 14px 16px; border-bottom: 1px solid var(--rule-soft); font-size: 14px; line-height: 1.5; color: var(--paper-2); font-family: 'Inter', sans-serif; }
+  .tiers tbody tr:last-child th, .tiers tbody tr:last-child td { border-bottom: none; }
+  .tiers tbody th { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); width: 22%; }
+  .tiers tbody th small { display: block; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+  .tiers td.who { color: var(--paper); font-weight: 500; }
+  .tiers td .num { font-family: 'JetBrains Mono', monospace; color: var(--acid); font-weight: 600; font-size: 13.5px; }
+  .tiers tr.rebuilt th { border-left: 3px solid var(--acid); }
+  .tiers-foot { padding: 12px 22px 14px; font-size: 12px; color: var(--muted); line-height: 1.5; border-top: 1px solid var(--rule-soft); }
+  @media (max-width: 720px) {
+    .tiers thead { display: none; }
+    .tiers tbody tr { display: block; padding: 6px 0 10px; border-bottom: 1px solid var(--rule); }
+    .tiers tbody tr:last-child { border-bottom: none; }
+    .tiers tbody th, .tiers tbody td { display: block; width: auto; padding: 8px 16px; border-bottom: none; }
+    .tiers tbody td::before { content: attr(data-label); display: block; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage); margin-bottom: 3px; }
+    .tiers-head { padding: 14px 16px 10px; flex-direction: column; gap: 6px; }
+    .tiers-foot { padding: 12px 16px 14px; }
+  }
+  @media print { .tiers { page-break-inside: avoid; break-inside: avoid; } }
+
+  @media (max-width: 720px) {
+    .debate { padding: 26px 22px 22px; }
+    .debate h2 { font-size: 22px; }
+    .fquote { padding: 22px 20px 18px; }
+    .fquote p { font-size: 20px; }
+    .ppn { grid-template-columns: 1fr; }
+    .room h2 { font-size: 24px; }
+  }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 44px; }
+    .deck { font-size: 19px; }
+    .cta-slab { padding: 32px 26px; }
+    .cta-slab h2 { font-size: 26px; }
+    .cta-btn { width: 100%; justify-content: space-between; }
+  }
+
+  @media print {
+    @page { size: A3; margin: 14mm; }
+    body { background: var(--forest); padding: 0; }
+    .page { max-width: none; padding: 0; }
+    .stat-box, .takeaway-point, .pull-quote, .takeaway, .cta-slab, .debate-item, .room-card { page-break-inside: avoid; break-inside: avoid; }
+  }
+
+  /* Sources block carries links; without this they fall through to
+     browser-default blue. */
+  .sources a { color: var(--sage, #74C69D); text-decoration: none; border-bottom: 1px solid rgba(116,198,157,0.35); }
+  .sources a:hover { color: var(--acid, #E8FF3A); border-bottom-color: var(--acid, #E8FF3A); }
+
+  /* ============ CROSS-REFERENCE LINKS ============ */
+  /* Internal links to other AI Sustained work carry a mono badge so they read
+     as "more of this site", not as another citation heading off-platform. */
+  .content a.xref, .ppn-col a.xref {
+    color: var(--acid);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(232,255,58,0.45);
+    white-space: nowrap;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .content a.xref::before, .ppn-col a.xref::before {
+    content: 'AIS';
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 600; letter-spacing: 0.14em;
+    color: var(--ink); background: var(--acid);
+    padding: 2px 5px; border-radius: 2px; margin-right: 7px;
+    vertical-align: 1px; white-space: nowrap;
+  }
+  .content a.xref:hover, .ppn-col a.xref:hover { color: var(--paper); border-bottom-color: var(--paper); }
+
+  /* ============ ISSUE 023 MOTION ============ */
+  .readbar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background: var(--acid);
+    transform: scaleX(0); transform-origin: 0 50%; z-index: 60; pointer-events: none;
+    box-shadow: 0 0 12px rgba(232,255,58,0.55); }
+
+  .hero-photo { position: relative; overflow: hidden; border-top: 3px solid var(--acid); border-radius: 4px; background: #0A0F0C; }
+  .hero-photo img { border-top: 0; border-radius: 0; transform-origin: 50% 22%; animation: heroDrift 28s ease-in-out infinite alternate; }
+  .hero-bulb { position: absolute; left: 50.2%; top: 19.6%; width: 46%; aspect-ratio: 1; transform: translate(-50%, -50%);
+    border-radius: 50%; pointer-events: none; mix-blend-mode: screen;
+    background: radial-gradient(circle, rgba(232,255,58,0.30) 0%, rgba(232,255,58,0.10) 22%, rgba(232,255,58,0) 58%);
+    animation: bulbBreathe 5.6s ease-in-out infinite; }
+  .hero-pool { position: absolute; left: 50%; top: 92%; width: 70%; height: 30%; transform: translate(-50%, -50%);
+    border-radius: 50%; pointer-events: none; mix-blend-mode: screen;
+    background: radial-gradient(ellipse, rgba(232,255,58,0.14) 0%, rgba(232,255,58,0) 65%);
+    animation: bulbBreathe 5.6s ease-in-out infinite; }
+  @keyframes heroDrift { from { transform: scale(1); } to { transform: scale(1.05); } }
+  @keyframes bulbBreathe { 0%, 100% { opacity: .55; } 38% { opacity: 1; } 44% { opacity: .72; } 50% { opacity: 1; } 78% { opacity: .8; } }
+
+  .hero .kicker, .hero h1, .hero .deck, .hero .disclosure, .hero-figure, .backnav, .masthead {
+    animation: heroIn .9s cubic-bezier(.2,.7,.2,1) both; }
+  .backnav { animation-delay: 0s; } .masthead { animation-delay: .04s; }
+  .hero .kicker { animation-delay: .08s; } .hero h1 { animation-delay: .18s; }
+  .hero .deck { animation-delay: .32s; } .hero .disclosure { animation-delay: .44s; }
+  .hero-figure { animation-delay: .4s; animation-duration: 1.1s; }
+  @keyframes heroIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+  /* scroll reveal: only once JS has confirmed it can run, so nothing is ever hidden without it */
+  html.js .rv { opacity: 0; transform: translateY(20px); transition: opacity .75s ease, transform .75s cubic-bezier(.2,.7,.2,1); will-change: opacity, transform; }
+  html.js .rv.in { opacity: 1; transform: none; will-change: auto; }
+  html.js .content h2.rv { transform: translateX(-14px); }
+  html.js .content h2.rv.in { transform: none; }
+  html.js .content h2.rv::after { content: ''; display: block; width: 0; height: 2px; background: var(--acid); margin-top: 10px; transition: width .9s cubic-bezier(.2,.7,.2,1) .25s; }
+  html.js .content h2.rv.in::after { width: 56px; }
+  html.js .fquote.rv { transform: translateY(20px) scale(.985); }
+  html.js .fquote.rv.in { transform: none; }
+  html.js .rv.pull-quote { transition-duration: 1s; }
+  .stat-value .num-anim { display: inline-block; min-width: 1ch; font-variant-numeric: tabular-nums; }
+  .stat-value .type-anim { display: inline-block; }
+  html.js .type-anim::after { content: ''; display: inline-block; width: 2px; height: .8em; background: var(--acid); margin-left: 4px; vertical-align: -2px; opacity: 0; }
+  html.js .stat-box.in .type-anim::after { animation: caret 1s steps(2, start) 4; }
+  @keyframes caret { from { opacity: 1; } to { opacity: 0; } }
+
+  html.js .tiers.rv.in tr.rebuilt { animation: rowLit 2.4s ease-out .5s both; }
+  @keyframes rowLit { 0% { background: rgba(232,255,58,0); } 20% { background: rgba(232,255,58,0.22); } 100% { background: rgba(232,255,58,0.06); } }
+  html.js .tiers.rv.in tr.rebuilt th { position: relative; }
+  html.js .tiers.rv.in tr.rebuilt th::after { content: ''; position: absolute; left: -3px; top: 0; width: 3px; height: 100%; background: var(--acid-hi, #F4FF7A);
+    box-shadow: 0 0 14px rgba(232,255,58,0.9); animation: rowGlow 2.4s ease-out .5s both; }
+  @keyframes rowGlow { 0% { opacity: 0; transform: scaleY(0); transform-origin: top; } 30% { opacity: 1; transform: scaleY(1); } 100% { opacity: 0; } }
+
+  html.js .takeaway-point.rv, html.js .room-card.rv, html.js .stat-box.rv, html.js .ppn-col.rv, html.js .debate-item.rv { transform: translateY(26px); }
+  html.js .takeaway-point.rv.in, html.js .room-card.rv.in, html.js .stat-box.rv.in, html.js .ppn-col.rv.in, html.js .debate-item.rv.in { transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .readbar { display: none; }
+    .hero-photo img, .hero-bulb, .hero-pool, .hero .kicker, .hero h1, .hero .deck, .hero .disclosure, .hero-figure, .backnav, .masthead { animation: none; }
+    html.js .rv, html.js .content h2.rv, html.js .fquote.rv { opacity: 1; transform: none; transition: none; }
+    html.js .content h2.rv::after { width: 56px; transition: none; }
+    html.js .tiers.rv.in tr.rebuilt, html.js .tiers.rv.in tr.rebuilt th::after, html.js .stat-box.in .type-anim::after { animation: none; }
+    html.js .tiers.rv.in tr.rebuilt { background: rgba(232,255,58,0.06); }
+  }
+  @media print { .readbar { display: none; } html.js .rv { opacity: 1; transform: none; } .hero-bulb, .hero-pool { display: none; } }
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K3HFQT6S"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<div class="readbar" aria-hidden="true"></div>
+<article class="page">
+
+  <a class="backnav" href="/">&#8592; All articles</a>
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <span class="wordmark">AI Sustained.</span>
+      <span>Issue 023</span>
+    </div>
+    <div class="masthead-right">
+      <span>29 SEP 2026</span>
+      <span>AI Made Simple</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">AI Made Simple &middot; Product release</div>
+    <h1>Microsoft has rebuilt Copilot. <span class="accent">Not the one you hate.</span></h1>
+    <p class="deck">There are five things called Copilot, and most people&rsquo;s opinion was formed on the bottom two. Microsoft has rebuilt the paid one at work, put Claude and GPT in its model list and the clever parts on a meter. Which one <span class="accent">you actually have</span>, what each costs in pounds, and how to change a sceptic&rsquo;s mind.</p>
+    <div class="disclosure">
+      <span class="disclosure-label">Disclosure</span>
+      <p>Written by Claude Fable 5.1. Curated, fact-checked and edited by Kevin Clubb.</p>
+    </div>
+  </section>
+
+  <figure class="hero-figure">
+    <div class="hero-photo">
+      <img src="copilot-home-code-autopilot_hero.webp" width="1376" height="768" fetchpriority="high" decoding="async"
+           alt="A garage at night under a single green bulb. A child’s bike with stabilisers and a small helmet stand at the front; behind them a road bike, half covered by a dust sheet, leans against a workbench, with stacked boxes, old tyres and a tool board in the dark.">
+      <span class="hero-bulb" aria-hidden="true"></span>
+      <span class="hero-pool" aria-hidden="true"></span>
+    </div>
+    <figcaption>Cover &middot; AI Sustained &middot; The one you know has stabilisers. The rebuilt one is under the sheet.</figcaption>
+  </figure>
+
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">Things called Copilot</div>
+      <span class="stat-value"><span class="num-anim" data-count="5" data-dp="0">5</span></span>
+      <div class="stat-note">Free, home, business, enterprise and Studio. One was rebuilt on 25 September. The free one was not.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">The work licence</div>
+      <span class="stat-value"><span class="num-anim" data-count="23.10" data-dp="2" data-prefix="&pound;">&pound;23.10</span></span>
+      <div class="stat-note">Per person, per month, plus VAT, on top of Microsoft 365. Small firms: &pound;16.10, on offer at &pound;13.80 until 31 December.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">The meter</div>
+      <span class="stat-value"><span class="num-anim" data-count="0.6" data-dp="1">0.6</span><span class="unit">p</span></span>
+      <div class="stat-note">Per Copilot Credit: &pound;153.80 buys 25,000 a month. Cowork, Code, Autopilot and the top models all run on it.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Autopilot, per month</div>
+      <span class="stat-value"><span class="type-anim">Not</span><span class="unit">published</span></span>
+      <div class="stat-note">Microsoft has not said what an agent that never clocks off costs. Ignite, 17 November, is the next chance to ask.</div>
+    </div>
+  </section>
+
+  <section class="depth" aria-label="Reading depth">
+    <div class="depth-label">Reading depth</div>
+    <p class="depth-sub">How deep do you want to go? Pick a level and the article rewrites itself.</p>
+    <div class="ticks" role="group" aria-label="Choose reading depth">
+      <button class="tick" type="button" aria-pressed="false">Explain like I&rsquo;m 5</button>
+      <button class="tick" type="button" aria-pressed="true">Curious</button>
+      <button class="tick" type="button" aria-pressed="false">Practitioner</button>
+      <button class="tick" type="button" aria-pressed="false">Expert</button>
+    </div>
+    <input id="depth-range" class="depth-range" type="range"
+           min="0" max="3" step="1" value="1" aria-label="Reading depth">
+    <div class="reading-meta" id="reading-meta">Curious &middot; &asymp;3,370 words &middot; 16 min</div>
+  </section>
+
+  <div id="reading">
+
+    <nav class="toc" aria-label="Table of contents">
+      <div class="toc-label">In this issue</div>
+      <ol>
+        <li><span class="toc-num">01</span><a href="#people">Four people, five Copilots</a></li>
+        <li><span class="toc-num">02</span><a href="#which">Which Copilot is which</a></li>
+        <li><span class="toc-num">03</span><a href="#history">Why everyone thinks it is rubbish</a></li>
+        <li><span class="toc-num">04</span><a href="#landed">What was rebuilt, and whether it is better</a></li>
+        <li><span class="toc-num">05</span><a href="#where">Where does your prompt go?</a></li>
+        <li><span class="toc-num">06</span><a href="#bill">Same brains as Claude and ChatGPT, two bills</a></li>
+        <li><span class="toc-num">07</span><a href="#early">What the people with early access say</a></li>
+        <li><span class="toc-num">08</span><a href="#convince">How to win the room</a></li>
+        <li><span class="toc-num">09</span><a href="#do">What Adaeze, Sanjay, Hannah and Craig should do</a></li>
+        <li><span class="toc-num">10</span><a href="#before">Before you switch anything on</a></li>
+        <li><span class="toc-num">11</span><a href="#room">Straight from the sources</a></li>
+      </ol>
+    </nav>
+
+    <section class="content" id="section-1">
+
+      <h2 id="people">Four people, five Copilots.</h2>
+
+      <p><strong>Adaeze</strong> runs a West African restaurant and takeaway in Birmingham with six staff. She has Microsoft 365 at home for the laptop she does the VAT on, and every time she opens Excel a Copilot button asks her to try something. She has not. <strong>Sanjay</strong> runs three homewares shops in Leicester plus a Shopify site, 14 staff, stock in a spreadsheet. ChatGPT writes his product descriptions; the Copilot in his Microsoft 365 Business apps has never earned its place. <strong>Hannah</strong> is a senior HR business partner at a housing association in Gateshead. Her employer pays for the work Copilot, she is the only person in the building who uses it well, and she has become the unofficial helpdesk for colleagues who pressed the button once, got a flat answer and went back to ChatGPT on their phones. <strong>Craig</strong> is an ex-plumber in Cornwall who builds automations for tradespeople and small firms, and his rule for any tool is simple: if he cannot plug into it, it is dead to him.</p>
+
+      <p>All four have met something called Copilot and none of them was impressed. The trouble is that they have each met a different one. Microsoft uses the name for at least five products, most people have only ever used the bottom two, and on 25 September it rebuilt the one near the top. So before the story, the table.</p>
+
+      <h2 id="which">Which Copilot is which.</h2>
+
+      <div class="tiers" aria-label="The five Copilots compared">
+        <div class="tiers-head">
+          <span class="tiers-label">The five Copilots &middot; UK prices, September 2026</span>
+          <span class="tiers-flag">Home prices include VAT; work prices do not</span>
+        </div>
+        <table>
+          <thead>
+            <tr><th scope="col">Version</th><th scope="col">Who has it</th><th scope="col">What it costs</th><th scope="col">What it can do</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Copilot, free<small>The app, the website, Windows, and Copilot Chat at work</small></th>
+              <td class="who" data-label="Who has it">Everyone. Sanjay&rsquo;s shop staff, Hannah&rsquo;s colleagues, anyone with a Microsoft sign-in.</td>
+              <td data-label="What it costs"><span class="num">&pound;0</span></td>
+              <td data-label="What it can do">Answers questions from the web, drafts a paragraph, reads a file you give it. Forgets your work between visits. This is the one most people mean when they say they hate Copilot.</td>
+            </tr>
+            <tr>
+              <th scope="row">Copilot at home<small>Inside Microsoft 365 Personal, Family or Premium</small></th>
+              <td class="who" data-label="Who has it">Adaeze, on the laptop she does the VAT on.</td>
+              <td data-label="What it costs"><span class="num">&pound;8.49</span> or <span class="num">&pound;10.49</span> a month for Personal or Family. <span class="num">&pound;18.99</span> for Premium.</td>
+              <td data-label="What it can do">The Copilot buttons inside Word, Excel and PowerPoint, with monthly limits. Premium gets heavier use, and Code (build a small app by describing it) later this year.</td>
+            </tr>
+            <tr>
+              <th scope="row">Copilot Business<small>Microsoft 365 Copilot for firms under 300 people</small></th>
+              <td class="who" data-label="Who has it">Sanjay could. He has not bought it.</td>
+              <td data-label="What it costs"><span class="num">&pound;13.80</span> a person a month on offer until 31 December, then <span class="num">&pound;16.10</span>. On top of Microsoft 365.</td>
+              <td data-label="What it can do">A Copilot that can see your work email, files and Teams, and remembers them. The agent parts (Cowork, Code, Autopilot) cost credits on top.</td>
+            </tr>
+            <tr class="rebuilt">
+              <th scope="row">Copilot Enterprise<small>Microsoft 365 Copilot for larger organisations. The one that was rebuilt</small></th>
+              <td class="who" data-label="Who has it">Hannah, through her employer.</td>
+              <td data-label="What it costs"><span class="num">&pound;23.10</span> a person a month, on top of Microsoft 365.</td>
+              <td data-label="What it can do">Everything Business does, plus the controls a big organisation needs, and first access to the rebuilt Home, Code and Autopilot through Microsoft&rsquo;s early-access scheme, Frontier. Agent parts still cost credits.</td>
+            </tr>
+            <tr>
+              <th scope="row">Copilot Studio<small>Build your own agents</small></th>
+              <td class="who" data-label="Who has it">Craig, on behalf of clients who already pay for Copilot.</td>
+              <td data-label="What it costs">Included for in-house agents with Business or Enterprise. On its own, <span class="num">&pound;153.80</span> a month for 25,000 credits, or pay as you go.</td>
+              <td data-label="What it can do">Lets you build an agent for a specific job and give it to a website, an app or people who do not have a licence. A toolkit, not an assistant.</td>
+            </tr>
+            <tr>
+              <th scope="row">Copilot Credits<small>The meter under Business, Enterprise and Studio</small></th>
+              <td class="who" data-label="Who has it">Anyone on the three paid work versions, once an admin sets a budget.</td>
+              <td data-label="What it costs">About <span class="num">0.6p</span> a credit. One Cowork job is roughly <span class="num">60p to over &pound;4</span>.</td>
+              <td data-label="What it can do">Pays for the parts that work on their own for hours (Cowork, Code, Autopilot) and for the top models, Claude Fable and GPT-6 Astra. Switched off until someone sets a spending limit.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="tiers-foot">Sources: Microsoft UK pricing pages, 27 September 2026. The credits-per-job range is read from the task-pattern graphic in Microsoft&rsquo;s June Cowork post; nothing has been published for Autopilot or Code. Microsoft renamed Microsoft 365 Copilot to plain Microsoft Copilot over August and September; its pricing pages have not caught up. For comparison, Claude Pro and ChatGPT Plus are $20, about &pound;16 a month, one bill.</div>
+      </div>
+
+      <p>Read the table once and half the argument is in it. The free one is what most people have and dislike. The home one is the free one with more buttons. The rebuilt one is two rungs up, and even there the clever parts need a second payment. Studio is for Craig, not Adaeze.</p>
+
+      <h2 id="history">Why everyone thinks it is rubbish.</h2>
+
+      <p>Ask a room of office workers what Copilot is like and you will get an opinion formed in 2023. The name arrived on Bing&rsquo;s chatbot, then on a Windows sidebar, then on a button in every Office app, and the first paid work version launched at $30 a head to reviews that ranged from polite to puzzled. Since then the free one has been pushed at people from the taskbar, the Start menu and the Snipping Tool, and the paid one has sat behind a licence most employers did not buy. Almost everyone&rsquo;s idea of Copilot is built on the bottom two rows of that table and on that history. It is a preconception, and it is out of date.</p>
+
+      <p>I say that from my own desk, not from a press release. I run a licensed work Copilot inside an organisation that lives in Microsoft: Teams, Outlook, Excel, SharePoint, the lot. On the default setting it is mediocre, and I would not blame anyone for walking away after ten minutes. Pick GPT-5.6 or Claude Sonnet 5 from the model list, switch thinking on, and it becomes the same brain you would pay OpenAI or Anthropic for, with one difference the others cannot match: it can read the Teams thread, the mailbox and the spreadsheet you are asking about without you pasting anything in. The models are eons apart. The button looks the same.</p>
+
+      <blockquote class="pull-quote">Nobody hates Copilot. They hate the free one, and they have never met the other four.
+        <cite>The preconception, in one sentence</cite>
+      </blockquote>
+
+      <h2 id="landed">What was rebuilt, and whether it is better.</h2>
+
+      <p>On 25 September Microsoft <a href="https://blogs.microsoft.com/blog/2026/09/25/introducing-the-new-copilot-with-home-code-and-autopilot/" target="_blank" rel="noopener">announced &ldquo;the new Copilot&rdquo;</a>, built around three things. <strong>Home</strong> is the front door: quick chat on one side, and on the other <strong>Cowork</strong>, where you hand over a whole job (a tender response, a month-end pack) and it goes off and does it, with Word, Excel and PowerPoint built into the app. <strong>Code</strong> lets someone who cannot programme describe a tracker or an automation in plain English and have it built and hosted inside the organisation&rsquo;s own Microsoft environment. <strong>Autopilot</strong> is an agent you give a name, a role and a goal. It keeps working when you have gone home and turns up in Teams and Outlook like a colleague.</p>
+
+      <figure class="fquote">
+        <p>We&rsquo;re building Copilot as a new OS for work that spans <span class="sweep">every model, every form factor, and every task</span>.</p>
+        <cite>Satya Nadella &middot; on X &middot; 25 Sep 2026</cite>
+      </figure>
+
+      <p>Is it better? On three counts, yes, and one of them matters more than the features. First, the documents are real: ask for a budget and an editable Excel workbook appears, shared with the team, showing what changed and why. Second, Cowork now lives in the same window as chat, so handing over a job is no longer a separate product. Third, and this is the one to tell the sceptics, <strong>the model list is the point</strong>. Inside the one Copilot window you can pick <a href="https://techcommunity.microsoft.com/blog/microsoft-copilot-blog/evolution-of-the-copilot-pricing-model/4559416" target="_blank" rel="noopener">GPT-5.6 or Claude Sonnet 5</a> on the licence, Opus 5 is coming with limits, and Claude Fable and GPT-6 Astra, the two strongest models on sale, are there on credits. Microsoft says more labs and open models follow. You are no longer choosing between Copilot and the frontier. You are choosing which frontier model reads your inbox.</p>
+
+      <p>Who gets it: the Enterprise row first, through the <a href="https://www.microsoft.com/en-gb/microsoft-365-copilot/frontier-program" target="_blank" rel="noopener">Frontier programme</a>, which an organisation&rsquo;s IT team has to opt into. Home and Code reach Frontier users &ldquo;in the coming weeks&rdquo;, which Microsoft&rsquo;s admin message centre pins to October. Autopilot goes to private preview at the end of September. The Business row follows. The home row gets <a href="https://www.unite.ai/microsoft-copilot-overhaul-adds-home-hub-code-builder-and-autopilot-agent/" target="_blank" rel="noopener">a version of Code</a> on the &pound;18.99 Premium plan &ldquo;later in 2026&rdquo;. The free row gets nothing; Bloomberg&rsquo;s headline on the day was that Microsoft had <a href="https://www.bloomberg.com/news/articles/2026-09-25/microsoft-abandons-personal-ai-chatbot-race-with-copilot-reboot" target="_blank" rel="noopener">abandoned the personal chatbot race</a>, and earlier this year it <a href="https://techcrunch.com/2026/03/20/microsoft-rolls-back-some-of-its-copilot-ai-bloat-on-windows/" target="_blank" rel="noopener">started pulling Copilot back</a> from Photos, the Snipping Tool and Notepad after complaints.</p>
+
+      <h2 id="where">Where does your prompt go?</h2>
+
+      <p>This is the question that matters most if your organisation has rules about data leaving the country, and the marketing does not answer it. Microsoft&rsquo;s own documentation does, and the answer is different for every brain in the list. Two things surprised me. The UK is not inside Microsoft&rsquo;s EU Data Boundary, so a UK organisation gets fewer promises than a French one. And since July, some GPT models in Copilot are run by OpenAI rather than by Microsoft, on by default, with no in-country promise.</p>
+
+      <figure class="fquote">
+        <p>For EU customers, Microsoft Copilot is an EU Data Boundary service. <span class="sweep">Customers outside the EU may have their queries processed in the US, EU, or other regions</span>.</p>
+        <cite>Microsoft Learn &middot; Data, privacy and security for Microsoft Copilot &middot; updated 18 Aug 2026</cite>
+      </figure>
+
+      <div class="router" aria-label="Where does your prompt go" data-loc="uk" data-model="msft">
+        <div class="router-head">
+          <span class="router-label">Where does your prompt go?</span>
+          <span class="router-flag">Watch the dot</span>
+        </div>
+        <p class="router-sub">Pick where you are, then pick a brain. The dot shows where your words are sent, and whether Microsoft is in the room at all. The Copilot rows are from Microsoft&rsquo;s own documentation, dated September 2026; the two rows outside Copilot are from OpenAI&rsquo;s and Anthropic&rsquo;s own terms.</p>
+        <div class="router-ctl" role="group" aria-label="Your organisation is in">
+          <span class="router-ctl-label">Your organisation</span>
+          <button type="button" data-loc="uk" aria-pressed="true">United Kingdom</button>
+          <button type="button" data-loc="eu" aria-pressed="false">EU or EFTA</button>
+        </div>
+        <div class="router-groups">
+          <div class="router-group router-group-in">
+            <div class="router-group-head"><span class="router-pill">Inside Copilot</span><span class="router-group-note">what you pick from Copilot&rsquo;s own model list, on a work licence</span></div>
+            <div class="router-ctl" role="group" aria-label="Model chosen inside Copilot">
+              <button type="button" data-model="auto" aria-pressed="false">Auto <small>Copilot decides</small></button>
+              <button type="button" data-model="msft" aria-pressed="true">GPT-5.6 <small>run by Microsoft</small></button>
+              <button type="button" data-model="oai" aria-pressed="false">GPT <small>run by OpenAI</small></button>
+              <button type="button" data-model="claude" aria-pressed="false">Claude Sonnet 5 <small>or Fable 5.1</small></button>
+              <button type="button" data-model="retain" aria-pressed="false">Claude <small>with data retention</small></button>
+            </div>
+          </div>
+          <div class="router-group router-group-out">
+            <div class="router-group-head"><span class="router-pill out">Outside Copilot</span><span class="router-group-note">the same brains used directly. Nothing to do with Microsoft</span></div>
+            <div class="router-ctl" role="group" aria-label="Model used outside Copilot">
+              <button type="button" data-model="chatgpt" aria-pressed="false">ChatGPT <small>app or website</small></button>
+              <button type="button" data-model="claudeapp" aria-pressed="false">Claude <small>app or website</small></button>
+            </div>
+          </div>
+        </div>
+        <svg class="router-svg" viewBox="0 0 740 330" role="img" aria-labelledby="router-title">
+          <title id="router-title">Diagram showing the route a Copilot prompt takes from your organisation to Microsoft, and on to OpenAI or Anthropic depending on the model chosen</title>
+          <defs>
+            <marker id="router-arrow-m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="rgba(242,236,217,0.35)"/></marker>
+            <marker id="router-arrow-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="#E8FF3A"/></marker>
+            <marker id="router-arrow-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="#FF5A3C"/></marker>
+          </defs>
+          <g class="router-lines">
+            <path class="router-line" d="M130,160 L246,160" marker-end="url(#router-arrow-m)"/>
+            <path class="router-line" d="M410,160 L470,160"/>
+            <path class="router-line" d="M470,160 L536,160" marker-end="url(#router-arrow-m)"/>
+            <path class="router-line" d="M470,160 L470,72 L536,72" marker-end="url(#router-arrow-m)"/>
+            <path class="router-line" d="M470,160 L470,248 L536,248" marker-end="url(#router-arrow-m)"/>
+            <path class="router-line router-line-busy" d="M330,196 L330,240" marker-end="url(#router-arrow-m)"/>
+            <path class="router-line router-line-direct" d="M75,128 L75,22 L630,22 L630,36" marker-end="url(#router-arrow-m)"/>
+            <path class="router-line router-line-direct" d="M75,192 L75,312 L630,312 L630,284" marker-end="url(#router-arrow-m)"/>
+            <text x="120" y="16" class="router-t2 router-t-direct">straight to OpenAI, no Copilot</text>
+            <text x="120" y="326" class="router-t2 router-t-direct">straight to Anthropic, no Copilot</text>
+          </g>
+          <path class="router-active" d="M130,160 L246,160 M410,160 L470,160 L536,160" fill="none" marker-end="url(#router-arrow-a)"/>
+          <g class="router-node router-node-you" transform="translate(20,128)">
+            <rect width="110" height="64" rx="5"/>
+            <text x="55" y="28" text-anchor="middle" class="router-t1">You</text>
+            <text x="55" y="47" text-anchor="middle" class="router-t2" data-you>UK tenant</text>
+          </g>
+          <g class="router-node" data-node="msft" transform="translate(250,124)">
+            <rect width="160" height="72" rx="5"/>
+            <text x="80" y="32" text-anchor="middle" class="router-t1">Microsoft</text>
+            <text x="80" y="51" text-anchor="middle" class="router-t2">nearest region</text>
+          </g>
+          <g class="router-node router-node-ghost" data-node="busy" transform="translate(250,244)">
+            <rect width="160" height="52" rx="5"/>
+            <text x="80" y="22" text-anchor="middle" class="router-t2">other regions, incl. US</text>
+            <text x="80" y="38" text-anchor="middle" class="router-t2">when busy</text>
+          </g>
+          <g class="router-node" data-node="oai" data-cx="540" data-cy="72" transform="translate(540,40)">
+            <rect width="180" height="64" rx="5"/>
+            <text x="90" y="28" text-anchor="middle" class="router-t1">OpenAI</text>
+            <text x="90" y="47" text-anchor="middle" class="router-t2">Microsoft subprocessor</text>
+          </g>
+          <g class="router-node" data-node="msft2" data-cx="540" data-cy="160" transform="translate(540,128)">
+            <rect width="180" height="64" rx="5"/>
+            <text x="90" y="28" text-anchor="middle" class="router-t1">Stays with Microsoft</text>
+            <text x="90" y="47" text-anchor="middle" class="router-t2">no third party</text>
+          </g>
+          <g class="router-node" data-node="ant" data-cx="540" data-cy="248" transform="translate(540,216)">
+            <rect width="180" height="64" rx="5"/>
+            <text x="90" y="28" text-anchor="middle" class="router-t1">Anthropic</text>
+            <text x="90" y="47" text-anchor="middle" class="router-t2">outside EU Data Boundary</text>
+          </g>
+          <circle class="router-ring" cx="540" cy="160" r="6">
+            <animate attributeName="r" values="4;4;22" keyTimes="0;0.86;1" dur="2.4s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0;0;0.9;0" keyTimes="0;0.86;0.9;1" dur="2.4s" repeatCount="indefinite"/>
+          </circle>
+          <circle class="router-dot" r="6">
+            <animateMotion dur="2.4s" repeatCount="indefinite" path="M130,160 L246,160 M410,160 L470,160 L536,160"/>
+          </circle>
+        </svg>
+        <div class="router-legend"><span><i class="ok"></i> stays with Microsoft</span><span><i class="risk"></i> leaves Microsoft, or never touches it</span><span><i class="maybe"></i> possible, depends on your admin</span></div>
+        <div class="router-verdict">
+          <div class="router-badge" data-badge>Never leaves Microsoft</div>
+          <dl>
+            <dt>Handled by</dt><dd data-v="who">Microsoft only.</dd>
+            <dt>Where</dt><dd data-v="where">The nearest Microsoft datacentre, but the UK is not inside the EU Data Boundary, so at busy times your prompt can be processed in the US, the EU or elsewhere.</dd>
+            <dt>Kept?</dt><dd data-v="kept">Your prompt and the answer are stored in your own Microsoft 365 as activity history. Not used to train models.</dd>
+          </dl>
+        </div>
+        <div class="router-foot">Sources: Microsoft Learn, <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-privacy" target="_blank" rel="noopener">Data, privacy and security for Microsoft Copilot</a>; <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connect-to-ai-subprocessor" target="_blank" rel="noopener">Anthropic models in Microsoft Online Services</a>; <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/openai-subprocessor" target="_blank" rel="noopener">OpenAI as a subprocessor</a>. For the two routes outside Copilot, see <a href="https://openai.com/policies/privacy-policy/" target="_blank" rel="noopener">OpenAI&rsquo;s privacy policy</a> and <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Anthropic&rsquo;s</a>; business plans differ from personal ones. Read in full before you rely on this; your admin&rsquo;s settings decide which Copilot routes exist.</div>
+      </div>
+
+      <p>The plain-English version. <strong>GPT run by Microsoft</strong> never leaves Microsoft, but for a UK organisation it may be processed abroad at busy times. <strong>GPT run by OpenAI</strong> is handled by OpenAI under Microsoft&rsquo;s contract, with nothing kept, and no promise about country outside the EU. <strong>Claude</strong> is handled by Anthropic under Microsoft&rsquo;s contract, outside the EU Data Boundary, off by default for UK and EU organisations, and Copilot puts a marker on screen when a Claude brain is answering. <strong>Claude with data retention</strong>, the Fable 5.0 and Mythos 5 class, is Anthropic&rsquo;s own contract, stored by Anthropic for up to 30 days, and off everywhere until an admin opts in twice. None of it is used to train models. And the comparison people actually ask about: picking Sonnet inside Copilot and opening the Claude app are the same brain on two different contracts. Inside Copilot, Anthropic sees your prompt under Microsoft&rsquo;s terms, keeps nothing, and the record stays in your Microsoft 365. In the Claude app, or in ChatGPT, the prompt goes straight to a US company under its own terms, is kept as your chat history, and on a personal account may be used for training unless you say otherwise. Neither route is &ldquo;kept in the UK&rdquo;. The Copilot route is the one with a contract, an audit log and an off switch your admin controls.</p>
+
+      <h2 id="bill">Same brains as Claude and ChatGPT, two bills.</h2>
+
+      <p>So &ldquo;can it compete with Claude or ChatGPT&rdquo; is partly the wrong question. It <em>is</em> Claude and ChatGPT, wearing a lanyard. Cowork itself was built with Anthropic, on the same foundation as Claude Cowork. What you pay Microsoft for is where the brain sits: inside your organisation&rsquo;s files and permissions, rather than in a browser tab with your data pasted in. And you pay for that twice: the licence, then the meter.</p>
+
+      <figure class="fquote">
+        <p>For the heaviest users, hitting a limit is not hitting a wall. You get a clear warning first, then a choice: <span class="sweep">switch your model selection to Auto at no additional cost or move to credits</span>.</p>
+        <cite>Nicole Herskowitz &middot; Microsoft, Evolution of the Copilot pricing model &middot; 25 Sep 2026</cite>
+      </figure>
+
+      <p>The everyday work is on a fixed licence. The interesting work, the agents that run for hours and the best models, is on a meter that is off by default until IT switches it on. Analyst Patrick Moorhead, whose firm counts Microsoft as a client, calls it <a href="https://moorinsightsstrategy.com/field-notes/with-the-new-copilot-microsoft-starts-selling-work-not-just-seats/" target="_blank" rel="noopener">&ldquo;margin repair and market expansion, not a price cut&rdquo;</a>, and notes the awkward consequence: the best-scoring models in Copilot are the metered ones. Against that, Claude Pro and ChatGPT Plus are one bill of about &pound;16, and Claude Cowork comes with it.</p>
+
+      <h2 id="early">What the people with early access say.</h2>
+
+      <p>Cowork has been in the Frontier programme since March, so some people have run it for six months, and their verdict beats the launch video. An IT administrator who has <a href="https://patchandprompt.com/copilot-cowork-frontier-review/" target="_blank" rel="noopener">run it in a production tenant</a> since it opened calls it the most operationally interesting thing Microsoft has shipped inside Microsoft 365. Then the caveat.</p>
+
+      <figure class="fquote">
+        <p>Reasoning quality on ambiguous or technically complex tasks <span class="sweep">lags behind what a direct Claude or ChatGPT session produces</span>.</p>
+        <cite>Patch &amp; Prompt &middot; Copilot Cowork in Frontier, IT admin review &middot; May 2026</cite>
+      </figure>
+
+      <p>That pattern repeats everywhere the launch was discussed. On the <a href="https://news.ycombinator.com/item?id=49844896" target="_blank" rel="noopener">Hacker News thread</a>, the people who like Copilot at work are the ones who picked a specific model and a thinking mode; the people who loathe it are the ones left on the default &ldquo;Auto&rdquo; setting, which picks the cheapest. One commenter&rsquo;s summary of colleagues: they stick to their very first bad experience. Hannah has watched exactly that happen across three floors of her building. Autopilot has fewer witnesses because it has barely left the building; Microsoft&rsquo;s own executive in charge of Copilot told a customer event that the autonomy which makes a long-running agent useful is the same thing that makes it <a href="https://www.geekwire.com/2026/microsoft-unveils-all-in-one-copilot-app-taking-on-anthropic-and-openai-in-new-push-to-boost-adoption/" target="_blank" rel="noopener">&ldquo;absolutely terrifying to an IT admin&rdquo;</a>.</p>
+
+      <h2 id="convince">How to win the room.</h2>
+
+      <p>If you are the Hannah in your organisation, the person who knows the paid Copilot is good and cannot get anyone to believe it, the evidence above tells you exactly how to make the case. Five moves.</p>
+
+      <ul>
+        <li><strong>Never demo the free one.</strong> The preconception was built on the bottom two rows. Every demo happens on a licensed account with a named model and thinking on, or it confirms what people already think.</li>
+        <li><strong>Win the first ten minutes.</strong> People keep their first bad experience. Have IT set the default model for the pilot group, so nobody meets Auto by accident.</li>
+        <li><strong>Show the thing the rivals cannot do.</strong> &ldquo;Summarise what was agreed in this Teams thread and draft the reply in Outlook.&rdquo; &ldquo;What changed in this workbook since Tuesday, and who changed it?&rdquo; &ldquo;Pull the last three meeting recaps with this supplier.&rdquo; ChatGPT in a browser tab cannot see any of that. This is Copilot&rsquo;s own advantage, and it only exists because the brain is standing inside the building.</li>
+        <li><strong>Sell the fence to security, not to users.</strong> The same models, inside the organisation&rsquo;s permissions and audit log, is the answer to the shadow ChatGPT already on staff phones. Security will back it before users do.</li>
+        <li><strong>Measure two numbers.</strong> Minutes saved per run and credits used per run. A pilot with those two figures is a business case. A pilot without them is a testimonial, and testimonials are how Copilot got its reputation in the first place.</li>
+      </ul>
+
+      <blockquote class="pull-quote">Everyday AI is a seat. Delegated AI is a meter. The brains worth having are on the meter.
+        <cite>Issue 023 &middot; 29 September 2026</cite>
+      </blockquote>
+
+      <h2 id="do">What Adaeze, Sanjay, Hannah and Craig should do.</h2>
+
+      <p><strong>Adaeze</strong> should ignore it, with a clear conscience. Nothing in this announcement reaches her home Copilot this year except a Code preview on the &pound;18.99 Premium plan, and that is more than a ChatGPT or Claude subscription. The free Copilot will write a menu description or a reply to a review about as well as the free version of anything else. When a rep says &ldquo;Copilot&rdquo;, her first question is which row of the table they mean. It is usually the bottom one.</p>
+
+      <p><strong>Sanjay</strong> should wait, which will suit him. Copilot Business at &pound;13.80 a month would be about &pound;193 a month for his 14 staff before the meter, a fifteenth subscription for a business already drowning in them. The part that would actually pay, Code building the tool that stops his staff rekeying stock between the tills and Shopify, is on the meter and not yet in his hands. ChatGPT at about &pound;16 does his product descriptions; <a class="xref" href="/articles/grok-4-7-idea-on-a-napkin/">Issue 022</a> showed a free route to building the tracker. Revisit when Code is generally available and somebody has published what it costs to run for a quarter.</p>
+
+      <p><strong>Hannah</strong> already has the good one and needs IT to let her prove it. Three items make the case: a spending limit set in the admin centre with an alert (until it exists, Cowork, Code and Autopilot are visible but switched off); a pilot of one small group, hers, enrolled in Frontier with the model pinned to GPT-5.6 or Sonnet 5 with thinking on; and one job that lives entirely in Microsoft 365, the monthly people report or the onboarding checklist, measured in minutes and credits. Then run the five moves above.</p>
+
+      <p><strong>Craig</strong> should build one thing and keep it portable. Copilot Studio is Microsoft&rsquo;s answer to the tools he already uses: it builds an agent and hands it to a website or an app, and for a client who already pays for Copilot it is included for in-house use. The new runtime even has a developer kit, so his flows could run inside a client&rsquo;s Microsoft environment with the client&rsquo;s sign-in and audit trail, which is what those clients will ask for. His risk is the meter: &pound;153.80 a month in credits is a conversation to have before he builds, not after. Keep the logic in n8n, use Studio as the front door, and put a spending limit on it before it goes live.</p>
+
+      <h2 id="before">Before you switch anything on.</h2>
+
+      <p>Three things for anyone in the UK who has the admin rights, or has to persuade whoever does.</p>
+
+      <ul>
+        <li><strong>Know your routes before you pick a brain.</strong> The UK is not inside the EU Data Boundary, OpenAI-run GPT models are on by default with no in-country promise, and Anthropic&rsquo;s models are outside the boundary and <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connect-to-ai-subprocessor" target="_blank" rel="noopener">switched off by default</a> for UK and EU organisations until an admin enables them. Each of those is a data-protection decision, not a tick box: write them down, and ask where a Code app or an Autopilot keeps what it touches, because Microsoft has not yet said.</li>
+        <li><strong>Set the budget before the demo.</strong> Nothing on the meter bills until a spending limit exists. Set one for the whole organisation with an alert, then decide who gets credits. New metered features join an existing limit automatically unless you turn that off.</li>
+        <li><strong>The public sector has already jumped, in England.</strong> NHS England is rolling Copilot to <a href="https://www.england.nhs.uk/2026/06/500000-nhs-staff-to-get-new-artificial-intelligence-tools-to-help-free-up-more-time-for-patients/" target="_blank" rel="noopener">505,000 staff</a> by October, and HMRC has <a href="https://www.thinkdigitalpartners.com/news/2025/10/20/hmrc-launches-largest-government-copilot-rollout/" target="_blank" rel="noopener">32,000 licences rising to 50,000</a>. Those are licence deals, the Enterprise row without the meter. Whether Cowork and Autopilot follow, and on whose credits, is the question trusts and boards will be putting to their account managers this autumn.</li>
+      </ul>
+
+      <p>Adaeze, Sanjay, Hannah, Craig: the Copilot you hate is not the one that was rebuilt. The one that was rebuilt is two rungs up the table, it runs the brains you already trust, and if your organisation lives in Microsoft it can see things no browser tab can. Find your row, pick a model, then judge it by the bill, not the demo.</p>
+
+    </section>
+
+  </div>
+
+  <section class="room" aria-label="Straight from the sources">
+    <div class="room-label">Straight from the sources</div>
+    <h2 id="room">Six lines, four sources.</h2>
+    <p class="room-sub">No commentary. Every card is a verbatim quote from a named person or publication and links to it. Where a quote is shortened, the cut is marked.</p>
+    <div class="room-grid">
+      <a class="room-card pos" href="https://news.ycombinator.com/item?id=49844896" target="_blank" rel="noopener">
+        <div class="room-tag">The defence &middot; A paid enterprise user</div>
+        <p class="room-quote">&ldquo;I use Copilot a lot now. Unlimited, free, high-quality, enterprise-protected inference is not to be sniffed at.&rdquo;</p>
+        <span class="room-src">epihelix &middot; Hacker News, Copilot reboot thread</span>
+      </a>
+      <a class="room-card neg" href="https://news.ycombinator.com/item?id=49844896" target="_blank" rel="noopener">
+        <div class="room-tag">The prosecution &middot; A heavy AI user</div>
+        <p class="room-quote">&ldquo;So many AI doubters I know hate using AI tools because their employer only gives them the Microsoft offerings.&rdquo;</p>
+        <span class="room-src">pseudosavant &middot; Hacker News, Copilot reboot thread</span>
+      </a>
+      <a class="room-card neu" href="https://news.ycombinator.com/item?id=49844896" target="_blank" rel="noopener">
+        <div class="room-tag">The default &middot; Why the first go matters</div>
+        <p class="room-quote">&ldquo;Most colleagues didn&rsquo;t have premium and used default/auto model. People stick to their very first bad experience unfortunately.&rdquo;</p>
+        <span class="room-src">rmaxdev &middot; Hacker News, Copilot reboot thread</span>
+      </a>
+      <a class="room-card pos" href="https://patchandprompt.com/copilot-cowork-frontier-review/" target="_blank" rel="noopener">
+        <div class="room-tag">Six months in &middot; An admin with early access</div>
+        <p class="room-quote">&ldquo;Copilot Cowork is the most operationally interesting thing Microsoft has shipped inside M365 in the current Frontier cycle.&rdquo;</p>
+        <span class="room-src">Patch &amp; Prompt &middot; production tenant since March 2026</span>
+      </a>
+      <a class="room-card neg" href="https://news.ycombinator.com/item?id=49844896" target="_blank" rel="noopener">
+        <div class="room-tag">Scale &middot; The number behind the launch</div>
+        <p class="room-quote">&ldquo;That&rsquo;s in relation to an estimated 450 million or so M365 subscriptions for businesses. Not exactly a huge success.&rdquo;</p>
+        <span class="room-src">steve1977 &middot; Hacker News, on 30 million paid seats</span>
+      </a>
+      <a class="room-card neu" href="https://moorinsightsstrategy.com/field-notes/with-the-new-copilot-microsoft-starts-selling-work-not-just-seats/" target="_blank" rel="noopener">
+        <div class="room-tag">The analyst &middot; Microsoft is a client</div>
+        <p class="room-quote">&ldquo;Microsoft has the right business model and the right governance. It hasn&rsquo;t yet shown that customers can predict the bill or that the agents get the work right.&rdquo;</p>
+        <span class="room-src">Patrick Moorhead &middot; Moor Insights &amp; Strategy &middot; 26 Sep 2026</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="room" aria-label="Past, present, next">
+    <div class="room-label">Past, present, next</div>
+    <h2 id="next">How this issue got here.</h2>
+    <div class="ppn">
+    <div class="ppn-col">
+      <div class="ppn-label">Past</div>
+      <p><a class="xref" href="/articles/fable-5-1-vs-gpt-6-astra/">Issue 019</a> compared the two models that now sit on Copilot&rsquo;s meter. <a class="xref" href="/articles/grok-4-7-idea-on-a-napkin/">Issue 022</a> showed three non-programmers building on a free tier, which is the yardstick this release has to beat.</p>
+    </div>
+    <div class="ppn-col">
+      <div class="ppn-label">Present</div>
+      <p>25 September: Home, Code and Autopilot announced for the paid work Copilot, on OpenAI and Anthropic models, with the agent features and top models on Copilot Credits. Frontier rollout over the coming weeks; Autopilot to private preview at the end of the month.</p>
+    </div>
+    <div class="ppn-col">
+      <div class="ppn-label">Next</div>
+      <p>Watch for two numbers: what an Autopilot or a Code app burns in credits per month, and the home meter for Premium. Ignite runs 17 to 20 November. If neither appears there, the licence is the only price you can plan on.</p>
+    </div>
+    </div>
+  </section>
+
+  <section class="debate" aria-label="Points to argue with">
+    <div class="debate-label">Argue about this at lunch</div>
+    <h2 id="argue">Three questions. I am not certain of my own answers.</h2>
+    <ol>
+      <li class="debate-item">
+        <div class="debate-num">01 &middot; The champion&rsquo;s bias</div>
+        <p class="debate-claim">I say the paid Copilot is very good, and my evidence is my own desk in an organisation that lives in Microsoft. <em>Is that just the Auto problem in reverse: a champion judging the product by the best row?</em></p>
+        <p class="debate-counter"><span>The counter</span> Partly, yes, and Claude Pro at about &pound;16 is one bill where Copilot is a licence plus a meter. Which is why the ask in this issue is not &ldquo;believe me&rdquo;. It is a pilot with the model pinned and two numbers measured. If the minutes and the credits do not add up, my desk is an anecdote.</p>
+      </li>
+      <li class="debate-item">
+        <div class="debate-num">02 &middot; Auto</div>
+        <p class="debate-claim">The default setting picks the cheapest brain, and the default is what made people hate it. <em>Is a product that needs the user to know which model to pick really &ldquo;made simple&rdquo;?</em></p>
+        <p class="debate-counter"><span>The counter</span> Microsoft says it will route to Chat, Cowork or Code from a plain request in a coming update. Until it does, the fix is one setting, and Hannah&rsquo;s IT team can set it for the whole building. That is more than Adaeze can do for the buttons in her Excel, and it is the first of the five moves.</p>
+      </li>
+      <li class="debate-item">
+        <div class="debate-num">03 &middot; The garden wall</div>
+        <p class="debate-claim">Copilot Studio and the new runtime are Microsoft&rsquo;s answer to the tools Craig already uses, with a developer kit attached. <em>Is a walled garden with a gate still a walled garden?</em></p>
+        <p class="debate-counter"><span>The counter</span> Yes, and for his clients that is the point: the agent lives where their sign-in, permissions and audit already are. The lock-in is not the code, which he can keep in n8n. It is the meter, which only Microsoft can read.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="takeaway" aria-label="Tactical takeaway for leaders">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2 id="takeaway">Find your row, pick a model, then judge it by the meter, <em>not the demo</em>.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 &middot; IGNORE &middot; for Adaeze and Sanjay</div>
+        <div class="takeaway-point-text">The free and home Copilots are not changing. The paid one is <strong>&pound;13.80 a seat plus a meter</strong> nobody has priced for a quarter. Keep the &pound;16 ChatGPT that works. Revisit when Code is costed.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 &middot; WIN THE ROOM &middot; for Hannah</div>
+        <div class="takeaway-point-text">Spending limit first, one pilot group, <strong>model pinned and thinking on, never Auto</strong>. Then demo the thing no browser tab can do: the Teams thread, the mailbox, the workbook. Measure minutes and credits.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 &middot; BUILD, PORTABLY &middot; for Craig</div>
+        <div class="takeaway-point-text">Studio is the front door, not the house. <strong>Keep the logic in n8n</strong>, use Studio to hand the agent to a client&rsquo;s tenant, and agree the credit budget before a line is written.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-slab" aria-label="Read more and subscribe">
+    <div class="cta-kicker">Read more &middot; Subscribe</div>
+    <h2 id="subscribe-slab">One issue a week, and <em>the workings underneath it</em>.</h2>
+    <p>No paywall and no pitch. The two issues below are where this one started: the head-to-head between the two models that now sit on Copilot&rsquo;s meter, and the free yardstick a rebuilt Copilot has to beat.</p>
+    <div class="cta-row">
+      <a class="cta-btn primary" href="/?src=issue023#subscribe">Subscribe <span aria-hidden="true">&#8594;</span></a>
+      <a class="cta-btn" href="/articles/fable-5-1-vs-gpt-6-astra/">Issue 019 &middot; The two brains on the meter <span aria-hidden="true">&#8594;</span></a>
+      <a class="cta-btn" href="/articles/grok-4-7-idea-on-a-napkin/">Issue 022 &middot; The free yardstick <span aria-hidden="true">&#8594;</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">If the brain is the same everywhere, <strong>what exactly is the &pound;23.10 for?</strong></p>
+      <div class="footer-links">
+        <a href="/">ai-sustained.com</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="#" data-ais-reopen>Cookie choices</a>
+      </div>
+    </div>
+    <div class="sources">
+      Sources &middot; <a href="https://blogs.microsoft.com/blog/2026/09/25/introducing-the-new-copilot-with-home-code-and-autopilot/" target="_blank" rel="noopener">Microsoft, Introducing the new Copilot, 25 Sep 2026</a> &middot; <a href="https://techcommunity.microsoft.com/blog/microsoft-copilot-blog/evolution-of-the-copilot-pricing-model/4559416" target="_blank" rel="noopener">Microsoft, Evolution of the Copilot pricing model</a> &middot; <a href="https://www.microsoft.com/en-gb/microsoft-365-copilot/pricing" target="_blank" rel="noopener">Microsoft UK, Copilot business pricing</a> &middot; <a href="https://www.microsoft.com/en-gb/microsoft-365-copilot/pricing/copilot-studio" target="_blank" rel="noopener">Microsoft UK, enterprise, Copilot Studio and credits pricing</a> &middot; <a href="https://www.microsoft.com/en-gb/microsoft-365-copilot/pricing/individuals" target="_blank" rel="noopener">Microsoft UK, home plans</a> &middot; <a href="https://support.microsoft.com/en-us/microsoft-365-copilot/what-s-the-difference-between-microsoft-copilot-free-and-copilot-in-microsoft-365" target="_blank" rel="noopener">Microsoft Support, free Copilot vs Copilot in Microsoft 365</a> &middot; <a href="https://www.microsoft.com/en-gb/microsoft-365-copilot/frontier-program" target="_blank" rel="noopener">Microsoft, Frontier programme</a> &middot; <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connect-to-ai-subprocessor" target="_blank" rel="noopener">Microsoft Learn, Anthropic models in Microsoft Online Services</a> &middot; <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/openai-subprocessor" target="_blank" rel="noopener">Microsoft Learn, OpenAI as a subprocessor</a> &middot; <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-privacy" target="_blank" rel="noopener">Microsoft Learn, Data, privacy and security for Microsoft Copilot</a> &middot; <a href="https://www.microsoft.com/en-us/copilot/blog/copilot-studio/build-where-you-want-run-with-confidence-now-microsoft-hosts-and-manages-the-code-created-by-copilot/" target="_blank" rel="noopener">Microsoft, Copilot Managed Runtime</a> &middot; <a href="https://www.unite.ai/microsoft-copilot-overhaul-adds-home-hub-code-builder-and-autopilot-agent/" target="_blank" rel="noopener">Unite.AI, launch summary and rollout dates</a> &middot; <a href="https://news.ycombinator.com/item?id=49844896" target="_blank" rel="noopener">Hacker News, Copilot reboot thread, observed 27 Sep</a> &middot; <a href="https://patchandprompt.com/copilot-cowork-frontier-review/" target="_blank" rel="noopener">Patch &amp; Prompt, Cowork in Frontier review</a> &middot; <a href="https://moorinsightsstrategy.com/field-notes/with-the-new-copilot-microsoft-starts-selling-work-not-just-seats/" target="_blank" rel="noopener">Moor Insights, Selling work not seats</a> &middot; <a href="https://www.geekwire.com/2026/microsoft-unveils-all-in-one-copilot-app-taking-on-anthropic-and-openai-in-new-push-to-boost-adoption/" target="_blank" rel="noopener">GeekWire, customer event report</a> &middot; <a href="https://www.bloomberg.com/news/articles/2026-09-25/microsoft-abandons-personal-ai-chatbot-race-with-copilot-reboot" target="_blank" rel="noopener">Bloomberg, personal chatbot race</a> &middot; <a href="https://www.windowslatest.com/2026/08/05/you-already-paid-for-microsoft-365-but-the-copilot-upsell-wont-stop-and-microsoft-admits-its-by-design/" target="_blank" rel="noopener">Windows Latest, the upsell</a> &middot; <a href="https://techcrunch.com/2026/03/20/microsoft-rolls-back-some-of-its-copilot-ai-bloat-on-windows/" target="_blank" rel="noopener">TechCrunch, Microsoft rolls back Copilot in Windows apps, 20 Mar 2026</a> &middot; <a href="https://www.england.nhs.uk/2026/06/500000-nhs-staff-to-get-new-artificial-intelligence-tools-to-help-free-up-more-time-for-patients/" target="_blank" rel="noopener">NHS England, 505,000 staff</a> &middot; <a href="https://www.thinkdigitalpartners.com/news/2025/10/20/hmrc-launches-largest-government-copilot-rollout/" target="_blank" rel="noopener">Think Digital Partners, HMRC rollout</a>. Dollar prices converted at about $1.25 to the pound and rounded; the credits-per-task range is read from the task-pattern graphic in Microsoft&rsquo;s June Cowork post. AI Sustained Issue 019, Issue 022.
+    </div>
+  </footer>
+
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#AIMadeSimple</span> <span>#MicrosoftCopilot</span> <span>#CopilotAutopilot</span> <span>#CopilotCode</span> <span>#CopilotStudio</span> <span>#Cowork</span> <span>#Microsoft365</span> <span>#Claude</span> <span>#ChatGPT</span> <span>#AIPricing</span> <span>#UKBusiness</span> <span>#UKTech</span> <span>#AIAdoption</span> <span>#AISustained</span>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span><span class="wordmark">AI Sustained.</span> &middot; Written by Claude Fable 5.1 &middot; Curated by Kevin Clubb</span>
+    <span>2026</span>
+  </div>
+
+</article>
+<script>
+(function () {
+  /* Marker sweep on featured quotes. Runs on load and again after a depth
+     swap, because the reading column gets replaced wholesale. */
+  function sweep(root) {
+    var marks = (root || document).querySelectorAll('.sweep:not(.lit)');
+    if (!marks.length) return;
+    if (!('IntersectionObserver' in window)) {
+      Array.prototype.forEach.call(marks, function (m) { m.classList.add('lit'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('lit'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.3 });
+    Array.prototype.forEach.call(marks, function (m) { io.observe(m); });
+  }
+
+  /* The five-Copilots table is shared by every tier; one copy to maintain. */
+
+  /* ---------- Issue 023 motion: reveal, count-up, reading bar ---------- */
+  var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var RV_SEL = '.stat-box, .content h2, .fquote, .pull-quote, .tiers, .router, .room-card, .ppn-col, .debate-item, .takeaway-point, .takeaway h2, .cta-slab, .toc';
+  var rvIO = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      rvIO.unobserve(e.target);
+      countUp(e.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 }) : null;
+
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+  function fmt(n, dp) {
+    var s = n.toFixed(dp);
+    return dp === 0 ? s.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : s;
+  }
+  function countUp(box) {
+    Array.prototype.forEach.call(box.querySelectorAll('.num-anim:not(.done)'), function (el) {
+      el.classList.add('done');
+      var target = parseFloat(el.getAttribute('data-count'));
+      var dp = parseInt(el.getAttribute('data-dp') || '0', 10);
+      var prefix = el.getAttribute('data-prefix') || '';
+      if (REDUCED || isNaN(target) || !('requestAnimationFrame' in window)) return;
+      var t0 = null, dur = 1500;
+      function step(ts) {
+        if (t0 === null) t0 = ts;
+        var k = Math.min(1, (ts - t0) / dur);
+        el.textContent = prefix + fmt(target * ease(k), dp);
+        if (k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  function reveal(root) {
+    var els = (root || document).querySelectorAll(RV_SEL);
+    Array.prototype.forEach.call(els, function (el) {
+      if (el.classList.contains('rv')) return;
+      el.classList.add('rv');
+      var p = el.parentNode, i = 0, sib = el;
+      while ((sib = sib.previousElementSibling)) i++;
+      if (p && (p.classList.contains('stat-grid') || p.classList.contains('room-grid') || p.classList.contains('takeaway-grid') || p.classList.contains('ppn'))) {
+        el.style.transitionDelay = ((i % 6) * 90) + 'ms';
+      }
+      if (rvIO) rvIO.observe(el); else { el.classList.add('in'); countUp(el); }
+    });
+  }
+
+  var readbar = document.querySelector('.readbar');
+  if (readbar && !REDUCED) {
+    var ticking = false;
+    function paintBar() {
+      var doc = document.documentElement;
+      var max = (doc.scrollHeight - doc.clientHeight) || 1;
+      var p = Math.min(1, Math.max(0, (window.pageYOffset || doc.scrollTop) / max));
+      readbar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(paintBar); } }, { passive: true });
+    window.addEventListener('resize', paintBar);
+    paintBar();
+  }
+
+  var TABLE = '__TABLE__';
+
+  var DEPTHS = [
+    {
+      name: "Explain like I'm 5",
+      meta: "≈1,340 words · 6 min",
+      html: `
+        <section class="content">
+          <h2 id="people">Four people, five Copilots.</h2>
+          <p><strong>Adaeze</strong> runs a restaurant and does her VAT on a home laptop. A Copilot button keeps popping up in her spreadsheet. <strong>Sanjay</strong> runs three gift shops and pays for too many subscriptions already. <strong>Hannah</strong> works in HR at a housing association; her employer pays for the work Copilot and she is the only one who uses it. <strong>Craig</strong> builds little automations for plumbers and small firms.</p>
+          <p>All four have seen something called Copilot and none of them liked it. The catch is that Microsoft uses the name for five different things. Here they are.</p>
+
+          <h2 id="which">Which Copilot is which.</h2>
+          <div class="tiers" aria-label="The five Copilots compared">
+            <div class="tiers-head">
+              <span class="tiers-label">The five Copilots &middot; UK prices, September 2026</span>
+              <span class="tiers-flag">Home prices include VAT; work prices do not</span>
+            </div>
+            <table>
+              <thead><tr><th scope="col">Version</th><th scope="col">Who has it</th><th scope="col">What it costs</th><th scope="col">What it can do</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Copilot, free<small>The app and the website</small></th><td class="who" data-label="Who has it">Everyone</td><td data-label="What it costs"><span class="num">&pound;0</span></td><td data-label="What it can do">Answers questions and writes a paragraph. Forgets you afterwards. The one most people mean when they say they hate it.</td></tr>
+                <tr><th scope="row">Copilot at home<small>Inside Microsoft 365 for families</small></th><td class="who" data-label="Who has it">Adaeze</td><td data-label="What it costs"><span class="num">&pound;8.49</span> to <span class="num">&pound;18.99</span> a month</td><td data-label="What it can do">The same, but with buttons inside Word and Excel. Limited each month.</td></tr>
+                <tr><th scope="row">Copilot Business<small>For small firms</small></th><td class="who" data-label="Who has it">Sanjay could, but has not</td><td data-label="What it costs"><span class="num">&pound;13.80</span> a person a month, on offer</td><td data-label="What it can do">Can see your work email and files and remembers them. The clever parts cost extra credits.</td></tr>
+                <tr class="rebuilt"><th scope="row">Copilot Enterprise<small>For big organisations. The one that was rebuilt</small></th><td class="who" data-label="Who has it">Hannah, through work</td><td data-label="What it costs"><span class="num">&pound;23.10</span> a person a month</td><td data-label="What it can do">Same again, with the controls big organisations need. Gets the new bits first. Clever parts still cost credits.</td></tr>
+                <tr><th scope="row">Copilot Studio<small>Build your own helper</small></th><td class="who" data-label="Who has it">Craig, for his clients</td><td data-label="What it costs">Included with the two above, or <span class="num">&pound;153.80</span> a month on its own</td><td data-label="What it can do">A toolkit for building a helper that does one job. Not for most people.</td></tr>
+                <tr><th scope="row">Copilot Credits<small>The meter</small></th><td class="who" data-label="Who has it">Anyone paying for the work versions</td><td data-label="What it costs">About <span class="num">0.6p</span> each; one job roughly <span class="num">60p to &pound;4</span></td><td data-label="What it can do">Pays for the helpers that work on their own for hours, and for the best brains.</td></tr>
+              </tbody>
+            </table>
+            <div class="tiers-foot">Prices from Microsoft&rsquo;s UK website, 27 September 2026. Nobody has said what a helper that runs all month costs.</div>
+          </div>
+
+          <h2 id="history">Why everyone thinks it is rubbish.</h2>
+          <p>Most people made their mind up about Copilot in 2023, when it was a chatbot in Bing and a button that summarised things badly. That opinion was built on the bottom two rows of the table. I use the paid work one every day, in an organisation that runs on Microsoft. On the default setting it is dull. Pick a proper brain from the list, GPT-5.6 or Claude Sonnet 5, and turn thinking on, and it is as good as ChatGPT or Claude, with one extra trick: it can read your Teams chats, your emails and your spreadsheets without you copying anything in.</p>
+
+          <h2 id="landed">What was rebuilt, and whether it is better.</h2>
+          <p>On 25 September Microsoft showed three new things for the work Copilot. <strong>Home</strong> is a front page where you ask quick questions or hand over a whole job. <strong>Code</strong> builds a small app from a plain-English description. <strong>Autopilot</strong> is a helper you give a name and a job, and it keeps working after you have gone home. Big organisations like Hannah&rsquo;s get them first. The free one gets nothing. Is the paid one better now? Yes, mostly because of the brain list: in the same window you can pick GPT-5.6 or Claude Sonnet 5 with the licence, and the two strongest models on sale, Claude Fable and GPT-6 Astra, if your organisation pays credits. Microsoft has even been taking the free one out of some Windows apps after complaints.</p>
+
+          <h2 id="where">Where does your prompt go?</h2>
+          <p>If your work has rules about information leaving the country, this is the bit to read twice. Microsoft&rsquo;s own pages say the UK is not inside its EU Data Boundary, so even a Microsoft-run brain can handle a UK prompt abroad when it is busy. Some GPT brains are now run by OpenAI, switched on by default. Claude brains are run by Anthropic, outside that boundary, and are switched off for UK organisations until your IT team turns them on. Try it below: pick where you are, pick a brain, and watch where the dot goes.</p>
+
+__ROUTER__
+
+          <h2 id="bill">Same brains as Claude and ChatGPT, two bills.</h2>
+          <p>The surprise is what is inside. The rebuilt Copilot uses the same brains as ChatGPT and Claude. So it is not really a rival. It is ChatGPT and Claude wearing a work badge. You pay Microsoft for the badge, which lets the helper see your work files safely. And you pay twice: the monthly licence, then credits for the clever parts. Nobody has said what Autopilot costs for a month.</p>
+
+          <h2 id="early">What the people with early access say.</h2>
+          <p>People who have used it at work since March say it is good at jobs that live entirely inside Microsoft&rsquo;s apps, and thinks less well than a direct chat with Claude or ChatGPT. The people who like it picked a specific brain. The people who hate it stayed on the default setting, which picks the cheapest one.</p>
+
+          <figure class="fquote">
+            <p>So many AI doubters I know hate using AI tools because <span class="sweep">their employer only gives them the Microsoft offerings</span>.</p>
+            <cite>pseudosavant · a person using it · on Hacker News</cite>
+          </figure>
+
+          <h2 id="convince">How to win the room.</h2>
+          <p>If you are the one person at work who knows the paid Copilot is good, here is how to prove it. Never show anyone the free one. Get IT to set a proper brain as the default, so nobody meets the dull setting by accident. Then show the trick the others cannot do: &ldquo;tell me what was agreed in this Teams chat and write the reply&rdquo;. And count two things, minutes saved and credits used, because a number beats an opinion.</p>
+
+          <h2 id="do">What Adaeze, Sanjay, Hannah and Craig should do.</h2>
+          <p><strong>Adaeze</strong>: ignore it. Nothing new reaches her home laptop this year, and the free version writes a menu description fine. <strong>Sanjay</strong>: wait. For 14 staff the licence alone is about &pound;193 a month before credits, and the part that would help his shops is not priced yet. <strong>Hannah</strong>: ask IT to try it with a small group, set a spending limit first, pick a proper brain, and show the Teams trick. <strong>Craig</strong>: build one small helper in Studio for a client who already pays, keep his own tools underneath, and agree the credit budget first.</p>
+
+          <h2 id="before">Before you switch anything on.</h2>
+          <p>The UK is not inside Microsoft&rsquo;s EU Data Boundary, and the Claude brains are turned off for UK organisations until your IT team turns them on, because of where the data goes. Set the budget before anyone presses a button. And ask the one question Microsoft has not answered: what does a helper that never clocks off cost a month?</p>
+        </section>`
+    },
+    {
+      name: "Curious",
+      meta: "≈3,370 words · 16 min",
+      html: null            /* captured from the page — do not fill */
+    },
+    {
+      name: "Practitioner",
+      meta: "≈3,390 words · 16 min",
+      html: `
+        <nav class="toc" aria-label="Table of contents">
+          <div class="toc-label">In this issue</div>
+          <ol>
+            <li><span class="toc-num">01</span><a href="#people">Four people, five Copilots</a></li>
+            <li><span class="toc-num">02</span><a href="#which">Which Copilot is which</a></li>
+            <li><span class="toc-num">03</span><a href="#history">Why everyone thinks it is rubbish</a></li>
+            <li><span class="toc-num">04</span><a href="#landed">What was rebuilt, and whether it is better</a></li>
+            <li><span class="toc-num">05</span><a href="#where">Where does your prompt go?</a></li>
+            <li><span class="toc-num">06</span><a href="#bill">Same brains as Claude and ChatGPT, two bills</a></li>
+            <li><span class="toc-num">07</span><a href="#early">What the people with early access say</a></li>
+            <li><span class="toc-num">08</span><a href="#convince">How to win the room</a></li>
+            <li><span class="toc-num">09</span><a href="#do">What Adaeze, Sanjay, Hannah and Craig should do</a></li>
+            <li><span class="toc-num">10</span><a href="#before">Before you switch anything on</a></li>
+          </ol>
+        </nav>
+        <section class="content">
+          <h2 id="people">Four people, five Copilots.</h2>
+          <p><strong>Adaeze</strong> runs a 30-cover West African restaurant and takeaway in Birmingham on Deliveroo tablets, a card reader and a Microsoft 365 Personal subscription for the VAT laptop; the Copilot upsell in Excel is wallpaper. <strong>Sanjay</strong> runs three homewares shops plus Shopify with 14 staff on Microsoft 365 Business; ChatGPT writes his product descriptions, stock lives in spreadsheets, and a chatbot vendor burned him in 2024. <strong>Hannah</strong> is a senior HR business partner at a housing association in Gateshead, on a licensed Microsoft 365 Copilot tenant where IT has locked most things down and there is no AI policy yet; she picks a model and turns thinking on, her colleagues tried Copilot Chat on Auto and went back to ChatGPT on their phones. <strong>Craig</strong> is a self-taught automation builder in Cornwall: n8n and Make workflows for trades and small firms, and a standing rule that anything without an API is dead to him.</p>
+          <p>Four people, four different things called Copilot, and one announcement that touches only one row. The table first.</p>
+
+          <h2 id="which">Which Copilot is which.</h2>
+__TABLE__
+          <p>The Enterprise and Business rows are the same product, Microsoft 365 Copilot, sold at two price points by organisation size; the Business tier is capped at 300 seats and carries the promotional price to 31 December. Studio is included with either for internal agents; the standalone tenant licence is what you need to publish agents to external channels or to unlicensed users. Copilot Chat, the free row, is what a work account gets without the licence. Two more edges worth knowing: the 300-seat cap on Business is a hard licensing limit, so a firm that grows past it moves to the &pound;23.10 price; and Frontier is not enterprise-only, since home subscribers can switch on &ldquo;Preview Frontier features&rdquo; in the web versions of Word, Excel and PowerPoint, though what arrives there is the home row&rsquo;s features, not the work ones.</p>
+
+          <h2 id="history">Why everyone thinks it is rubbish.</h2>
+          <p>The Copilot reputation was set in 2023 and has barely moved. The name went on Bing Chat, then the Windows sidebar, then a button in every Office app, and the first paid Microsoft 365 Copilot launched at $30 a seat to reviews that ranged from polite to puzzled. Since then the free tier has been pushed from the taskbar, the Start menu and the Snipping Tool, while the paid tier sat behind a licence most employers did not buy and most who did left on Auto. The result is a preconception built on the bottom two rows of the table and on two-year-old history.</p>
+          <p>From my own desk, in an organisation that lives in Microsoft: on Auto the licensed product is mediocre and the ten-minute walkout is rational. With GPT-5.6 or Sonnet 5 selected and thinking on, it is the same model a direct ChatGPT or Claude subscription gives you, grounded in the tenant: the Teams thread, the mailbox, the SharePoint library and the workbook are already in context, with the user&rsquo;s own permissions applied. The models are eons apart. The button is identical, which is the entire adoption problem.</p>
+
+          <h2 id="landed">What was rebuilt, and whether it is better.</h2>
+          <p>On 25 September Microsoft <a href="https://blogs.microsoft.com/blog/2026/09/25/introducing-the-new-copilot-with-home-code-and-autopilot/" target="_blank" rel="noopener">announced the new Copilot</a>. <strong>Home</strong> merges Chat and <strong>Cowork</strong>, the delegation mode that takes an outcome ("build the tender response", "close the month") and runs it in the background across Outlook, Teams, SharePoint and the Office apps, with approval checkpoints before anything is sent. Office in Copilot puts live, editable Word, Excel and PowerPoint files inside the app. <strong>Code</strong> is the citizen-developer piece: describe an app, dashboard or automation, and it is built on GitHub Copilot technology, sandboxed, grounded in tenant context, and hosted on the new <a href="https://www.microsoft.com/en-us/copilot/blog/copilot-studio/build-where-you-want-run-with-confidence-now-microsoft-hosts-and-manages-the-code-created-by-copilot/" target="_blank" rel="noopener">Copilot Managed Runtime</a>, which runs inside the tenant boundary under Entra identity, org policy and Git-backed version control, and shows up as an inventory item in the admin centre. <strong>Autopilot</strong>, previously codenamed Scout, is a persistent agent with its own identity, memory, compute and workspace in the tenant; you give it a name, a role and a goal, and it can be @mentioned in Teams and Outlook.</p>
+
+          <figure class="fquote">
+            <p>We&rsquo;re building Copilot as a new OS for work that spans <span class="sweep">every model, every form factor, and every task</span>.</p>
+            <cite>Satya Nadella · on X · 25 Sep 2026</cite>
+          </figure>
+
+          <p><strong>Is it better?</strong> On three counts. Office in Copilot makes the outputs real objects: an editable workbook with a change log, a deck that stays on brand, co-edited live. Cowork moves into the same window as chat, so delegation stops being a separate product. And the model picker becomes the argument: GPT-5.6 and Claude Sonnet 5 on the licence, Opus 5 arriving with limits, Fable and Astra on credits, more labs and open-weight models signalled, and admins able to set model families per group. The question for a Microsoft house is no longer Copilot or the frontier; it is which frontier model gets to read the inbox.</p>
+
+          <p><strong>Who gets it.</strong> The Enterprise row, via the <a href="https://www.microsoft.com/en-gb/microsoft-365-copilot/frontier-program" target="_blank" rel="noopener">Frontier programme</a>: Home and Code "in the coming weeks", Code to Frontier at the end of September with broad availability after, Autopilot to private preview at the end of the month. Business follows. Home users get a Code preview on Premium and Pro later in 2026, with consumer usage billing to follow. The free row gets nothing; Bloomberg framed the launch as Microsoft <a href="https://www.bloomberg.com/news/articles/2026-09-25/microsoft-abandons-personal-ai-chatbot-race-with-copilot-reboot" target="_blank" rel="noopener">leaving the personal chatbot race</a>, and Windows has been <a href="https://techcrunch.com/2026/03/20/microsoft-rolls-back-some-of-its-copilot-ai-bloat-on-windows/" target="_blank" rel="noopener">pulling Copilot back</a> from Photos, the Snipping Tool and Notepad since March. The upsell banner in a paid home subscription is <a href="https://www.windowslatest.com/2026/08/05/you-already-paid-for-microsoft-365-but-the-copilot-upsell-wont-stop-and-microsoft-admits-its-by-design/" target="_blank" rel="noopener">by design</a>.</p>
+
+          <h2 id="where">Where does your prompt go?</h2>
+          <p>The model picker is also a data-transfer decision, and Microsoft&rsquo;s documentation is precise about it in a way the launch material is not. Three facts to take to the DPO. First, the UK is not inside the EU Data Boundary: Microsoft commits that EU traffic stays in the EU for model processing, and states that customers outside the EU &ldquo;may have their queries processed in the US, EU, or other regions&rdquo;, with calls routed to the nearest region but able to spill to others at high utilisation. Second, since 9 July 2026 some GPT models are delivered by OpenAI as a Microsoft subprocessor rather than run on Azure; they are on by default for eligible commercial tenants since 24 July, covered by Microsoft&rsquo;s DPA and zero data retention, inside the EU Data Boundary for EU tenants with documented exceptions, and excluded from in-country processing commitments. Third, Anthropic&rsquo;s models are excluded from the EU Data Boundary and from in-country commitments, off by default for UK, EU and EFTA tenants, and split in two: Sonnet 5 and, for eligible organisations, Fable 5.1 run under Microsoft&rsquo;s DPA with no retention by Anthropic, while &ldquo;models with Data Retention&rdquo; such as Fable 5.0 and Mythos 5 run under Anthropic&rsquo;s own commercial terms, with inputs and outputs stored by Anthropic for up to 30 days and up to two years if flagged, behind a separate opt-in. Copilot shows a UI indicator when a Claude model is in use, and admins can scope each provider to security groups.</p>
+
+__ROUTER__
+
+          <h2 id="bill">Same brains as Claude and ChatGPT, two bills.</h2>
+          <p>The commercial model is the real announcement, and Microsoft <a href="https://techcommunity.microsoft.com/blog/microsoft-copilot-blog/evolution-of-the-copilot-pricing-model/4559416" target="_blank" rel="noopener">published it plainly</a>. The per-user licence (the USL) covers "everyday AI": Chat, Copilot in the Office apps, model selection and the Auto router. GPT-5.6 and Claude Sonnet 5 are included; Opus 5 arrives "with limits". Fair-use limits apply, and a heavy user who hits one is offered Auto at no extra cost or a move to credits. "Advanced AI", meaning Cowork, Code, Autopilot, new agentic features in SharePoint, and the frontier models Fable and Astra, runs on usage-based billing in Copilot Credits, which requires the licence underneath. Credits are sold in packs of 25,000 for &pound;153.80 a month, about 0.6p each, with pay-as-you-go and a pre-purchase plan alongside; the task-pattern graphic in Microsoft's June Cowork post put a task at roughly 100 to 700-plus credits, about 60p to over &pound;4 a job. It has not published a burn rate for Autopilot or a hosted Code app. For comparison, Claude Pro and ChatGPT Plus are $20, about &pound;16, one bill, and Claude Cowork is included from Pro upward.</p>
+
+          <figure class="fquote">
+            <p>For the heaviest users, hitting a limit is not hitting a wall. You get a clear warning first, then a choice: <span class="sweep">switch your model selection to Auto at no additional cost or move to credits</span>.</p>
+            <cite>Nicole Herskowitz · Microsoft, Evolution of the Copilot pricing model · 25 Sep 2026</cite>
+          </figure>
+
+          <p>The FinOps controls matter as much as the prices. For enterprise tenants, nothing on the meter bills until an admin creates a spending policy in the admin centre. Policies set budgets at tenant and group level with per-user caps and threshold alerts, can be managed through the Graph API, and can map spend to Azure subscriptions. Two traps: spending policies auto-apply to new metered services unless you turn that off, and Microsoft's own cost comparison against Claude and ChatGPT is modelled on list prices, so treat it as a vendor claim. Patrick Moorhead, whose firm has Microsoft as a client, <a href="https://moorinsightsstrategy.com/field-notes/with-the-new-copilot-microsoft-starts-selling-work-not-just-seats/" target="_blank" rel="noopener">reads the whole thing</a> as the GitHub Copilot playbook applied to Microsoft 365, "margin repair and market expansion, not a price cut", and notes that the best-scoring models in Copilot are the metered ones.</p>
+
+          <blockquote class="pull-quote">The brain was never the problem. The wrapper was, and the wrapper now has a meter on it.
+            <cite>The whole argument, in one sentence</cite>
+          </blockquote>
+
+          <h2 id="early">What the people with early access say.</h2>
+          <p>Cowork has been in Frontier since late March, so the useful evidence is six months of tenant experience rather than a keynote. An IT admin running it in production <a href="https://patchandprompt.com/copilot-cowork-frontier-review/" target="_blank" rel="noopener">reports</a> that well-defined, M365-bounded workflows (a Friday ops recap from a SharePoint list and Service Health; Patch Tuesday CAB prep across Excel, Word, email, Teams and calendar) run reliably in the background with approval gates, and that a two-hour packet is now about 30 minutes of review. The limits are architectural: Cowork cannot reach anything outside Microsoft 365 without plugins, and reasoning on ambiguous technical tasks trails a direct frontier session.</p>
+
+          <figure class="fquote">
+            <p>Reasoning quality on ambiguous or technically complex tasks <span class="sweep">lags behind what a direct Claude or ChatGPT session produces</span>.</p>
+            <cite>Patch &amp; Prompt · Copilot Cowork in Frontier, IT admin review · May 2026</cite>
+          </figure>
+
+          <p>The same split runs through the <a href="https://news.ycombinator.com/item?id=49844896" target="_blank" rel="noopener">Hacker News thread</a>. Users on a premium licence who select GPT-5.6 with thinking describe it as decent and enterprise-protected; users left on Auto describe truncated history and forgotten context. One former enterprise user's diagnosis is that most colleagues never had the premium model and stuck to their very first bad experience. Another heavy AI user's point explains this issue's readership: the doubters he knows hate AI tools because their employer only gives them the Microsoft ones. The Autopilot evidence base is thin because it has barely shipped; Jacob Andreou, who runs Copilot, told a customer event that the autonomy which makes a long-running agent valuable is what makes it <a href="https://www.geekwire.com/2026/microsoft-unveils-all-in-one-copilot-app-taking-on-anthropic-and-openai-in-new-push-to-boost-adoption/" target="_blank" rel="noopener">"absolutely terrifying to an IT admin"</a>.</p>
+
+          <h2 id="convince">How to win the room.</h2>
+          <p>For the Hannah in the building, the evidence above is a method. Never demo the free tier or a Business-Standard account: every demo runs on a licensed seat with a named model and thinking on. Have IT set the pilot group&rsquo;s default model so nobody meets Auto by accident; people keep their first experience. Lead with the tenant-grounded prompts a browser tab cannot answer: &ldquo;summarise what was agreed in this Teams thread and draft the reply in Outlook&rdquo;, &ldquo;what changed in this workbook since Tuesday and who changed it&rdquo;, &ldquo;pull the last three meeting recaps with this supplier and list the open actions&rdquo;. Take the governance case to security first: same models, inside Entra permissions and Purview audit, is the answer to the shadow ChatGPT on staff phones, and security will back it before users do. And instrument the pilot: minutes saved per run and credits per run, by workflow. Two numbers make a business case; a testimonial is how Copilot got its reputation.</p>
+
+          <h2 id="do">What Adaeze, Sanjay, Hannah and Craig should do.</h2>
+          <p><strong>Adaeze.</strong> Ignore it. Her row gets a Code preview on the &pound;18.99 Premium plan later this year and nothing else; the free Copilot handles a menu description or a review reply, and the buttons in her Excel are the same model with a nag attached. When a rep says "Copilot", ask which row.</p>
+          <p><strong>Sanjay.</strong> Nothing yet. Copilot Business at &pound;13.80 is about &pound;193 a month across 14 staff before a single credit, and the part that would pay for itself, Code building the tool that stops his team rekeying stock between the EPOS and Shopify, is on an unpriced meter and not yet generally available. ChatGPT does his descriptions; <a class="xref" href="/articles/grok-4-7-idea-on-a-napkin/">Issue 022</a> showed a free route to the tracker. Revisit when Code is generally available and someone has published a quarter's running cost.</p>
+          <p><strong>Hannah.</strong> Her employer already pays the licence, so the cost of finding out is governance work, and she is the one who has to hand IT a case that survives a policy review. Order of operations: a tenant-level spending policy with a small budget and an alert before anyone is enrolled; Frontier enrolment (Copilot, Settings, Frontier), including the admin's own account or Cowork will not appear under agent management; a SharePoint permissions and sharing-link audit, because Cowork acts on everything the user can already reach; Cowork scoped to one security group, hers; that group's default model set to GPT-5.6 or Sonnet 5 with thinking rather than Auto; then one recurring HR job that lives entirely inside Microsoft 365, the monthly people report or the onboarding pack. Measure minutes saved per run and credits per run, take both numbers back to IT, and run the five moves above.</p>
+          <p><strong>Craig.</strong> Build one, portably. Copilot Studio can build an agent and publish it to a website, an app or unlicensed users, and it is included for in-house agents on any client tenant that already pays for Copilot. The Managed Runtime SDK and CLI mean his n8n or Make logic can front onto an app that runs inside the client's tenant with Entra sign-in, policy-governed connectors and a Git history, which is exactly what a regulated client will ask for. The cost conversation is the meter: a standalone Studio pack is &pound;153.80 a month for 25,000 credits, pay-as-you-go otherwise, and an autonomous agent's burn rate is unpublished. Keep the logic in n8n, use Studio and the runtime as the tenant-side front door, and get a spending policy agreed before a line is written.</p>
+
+          <blockquote class="pull-quote">Everyday AI is a seat. Delegated AI is a meter. The brains worth having are on the meter.
+            <cite>Issue 023 · 29 September 2026</cite>
+          </blockquote>
+
+          <h2 id="before">Before you switch anything on.</h2>
+          <ul>
+            <li><strong>Data boundary.</strong> The UK is outside the EU Data Boundary, OpenAI-operated models are on by default with no in-country commitment, and Anthropic's models are outside the boundary and off until UK, EU and EFTA tenants <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connect-to-ai-subprocessor" target="_blank" rel="noopener">enable Anthropic as a subprocessor</a>. Record each provider decision in the DPIA and records of processing, with the transfer mechanism named. Microsoft has not published where Managed Runtime and Autopilot store their data; ask before Code apps hold anything personal.</li>
+            <li><strong>Spending policy first.</strong> Cap, alert, pilot group. Turn off auto-apply for new metered services so each one is reviewed before it can bill.</li>
+            <li><strong>Audit trail is not a control.</strong> Cowork and Autopilot actions land in Purview. That documents a permissions problem; it does not prevent one. Fix sharing links and stale group memberships before scaling.</li>
+            <li><strong>The public sector is ahead of you, in England.</strong> NHS England is deploying Copilot to <a href="https://www.england.nhs.uk/2026/06/500000-nhs-staff-to-get-new-artificial-intelligence-tools-to-help-free-up-more-time-for-patients/" target="_blank" rel="noopener">505,000 staff</a> by October; HMRC has <a href="https://www.thinkdigitalpartners.com/news/2025/10/20/hmrc-launches-largest-government-copilot-rollout/" target="_blank" rel="noopener">32,000 licences rising to 50,000</a>. Licence deals, both: the Enterprise row without the meter. Whether Cowork and Autopilot follow, and on whose credits, is this autumn's procurement question.</li>
+          </ul>
+          <p>Find your row. Then judge it by the bill, not the demo. The licence is the only number you can plan on today.</p>
+        </section>`
+    },
+    {
+      name: "Expert",
+      meta: "≈2,790 words · 13 min",
+      html: `
+        <nav class="toc" aria-label="Table of contents">
+          <div class="toc-label">In this issue</div>
+          <ol>
+            <li><span class="toc-num">01</span><a href="#people">Four people, five Copilots</a></li>
+            <li><span class="toc-num">02</span><a href="#which">Which Copilot is which</a></li>
+            <li><span class="toc-num">03</span><a href="#history">Why everyone thinks it is rubbish</a></li>
+            <li><span class="toc-num">04</span><a href="#landed">What was rebuilt, and whether it is better</a></li>
+            <li><span class="toc-num">05</span><a href="#where">Where does your prompt go?</a></li>
+            <li><span class="toc-num">06</span><a href="#bill">Same brains as Claude and ChatGPT, two bills</a></li>
+            <li><span class="toc-num">07</span><a href="#early">What the people with early access say</a></li>
+            <li><span class="toc-num">08</span><a href="#convince">How to win the room</a></li>
+            <li><span class="toc-num">09</span><a href="#do">What Adaeze, Sanjay, Hannah and Craig should do</a></li>
+            <li><span class="toc-num">10</span><a href="#before">Before you switch anything on</a></li>
+          </ol>
+        </nav>
+        <section class="content">
+          <h2 id="people">Four people, five Copilots.</h2>
+          <p><strong>Adaeze</strong> (restaurant owner, Microsoft 365 Personal, upsell fatigue). <strong>Sanjay</strong> (independent retailer, three shops plus Shopify, 14 staff, Microsoft 365 Business, ChatGPT in use, subscription-averse). <strong>Hannah</strong> (HR business partner, housing association, licensed Copilot tenant, low activation, shadow ChatGPT on staff phones, no AI policy). <strong>Craig</strong> (freelance automation builder, n8n and Make, API-first, allergic to lock-in). The shared prior: the Copilot they have met is worse than what they already use. The question: does the 25 September rebuild change the comparison against a direct Claude or ChatGPT session, for which row of the product ladder, and at what marginal cost?</p>
+
+          <h2 id="which">Which Copilot is which.</h2>
+__TABLE__
+          <p>Two clarifications the marketing blurs. Business and Enterprise are one SKU, Microsoft 365 Copilot, at two price points gated by seat count; every Frontier and usage-billed capability sits behind that USL. Studio is two things: an included harness for internal agents under the USL, and a separate tenant licence (credit packs, pre-purchase plan or pay-as-you-go, Azure subscription required) for the GitHub Copilot harness, external channels and unlicensed users.</p>
+
+          <h2 id="history">Why everyone thinks it is rubbish.</h2>
+          <p>Copilot&rsquo;s reputation is a defaults problem compounded by brand history. The name was applied to Bing Chat and the Windows sidebar in 2023, then to Microsoft 365 Copilot at $30 a seat with a lukewarm first-year press; the free tier has since been surfaced from the taskbar, Start and utility apps, and the paid tier has been experienced mostly through Auto, which routes for cost. Population-level sentiment therefore tracks the bottom two rows of the ladder and a two-year-old product. First-hand, on a licensed tenant in a Microsoft-native organisation: Auto is mediocre; GPT-5.6 or Sonnet 5 with extended reasoning is the same model as a direct subscription, with tenant grounding (Teams, Exchange, SharePoint, workbooks) under the user&rsquo;s effective permissions. The capability gap between rows is large; the affordance is identical. That, not model quality, is the adoption failure.</p>
+
+          <h2 id="landed">What was rebuilt, and whether it is better.</h2>
+          <p>Three surfaces and one platform. <strong>Home</strong> unifies Chat and Cowork; Office in Copilot exposes live Word, Excel and PowerPoint objects with co-editing and diffs. <strong>Code</strong> is GitHub Copilot's agent stack repackaged for non-developers, sandboxed, grounded through Microsoft IQ, and deployed on <a href="https://www.microsoft.com/en-us/copilot/blog/copilot-studio/build-where-you-want-run-with-confidence-now-microsoft-hosts-and-manages-the-code-created-by-copilot/" target="_blank" rel="noopener">Copilot Managed Runtime</a>: tenant-bounded hosting with Entra identity, policy-governed connectors, Git-backed versioning, an SDK and CLI with typed TypeScript services, and a single app inventory in the admin centre regardless of whether the app came from Cowork, Code, Copilot Studio or a third-party tool such as Lovable. <strong>Autopilot</strong> (formerly Scout) is a persistent agent with its own identity, memory, compute and workspace, owner-assigned name, role and goal, @mentionable across Teams and Outlook, under permissions and audit. Rollout: Home and Code to Frontier over the coming weeks, Autopilot to private preview end of September, Today (proactive triage) to private preview in October, Ignite 17 to 20 November. Consumer Code preview for Premium and Pro later in 2026.</p>
+          <p>Does the rebuild improve the licensed product? Materially, on three axes. Office in Copilot turns outputs into first-class Office objects with diffs and co-editing. Cowork is unified with Chat. And the model picker is now the strategic surface: GPT-5.6 and Sonnet 5 in the USL, Opus 5 with limits, Fable and Astra on credits, further labs and open-weight models signalled, model-family access policy per group. Microsoft&rsquo;s stated position is architectural independence from any single lab, with its own private evals and the ability to substitute models. For a Microsoft-native estate the decision collapses from &ldquo;Copilot or frontier&rdquo; to &ldquo;which frontier model, under which policy, reads which data&rdquo;.</p>
+
+          <p>What it is not: the free consumer Copilot, which Bloomberg reads as <a href="https://www.bloomberg.com/news/articles/2026-09-25/microsoft-abandons-personal-ai-chatbot-race-with-copilot-reboot" target="_blank" rel="noopener">de-prioritised</a> and which Windows has been <a href="https://techcrunch.com/2026/03/20/microsoft-rolls-back-some-of-its-copilot-ai-bloat-on-windows/" target="_blank" rel="noopener">withdrawing from utility apps</a> since March. Nor Copilot Chat. The features gate on the paid licence and admin enrolment.</p>
+
+          <h2 id="where">Where does your prompt go?</h2>
+          <p>Model selection is a transfer decision under UK GDPR Chapter V, and the documentation supports a precise map. Microsoft-operated models (Azure OpenAI): no third party; EU tenant traffic stays within the EU Data Boundary; non-EU tenants, the UK included, &ldquo;may have their queries processed in the US, EU, or other regions&rdquo;, with routing to the nearest region and overflow at high utilisation; interaction data stored per the tenant&rsquo;s residency commitments. OpenAI-operated models: OpenAI as Microsoft subprocessor from 9 July 2026, default-on for eligible commercial tenants from 24 July, Microsoft DPA and Product Terms apply, zero data retention via the Responses API, within the EU Data Boundary subject to the documented partial-transfer exceptions, excluded from in-country commitments, and without FedRAMP High, PCI DSS AOC, HITRUST or SOC 1 Type 2 coverage. Anthropic models: excluded from the EU Data Boundary and in-country commitments; default-off for EU, EFTA and UK; Sonnet 5 and, for eligible tenants, Fable 5.1 under Microsoft&rsquo;s DPA with no Anthropic retention; &ldquo;models with Data Retention&rdquo; (Fable 5.0, Mythos 5) under Anthropic&rsquo;s commercial terms as an independent processor, inputs and outputs retained up to 30 days, up to two years on a trust-and-safety flag, classification scores up to seven years, separate opt-in, UI indicator when in use. Provider access is scoped per user or security group. Auto routes across whatever is enabled, so the enablement matrix is the control, not the picker.</p>
+
+__ROUTER__
+
+          <h2 id="bill">Same brains as Claude and ChatGPT, two bills.</h2>
+          <p>The architecture that matters is commercial. Microsoft's <a href="https://techcommunity.microsoft.com/blog/microsoft-copilot-blog/evolution-of-the-copilot-pricing-model/4559416" target="_blank" rel="noopener">pricing post</a> splits the product on a "saturation" argument: tasks where a stronger model stops changing the outcome go on the fixed per-user licence (Chat, Office apps, model selection, Auto; GPT-5.6 and Sonnet 5 included, Opus 5 "with limits", fair use enforced by warning then a choice of Auto or credits). Tasks that do not saturate go on usage-based billing in Copilot Credits: Cowork, Code, Autopilot, SharePoint agentic features, Fable and Astra. The licence is a hard prerequisite for the meter. Provider mix today is OpenAI and Anthropic, with more labs and open weights signalled, and model-family access is now an admin-controllable policy per group in Cowork.</p>
+          <p>Task cost is the unknown that governs the whole business case: the task-pattern graphic in Microsoft's June Cowork post put tasks at roughly 100 to 700-plus credits (about 60p to over &pound;4 at pack prices), Autopilot and Code burn rates are unpublished, and Jacob Andreou has said the product is tuned for output quality over cost efficiency. Two structural notes from Moorhead's <a href="https://moorinsightsstrategy.com/field-notes/with-the-new-copilot-microsoft-starts-selling-work-not-just-seats/" target="_blank" rel="noopener">field note</a> (Microsoft is his client): this replicates the GitHub Copilot move to consumption, after which GitHub Copilot revenue accelerated more than 60% quarter on quarter with improved margins; and The Information reported 30 to 50% seat discounts for large buyers who commit to usage fees. Lower seat, bigger meter.</p>
+
+          <figure class="fquote">
+            <p>Microsoft has the right business model and the right governance. <span class="sweep">It hasn&rsquo;t yet shown that customers can predict the bill or that the agents get the work right</span>.</p>
+            <cite>Patrick Moorhead · Moor Insights &amp; Strategy · 26 Sep 2026</cite>
+          </figure>
+
+          <p>Accuracy is also priced. Signal65's PINNACLE run (Moorhead's firm) had Fable 5.1 inventing answers to 0.7% of unanswerable questions against 7.6% for Opus 5 and 10.3% for GPT-5.6 Sol, at $2.46 per correct task, 1.8 times Opus 5; Astra at maximum effort topped the live board on 25 September, per Moor Insights. Microsoft meters Astra and Fable and puts GPT-5.6 in the seat. The included tier is therefore the one with the higher fabrication rate on document-grounded work, and the meter is where the accuracy lives.</p>
+
+          <blockquote class="pull-quote">The brain was never the problem. The wrapper was, and the wrapper now has a meter on it.
+            <cite>The whole argument, in one sentence</cite>
+          </blockquote>
+
+          <h2 id="early">What the people with early access say.</h2>
+          <p>Six months of Frontier Cowork in production tenants gives a consistent read. Execution on M365-bounded, well-specified, recurring workflows is strong: background runs, checkpoint approvals before any outbound action, Purview logging of every touch. A published admin account of <a href="https://patchandprompt.com/copilot-cowork-frontier-review/" target="_blank" rel="noopener">CAB preparation</a> across six surfaces went from about two hours to about 30 minutes of review. Constraints: the 16,000-character brief ceiling, no reach outside Microsoft 365 without plugin development, and reasoning that trails a direct frontier session on ambiguous or technically complex tasks. Cowork is cloud-executed under Conditional Access and Purview, where Claude Cowork runs locally with OS access; that is the defensible enterprise trade, and it is the scope you lose.</p>
+          <p>The <a href="https://news.ycombinator.com/item?id=49844896" target="_blank" rel="noopener">Hacker News thread</a> on the Bloomberg piece (143 points, 139 comments at time of writing) splits by model selection rather than by product: premium-licence users on GPT-5.6 thinking report competent, enterprise-protected inference; Auto users report truncated history and forgotten context. The activation problem is a defaults problem, and Microsoft's own fair-use design pushes heavy users back towards Auto. For Autopilot there is no independent evidence yet; the vendor's own framing at the customer event was that the autonomy of a long-running agent is "absolutely terrifying to an IT admin". Naming is not helping: Intune Autopilot already exists.</p>
+
+          <h2 id="convince">How to win the room.</h2>
+          <p>Treat it as a defaults and evidence problem. Pin the model family for the pilot group at policy level so Auto is never the first experience. Demo only tenant-grounded tasks that a standalone frontier session cannot perform without integration work: cross-surface synthesis (Teams thread to Outlook draft), workbook change attribution, meeting-recap retrieval with open actions. Frame the governance case for security before the productivity case for users: identical models, Entra-scoped, Purview-logged, with a documented route per provider, is a direct answer to unmanaged consumer AI on personal devices. Instrument cost per accepted output (credits per run, minutes per run, by workflow and model family) and publish it internally; that is the number that converts a champion&rsquo;s anecdote into a decision, and it is the one Microsoft has not supplied.</p>
+
+          <h2 id="do">What Adaeze, Sanjay, Hannah and Craig should do.</h2>
+          <p><strong>Adaeze</strong>: nothing. Her row receives a Code preview on Premium later in 2026 and a consumer meter after; the free tier already covers her use. <strong>Sanjay</strong>: hold. Business at &pound;13.80 is about &pound;193 a month across 14 seats, and the value he wants (Code replacing the EPOS-to-Shopify rekeying) is on an unpriced meter. <strong>Hannah</strong> is the target buyer's champion; the seat is already paid, so the marginal cost is governance work she has to hand to IT. Sequence: tenant spending policy with a hard cap and threshold alerts, auto-apply for new metered services switched off; Frontier enrolment including the admin's own account; Anthropic enabled as subprocessor (off by default in UK, EU and EFTA tenants); a SharePoint permissions and sharing-link audit, because Cowork inherits the user's full effective access; Cowork scoped to one security group with model family pinned to GPT-5.6 or Sonnet 5 thinking rather than Auto; one recurring M365-only HR workflow instrumented for minutes saved and credits consumed per run. <strong>Craig</strong>: build against the runtime, not the assistant. The Managed Runtime SDK and CLI (project scaffolding, data connections, typed TypeScript services, Entra-authorised access, policy-governed connectors, Git-backed versioning) are the first credible route for an outside builder to ship inside a client tenant with the client's identity and audit; Studio's standalone licence is what he needs to publish to external channels or unlicensed users. The portability rule: orchestration stays in n8n, the runtime hosts the tenant-facing surface, and the credit budget is agreed in the statement of work, because the meter is the only part of the stack he cannot export.</p>
+
+          <blockquote class="pull-quote">Everyday AI is a seat. Delegated AI is a meter. The brains worth having are on the meter.
+            <cite>Issue 023 · 29 September 2026</cite>
+          </blockquote>
+
+          <h2 id="before">Before you switch anything on.</h2>
+          <ul>
+            <li><strong>Residency.</strong> The UK sits outside the EU Data Boundary; OpenAI-operated models are default-on with no in-country commitment; Anthropic models are outside the boundary and <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connect-to-ai-subprocessor" target="_blank" rel="noopener">default-off</a>. Each enablement is a documented Chapter V transfer decision in the DPIA. Managed Runtime and Autopilot data residency is unpublished; do not host personal data in Code apps until it is.</li>
+            <li><strong>Cost per correct outcome.</strong> Instrument it yourself. Microsoft's cost comparison against Claude and ChatGPT is modelled on list prices and is a vendor claim. What you need is credits per accepted output, by workflow, by model family.</li>
+            <li><strong>Public-sector precedent, England only.</strong> NHS England&rsquo;s <a href="https://www.england.nhs.uk/2026/06/500000-nhs-staff-to-get-new-artificial-intelligence-tools-to-help-free-up-more-time-for-patients/" target="_blank" rel="noopener">505,000-seat</a> deployment and HMRC&rsquo;s <a href="https://www.thinkdigitalpartners.com/news/2025/10/20/hmrc-launches-largest-government-copilot-rollout/" target="_blank" rel="noopener">32,000 rising to 50,000</a> are seat deals struck before the meter existed; NHS Scotland, Wales and Northern Ireland procure separately. Watch whether those frameworks absorb consumption billing, because that will set the UK negotiating template.</li>
+          </ul>
+          <p>Find your row. Then judge it by the meter, not the demo. The seat is the only number anyone can plan on today.</p>
+        </section>`
+    }
+  ];
+
+  /* ---------- Where does your prompt go: verdict matrix and wiring ---------- */
+  var ROUTES = {
+    auto:   { path: "M130,160 L246,160 M410,160 L470,160 L536,160", dest: ["msft2"], maybe: ["oai", "ant"], risk: false },
+    msft:   { path: "M130,160 L246,160 M410,160 L470,160 L536,160", dest: ["msft2"], maybe: [], risk: false },
+    oai:    { path: "M130,160 L246,160 M410,160 L470,160 L470,72 L536,72", dest: ["oai"], maybe: [], risk: true },
+    claude: { path: "M130,160 L246,160 M410,160 L470,160 L470,248 L536,248", dest: ["ant"], maybe: [], risk: true },
+    retain: { path: "M130,160 L246,160 M410,160 L470,160 L470,248 L536,248", dest: ["ant"], maybe: [], risk: true },
+    chatgpt:   { path: "M75,128 L75,22 L630,22 L630,36", dest: ["oai"], maybe: [], risk: true, direct: true, ring: [630, 40] },
+    claudeapp: { path: "M75,192 L75,312 L630,312 L630,284", dest: ["ant"], maybe: [], risk: true, direct: true, ring: [630, 280] }
+  };
+  var DIRECT = {
+    chatgpt:   { badge: "Straight to OpenAI. Microsoft is not in the room", cls: "risk",
+                 who: "OpenAI, under its own terms, not Microsoft\u2019s. None of your organisation\u2019s Copilot settings, permissions or audit log apply, and it cannot see your work files unless you paste them in.",
+                 where: "OpenAI says it processes data in the United States or wherever its suppliers are. European data residency is offered only on Enterprise, Edu and API plans, not on personal, Plus or Business accounts.",
+                 kept: "Kept by OpenAI as your chat history until you delete it, and on personal accounts it may be used to improve models unless you switch that off. Business plans differ. Nothing lands in your Microsoft 365." },
+    claudeapp: { badge: "Straight to Anthropic. Microsoft is not in the room", cls: "risk",
+                 who: "Anthropic, under its own terms, not Microsoft\u2019s. None of your organisation\u2019s Copilot settings, permissions or audit log apply, and it cannot see your work files unless you paste them in.",
+                 where: "Anthropic stores your data in the United States and says traffic may be routed through Europe, Asia or Australia on the way. No UK or EU residency on personal accounts.",
+                 kept: "Kept by Anthropic under your own account settings. Personal accounts are asked whether chats may be used for training: say yes and they are kept for five years, say no and it is 30 days. Business plans differ. Nothing lands in your Microsoft 365." }
+  };
+  var VERDICT = {
+    uk: {
+      auto:   { badge: "Depends on what your admin switched on", cls: "neutral",
+                who: "Microsoft picks a brain for each request from the providers your admin has enabled. That can include OpenAI-run models, which are on by default, and Claude, if it has been switched on.",
+                where: "Wherever the chosen brain runs. The UK is not inside the EU Data Boundary, so even a Microsoft-run model can process your prompt in the US, the EU or elsewhere at busy times.",
+                kept: "Your prompt and the answer are stored in your own Microsoft 365 as activity history. Not used to train models." },
+      msft:   { badge: "Never leaves Microsoft. Country not promised", cls: "",
+                who: "Microsoft only. No third party sees it.",
+                where: "The nearest Microsoft datacentre, but the UK is not inside the EU Data Boundary, so at busy times your prompt can be processed in the US, the EU or elsewhere. Microsoft says so in writing.",
+                kept: "Stored in your own Microsoft 365 as activity history. Not used to train models." },
+      oai:    { badge: "Leaves Microsoft. Country not promised", cls: "risk",
+                who: "OpenAI, working as Microsoft’s subprocessor under Microsoft’s data protection terms. On by default since 24 July 2026 unless your admin turned it off.",
+                where: "Microsoft makes no in-country promise for these models. They are inside the EU Data Boundary for EU organisations; the UK is not in that boundary, so assume your prompt can be processed outside the UK.",
+                kept: "OpenAI runs these with zero data retention. The record stays in your Microsoft 365." },
+      claude: { badge: "Outside the EU Data Boundary. Off by default in the UK", cls: "risk",
+                who: "Anthropic, working as Microsoft’s subprocessor under Microsoft’s data protection terms. Your admin has to switch it on before you can pick it.",
+                where: "Anthropic’s own systems, outside the EU Data Boundary and outside any in-country promise. Microsoft does not say which country.",
+                kept: "Anthropic does not keep your prompt or the answer. The record stays in your Microsoft 365. Copilot shows a marker on screen when a Claude brain is in use." },
+      retain: { badge: "Stored by Anthropic for up to 30 days", cls: "risk",
+                who: "Anthropic on its own contract, not Microsoft’s. Models such as Fable 5.0 and Mythos 5. Off by default everywhere and needs a separate opt-in.",
+                where: "Anthropic’s own systems, outside the EU Data Boundary.",
+                kept: "Anthropic keeps most prompts and answers for up to 30 days, and up to two years if its safety filters flag them. Not used for training without your permission." }
+    },
+    eu: {
+      auto:   { badge: "Depends on what your admin switched on", cls: "neutral",
+                who: "Microsoft picks a brain for each request from the providers your admin has enabled. That can include OpenAI-run models, which are on by default, and Claude, if it has been switched on.",
+                where: "Microsoft-run and OpenAI-run models stay inside the EU Data Boundary. Claude does not.",
+                kept: "Stored in your own Microsoft 365 as activity history. Not used to train models." },
+      msft:   { badge: "Stays inside the EU Data Boundary", cls: "",
+                who: "Microsoft only. No third party sees it.",
+                where: "Inside the EU Data Boundary. Microsoft commits that EU traffic stays in the EU for model processing.",
+                kept: "Stored in your own Microsoft 365 as activity history. Not used to train models." },
+      oai:    { badge: "Inside the EU Data Boundary, with listed exceptions", cls: "neutral",
+                who: "OpenAI, working as Microsoft’s subprocessor under Microsoft’s data protection terms. On by default since 24 July 2026 unless your admin turned it off.",
+                where: "Inside the EU Data Boundary, except where Microsoft’s own boundary documentation lists an exception. No in-country promise.",
+                kept: "OpenAI runs these with zero data retention. The record stays in your Microsoft 365." },
+      claude: { badge: "Outside the EU Data Boundary. Off by default in the EU", cls: "risk",
+                who: "Anthropic, working as Microsoft’s subprocessor under Microsoft’s data protection terms. Your admin has to switch it on before you can pick it.",
+                where: "Anthropic’s own systems, outside the EU Data Boundary and outside any in-country promise. Microsoft does not say which country.",
+                kept: "Anthropic does not keep your prompt or the answer. The record stays in your Microsoft 365. Copilot shows a marker on screen when a Claude brain is in use." },
+      retain: { badge: "Stored by Anthropic for up to 30 days", cls: "risk",
+                who: "Anthropic on its own contract, not Microsoft’s. Models such as Fable 5.0 and Mythos 5. Off by default everywhere and needs a separate opt-in.",
+                where: "Anthropic’s own systems, outside the EU Data Boundary.",
+                kept: "Anthropic keeps most prompts and answers for up to 30 days, and up to two years if its safety filters flag them. Not used for training without your permission." }
+    }
+  };
+  var routerState = { loc: "uk", model: "msft" };
+
+  function routerPaint() {
+    var box = document.querySelector('.router');
+    if (!box) return;
+    var loc = routerState.loc, model = routerState.model;
+    var r = ROUTES[model], v = DIRECT[model] || VERDICT[loc][model];
+    box.setAttribute('data-loc', loc); box.setAttribute('data-model', model);
+    Array.prototype.forEach.call(box.querySelectorAll('.router-ctl button'), function (b) {
+      var on = (b.getAttribute('data-loc') === loc) || (b.getAttribute('data-model') === model);
+      b.setAttribute('aria-pressed', String(on));
+    });
+    var you = box.querySelector('[data-you]'); if (you) you.textContent = (r.direct ? 'in the ' : '') + (loc === 'uk' ? 'UK' : 'EU or EFTA') + (r.direct ? '' : ' tenant');
+    var ringXY = [540, 160];
+    Array.prototype.forEach.call(box.querySelectorAll('.router-node[data-node]'), function (n) {
+      n.classList.remove('lit'); n.classList.remove('lit-risk'); n.classList.remove('maybe'); n.classList.remove('pulse'); n.classList.remove('off');
+      var id = n.getAttribute('data-node');
+      if (id === 'msft') n.classList.add(r.direct ? 'off' : 'lit');
+      if (r.direct && (id === 'busy' || id === 'msft2')) n.classList.add('off');
+      if (r.dest.indexOf(id) >= 0) {
+        n.classList.add(r.risk ? 'lit-risk' : 'lit'); n.classList.add('pulse');
+        ringXY = r.ring || [Number(n.getAttribute('data-cx')), Number(n.getAttribute('data-cy'))];
+      }
+      if (r.maybe.indexOf(id) >= 0) n.classList.add('maybe');
+      if (id === 'busy' && loc === 'uk' && (model === 'msft' || model === 'auto')) n.classList.add('lit');
+    });
+    var act = box.querySelector('.router-active');
+    act.setAttribute('d', r.path); act.classList.toggle('risk', r.risk);
+    act.setAttribute('marker-end', r.risk ? 'url(#router-arrow-r)' : 'url(#router-arrow-a)');
+    var dot = box.querySelector('.router-dot'); dot.classList.toggle('risk', r.risk);
+    var ring = box.querySelector('.router-ring');
+    if (ring) { ring.setAttribute('cx', ringXY[0]); ring.setAttribute('cy', ringXY[1]); ring.classList.toggle('risk', r.risk); }
+    Array.prototype.forEach.call(box.querySelectorAll('animateMotion, .router-ring animate'), function (a) {
+      if (a.tagName.toLowerCase() === 'animatemotion') a.setAttribute('path', r.path);
+      try { a.beginElement(); } catch (e) {}
+    });
+    var badge = box.querySelector('[data-badge]');
+    badge.textContent = v.badge; badge.className = 'router-badge' + (v.cls ? ' ' + v.cls : '');
+    box.querySelector('[data-v="who"]').textContent = v.who;
+    box.querySelector('[data-v="where"]').textContent = v.where;
+    box.querySelector('[data-v="kept"]').textContent = v.kept;
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.router-ctl button');
+    if (!b) return;
+    if (b.getAttribute('data-loc')) routerState.loc = b.getAttribute('data-loc');
+    if (b.getAttribute('data-model')) routerState.model = b.getAttribute('data-model');
+    if (window.gtag) gtag('event', 'route_change', { loc: routerState.loc, model: routerState.model });
+    routerPaint();
+  });
+
+  var KEY = 'aisustained_reading_depth';
+  var reading = document.getElementById('reading');
+  var range   = document.getElementById('depth-range');
+  var meta    = document.getElementById('reading-meta');
+  var ticks   = Array.prototype.slice.call(document.querySelectorAll('.tick'));
+  if (!reading || !range || !meta) { sweep(); reveal(); return; }
+
+  /* The Curious tier already exists as real HTML in the page. Capture it
+     rather than duplicating it in DEPTHS, so there is one copy to maintain
+     and the canonical version survives with JavaScript disabled. */
+  DEPTHS[1].html = reading.innerHTML;
+
+  /* The other tiers reuse the Curious tier's table and route map verbatim. */
+  var tableEl = reading.querySelector('.tiers');
+  var routerEl = reading.querySelector('.router');
+  var ROUTER = routerEl ? routerEl.outerHTML : '';
+  if (tableEl) TABLE = tableEl.outerHTML;
+  [0, 2, 3].forEach(function (i) {
+    DEPTHS[i].html = DEPTHS[i].html.replace('__TABLE__', function () { return TABLE; }).replace('__ROUTER__', function () { return ROUTER; });
+  });
+
+  function render(i, animate) {
+    var d = DEPTHS[i];
+    if (!d || !d.html) return;
+
+    ticks.forEach(function (t, n) { t.setAttribute('aria-pressed', String(n === i)); });
+    range.value = i;
+    try { localStorage.setItem(KEY, String(i)); } catch (e) {}
+
+    function paint() {
+      reading.innerHTML = d.html;
+      meta.textContent = d.name + ' · ' + d.meta;
+      reading.classList.remove('swapping');
+      sweep(reading);
+      reveal(reading);
+      routerPaint();
+    }
+
+    if (animate) {
+      /* Only log deliberate reader choices, not the restore on page load. */
+      if (window.gtag) gtag('event', 'depth_change', { level: d.name });
+      reading.classList.add('swapping');
+      setTimeout(paint, 190);
+    } else {
+      paint();
+    }
+  }
+
+  ticks.forEach(function (t, i) {
+    t.addEventListener('click', function () { render(i, true); });
+  });
+  range.addEventListener('input', function () { render(Number(range.value), true); });
+
+  var start = parseInt((function () {
+    try { return localStorage.getItem(KEY); } catch (e) { return null; }
+  })(), 10);
+  if (!(start >= 0 && start <= 3)) start = 1;
+  render(start, false);
+  sweep();
+  reveal();
+  routerPaint();
+})();
+</script>
+</body>
+</html>

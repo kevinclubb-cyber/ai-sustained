@@ -288,6 +288,33 @@
       "date": "2026-09-19",
       "summary": "An AI cut the cost of one scientific guess from up to $10,000 to about $150. It discovered nothing. That is the point: what would you try if trying were nearly free?",
       "tags": "anthropic biomolecular modeling protein design adaptyv bio cost per guess ai economics open source tools gpu hours cost per accepted outcome business case plain english ai"
+    },
+    {
+      "type": "Case study",
+      "ref": "Case study 007",
+      "title": "Pause before you paste.",
+      "url": "/case-studies/pause-before-you-paste/",
+      "date": "2026-09-23",
+      "summary": "Nobody opens the AI policy at the moment they paste a spreadsheet into a chatbot, so the policy went into the chatbot instead: organisation instructions plus one skill that pause a risky prompt, name the data type and offer a safer route. Three live tests, three correct calls.",
+      "tags": "ai policy ai governance shadow ai data protection uk gdpr claude team organisation instructions skill guardrail pupil data payroll data residency nudge"
+    },
+    {
+      "type": "Editorial",
+      "ref": "Issue 022",
+      "title": "Grok 4.7 is built for the idea on your napkin.",
+      "url": "/articles/grok-4-7-idea-on-a-napkin/",
+      "date": "2026-09-23",
+      "summary": "Grok 4.7 is free to try and works on its own for hours. What a plumber, a shopkeeper and an IT desk manager could build with it, and why.",
+      "tags": "grok 4.7 spacexai xai vibe coding small business ai build an app without coding grok build github copilot claude fable 5.1 gpt-6 astra plumber heat pump sizing boiler upgrade scheme ai made simple"
+    },
+    {
+      "type": "Editorial",
+      "ref": "Issue 023",
+      "title": "Microsoft has rebuilt Copilot. Not the one you hate.",
+      "url": "/articles/copilot-home-code-autopilot/",
+      "date": "2026-09-29",
+      "summary": "Five things are called Copilot; Microsoft rebuilt the paid work one, on Claude and ChatGPT’s models, as a £23.10 licence plus a meter. Which one you have, and what it costs.",
+      "tags": "microsoft copilot new copilot home code autopilot cowork copilot studio copilot business copilot enterprise copilot credits pricing uk claude chatgpt comparison frontier program managed runtime free copilot which copilot data residency eu data boundary ai made simple"
     }
   ]
 }

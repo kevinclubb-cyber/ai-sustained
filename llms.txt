@@ -5,6 +5,7 @@
 ## Case studies
 - [Before you write an AI policy, ask the people already using it](https://ai-sustained.com/case-studies/shadow-ai-ask-the-workforce/): shadow AI in the workforce, and building a usage survey by delegating it to an AI agent.
 - [What a single source of truth really costs (before you add AI)](https://ai-sustained.com/case-studies/single-source-of-truth/): three routes to one trustworthy data source — warehouse-light, modern data stack, and a multi-site build — with indicative costs and timelines.
+- [Pause before you paste](https://ai-sustained.com/case-studies/pause-before-you-paste/): writing the AI data policy into the chatbot itself, so a risky prompt is paused, the data type named and a safer route offered.
 - [All case studies](https://ai-sustained.com/case-studies/)
 
 ## Editorial (selected)
@@ -15,6 +16,8 @@
 - [Claude now watermarks everything it writes](https://ai-sustained.com/articles/claude-text-watermark-debate/): why an invisible text watermark marks processing rather than authorship, why removal is already trivial, and what that breaks for academia and for anyone writing with AI.
 - [The Engine Under the Bonnet](https://ai-sustained.com/articles/ai-models-v-public-detector-dilemma/): the follow up to Issue 017 and the mechanics explainer. How green-list token biasing leaves a statistical fingerprint, what a cryptographic detection key is, why releasing it to the public enables both scrubbing and forgery, and how to proofread with AI without acquiring a mark. Written by Google Gemini, published unedited.
 - [173,568 jobs cut in AI's name](https://ai-sustained.com/articles/payroll-into-compute/): what actually drove the AI layoff wave. US firms cut, UK firms froze hiring and cut graduate adverts 42%, and no audited case exists of headcount reduction improving returns. The research explaining who AI helps was published in April 2023.
+- [Grok 4.7 is built for the idea on your napkin](https://ai-sustained.com/articles/grok-4-7-idea-on-a-napkin/): a free, long-running model and what a plumber, a shopkeeper and an IT desk manager could build with it.
+- [Microsoft has rebuilt Copilot. Not the one you hate.](https://ai-sustained.com/articles/copilot-home-code-autopilot/): five things are called Copilot; the paid work one was rebuilt on Claude and GPT models as a licence plus a credit meter. Which one you have, UK prices, and where your prompt goes.
 - [All editorial](https://ai-sustained.com/#editorial)
 
 ## About
