@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- AI Sustained cookie consent + Google Consent Mode v2 (must precede GTM/GA4) -->
+<script>
+(function(){
+  "use strict";
+  /* ------------------------------------------------------------------
+     AI Sustained cookie consent + Google Consent Mode v2
+     Self-contained: sets consent defaults, injects banner CSS + DOM.
+     MUST load before the GTM and GA4 snippets.
+     ------------------------------------------------------------------ */
+
+  var STORE   = 'ais_consent_v1';
+  var MAXAGE  = 1000*60*60*24*182;           /* 6 months, then re-ask */
+  /* Both sites serve /privacy/ (the consulting site ships privacy.html plus a
+     byte-identical privacy/index.html), so one root-absolute path covers both
+     and there is no hostname sniffing to go wrong. */
+  var POLICY  = '/privacy/';
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  window.gtag = window.gtag || gtag;
+
+  /* ---------- read any stored decision ---------- */
+  var saved = null;
+  try {
+    var raw = localStorage.getItem(STORE);
+    if (raw) {
+      var o = JSON.parse(raw);
+      if (o && o.t && (Date.now() - o.t) < MAXAGE) saved = o;
+    }
+  } catch(e){}
+
+  var DENIED = {
+    ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied',
+    analytics_storage:'denied', functionality_storage:'denied',
+    personalization_storage:'denied', security_storage:'granted',
+    wait_for_update: 500
+  };
+
+  /* Defaults are DENIED for everything non-essential. Nothing fires until
+     the visitor chooses. security_storage stays granted: it is strictly
+     necessary and exempt under PECR. */
+  gtag('consent','default', DENIED);
+
+  function stateFrom(c){
+    return {
+      ad_storage:            c.marketing ? 'granted':'denied',
+      ad_user_data:          c.marketing ? 'granted':'denied',
+      ad_personalization:    c.marketing ? 'granted':'denied',
+      analytics_storage:     c.analytics ? 'granted':'denied',
+      functionality_storage: c.recording ? 'granted':'denied',
+      personalization_storage: c.recording ? 'granted':'denied',
+      security_storage:      'granted'
+    };
+  }
+
+  function apply(c, isNew){
+    gtag('consent','update', stateFrom(c));
+    dataLayer.push({
+      event: 'consent_update',
+      consent_analytics:  !!c.analytics,
+      consent_recording:  !!c.recording,
+      consent_marketing:  !!c.marketing
+    });
+    if (isNew){
+      try { localStorage.setItem(STORE, JSON.stringify({
+        t: Date.now(), analytics: !!c.analytics,
+        recording: !!c.recording, marketing: !!c.marketing
+      })); } catch(e){}
+    }
+  }
+
+  if (saved) apply(saved, false);
+
+  /* Current state drives the toggles, so reopening shows what you actually
+     chose rather than a fresh set of defaults. */
+  var current = saved || { analytics:false, recording:false, marketing:false };
+
+  /* ---------- styles ---------- */
+  var CSS = ''
+  + '@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap");'
+  + '.ais-cc,.ais-cc *{box-sizing:border-box}'
+  + '.ais-cc{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#102C21;color:#F2ECD9;'
+  + 'border-top:2px solid #E8FF3A;font-family:Inter,system-ui,sans-serif;'
+  + 'box-shadow:0 -18px 50px rgba(0,0,0,.5);animation:aisUp .35s cubic-bezier(.34,1.2,.64,1)}'
+  + '@keyframes aisUp{from{transform:translateY(100%)}to{transform:none}}'
+  + '@media (prefers-reduced-motion:reduce){.ais-cc{animation:none}}'
+  + '.ais-cc-in{max-width:1080px;margin:0 auto;padding:22px 24px;display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap}'
+  + '.ais-cc-copy{flex:1 1 420px;min-width:280px}'
+  + '.ais-cc h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;color:#E8FF3A;letter-spacing:.01em}'
+  + '.ais-cc p{margin:0;font-size:14.5px;line-height:1.55;color:#F2ECD9;opacity:.94}'
+  + '.ais-cc a{color:#E8FF3A;text-decoration:underline;text-underline-offset:2px}'
+  + '.ais-cc-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}'
+  /* Accept and Reject are deliberately IDENTICAL in size, colour and weight. */
+  + '.ais-b{position:relative;display:inline-flex;align-items:center;justify-content:center;'
+  + 'min-width:150px;padding:14px 24px;border:2px solid rgba(232,255,58,.55);border-radius:10px;'
+  + 'color:#F2ECD9;background:rgba(10,15,12,.92);font-family:"Space Grotesk",sans-serif;'
+  + 'font-weight:700;font-size:15.5px;cursor:pointer;transition:color .2s,border-color .2s,transform .18s;'
+  + '-webkit-tap-highlight-color:transparent}'
+  + '.ais-b:hover{color:#E8FF3A;border-color:#E8FF3A;transform:translateY(-2px)}'
+  + '.ais-b:active{transform:translateY(1px) scale(.98)}'
+  + '.ais-b:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '.ais-link{background:none;border:none;color:#F2ECD9;font-family:Inter,sans-serif;font-size:14px;'
+  + 'text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:8px 4px;opacity:.9}'
+  + '.ais-link:hover{color:#E8FF3A;opacity:1}'
+  + '.ais-cc-panel{width:100%;border-top:1px solid rgba(242,236,217,.18);margin-top:6px;padding-top:16px;display:none}'
+  + '.ais-cc-panel.open{display:block}'
+  + '.ais-row{display:flex;gap:14px;align-items:flex-start;padding:11px 0}'
+  + '.ais-row+.ais-row{border-top:1px solid rgba(242,236,217,.1)}'
+  + '.ais-row .t{flex:1}'
+  + '.ais-row strong{display:block;font-family:"Space Grotesk",sans-serif;font-size:14.5px;margin-bottom:3px}'
+  + '.ais-row span{font-size:13.5px;line-height:1.5;opacity:.85}'
+  + '.ais-sw{position:relative;flex:0 0 auto;width:50px;height:28px;border-radius:99px;border:none;'
+  + 'background:rgba(242,236,217,.22);cursor:pointer;transition:background .2s}'
+  + '.ais-sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;'
+  + 'background:#F2ECD9;transition:transform .2s}'
+  + '.ais-sw[aria-checked="true"]{background:#E8FF3A}'
+  + '.ais-sw[aria-checked="true"]::after{transform:translateX(22px);background:#0A0F0C}'
+  + '.ais-sw[disabled]{opacity:.5;cursor:not-allowed}'
+  + '.ais-sw:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '@media(max-width:640px){.ais-cc-in{padding:18px 16px;gap:16px}.ais-cc-btns{width:100%}'
+  + '.ais-b{flex:1 1 100%;min-width:0}}';
+
+  /* ---------- banner ---------- */
+  function build(reopen){
+    if (document.querySelector('.ais-cc')) return;
+
+    var st = document.createElement('style');
+    st.textContent = CSS;
+    document.head.appendChild(st);
+
+    var w = document.createElement('div');
+    w.className = 'ais-cc';
+    w.setAttribute('role','dialog');
+    w.setAttribute('aria-live','polite');
+    w.setAttribute('aria-label','Cookie choices');
+    w.innerHTML =
+      '<div class="ais-cc-in">'
+      +  '<div class="ais-cc-copy">'
+      +    '<h2>Your call on cookies</h2>'
+      +    '<p>I use a few cookies to see which articles land and where people give up reading. '
+      +    'Nothing fires until you choose. Reject and the site works exactly the same. '
+      +    '<a href="' + POLICY + '">Read the privacy notice</a>.</p>'
+      +  '</div>'
+      +  '<div class="ais-cc-btns">'
+      +    '<button type="button" class="ais-b" data-a="accept">Accept all</button>'
+      +    '<button type="button" class="ais-b" data-a="reject">Reject all</button>'
+      +    '<button type="button" class="ais-link" data-a="manage" aria-expanded="false">Choose what I share</button>'
+      +  '</div>'
+      +  '<div class="ais-cc-panel" id="ais-panel">'
+      +    row('essential','Strictly necessary','Keeps the site working and secure. Always on, and exempt from consent under PECR.',true,true)
+      +    row('analytics','Audience measurement','Google Analytics. Which pages get read, roughly where visitors come from.',!!current.analytics,false)
+      +    row('recording','Session recording','Microsoft Clarity. Anonymised replays and heatmaps showing where people scroll and stop. Text you type is masked.',!!current.recording,false)
+      +    row('marketing','Marketing','TikTok and Meta advertising pixels. Not currently active, listed so this notice stays honest when they are.',!!current.marketing,false)
+      +    '<div class="ais-cc-btns" style="margin-top:14px">'
+      +      '<button type="button" class="ais-b" data-a="save">Save my choices</button>'
+      +    '</div>'
+      +  '</div>'
+      + '</div>';
+    document.body.appendChild(w);
+
+    function row(k,title,desc,on,lock){
+      return '<div class="ais-row"><div class="t"><strong>'+title+'</strong><span>'+desc+'</span></div>'
+        + '<button type="button" class="ais-sw" data-k="'+k+'" role="switch" aria-label="'+title+'" aria-checked="'
+        + (on?'true':'false') + '"' + (lock?' disabled':'') + '></button></div>';
+    }
+
+    w.addEventListener('click', function(e){
+      var sw = e.target.closest('.ais-sw');
+      if (sw && !sw.disabled){
+        sw.setAttribute('aria-checked', sw.getAttribute('aria-checked')==='true' ? 'false':'true');
+        return;
+      }
+      var b = e.target.closest('[data-a]');
+      if (!b) return;
+      var a = b.getAttribute('data-a');
+
+      if (a === 'manage'){
+        var p = w.querySelector('#ais-panel');
+        var open = p.classList.toggle('open');
+        b.setAttribute('aria-expanded', open ? 'true':'false');
+        b.textContent = open ? 'Hide options' : 'Choose what I share';
+        return;
+      }
+      if (a === 'accept') return close({analytics:1,recording:1,marketing:1});
+      if (a === 'reject') return close({analytics:0,recording:0,marketing:0});
+      if (a === 'save'){
+        var g = function(k){
+          var el = w.querySelector('.ais-sw[data-k="'+k+'"]');
+          return el && el.getAttribute('aria-checked')==='true' ? 1 : 0;
+        };
+        return close({analytics:g('analytics'), recording:g('recording'), marketing:g('marketing')});
+      }
+    });
+
+    function close(c){ current = c; apply(c, true); w.remove(); }
+
+    /* Reopened from the footer: show the detail panel straight away, so the
+       visitor can see and change what they previously chose. */
+    if (reopen){
+      w.querySelector('#ais-panel').classList.add('open');
+      var mb = w.querySelector('[data-a="manage"]');
+      mb.setAttribute('aria-expanded','true');
+      mb.textContent = 'Hide options';
+    }
+  }
+
+  /* Drop a "Cookie choices" link into the existing footer, so consent can be
+     withdrawn from any page without editing 50 footers by hand. */
+  function footerLink(){
+    var f = document.querySelector('footer');
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
+
+    /* Footer markup varies page to page, so target the LAST div: on every
+       template that is the links / colophon column, not the brand block. */
+    var divs = f.querySelectorAll('div');
+    var host = divs.length ? divs[divs.length-1] : f;
+
+    var wrap = document.createElement('span');
+    wrap.setAttribute('data-ais-footer','1');
+    wrap.style.cssText = 'display:inline-block;margin-top:6px';
+
+    var onPolicy = /^\/privacy(\.html|\/|$)/.test(location.pathname);
+    if (!onPolicy){
+      var pv = document.createElement('a');
+      pv.href = POLICY;
+      pv.textContent = 'Privacy';
+      wrap.appendChild(document.createTextNode(' · '));
+      wrap.appendChild(pv);
+    }
+
+    var a = document.createElement('a');
+    a.href = '#';
+    a.setAttribute('data-ais-reopen','1');
+    a.textContent = 'Cookie choices';
+    a.style.cursor = 'pointer';
+    a.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+    wrap.appendChild(document.createTextNode(' · '));
+    wrap.appendChild(a);
+
+    host.appendChild(wrap);
+  }
+
+  /* Public re-opener, also usable directly:
+     <a href="#" onclick="AISConsent.open();return false">Cookie choices</a>  */
+  window.AISConsent = {
+    open: function(){
+      /* Deliberately does NOT clear the stored choice. Reopening the banner
+         must never silently revoke consent the visitor already gave. They
+         revoke it by choosing, not by looking. */
+      var ex = document.querySelector('.ais-cc');
+      if (ex) ex.remove();
+      build(true);
+    }
+  };
+
+  function init(){ footerLink(); if (!saved) build(false); }
+
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K3HFQT6S');</script>
+
+<!-- Google Analytics — site-wide ID, leave as-is -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+<title>AI did what World Book Day couldn't: it got British adults reading again | AI Sustained</title>
+<meta name="description" content="UK adults read fewer books and more chatbot answers than ever. At 238 words a minute the heavy users&rsquo; numbers don&rsquo;t add up. What we&rsquo;re really doing.">
+<meta name="keywords" content="AI reading load, ChatGPT reading, Copilot, Claude, Gemini, UK adult reading, comprehension debt, AI fatigue, screen reading, Ofcom AI use, reading speed 238 wpm, World Book Day, The Reading Agency, DSE regulations, AI Sustained">
+<meta name="author" content="Kevin Clubb">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="theme-color" content="#1B4332">
+<link rel="canonical" href="https://ai-sustained.com/articles/ai-got-britain-reading-again/">
+<meta property="og:title" content="AI did what World Book Day couldn't: it got British adults reading again">
+<meta property="og:description" content="Half the country stopped reading books, then started reading chatbots. The arithmetic on what heavy AI users read each week does not add up.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ai-sustained.com/articles/ai-got-britain-reading-again/">
+<meta property="og:image" content="https://ai-sustained.com/articles/ai-got-britain-reading-again/ai-got-britain-reading-again_hero.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="669">
+<meta property="og:image:alt" content="A worn dark-green leather armchair in a dark green room, lit by a single black desk lamp on a side table. Printed pages are heaped on the seat and strewn across the wooden floor, a pair of glasses rests on one arm, a white mug stands on the floor, and one page on the seat glows acid green.">
+<meta property="og:site_name" content="AI Sustained">
+<meta property="og:locale" content="en_GB">
+<meta property="article:published_time" content="2026-10-12T07:00:00+01:00">
+<meta property="article:author" content="Kevin Clubb">
+<meta property="article:section" content="Work &amp; Attention">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI did what World Book Day couldn't: it got British adults reading again">
+<meta name="twitter:description" content="Half the country stopped reading books, then started reading chatbots. The arithmetic on what heavy AI users read each week does not add up.">
+<meta name="twitter:image" content="https://ai-sustained.com/articles/ai-got-britain-reading-again/ai-got-britain-reading-again_hero.jpg">
+<meta name="twitter:image:alt" content="A worn dark-green leather armchair in a dark green room, lit by a single black desk lamp on a side table. Printed pages are heaped on the seat and strewn across the wooden floor, a pair of glasses rests on one arm, a white mug stands on the floor, and one page on the seat glows acid green.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "AI did what World Book Day couldn't: it got British adults reading again",
+  "author": { "@type": "Person", "name": "Kevin Clubb", "url": "https://www.linkedin.com/in/kevin-clubb" },
+  "datePublished": "2026-10-12",
+  "dateModified": "2026-10-12",
+  "url": "https://ai-sustained.com/articles/ai-got-britain-reading-again/",
+  "description": "UK adults read fewer books and more chatbot answers than ever. At 238 words a minute the heavy users' numbers don't add up. What we're really doing.",
+  "keywords": "AI reading load, ChatGPT reading, Copilot, Claude, Gemini, UK adult reading, comprehension debt, AI fatigue, screen reading, Ofcom AI use, reading speed 238 wpm, World Book Day, The Reading Agency, DSE regulations, AI Sustained",
+  "inLanguage": "en-GB",
+  "articleSection": "Work & Attention",
+  "wordCount": 1900,
+  "image": { "@type": "ImageObject", "url": "https://ai-sustained.com/articles/ai-got-britain-reading-again/ai-got-britain-reading-again_hero.jpg", "width": 1200, "height": 669 },
+  "publisher": { "@type": "Organization", "name": "AI Sustained", "url": "https://ai-sustained.com", "logo": { "@type": "ImageObject", "url": "https://ai-sustained.com/ai_sustained_logo.png" } },
+  "mainEntityOfPage": "https://ai-sustained.com/articles/ai-got-britain-reading-again/"
+}
+</script>
+<script>document.documentElement.className += " js";</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --ink-soft: #2A3530;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
+    --acid: #E8FF3A;
+    --acid-hi: #F4FF7A;
+    --coral: #FF5A3C;
+    --moss: #2D6A4F;
+    --sage: #74C69D;
+    --mint: #D8F3DC;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --rule-soft: rgba(242,236,217,0.09);
+    --panel: rgba(242,236,217,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--forest);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    border-top: 3px solid var(--acid);
+  }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
+
+  /* ============ BACK NAV ============ */
+  .backnav {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+    text-decoration: none; display: inline-block; padding: 10px 0 4px;
+  }
+  .backnav:hover { color: var(--acid); }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ HERO (centred) ============ */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+  }
+  .kicker::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    background: var(--acid);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(40px, 6.2vw, 72px);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin: 0 auto 26px;
+    max-width: 17ch;
+  }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--paper-2);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+  .reading-meta {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+    margin-top: 22px;
+  }
+
+  /* ============ HERO FIGURE (cover art) ============ */
+  .hero-figure { margin: 44px 0 10px; }
+  .hero-figure img {
+    width: 100%; height: auto; display: block;
+    border-top: 3px solid var(--acid);
+    border-radius: 4px;
+  }
+  .hero-figure figcaption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); margin-top: 12px;
+  }
+
+  /* ============ STAT GRID ============ */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 44px 0 48px;
+  }
+  .stat-box {
+    background: var(--panel);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 10px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px; font-weight: 600;
+    color: var(--acid); line-height: 1; display: block;
+  }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  /* ============ BODY CONTENT ============ */
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 33px; line-height: 1.15;
+    color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em;
+  }
+  .content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px;
+  }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+  .content li::marker { color: var(--acid); }
+
+  .inline-highlight { color: var(--acid); font-weight: 500; }
+
+  /* ============ CROSS-REFERENCE LINKS ============ */
+  /* Internal links to other AI Sustained work carry a mono badge so they read
+     as "more of this site", not as another citation heading off-platform. */
+  .content a.xref {
+    color: var(--acid);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(232,255,58,0.45);
+    white-space: nowrap;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .content a.xref::before {
+    content: 'AIS';
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 600; letter-spacing: 0.14em;
+    color: var(--ink); background: var(--acid);
+    padding: 2px 5px; border-radius: 2px; margin-right: 7px;
+    vertical-align: 1px; white-space: nowrap;
+  }
+  .content a.xref:hover { color: var(--paper); border-bottom-color: var(--paper); }
+
+  /* ============ PULL QUOTE ============ */
+  .pull-quote {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 30px; line-height: 1.3; color: var(--paper);
+    margin: 60px auto; padding: 40px 0;
+    border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid);
+    text-align: center; max-width: 720px; letter-spacing: -0.01em;
+  }
+  .pull-quote::before {
+    content: '"'; display: block; font-size: 56px; color: var(--acid);
+    line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif;
+  }
+
+  /* ============ TACTICAL TAKEAWAY (ink panel — signature) ============ */
+  .takeaway {
+    background: var(--ink); color: var(--paper);
+    padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .takeaway::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--acid);
+    border-radius: 50%; opacity: 0.14;
+  }
+  .takeaway-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .takeaway h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 32px; line-height: 1.22; color: var(--paper);
+    margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em;
+  }
+  .takeaway h2 em { color: var(--acid); font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
+  .takeaway-point-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .takeaway-point-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 16px; line-height: 1.45; color: var(--paper-2);
+  }
+  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
+
+  /* ============ TOC ============ */
+  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
+  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
+  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
+
+  /* ============ SUBSCRIBE SLAB ============ */
+  /* The one deliberate acid fill in the page. It works because nothing else does it. */
+  .cta-slab {
+    background: var(--acid); color: var(--ink);
+    border-radius: 4px; padding: 44px 40px; margin: 64px 0 8px;
+    position: relative; overflow: hidden;
+  }
+  .cta-slab::before {
+    content: ''; position: absolute; bottom: -70px; left: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--ink);
+    border-radius: 50%; opacity: 0.08;
+  }
+  .cta-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.72; margin-bottom: 14px;
+    position: relative; z-index: 1;
+  }
+  .cta-slab h2 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+    font-size: 32px; line-height: 1.15; letter-spacing: -0.01em;
+    color: var(--ink); margin-bottom: 14px; position: relative; z-index: 1;
+  }
+  .cta-slab h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; }
+  .cta-slab p {
+    font-size: 16px; line-height: 1.6; color: var(--ink); opacity: 0.84;
+    max-width: 540px; margin-bottom: 26px; position: relative; z-index: 1;
+  }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .cta-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
+    padding: 14px 22px; border-radius: 3px;
+    border: 1.5px solid var(--ink); color: var(--ink);
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta-btn span { transition: transform 0.15s ease; }
+  .cta-btn:hover { background: rgba(10,15,12,0.08); transform: translateY(-2px); }
+  .cta-btn:hover span { transform: translateX(4px); }
+  .cta-btn.primary { background: var(--ink); color: var(--acid); animation: ctaPulse 2.6s ease-out infinite; }
+  .cta-btn.primary:hover { background: #000; box-shadow: 0 10px 28px rgba(10,15,12,0.35); }
+  @keyframes ctaPulse {
+    0% { box-shadow: 0 0 0 0 rgba(10,15,12,0.35); }
+    70% { box-shadow: 0 0 0 14px rgba(10,15,12,0); }
+    100% { box-shadow: 0 0 0 0 rgba(10,15,12,0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-btn.primary { animation: none; }
+    .cta-btn:hover, .cta-btn:hover span { transform: none; }
+  }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 300px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+  /* Sources block carries links; without this they fall through to
+     browser-default blue. */
+  .sources a { color: var(--sage, #74C69D); text-decoration: none; border-bottom: 1px solid rgba(116,198,157,0.35); }
+  .sources a:hover { color: var(--acid, #E8FF3A); border-bottom-color: var(--acid, #E8FF3A); }
+
+  /* ============ FOOTER LINK ROW ============ */
+  .footer-links {
+    margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+  }
+  .footer-links a { color: var(--muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--acid); }
+
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
+  .hashtag-list span { font-weight: 500; }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 40px; }
+    .deck { font-size: 19px; }
+    .cta-slab { padding: 32px 26px; }
+    .cta-slab h2 { font-size: 26px; }
+    .cta-btn { width: 100%; justify-content: space-between; }
+  }
+
+  @media print {
+    @page { size: A3; margin: 14mm; }
+    body { background: var(--forest); padding: 0; }
+    .page { max-width: none; padding: 0; }
+    .stat-box, .takeaway-point, .pull-quote, .takeaway, .cta-slab { page-break-inside: avoid; break-inside: avoid; }
+  }
+
+  /* ============ ISSUE 024 MOTION ============ */
+  /* Same kit as Issue 023: reading bar, hero entrance, scroll reveal, count-up.
+     The lamp glow sits where the lamp actually is in this cover, and the pool
+     sits on the one lit page on the chair. */
+  .readbar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background: var(--acid);
+    transform: scaleX(0); transform-origin: 0 50%; z-index: 60; pointer-events: none;
+    box-shadow: 0 0 12px rgba(232,255,58,0.55); }
+
+  .hero-photo { position: relative; overflow: hidden; border-top: 3px solid var(--acid); border-radius: 4px; background: #0A0F0C; }
+  .hero-photo img { border-top: 0; border-radius: 0; transform-origin: 50% 30%; animation: heroDrift 28s ease-in-out infinite alternate; }
+  .hero-bulb { position: absolute; left: 59.5%; top: 22%; width: 40%; aspect-ratio: 1; transform: translate(-50%, -50%);
+    border-radius: 50%; pointer-events: none; mix-blend-mode: screen;
+    background: radial-gradient(circle, rgba(232,255,58,0.28) 0%, rgba(232,255,58,0.09) 24%, rgba(232,255,58,0) 58%);
+    animation: bulbBreathe 5.6s ease-in-out infinite; }
+  .hero-pool { position: absolute; left: 50.5%; top: 49%; width: 30%; height: 20%; transform: translate(-50%, -50%);
+    border-radius: 50%; pointer-events: none; mix-blend-mode: screen;
+    background: radial-gradient(ellipse, rgba(232,255,58,0.18) 0%, rgba(232,255,58,0) 65%);
+    animation: bulbBreathe 5.6s ease-in-out infinite; }
+  @keyframes heroDrift { from { transform: scale(1); } to { transform: scale(1.05); } }
+  @keyframes bulbBreathe { 0%, 100% { opacity: .55; } 38% { opacity: 1; } 44% { opacity: .72; } 50% { opacity: 1; } 78% { opacity: .8; } }
+
+  .hero .kicker, .hero h1, .hero .deck, .hero .reading-meta, .hero-figure, .backnav, .masthead {
+    animation: heroIn .9s cubic-bezier(.2,.7,.2,1) both; }
+  .backnav { animation-delay: 0s; } .masthead { animation-delay: .04s; }
+  .hero .kicker { animation-delay: .08s; } .hero h1 { animation-delay: .18s; }
+  .hero .deck { animation-delay: .32s; } .hero .reading-meta { animation-delay: .44s; }
+  .hero-figure { animation-delay: .4s; animation-duration: 1.1s; }
+  @keyframes heroIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+  /* scroll reveal: only once JS has confirmed it can run, so nothing is ever hidden without it */
+  html.js .rv { opacity: 0; transform: translateY(20px); transition: opacity .75s ease, transform .75s cubic-bezier(.2,.7,.2,1); will-change: opacity, transform; }
+  html.js .rv.in { opacity: 1; transform: none; will-change: auto; }
+  html.js .content h2.rv { transform: translateX(-14px); }
+  html.js .content h2.rv.in { transform: none; }
+  html.js .content h2.rv::after { content: ''; display: block; width: 0; height: 2px; background: var(--acid); margin-top: 10px; transition: width .9s cubic-bezier(.2,.7,.2,1) .25s; }
+  html.js .content h2.rv.in::after { width: 56px; }
+  html.js .rv.pull-quote { transition-duration: 1s; }
+  .stat-value .num-anim { display: inline-block; min-width: 1ch; font-variant-numeric: tabular-nums; }
+  html.js .takeaway-point.rv, html.js .stat-box.rv { transform: translateY(26px); }
+  html.js .takeaway-point.rv.in, html.js .stat-box.rv.in { transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .readbar { display: none; }
+    .hero-photo img, .hero-bulb, .hero-pool, .hero .kicker, .hero h1, .hero .deck, .hero .reading-meta, .hero-figure, .backnav, .masthead { animation: none; }
+    html.js .rv, html.js .content h2.rv { opacity: 1; transform: none; transition: none; }
+    html.js .content h2.rv::after { width: 56px; transition: none; }
+  }
+  @media print { .readbar { display: none; } html.js .rv { opacity: 1; transform: none; } .hero-bulb, .hero-pool { display: none; } }
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K3HFQT6S"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<div class="readbar" aria-hidden="true"></div>
+<article class="page">
+
+  <a class="backnav" href="/">&#8592; All articles</a>
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <span class="wordmark">AI Sustained.</span>
+      <span>Issue 024</span>
+    </div>
+    <div class="masthead-right">
+      <span>12 OCT 2026</span>
+      <span>Work &amp; Attention</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">The reading load</div>
+    <h1>AI did what World Book Day couldn't: it got British adults <span class="accent">reading again.</span></h1>
+    <p class="deck">Except the arithmetic says you can't be. At 238 words a minute, the heaviest users would need more hours than the week has. So what are <span class="accent">we actually doing?</span> For Hannah, Sanjay and Tomasz, and anyone whose optician has started to look at them differently.</p>
+    <div class="reading-meta">&asymp;1,900 words &middot; 8 min at 238 wpm</div>
+  </section>
+
+  <figure class="hero-figure">
+    <div class="hero-photo">
+      <img src="ai-got-britain-reading-again_hero.webp" width="1376" height="768" fetchpriority="high" decoding="async"
+           alt="A worn dark-green leather armchair in a dark green room, lit by a single black desk lamp on a side table. Printed pages are heaped on the seat and strewn across the wooden floor, a pair of glasses rests on one arm, a white mug stands on the floor, and one page on the seat glows acid green.">
+      <span class="hero-bulb" aria-hidden="true"></span>
+      <span class="hero-pool" aria-hidden="true"></span>
+    </div>
+    <figcaption>Cover &middot; AI Sustained &middot; Three Shakespeares a week, and one page you actually read.</figcaption>
+  </figure>
+
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">Adult reading speed</div>
+      <span class="stat-value"><span class="num-anim" data-count="238" data-dp="0">238</span><span class="unit">wpm</span></span>
+      <div class="stat-note">Silent reading, non-fiction. Meta-analysis of 190 studies (Brysbaert, 2019).</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">UK adults using AI tools</div>
+      <span class="stat-value"><span class="num-anim" data-count="54" data-dp="0">54</span><span class="unit">%</span></span>
+      <div class="stat-note">Up from 31% a year earlier. Ofcom, April 2026, 7,533 adults.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">UK adults who read regularly</div>
+      <span class="stat-value"><span class="num-anim" data-count="53" data-dp="0">53</span><span class="unit">%</span></span>
+      <div class="stat-note">Down from 58% in 2015. The Reading Agency, 2025.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Hours needed at 50x</div>
+      <span class="stat-value"><span class="num-anim" data-count="175" data-dp="0">175</span><span class="unit">hrs</span></span>
+      <div class="stat-note">To read 2.5 million words a week at 238 wpm. A week has 168.</div>
+    </div>
+  </section>
+
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-label">In this issue</div>
+    <ol>
+      <li><span class="toc-num">01</span><a href="#stopped-reading">Half the country stopped reading. Then it started typing.</a></li>
+      <li><span class="toc-num">02</span><a href="#arithmetic">The arithmetic.</a></li>
+      <li><span class="toc-num">03</span><a href="#no-name">What you're doing instead has no name yet.</a></li>
+      <li><span class="toc-num">04</span><a href="#good-news">The good news, and it is real.</a></li>
+      <li><span class="toc-num">05</span><a href="#the-bill">The bill.</a></li>
+      <li><span class="toc-num">06</span><a href="#uk">So what for the UK.</a></li>
+    </ol>
+  </nav>
+
+  <section class="content">
+    <p>By my own rough count I now read somewhere between <strong>ten and fifty times more words a week</strong> than I did before ChatGPT, Claude, Gemini and Copilot turned up on my laptop. Specifications, drafts, summaries of the drafts, the second draft, the explanation of why the second draft differs from the first. My optician has not said anything. She has started to look at me differently.</p>
+
+    <p>I assumed this made me unusual. Then I did the sum, and the sum says something stranger: at the top of that range I am not reading at all. Not in any sense a reading researcher would recognise. And if that is true for me, it is true for every heavy AI user in the country, which is now a surprisingly large group.</p>
+
+    <h2 id="stopped-reading">Half the country stopped reading. Then it started typing.</h2>
+
+    <p>Two surveys, a year apart, tell the story between them. In April 2025 <a href="https://worldbooknight.org/news/nation-of-interrupted-readers" target="_blank" rel="noopener">The Reading Agency</a> reported that only 53% of UK adults read regularly, down from 58% in 2015. Nearly half (46%) said distraction stops them reading. Almost a quarter of 16 to 24 year olds said they had never been readers.</p>
+
+    <p>In April 2026 <a href="https://www.ofcom.org.uk/media-use-and-attitudes/media-habits-adults/passive-social-media-use-ai-companionship-and-online-side-hustles-uk-adults-media-and-online-lives-revealed" target="_blank" rel="noopener">Ofcom</a> reported that 54% of UK adults now use AI tools such as ChatGPT, Copilot or Gemini, up from 31% the year before. Three quarters of online adults read AI-generated search summaries at least sometimes. The government's own <a href="https://www.gov.uk/government/statistics/dsit-public-engagement-survey-20252026/dsit-public-engagement-survey-20252026" target="_blank" rel="noopener">DSIT survey</a> of 30,698 people puts generative AI use at 59% in the previous three months.</p>
+
+    <p>Every one of those interactions ends in text. A chatbot does not reply with a shrug. It replies with four paragraphs, a bulleted list and an offer to go further. The country that could not finish a novel has, without anyone planning it, taken up reading again at industrial scale. World Book Day has been trying to do this since the late 1990s and would have settled for a fraction of it.</p>
+
+    <h2 id="arithmetic">The arithmetic.</h2>
+
+    <p>The most reliable figure for adult silent reading comes from <a href="https://reader.ku.edu/sites/reader/files/2024-01/How%20many%20words%20do%20we%20read%20per%20minute%20(1).pdf" target="_blank" rel="noopener">Marc Brysbaert's meta-analysis</a> of 190 studies: <span class="inline-highlight">238 words per minute</span> for non-fiction, 260 for fiction. Slower than most people assume, and that is the point.</p>
+
+    <p>Take a typical reader on half an hour a day. That is about 7,000 words a day, or roughly 50,000 a week. Multiply by my own range. Ten times is 500,000 words, which at 238 words a minute takes 35 hours. Fifty times is 2.5 million words, which takes <span class="inline-highlight">175 hours</span>. A week has 168. At the top of the range I would need to read for longer than time exists, and at the bottom I would need a second full-time job to fit it in.</p>
+
+    <p>For scale, the complete works of Shakespeare run to about 884,000 words. Two and a half million words a week is just under three of them, every week, with no interval and no ice cream. These are estimates, and I have rounded freely, but the shape of the problem survives any amount of rounding. Something has to give, and it is not the week.</p>
+
+    <h2 id="no-name">What you're doing instead has no name yet.</h2>
+
+    <p>What gives is the reading. Not the volume of text in front of us, which is real, but the act of taking it in line by line. We already knew people do not read web pages: the <a href="https://www.nngroup.com/articles/how-little-do-users-read/" target="_blank" rel="noopener">Nielsen Norman Group</a> estimated years ago that a visitor reads at most 28% of the words on a page, more likely 20%, in a scan shaped like an F. A chatbot pane is a web page that refills itself.</p>
+
+    <p>The research on screens points the same way. <a href="https://doi.org/10.1016/j.edurev.2018.09.003" target="_blank" rel="noopener">Delgado and colleagues</a> pooled 54 studies and about 170,000 participants and found a small but consistent penalty for reading informational text on screens rather than paper, worse under time pressure. The more worrying finding sits underneath: screen readers are more confident they understood than print readers, and less likely to be right.</p>
+
+    <p>Then there is what AI does to the job of reading. <a href="https://advait.org/files/lee_2025_ai_critical_thinking_survey.pdf" target="_blank" rel="noopener">Microsoft Research and Carnegie Mellon</a> surveyed 319 knowledge workers who use ChatGPT or Copilot at least weekly and collected 936 real examples. Their conclusion was that thinking does not disappear, it moves: from doing the task to <strong>verifying, integrating and stewarding</strong> what the tool produced. The more people trusted the tool, the less of that they did.</p>
+
+    <p>So here is my working name for what heavy users are actually doing. We are reading like sub-editors. Scanning for the sentence that matters and the sentence that is wrong, and skipping the rest. <strong>Hannah Clarke</strong>, the HR business partner who became her building's unofficial AI helpdesk, does it on her own <a class="xref" href="/articles/copilot-home-code-autopilot/">Copilot</a> output and then on everyone else's. <strong>Sanjay Mistry</strong> does it fifty product descriptions at a time. <strong>Tomasz Wiśniewski</strong> does it on every email he polishes before it goes to his boss. None of them was trained for it. None of them is paid for it.</p>
+
+    <blockquote class="pull-quote">You are not reading more. You are editing more, without ever having been hired as an editor.</blockquote>
+
+    <h2 id="good-news">The good news, and it is real.</h2>
+
+    <p>Reading volume is one of the few things in education research that behaves itself. <a href="https://www.nhps.net/cms/lib/CT50000447/Centricity/Domain/29/what%20reading%20does.pdf" target="_blank" rel="noopener">Cunningham and Stanovich</a> showed in 1998 that how much a person reads predicts their vocabulary, general knowledge and verbal ability, and that the effect holds after you control for raw intelligence and reading skill. Exposure is the mechanism. More words in, more words available.</p>
+
+    <p>Which means the people who use these tools well, who ask tight questions, read the answer properly and push back when it is wrong, are getting something the school system never gave most of them: a daily supply of structured, edited, grammatically clean prose on exactly the subject they care about. Tomasz is reading more corrected formal English per week than an evening class could offer him. Hannah, who is dyslexic and found that AI was the first tool to make report writing feel fair, is now doing more reading than anyone in her building, on her own terms, at her own pace, in a font she chose.</p>
+
+    <p>Even <strong>Chloe Barnes</strong>, the Year 10 English teacher who tried ChatGPT only to see what her pupils see, has a lever here she did not expect. Her pupils are reading more words than any cohort before them. Just not the ones she set. The skill nobody is teaching them, reading machine prose with a raised eyebrow, is the one she is best placed to teach. It is close reading. She has been doing it with Priestley for years.</p>
+
+    <p>There is a compounding effect too. Better questions produce better answers, and better answers are worth reading properly, which produces better questions. The curators pull away from the skimmers, not because the tool is different but because what they are reading is.</p>
+
+    <h2 id="the-bill">The bill.</h2>
+
+    <p>Start with the words themselves. A benchmark published in January 2026, <a href="https://arxiv.org/abs/2601.00624" target="_blank" rel="noopener">YapBench</a>, measured how much assistant models say beyond what the question needs and found roughly a tenfold spread between the terse ones and the talkative ones. The padding is restated prompts, generic caveats and boilerplate openers. A <a href="https://arxiv.org/abs/2505.06120" target="_blank" rel="noopener">separate study</a> of multi-turn conversations found that longer replies went with worse answers on five tasks out of six. A fair slice of the reading load is text that should never have been written.</p>
+
+    <blockquote class="pull-quote">Nobody has ever complained that a chatbot's answer was too short. The cost of that lands on the reader, and the reader is you.</blockquote>
+
+    <p>Then there is what the engineers have started calling <a href="https://addyosmani.com/blog/comprehension-debt/" target="_blank" rel="noopener">comprehension debt</a>: the gap between how much code a system contains and how much of it anyone actually understands, which accrues at the review stage, because the volume outruns the reviewer. Swap "code" for "policy", "proposal" or "product listing" and it describes every office in the country. The drafted policy Hannah approved at ten past five. The listing Sanjay signed off in a batch. Clean, well formatted, superficially correct.</p>
+
+    <p>An MIT Media Lab study of 54 students, <a href="https://arxiv.org/abs/2506.08872" target="_blank" rel="noopener">"Your Brain on ChatGPT"</a>, found that participants who wrote essays with the model struggled to quote from them minutes later and reported less ownership of the work. It is a small study, only 18 people did the follow-up, and it measured writing, not reading. Treat it as a hint rather than a verdict. The hint is that passing text through yourself is not the same as keeping it.</p>
+
+    <p>And the people are tired. A February 2026 survey of 1,250 US corporate workers found <span class="inline-highlight">37%</span> reporting AI fatigue and <span class="inline-highlight">31%</span> saying their workload had grown since the tools arrived, against 16% who said it had shrunk. US figures, commissioned by a careers site, so hold them loosely. But nobody who reviews Copilot output for a living will find them surprising.</p>
+
+    <h2 id="uk">So what for the UK.</h2>
+
+    <p>Britain measures adult reading in books. The Reading Agency, the National Literacy Trust and World Book Day all count the same thing, and none of them counts the Copilot pane. The biggest shift in adult reading habits in a generation is invisible to the bodies whose job is adult reading. Somebody should ask Ofcom to put a word count in next year's survey.</p>
+
+    <p>Employers have a sharper problem and, unusually, an existing law to hand. The <a href="https://www.hse.gov.uk/msd/dse/" target="_blank" rel="noopener">Display Screen Equipment Regulations</a> have obliged UK employers since 1992 to assess workstations, plan breaks and fund eye tests for staff who use screens. A tenfold rise in words read per week is a DSE change. Hannah can take that to IT and to her board without needing an AI policy first, which is handy, because her housing association still has not written one.</p>
+
+    <p>For <strong>Dr Nadia Rahman</strong> and anyone else building these systems, output length is a cost line nobody owns. Teams track tokens spent and seconds of latency and never the minutes a human spends reading the result. An eval that scores an answer on correctness alone will keep rewarding four paragraphs where one would do. Nadia can fix that in an afternoon of prompt and eval work. Most teams never will, because the person paying the cost is not in the room.</p>
+
+    <p>Schools last. Chloe's Year 10s are reading more machine prose than any cohort before them, and no part of the English curriculum asks them to read it critically. That gap will not be closed by a ban. It will be closed by a teacher putting a ChatGPT answer on the board and asking the class where the writer lost their nerve.</p>
+  </section>
+
+  <section class="takeaway" aria-label="Tactical takeaway for leaders">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2 id="takeaway">Count the words, then <em>read fewer of them properly</em>.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 &middot; Capability &middot; for Hannah and Tomasz</div>
+        <div class="takeaway-point-text">For one week, note how many answers you read to the end. Then set a standing instruction: <strong>"Answer in under 150 words unless I ask for more."</strong> Output length is the one dial that cuts your reading load at source.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 &middot; Risk &middot; for Sanjay and Nadia</div>
+        <div class="takeaway-point-text">Do not approve what you cannot explain back. Before a drafted policy, listing or pipeline goes live, say in two sentences why it is right <strong>without looking at it</strong>. If you cannot, you skimmed it.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 &middot; Opportunity &middot; for Chloe and Hannah</div>
+        <div class="takeaway-point-text">Treat the volume as training, not noise. <strong>Twenty minutes a day of linear reading</strong>, one answer start to finish with a question at the end, is where the vocabulary and the judgement come from.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-slab" aria-label="Read more and subscribe">
+    <div class="cta-kicker">Read more &middot; Subscribe</div>
+    <h2 id="subscribe-slab">One issue a week, and <em>the workings underneath it</em>.</h2>
+    <p>No paywall and no pitch. Two earlier issues sit under this one: which of the five Copilots Hannah is actually reading the output of, and what happens to writing once a model has passed through it.</p>
+    <div class="cta-row">
+      <a class="cta-btn primary" href="/?src=issue024#subscribe">Subscribe <span aria-hidden="true">&#8594;</span></a>
+      <a class="cta-btn" href="/articles/copilot-home-code-autopilot/">Issue 023 &middot; Which Copilot you have <span aria-hidden="true">&#8594;</span></a>
+      <a class="cta-btn" href="/articles/claude-text-watermark-debate/">Issue 017 &middot; Claude watermarks its prose <span aria-hidden="true">&#8594;</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">You read three Shakespeares' worth of machine prose last week. <strong>Which line do you remember?</strong></p>
+      <div class="footer-links">
+        <a href="/">ai-sustained.com</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="#" data-ais-reopen>Cookie choices</a>
+      </div>
+    </div>
+    <div class="sources">
+      Sources &middot; <a href="https://reader.ku.edu/sites/reader/files/2024-01/How%20many%20words%20do%20we%20read%20per%20minute%20(1).pdf" target="_blank" rel="noopener">Brysbaert, Journal of Memory and Language 2019</a> &middot; <a href="https://www.ofcom.org.uk/media-use-and-attitudes/media-habits-adults/passive-social-media-use-ai-companionship-and-online-side-hustles-uk-adults-media-and-online-lives-revealed" target="_blank" rel="noopener">Ofcom, Adults' Media Use and Attitudes 2026</a> &middot; <a href="https://www.gov.uk/government/statistics/dsit-public-engagement-survey-20252026/dsit-public-engagement-survey-20252026" target="_blank" rel="noopener">DSIT Public Engagement Survey 2025/26</a> &middot; <a href="https://worldbooknight.org/news/nation-of-interrupted-readers" target="_blank" rel="noopener">The Reading Agency, State of the Nation 2025</a> &middot; <a href="https://doi.org/10.1016/j.edurev.2018.09.003" target="_blank" rel="noopener">Delgado et al, Educational Research Review 2018</a> &middot; <a href="https://www.nngroup.com/articles/how-little-do-users-read/" target="_blank" rel="noopener">Nielsen Norman Group, How Little Do Users Read 2008</a> &middot; <a href="https://advait.org/files/lee_2025_ai_critical_thinking_survey.pdf" target="_blank" rel="noopener">Lee et al, CHI 2025</a> &middot; <a href="https://www.nhps.net/cms/lib/CT50000447/Centricity/Domain/29/what%20reading%20does.pdf" target="_blank" rel="noopener">Cunningham &amp; Stanovich, American Educator 1998</a> &middot; <a href="https://arxiv.org/abs/2506.08872" target="_blank" rel="noopener">Kosmyna et al, MIT Media Lab 2025</a> &middot; <a href="https://addyosmani.com/blog/comprehension-debt/" target="_blank" rel="noopener">Osmani, Comprehension Debt 2026</a> &middot; <a href="https://arxiv.org/abs/2601.00624" target="_blank" rel="noopener">YapBench, arXiv 2026</a> &middot; <a href="https://arxiv.org/abs/2505.06120" target="_blank" rel="noopener">Laban et al, arXiv 2025</a> &middot; ResumeTemplates survey, Feb 2026 &middot; <a href="https://www.hse.gov.uk/msd/dse/" target="_blank" rel="noopener">HSE DSE Regulations 1992</a> &middot; Reading-time and word-count figures are estimates, rounded. AI Sustained Issue 017, Issue 023.
+    </div>
+  </footer>
+
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#ReadingLoad</span> <span>#ChatGPT</span> <span>#Copilot</span> <span>#Claude</span> <span>#Gemini</span> <span>#ComprehensionDebt</span> <span>#AIFatigue</span> <span>#UKAI</span> <span>#AISustained</span>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span><span class="wordmark">AI Sustained.</span> &middot; By Kevin Clubb</span>
+    <span>2026</span>
+  </div>
+
+</article>
+<script>
+(function () {
+  /* ---------- Issue 024 motion: reveal, count-up, reading bar ---------- */
+  var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var RV_SEL = '.stat-box, .content h2, .pull-quote, .takeaway-point, .takeaway h2, .cta-slab, .toc';
+  var rvIO = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      rvIO.unobserve(e.target);
+      countUp(e.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 }) : null;
+
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+  function fmt(n, dp) {
+    var s = n.toFixed(dp);
+    return dp === 0 ? s.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : s;
+  }
+  function countUp(box) {
+    Array.prototype.forEach.call(box.querySelectorAll('.num-anim:not(.done)'), function (el) {
+      el.classList.add('done');
+      var target = parseFloat(el.getAttribute('data-count'));
+      var dp = parseInt(el.getAttribute('data-dp') || '0', 10);
+      var prefix = el.getAttribute('data-prefix') || '';
+      if (REDUCED || isNaN(target) || !('requestAnimationFrame' in window)) return;
+      var t0 = null, dur = 1500;
+      function step(ts) {
+        if (t0 === null) t0 = ts;
+        var k = Math.min(1, (ts - t0) / dur);
+        el.textContent = prefix + fmt(target * ease(k), dp);
+        if (k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  function reveal(root) {
+    var els = (root || document).querySelectorAll(RV_SEL);
+    Array.prototype.forEach.call(els, function (el) {
+      if (el.classList.contains('rv')) return;
+      el.classList.add('rv');
+      var p = el.parentNode, i = 0, sib = el;
+      while ((sib = sib.previousElementSibling)) i++;
+      if (p && (p.classList.contains('stat-grid') || p.classList.contains('takeaway-grid'))) {
+        el.style.transitionDelay = ((i % 6) * 90) + 'ms';
+      }
+      if (rvIO) rvIO.observe(el); else { el.classList.add('in'); countUp(el); }
+    });
+  }
+
+  var readbar = document.querySelector('.readbar');
+  if (readbar && !REDUCED) {
+    var ticking = false;
+    function paintBar() {
+      var doc = document.documentElement;
+      var max = (doc.scrollHeight - doc.clientHeight) || 1;
+      var p = Math.min(1, Math.max(0, (window.pageYOffset || doc.scrollTop) / max));
+      readbar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(paintBar); } }, { passive: true });
+    window.addEventListener('resize', paintBar);
+    paintBar();
+  }
+
+  reveal();
+})();
+</script>
+</body>
+</html>
