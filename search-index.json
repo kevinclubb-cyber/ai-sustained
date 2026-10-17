@@ -324,6 +324,15 @@
       "date": "2026-10-12",
       "summary": "UK adults read fewer books and more chatbot answers than ever. At 238 words a minute the heaviest AI users' numbers do not add up: they are skimming and editing, not reading. The research, the bill and what to do.",
       "tags": "ai reading load reading speed 238 wpm chatgpt copilot claude gemini uk adult reading reading agency ofcom dsit comprehension debt ai fatigue screen reading nielsen norman yapbench verbosity dse regulations world book day work and attention"
+    },
+    {
+      "type": "Case study",
+      "ref": "Case study 008",
+      "title": "Do you have to navigate data residency?",
+      "url": "/case-studies/the-tool-reads-the-data/",
+      "date": "2026-10-17",
+      "summary": "UK-only data does not belong in a chatbot. Ask the model for a tool instead, test it on a fake, and run it where the data lives.",
+      "tags": "data residency uk only processing uk gdpr restricted transfer client data contract claude code codex gemini cli local script python pdf remove page inference residency chatgpt enterprise synthetic test data patient data gp practice nhs ai made simple"
     }
   ]
 }

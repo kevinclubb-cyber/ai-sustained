@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-09-23",
+  "updated": "2026-10-17",
   "source": "https://ai-sustained.com/case-studies/",
   "caseStudies": [
     {
@@ -226,6 +226,39 @@
       ],
       "tiers": [
         "Fractional AI Advisor",
+        "AI Adoption Programme"
+      ]
+    },
+    {
+      "id": "the-tool-reads-the-data",
+      "number": "008",
+      "title": "Do you have to navigate data residency?",
+      "category": "Data residency · Practical AI",
+      "date": "2026-10-17",
+      "summary": "A contract said UK-only processing, and 21 client reports each needed a page removed. Rather than paste them into a chatbot, Claude Code wrote and tested a script against a fake file, and the script ran on the laptop. The script did the reading, on the laptop.",
+      "url": "https://ai-sustained.com/case-studies/the-tool-reads-the-data/",
+      "metrics": [
+        {
+          "value": "105 / 105",
+          "label": "Pages read on the laptop"
+        },
+        {
+          "value": "21",
+          "label": "Files cleaned locally"
+        },
+        {
+          "value": "0 / 3",
+          "label": "ChatGPT UK inference"
+        }
+      ],
+      "capabilities": [
+        "Practical AI",
+        "Data residency",
+        "UK GDPR",
+        "Claude Code"
+      ],
+      "tiers": [
+        "Team Training",
         "AI Adoption Programme"
       ]
     }
