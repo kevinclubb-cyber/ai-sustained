@@ -333,6 +333,15 @@
       "date": "2026-10-17",
       "summary": "UK-only data does not belong in a chatbot. Ask the model for a tool instead, test it on a fake, and run it where the data lives.",
       "tags": "data residency uk only processing uk gdpr restricted transfer client data contract claude code codex gemini cli local script python pdf remove page inference residency chatgpt enterprise synthetic test data patient data gp practice nhs ai made simple"
+    },
+    {
+      "type": "Editorial",
+      "ref": "Issue 025",
+      "title": "The website you bought from won't be patched. Criminals already know which ones.",
+      "url": "/articles/php2shell-black-october/",
+      "date": "2026-10-26",
+      "summary": "PHP2Shell opened a hole in most of the web. The big sites patched; the forgotten shops on old PHP never will, and those are what card-skimming gangs target.",
+      "tags": "php2shell php vulnerability cve-2026-109618 black october card skimming magecart online shopping security end-of-life php ncsc remote code execution ai vulnerability discovery"
     }
   ]
 }

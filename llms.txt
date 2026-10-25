@@ -20,6 +20,7 @@
 - [Grok 4.7 is built for the idea on your napkin](https://ai-sustained.com/articles/grok-4-7-idea-on-a-napkin/): a free, long-running model and what a plumber, a shopkeeper and an IT desk manager could build with it.
 - [Microsoft has rebuilt Copilot. Not the one you hate.](https://ai-sustained.com/articles/copilot-home-code-autopilot/): five things are called Copilot; the paid work one was rebuilt on Claude and GPT models as a licence plus a credit meter. Which one you have, UK prices, and where your prompt goes.
 - [AI did what World Book Day couldn't: it got British adults reading again](https://ai-sustained.com/articles/ai-got-britain-reading-again/): UK adults read fewer books and more chatbot answers than ever. At 238 words a minute the heaviest AI users' reading load exceeds the hours in a week, so they are skimming and editing, not reading. The research on screen reading, comprehension debt and verbosity, and what employers, model builders and schools should do.
+- [The website you bought from won't be patched. Criminals already know which ones.](https://ai-sustained.com/articles/php2shell-black-october/): PHP2Shell, the 22-year-old PHP flaw an AI model proved exploitable in days. The big platforms patched; the forgotten shops on end-of-life PHP never will, and those are what card-skimming gangs target. What it means in the UK and the next six months.
 - [All editorial](https://ai-sustained.com/#editorial)
 
 ## About
