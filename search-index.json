@@ -342,6 +342,15 @@
       "date": "2026-10-26",
       "summary": "PHP2Shell opened a hole in most of the web. The big sites patched; the forgotten shops on old PHP never will, and those are what card-skimming gangs target.",
       "tags": "php2shell php vulnerability cve-2026-109618 black october card skimming magecart online shopping security end-of-life php ncsc remote code execution ai vulnerability discovery"
+    },
+    {
+      "type": "Editorial",
+      "ref": "Issue 026",
+      "title": "The voice on the phone was your son's, and it wasn't your son",
+      "url": "/articles/ai-scam-calls/",
+      "date": "2026-10-28",
+      "summary": "AI has removed the spelling mistakes and odd accents we used to spot scams by. Britain lost £1.28bn to fraud in 2025. What to do tonight.",
+      "tags": "scam calls phishing voice cloning deepfake fraud 159 7726 safe phrase vishing impersonation bank scam whatsapp microsoft password courier fraud spoofed police number"
     }
   ]
 }

@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- AI Sustained cookie consent + Google Consent Mode v2 (must precede GTM/GA4) -->
+<script>
+(function(){
+  "use strict";
+  /* ------------------------------------------------------------------
+     AI Sustained cookie consent + Google Consent Mode v2
+     Self-contained: sets consent defaults, injects banner CSS + DOM.
+     MUST load before the GTM and GA4 snippets.
+     ------------------------------------------------------------------ */
+
+  var STORE   = 'ais_consent_v1';
+  var MAXAGE  = 1000*60*60*24*182;           /* 6 months, then re-ask */
+  /* Both sites serve /privacy/ (the consulting site ships privacy.html plus a
+     byte-identical privacy/index.html), so one root-absolute path covers both
+     and there is no hostname sniffing to go wrong. */
+  var POLICY  = '/privacy/';
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  window.gtag = window.gtag || gtag;
+
+  /* ---------- read any stored decision ---------- */
+  var saved = null;
+  try {
+    var raw = localStorage.getItem(STORE);
+    if (raw) {
+      var o = JSON.parse(raw);
+      if (o && o.t && (Date.now() - o.t) < MAXAGE) saved = o;
+    }
+  } catch(e){}
+
+  var DENIED = {
+    ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied',
+    analytics_storage:'denied', functionality_storage:'denied',
+    personalization_storage:'denied', security_storage:'granted',
+    wait_for_update: 500
+  };
+
+  /* Defaults are DENIED for everything non-essential. Nothing fires until
+     the visitor chooses. security_storage stays granted: it is strictly
+     necessary and exempt under PECR. */
+  gtag('consent','default', DENIED);
+
+  function stateFrom(c){
+    return {
+      ad_storage:            c.marketing ? 'granted':'denied',
+      ad_user_data:          c.marketing ? 'granted':'denied',
+      ad_personalization:    c.marketing ? 'granted':'denied',
+      analytics_storage:     c.analytics ? 'granted':'denied',
+      functionality_storage: c.recording ? 'granted':'denied',
+      personalization_storage: c.recording ? 'granted':'denied',
+      security_storage:      'granted'
+    };
+  }
+
+  function apply(c, isNew){
+    gtag('consent','update', stateFrom(c));
+    dataLayer.push({
+      event: 'consent_update',
+      consent_analytics:  !!c.analytics,
+      consent_recording:  !!c.recording,
+      consent_marketing:  !!c.marketing
+    });
+    if (isNew){
+      try { localStorage.setItem(STORE, JSON.stringify({
+        t: Date.now(), analytics: !!c.analytics,
+        recording: !!c.recording, marketing: !!c.marketing
+      })); } catch(e){}
+    }
+  }
+
+  if (saved) apply(saved, false);
+
+  /* Current state drives the toggles, so reopening shows what you actually
+     chose rather than a fresh set of defaults. */
+  var current = saved || { analytics:false, recording:false, marketing:false };
+
+  /* ---------- styles ---------- */
+  var CSS = ''
+  + '@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap");'
+  + '.ais-cc,.ais-cc *{box-sizing:border-box}'
+  + '.ais-cc{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#102C21;color:#F2ECD9;'
+  + 'border-top:2px solid #E8FF3A;font-family:Inter,system-ui,sans-serif;'
+  + 'box-shadow:0 -18px 50px rgba(0,0,0,.5);animation:aisUp .35s cubic-bezier(.34,1.2,.64,1)}'
+  + '@keyframes aisUp{from{transform:translateY(100%)}to{transform:none}}'
+  + '@media (prefers-reduced-motion:reduce){.ais-cc{animation:none}}'
+  + '.ais-cc-in{max-width:1080px;margin:0 auto;padding:22px 24px;display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap}'
+  + '.ais-cc-copy{flex:1 1 420px;min-width:280px}'
+  + '.ais-cc h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;color:#E8FF3A;letter-spacing:.01em}'
+  + '.ais-cc p{margin:0;font-size:14.5px;line-height:1.55;color:#F2ECD9;opacity:.94}'
+  + '.ais-cc a{color:#E8FF3A;text-decoration:underline;text-underline-offset:2px}'
+  + '.ais-cc-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}'
+  /* Accept and Reject are deliberately IDENTICAL in size, colour and weight. */
+  + '.ais-b{position:relative;display:inline-flex;align-items:center;justify-content:center;'
+  + 'min-width:150px;padding:14px 24px;border:2px solid rgba(232,255,58,.55);border-radius:10px;'
+  + 'color:#F2ECD9;background:rgba(10,15,12,.92);font-family:"Space Grotesk",sans-serif;'
+  + 'font-weight:700;font-size:15.5px;cursor:pointer;transition:color .2s,border-color .2s,transform .18s;'
+  + '-webkit-tap-highlight-color:transparent}'
+  + '.ais-b:hover{color:#E8FF3A;border-color:#E8FF3A;transform:translateY(-2px)}'
+  + '.ais-b:active{transform:translateY(1px) scale(.98)}'
+  + '.ais-b:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '.ais-link{background:none;border:none;color:#F2ECD9;font-family:Inter,sans-serif;font-size:14px;'
+  + 'text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:8px 4px;opacity:.9}'
+  + '.ais-link:hover{color:#E8FF3A;opacity:1}'
+  + '.ais-cc-panel{width:100%;border-top:1px solid rgba(242,236,217,.18);margin-top:6px;padding-top:16px;display:none}'
+  + '.ais-cc-panel.open{display:block}'
+  + '.ais-row{display:flex;gap:14px;align-items:flex-start;padding:11px 0}'
+  + '.ais-row+.ais-row{border-top:1px solid rgba(242,236,217,.1)}'
+  + '.ais-row .t{flex:1}'
+  + '.ais-row strong{display:block;font-family:"Space Grotesk",sans-serif;font-size:14.5px;margin-bottom:3px}'
+  + '.ais-row span{font-size:13.5px;line-height:1.5;opacity:.85}'
+  + '.ais-sw{position:relative;flex:0 0 auto;width:50px;height:28px;border-radius:99px;border:none;'
+  + 'background:rgba(242,236,217,.22);cursor:pointer;transition:background .2s}'
+  + '.ais-sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;'
+  + 'background:#F2ECD9;transition:transform .2s}'
+  + '.ais-sw[aria-checked="true"]{background:#E8FF3A}'
+  + '.ais-sw[aria-checked="true"]::after{transform:translateX(22px);background:#0A0F0C}'
+  + '.ais-sw[disabled]{opacity:.5;cursor:not-allowed}'
+  + '.ais-sw:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '@media(max-width:640px){.ais-cc-in{padding:18px 16px;gap:16px}.ais-cc-btns{width:100%}'
+  + '.ais-b{flex:1 1 100%;min-width:0}}';
+
+  /* ---------- banner ---------- */
+  function build(reopen){
+    if (document.querySelector('.ais-cc')) return;
+
+    var st = document.createElement('style');
+    st.textContent = CSS;
+    document.head.appendChild(st);
+
+    var w = document.createElement('div');
+    w.className = 'ais-cc';
+    w.setAttribute('role','dialog');
+    w.setAttribute('aria-live','polite');
+    w.setAttribute('aria-label','Cookie choices');
+    w.innerHTML =
+      '<div class="ais-cc-in">'
+      +  '<div class="ais-cc-copy">'
+      +    '<h2>Your call on cookies</h2>'
+      +    '<p>I use a few cookies to see which articles land and where people give up reading. '
+      +    'Nothing fires until you choose. Reject and the site works exactly the same. '
+      +    '<a href="' + POLICY + '">Read the privacy notice</a>.</p>'
+      +  '</div>'
+      +  '<div class="ais-cc-btns">'
+      +    '<button type="button" class="ais-b" data-a="accept">Accept all</button>'
+      +    '<button type="button" class="ais-b" data-a="reject">Reject all</button>'
+      +    '<button type="button" class="ais-link" data-a="manage" aria-expanded="false">Choose what I share</button>'
+      +  '</div>'
+      +  '<div class="ais-cc-panel" id="ais-panel">'
+      +    row('essential','Strictly necessary','Keeps the site working and secure. Always on, and exempt from consent under PECR.',true,true)
+      +    row('analytics','Audience measurement','Google Analytics. Which pages get read, roughly where visitors come from.',!!current.analytics,false)
+      +    row('recording','Session recording','Microsoft Clarity. Anonymised replays and heatmaps showing where people scroll and stop. Text you type is masked.',!!current.recording,false)
+      +    row('marketing','Marketing','TikTok and Meta advertising pixels. Not currently active, listed so this notice stays honest when they are.',!!current.marketing,false)
+      +    '<div class="ais-cc-btns" style="margin-top:14px">'
+      +      '<button type="button" class="ais-b" data-a="save">Save my choices</button>'
+      +    '</div>'
+      +  '</div>'
+      + '</div>';
+    document.body.appendChild(w);
+
+    function row(k,title,desc,on,lock){
+      return '<div class="ais-row"><div class="t"><strong>'+title+'</strong><span>'+desc+'</span></div>'
+        + '<button type="button" class="ais-sw" data-k="'+k+'" role="switch" aria-label="'+title+'" aria-checked="'
+        + (on?'true':'false') + '"' + (lock?' disabled':'') + '></button></div>';
+    }
+
+    w.addEventListener('click', function(e){
+      var sw = e.target.closest('.ais-sw');
+      if (sw && !sw.disabled){
+        sw.setAttribute('aria-checked', sw.getAttribute('aria-checked')==='true' ? 'false':'true');
+        return;
+      }
+      var b = e.target.closest('[data-a]');
+      if (!b) return;
+      var a = b.getAttribute('data-a');
+
+      if (a === 'manage'){
+        var p = w.querySelector('#ais-panel');
+        var open = p.classList.toggle('open');
+        b.setAttribute('aria-expanded', open ? 'true':'false');
+        b.textContent = open ? 'Hide options' : 'Choose what I share';
+        return;
+      }
+      if (a === 'accept') return close({analytics:1,recording:1,marketing:1});
+      if (a === 'reject') return close({analytics:0,recording:0,marketing:0});
+      if (a === 'save'){
+        var g = function(k){
+          var el = w.querySelector('.ais-sw[data-k="'+k+'"]');
+          return el && el.getAttribute('aria-checked')==='true' ? 1 : 0;
+        };
+        return close({analytics:g('analytics'), recording:g('recording'), marketing:g('marketing')});
+      }
+    });
+
+    function close(c){ current = c; apply(c, true); w.remove(); }
+
+    /* Reopened from the footer: show the detail panel straight away, so the
+       visitor can see and change what they previously chose. */
+    if (reopen){
+      w.querySelector('#ais-panel').classList.add('open');
+      var mb = w.querySelector('[data-a="manage"]');
+      mb.setAttribute('aria-expanded','true');
+      mb.textContent = 'Hide options';
+    }
+  }
+
+  /* Drop a "Cookie choices" link into the existing footer, so consent can be
+     withdrawn from any page without editing 50 footers by hand. */
+  function footerLink(){
+    var f = document.querySelector('footer');
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
+
+    /* Footer markup varies page to page, so target the LAST div: on every
+       template that is the links / colophon column, not the brand block. */
+    var divs = f.querySelectorAll('div');
+    var host = divs.length ? divs[divs.length-1] : f;
+
+    var wrap = document.createElement('span');
+    wrap.setAttribute('data-ais-footer','1');
+    wrap.style.cssText = 'display:inline-block;margin-top:6px';
+
+    var onPolicy = /^\/privacy(\.html|\/|$)/.test(location.pathname);
+    if (!onPolicy){
+      var pv = document.createElement('a');
+      pv.href = POLICY;
+      pv.textContent = 'Privacy';
+      wrap.appendChild(document.createTextNode(' · '));
+      wrap.appendChild(pv);
+    }
+
+    var a = document.createElement('a');
+    a.href = '#';
+    a.setAttribute('data-ais-reopen','1');
+    a.textContent = 'Cookie choices';
+    a.style.cursor = 'pointer';
+    a.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+    wrap.appendChild(document.createTextNode(' · '));
+    wrap.appendChild(a);
+
+    host.appendChild(wrap);
+  }
+
+  /* Public re-opener, also usable directly:
+     <a href="#" onclick="AISConsent.open();return false">Cookie choices</a>  */
+  window.AISConsent = {
+    open: function(){
+      /* Deliberately does NOT clear the stored choice. Reopening the banner
+         must never silently revoke consent the visitor already gave. They
+         revoke it by choosing, not by looking. */
+      var ex = document.querySelector('.ais-cc');
+      if (ex) ex.remove();
+      build(true);
+    }
+  };
+
+  function init(){ footerLink(); if (!saved) build(false); }
+
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K3HFQT6S');</script>
+
+<!-- Google Analytics — site-wide ID, leave as-is -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+
+<!-- SLOT: seo_meta -->
+<title>The voice on the phone was your son's, and it wasn't your son | AI Sustained</title>
+<meta name="description" content="It sounded exactly like your son. It wasn't. AI has removed every tell we were taught to spot, and Britain lost £1.28bn to fraud in 2025.">
+<meta name="keywords" content="AI scams, phishing, voice cloning, deepfake scam, scam calls UK, fraud UK 2026, courier fraud, spoofed police number, WhatsApp scam, Microsoft password email, UK Finance fraud report, safe phrase, 159, 7726, Report Fraud, NCSC, vishing, impersonation fraud">
+<meta name="author" content="Kevin Clubb">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="theme-color" content="#1B4332">
+<link rel="canonical" href="https://ai-sustained.com/articles/ai-scam-calls/">
+<meta property="og:title" content="The voice on the phone was your son's, and it wasn't your son">
+<meta property="og:description" content="Three seconds of audio is enough to clone a voice. Britain's £1.28bn scam wave, explained plainly, with what to do tonight.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ai-sustained.com/articles/ai-scam-calls/">
+<meta property="og:image" content="https://ai-sustained.com/articles/ai-scam-calls/ai-scam-calls_hero.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="670">
+<meta property="og:image:alt" content="A cordless home phone lying face up on a dark kitchen table at night, its small display a blank panel of lime light spilling across a mug of tea and a pair of folded reading glasses.">
+<meta property="og:site_name" content="AI Sustained">
+<meta property="og:locale" content="en_GB">
+<meta property="article:published_time" content="2026-10-28T07:00:00+00:00">
+<meta property="article:author" content="Kevin Clubb">
+<meta property="article:section" content="Security">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The voice on the phone was your son's, and it wasn't your son">
+<meta name="twitter:description" content="It sounded exactly like your son. It wasn't. AI has removed every tell we were taught to spot, and Britain lost £1.28bn to fraud in 2025.">
+<meta name="twitter:image" content="https://ai-sustained.com/articles/ai-scam-calls/ai-scam-calls_hero.jpg">
+<meta name="twitter:image:alt" content="A cordless home phone lying face up on a dark kitchen table at night, its small display a blank panel of lime light spilling across a mug of tea and a pair of folded reading glasses.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "The voice on the phone was your son's, and it wasn't your son",
+  "author": { "@type": "Person", "name": "Kevin Clubb", "url": "https://www.linkedin.com/in/kevin-clubb" },
+  "datePublished": "2026-10-28",
+  "dateModified": "2026-10-28",
+  "url": "https://ai-sustained.com/articles/ai-scam-calls/",
+  "description": "AI has removed the spelling mistakes, odd accents and stilted English we were taught to spot, and a voice clone now needs three seconds of audio. Britain lost £1.28bn to payment fraud in 2025. How the scams work now, why the old advice stopped working, and what to do tonight.",
+  "keywords": "AI scams, phishing, voice cloning, deepfake scam, scam calls UK, fraud UK 2026, courier fraud, spoofed police number, vishing, impersonation fraud, APP fraud",
+  "inLanguage": "en-GB",
+  "articleSection": "Security",
+  "wordCount": 3500,
+  "image": { "@type": "ImageObject", "url": "https://ai-sustained.com/articles/ai-scam-calls/ai-scam-calls_hero.jpg", "width": 1200, "height": 670 },
+  "publisher": { "@type": "Organization", "name": "AI Sustained", "url": "https://ai-sustained.com", "logo": { "@type": "ImageObject", "url": "https://ai-sustained.com/ai_sustained_logo.png" } },
+  "mainEntityOfPage": "https://ai-sustained.com/articles/ai-scam-calls/"
+}
+</script>
+<script>document.documentElement.className += " js";</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --ink-soft: #2A3530;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
+    --acid: #E8FF3A;
+    --coral: #FF5A3C;
+    --moss: #2D6A4F;
+    --sage: #74C69D;
+    --mint: #D8F3DC;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --rule-soft: rgba(242,236,217,0.09);
+    --panel: rgba(242,236,217,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--forest);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    border-top: 3px solid var(--acid);
+  }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
+
+  /* ============ BACK NAV ============ */
+  .backnav {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+    text-decoration: none; display: inline-block; padding: 10px 0 4px;
+  }
+  .backnav:hover { color: var(--acid); }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ TOP SUBSCRIBE BAR ============ */
+  /* Inline sign-up at the head of the article. Posts to the same HubSpot form as
+     the homepage (#subscribe), so there is still one list; ai_lead_source records
+     which placement the sign-up came from. */
+  .sub-bar {
+    background: var(--acid); color: var(--ink);
+    border-radius: 4px; margin: 22px 0 0; padding: 16px 18px 14px 22px;
+    display: flex; align-items: center; gap: 12px 26px; flex-wrap: wrap;
+    position: relative; overflow: hidden;
+    box-shadow: 0 18px 48px -20px rgba(232,255,58,0.6);
+  }
+  .sub-bar::before {
+    content: ''; position: absolute; top: -64px; right: -48px;
+    width: 160px; height: 160px; border: 28px solid var(--ink);
+    border-radius: 50%; opacity: 0.07; pointer-events: none;
+  }
+  .sub-bar-copy { flex: 1 1 260px; min-width: 0; position: relative; }
+  .sub-bar-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.24em; text-transform: uppercase; opacity: 0.72; margin-bottom: 4px;
+  }
+  .sub-bar-line {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px;
+    line-height: 1.22; letter-spacing: -0.01em; margin: 0;
+  }
+  .sub-bar-line em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; }
+  .sub-bar-action { flex: 1 1 340px; min-width: 0; position: relative; }
+  .sub-bar-form { display: flex; gap: 8px; }
+  .sub-bar-form input {
+    flex: 1; min-width: 0; font-family: 'Inter', sans-serif; font-size: 16px;
+    padding: 11px 14px; color: var(--ink); background: rgba(255,255,255,0.62);
+    border: 1.5px solid var(--ink); border-radius: 3px;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+  }
+  .sub-bar-form input::placeholder { color: rgba(10,15,12,0.5); }
+  .sub-bar-form input:focus { outline: none; background: #fff; box-shadow: 0 0 0 3px rgba(10,15,12,0.2); }
+  .sub-bar-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap;
+    padding: 0 18px; background: var(--ink); color: var(--acid);
+    border: 0; border-radius: 3px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+    animation: ctaPulse 2.6s ease-out infinite;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  .sub-bar-btn span { transition: transform 0.15s ease; }
+  .sub-bar-btn:hover { background: #000; transform: translateY(-1px); }
+  .sub-bar-btn:hover span { transform: translateX(3px); }
+  .sub-bar-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .sub-bar-btn[disabled] { opacity: 0.6; cursor: progress; animation: none; }
+  .sub-bar-note { font-size: 11px; line-height: 1.45; opacity: 0.75; margin: 7px 0 0; }
+  .sub-bar-note a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
+  .sub-bar-status {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.06em; margin: 6px 0 0;
+  }
+  .sub-bar-status:empty { display: none; }
+  .sub-bar.is-done .sub-bar-form, .sub-bar.is-done .sub-bar-note { display: none; }
+  .sub-bar.is-done .sub-bar-status {
+    font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 700;
+    letter-spacing: 0; margin: 0;
+  }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+  @media (max-width: 720px) {
+    .sub-bar { padding: 16px 16px 14px; margin-top: 18px; }
+    .sub-bar-line { font-size: 17px; }
+    .sub-bar-btn { padding: 0 14px; }
+  }
+
+  /* ============ HERO (centred) ============ */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+  }
+  .kicker::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    background: var(--acid);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(46px, 7vw, 84px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin: 0 auto 26px;
+    max-width: 14ch;
+  }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--paper-2);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+  .reading-meta {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+    margin-top: 22px;
+  }
+
+  /* ============ HERO FIGURE (cover art) ============ */
+  .hero-figure { margin: 44px 0 10px; }
+  .hero-figure img {
+    width: 100%; height: auto; display: block;
+    border-top: 3px solid var(--acid);
+    border-radius: 4px;
+  }
+  .hero-figure figcaption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); margin-top: 12px;
+  }
+
+  /* ============ STAT GRID ============ */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 44px 0 48px;
+  }
+  .stat-box {
+    background: var(--panel);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 10px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px; font-weight: 600;
+    color: var(--acid); line-height: 1; display: block;
+  }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  /* ============ BODY CONTENT ============ */
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 33px; line-height: 1.15;
+    color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em;
+  }
+  .content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px;
+  }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+  .content li::marker { color: var(--acid); }
+
+  .inline-highlight { color: var(--acid); font-weight: 500; }
+
+  /* ============ CROSS-REFERENCE LINKS ============ */
+  /* Internal links to other AI Sustained work carry a mono badge so they read
+     as "more of this site", not as another citation heading off-platform. */
+  .content a.xref {
+    color: var(--acid);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(232,255,58,0.45);
+    white-space: nowrap;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .content a.xref::before {
+    content: 'AIS';
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 600; letter-spacing: 0.14em;
+    color: var(--ink); background: var(--acid);
+    padding: 2px 5px; border-radius: 2px; margin-right: 7px;
+    vertical-align: 1px; white-space: nowrap;
+  }
+  .content a.xref:hover { color: var(--paper); border-bottom-color: var(--paper); }
+
+  /* ============ DEFINITION CALLOUT ============ */
+  /* Plain-English definitions pulled out of the prose so a first-time reader
+     meets the word and its meaning in the same glance. Same idiom as the
+     stat box: panel surface, mono acid label, one acid edge. */
+  .define {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--acid);
+    border-radius: 4px;
+    padding: 18px 22px 16px;
+    margin: 28px 0 32px;
+  }
+  .define-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--acid); margin-bottom: 8px;
+  }
+  .define-term {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 22px; line-height: 1.2;
+    color: var(--paper); margin-bottom: 6px;
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  }
+  .define-term .say {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+    color: var(--muted); text-transform: none;
+  }
+  .define-text {
+    font-size: 16px; line-height: 1.55; color: var(--paper-2); margin: 0;
+  }
+  .define-text strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .define-text em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .define-also {
+    margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--rule-soft);
+    font-size: 14px; line-height: 1.5; color: var(--muted);
+  }
+  .define-also strong { color: var(--paper-2); font-family: 'Space Grotesk', sans-serif; font-weight: 600; }
+  @media (max-width: 720px) {
+    .define { padding: 16px 18px 14px; }
+    .define-term { font-size: 20px; }
+  }
+
+  /* ============ PULL QUOTE ============ */
+  .pull-quote {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 30px; line-height: 1.3; color: var(--paper);
+    margin: 60px auto; padding: 40px 0;
+    border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid);
+    text-align: center; max-width: 720px; letter-spacing: -0.01em;
+  }
+  .pull-quote::before {
+    content: '"'; display: block; font-size: 56px; color: var(--acid);
+    line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif;
+  }
+
+  /* ============ TACTICAL TAKEAWAY (ink panel — signature) ============ */
+  .takeaway {
+    background: var(--ink); color: var(--paper);
+    padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .takeaway::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--acid);
+    border-radius: 50%; opacity: 0.14;
+  }
+  .takeaway-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .takeaway h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 32px; line-height: 1.22; color: var(--paper);
+    margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em;
+  }
+  .takeaway h2 em { color: var(--acid); font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
+  .takeaway-point-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .takeaway-point-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 16px; line-height: 1.45; color: var(--paper-2);
+  }
+  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
+
+  /* ============ TOC ============ */
+  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
+  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
+  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
+
+  /* ============ SUBSCRIBE / SUBSTACK SLAB ============ */
+  /* The one deliberate acid fill in the page. It works because nothing else does it. */
+  .cta-slab {
+    background: var(--acid); color: var(--ink);
+    border-radius: 4px; padding: 44px 40px; margin: 64px 0 8px;
+    position: relative; overflow: hidden;
+  }
+  .cta-slab::before {
+    content: ''; position: absolute; bottom: -70px; left: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--ink);
+    border-radius: 50%; opacity: 0.08;
+  }
+  .cta-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.72; margin-bottom: 14px;
+    position: relative; z-index: 1;
+  }
+  .cta-slab h2 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+    font-size: 32px; line-height: 1.15; letter-spacing: -0.01em;
+    color: var(--ink); margin-bottom: 14px; position: relative; z-index: 1;
+  }
+  .cta-slab h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; }
+  .cta-slab p {
+    font-size: 16px; line-height: 1.6; color: var(--ink); opacity: 0.84;
+    max-width: 540px; margin-bottom: 26px; position: relative; z-index: 1;
+  }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .cta-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
+    padding: 14px 22px; border-radius: 3px;
+    border: 1.5px solid var(--ink); color: var(--ink);
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta-btn span { transition: transform 0.15s ease; }
+  .cta-btn:hover { background: rgba(10,15,12,0.08); transform: translateY(-2px); }
+  .cta-btn:hover span { transform: translateX(4px); }
+  .cta-btn.primary { background: var(--ink); color: var(--acid); animation: ctaPulse 2.6s ease-out infinite; }
+  .cta-btn.primary:hover { background: #000; box-shadow: 0 10px 28px rgba(10,15,12,0.35); }
+  @keyframes ctaPulse {
+    0% { box-shadow: 0 0 0 0 rgba(10,15,12,0.35); }
+    70% { box-shadow: 0 0 0 14px rgba(10,15,12,0); }
+    100% { box-shadow: 0 0 0 0 rgba(10,15,12,0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-btn.primary { animation: none; }
+    .cta-btn:hover, .cta-btn:hover span { transform: none; }
+  }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 300px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+  .sources a { color: var(--sage); text-decoration: none; border-bottom: 1px solid rgba(116,198,157,0.35); }
+  .sources a:hover { color: var(--acid); border-bottom-color: var(--acid); }
+
+  /* ============ FOOTER LINK ROW ============ */
+  .footer-links {
+    margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+  }
+  .footer-links a { color: var(--muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--acid); }
+
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
+  .hashtag-list span { font-weight: 500; }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 44px; }
+    .deck { font-size: 19px; }
+    .cta-slab { padding: 32px 26px; }
+    .cta-slab h2 { font-size: 26px; }
+    .cta-btn { width: 100%; justify-content: space-between; }
+  }
+
+  @media print {
+    @page { size: A3; margin: 14mm; }
+    body { background: var(--forest); padding: 0; }
+    .page { max-width: none; padding: 0; }
+    .stat-box, .takeaway-point, .pull-quote, .takeaway, .cta-slab { page-break-inside: avoid; break-inside: avoid; }
+    .sub-bar { display: none; }
+  }
+
+  /* ============ ISSUE 026 MOTION ============ */
+  /* Same kit as Issues 023 to 025: reading bar, hero entrance, scroll reveal,
+     count-up. The glow sits on the handset's lit display, and the pool on the
+     table around it. The subscribe bar lands last. */
+  .readbar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background: var(--acid);
+    transform: scaleX(0); transform-origin: 0 50%; z-index: 60; pointer-events: none;
+    box-shadow: 0 0 12px rgba(232,255,58,0.55); }
+
+  .hero-photo { position: relative; overflow: hidden; border-top: 3px solid var(--acid); border-radius: 4px; background: #0A0F0C; }
+  .hero-photo img { border-top: 0; border-radius: 0; transform-origin: 64% 76%; animation: heroDrift 28s ease-in-out infinite alternate; }
+  .hero-bulb { position: absolute; left: 64%; top: 75.5%; width: 22%; aspect-ratio: 1; transform: translate(-50%, -50%);
+    border-radius: 50%; pointer-events: none; mix-blend-mode: screen;
+    background: radial-gradient(circle, rgba(232,255,58,0.26) 0%, rgba(232,255,58,0.08) 26%, rgba(232,255,58,0) 58%);
+    animation: bulbBreathe 5.6s ease-in-out infinite; }
+  .hero-pool { position: absolute; left: 61%; top: 84%; width: 36%; height: 16%; transform: translate(-50%, -50%);
+    border-radius: 50%; pointer-events: none; mix-blend-mode: screen;
+    background: radial-gradient(ellipse, rgba(232,255,58,0.16) 0%, rgba(232,255,58,0) 65%);
+    animation: bulbBreathe 5.6s ease-in-out infinite; }
+  @keyframes heroDrift { from { transform: scale(1); } to { transform: scale(1.05); } }
+  @keyframes bulbBreathe { 0%, 100% { opacity: .55; } 38% { opacity: 1; } 44% { opacity: .72; } 50% { opacity: 1; } 78% { opacity: .8; } }
+
+  .hero .kicker, .hero h1, .hero .deck, .hero .reading-meta, .hero-figure, .backnav, .masthead {
+    animation: heroIn .9s cubic-bezier(.2,.7,.2,1) both; }
+  .backnav { animation-delay: 0s; } .masthead { animation-delay: .04s; }
+  .hero .kicker { animation-delay: .08s; } .hero h1 { animation-delay: .18s; }
+  .hero .deck { animation-delay: .32s; } .hero .reading-meta { animation-delay: .44s; }
+  .hero-figure { animation-delay: .4s; animation-duration: 1.1s; }
+  @keyframes heroIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+  .sub-bar { animation: subIn .7s cubic-bezier(.2,.9,.25,1.15) .55s both, subRing 1.8s ease-out 1.3s 2; }
+  @keyframes subIn { from { opacity: 0; transform: translateY(-12px) scale(.98); } to { opacity: 1; transform: none; } }
+  @keyframes subRing { from { box-shadow: 0 0 0 0 rgba(232,255,58,0.55); } to { box-shadow: 0 0 0 18px rgba(232,255,58,0); } }
+
+  /* scroll reveal: only once JS has confirmed it can run, so nothing is ever hidden without it */
+  html.js .rv { opacity: 0; transform: translateY(20px); transition: opacity .75s ease, transform .75s cubic-bezier(.2,.7,.2,1); will-change: opacity, transform; }
+  html.js .rv.in { opacity: 1; transform: none; will-change: auto; }
+  html.js .content h2.rv { transform: translateX(-14px); }
+  html.js .content h2.rv.in { transform: none; }
+  html.js .content h2.rv::after { content: ''; display: block; width: 0; height: 2px; background: var(--acid); margin-top: 10px; transition: width .9s cubic-bezier(.2,.7,.2,1) .25s; }
+  html.js .content h2.rv.in::after { width: 56px; }
+  html.js .rv.pull-quote { transition-duration: 1s; }
+  .stat-value .num-anim { display: inline-block; min-width: 1ch; font-variant-numeric: tabular-nums; }
+  html.js .takeaway-point.rv, html.js .stat-box.rv { transform: translateY(26px); }
+  html.js .takeaway-point.rv.in, html.js .stat-box.rv.in { transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .readbar { display: none; }
+    .hero-photo img, .hero-bulb, .hero-pool, .hero .kicker, .hero h1, .hero .deck, .hero .reading-meta, .hero-figure, .backnav, .masthead, .sub-bar, .sub-bar-btn { animation: none; }
+    .sub-bar-btn:hover, .sub-bar-btn:hover span { transform: none; }
+    html.js .rv, html.js .content h2.rv { opacity: 1; transform: none; transition: none; }
+    html.js .content h2.rv::after { width: 56px; transition: none; }
+  }
+  @media print { .readbar { display: none; } html.js .rv { opacity: 1; transform: none; } .hero-bulb, .hero-pool { display: none; } }
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K3HFQT6S"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<div class="readbar" aria-hidden="true"></div>
+<article class="page">
+
+  <a class="backnav" href="/#editorial">&#8592; All articles</a>
+
+  <!-- SLOT: masthead -->
+  <header class="masthead">
+    <div class="masthead-left">
+      <span class="wordmark">AI Sustained.</span>
+      <span>Issue 026</span>
+    </div>
+    <div class="masthead-right">
+      <span>28 OCT 2026</span>
+      <span>Security</span>
+    </div>
+  </header>
+
+  <!-- SLOT: top subscribe bar (same HubSpot form as the homepage #subscribe) -->
+  <aside class="sub-bar" id="sub-top" aria-labelledby="sub-top-line">
+    <div class="sub-bar-copy">
+      <div class="sub-bar-kicker">Subscribe &middot; Free</div>
+      <p class="sub-bar-line" id="sub-top-line">Never miss an article or case study. <em>Straight to your inbox.</em></p>
+    </div>
+    <div class="sub-bar-action">
+      <form class="sub-bar-form" novalidate>
+        <label class="sr-only" for="sub-top-email">Email address</label>
+        <input type="email" name="email" id="sub-top-email" placeholder="Your email" autocomplete="email" required>
+        <button type="submit" class="sub-bar-btn">Subscribe <span aria-hidden="true">&#8594;</span></button>
+      </form>
+      <p class="sub-bar-note">By subscribing you agree to receive AI Sustained emails. Unsubscribe any time. <a href="/privacy/">Privacy note</a>.</p>
+      <p class="sub-bar-status" role="status" aria-live="polite"></p>
+    </div>
+  </aside>
+
+  <!-- SLOT: hero -->
+  <section class="hero">
+    <div class="kicker">AI Made Simple · The scam wave</div>
+    <h1>The voice on the phone was your son's, and it <span class="accent">wasn't your son</span>.</h1>
+    <p class="deck">The dodgy spelling, the odd accent, the stilted English: AI has removed all of them, and now it can do the voice too. Here is what Britain's <span class="accent">£1.28bn scam wave</span> looks like now, and what Maureen, Dean, Fiona, Sanjay and Marcus should each do about it tonight.</p>
+    <div class="reading-meta">&asymp;3,500 words &middot; 15 min at 238 wpm</div>
+  </section>
+
+  <!-- SLOT: hero figure -->
+  <figure class="hero-figure">
+    <div class="hero-photo">
+      <img src="ai-scam-calls_hero.webp" width="1376" height="768" fetchpriority="high" decoding="async"
+           alt="A cordless home phone lying face up on a dark kitchen table at night, its small display a blank panel of lime light spilling across a mug of tea and a pair of folded reading glasses.">
+      <span class="hero-bulb" aria-hidden="true"></span>
+      <span class="hero-pool" aria-hidden="true"></span>
+    </div>
+    <figcaption>Cover &middot; AI Sustained &middot; The moment before anyone picks up.</figcaption>
+  </figure>
+
+  <!-- SLOT: stats -->
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">Stolen in 2025</div>
+      <span class="stat-value"><span class="num-anim" data-count="1.28" data-dp="2" data-prefix="£">£1.28</span><span class="unit">bn</span></span>
+      <div class="stat-note">Payment fraud losses reported by UK banks, up 4% on 2024. UK Finance.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">To clone a voice</div>
+      <span class="stat-value"><span class="num-anim" data-count="3" data-dp="0">3</span><span class="unit">sec</span></span>
+      <div class="stat-note">Of audio, according to Starling Bank's security chief. A TikTok clip is plenty.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Clicked the AI lure</div>
+      <span class="stat-value"><span class="num-anim" data-count="54" data-dp="0">54</span><span class="unit">%</span></span>
+      <div class="stat-note">Of people in a Harvard trial, against 12% for a generic scam email.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Fraud cases a day</div>
+      <span class="stat-value"><span class="num-anim" data-count="1200" data-dp="0">1,200</span><span class="unit">+</span></span>
+      <div class="stat-note">Logged to the National Fraud Database in 2025, a record. Cifas.</div>
+    </div>
+  </section>
+
+  <!-- SLOT: toc -->
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-label">In this issue</div>
+    <ol>
+      <li><span class="toc-num">01</span><a href="#tells">The tells have gone</a></li>
+      <li><span class="toc-num">02</span><a href="#three-scams">Three scams, upgraded</a></li>
+      <li><span class="toc-num">03</span><a href="#in-your-pocket">Three more that are in your pocket right now</a></li>
+      <li><span class="toc-num">04</span><a href="#the-bill">The bill, in pounds</a></li>
+      <li><span class="toc-num">05</span><a href="#old-advice">Why the old advice stopped working</a></li>
+      <li><span class="toc-num">06</span><a href="#tonight">What to do tonight</a></li>
+    </ol>
+  </nav>
+
+  <!-- SLOT: body content -->
+  <section class="content">
+    <p>Everyone I know has had one this month. The text from "Royal Mail" about an unpaid parcel fee. The call from "the bank's fraud team" that knew the last four digits of your card. The WhatsApp from a child on a new number who has dropped their phone down the loo and needs the rent by five o'clock. Scams are not new, and the sheer volume is not even the story. The story is that the rough edges we were all trained to spot have been sanded off by <strong>the same technology that now drafts the emails in your inbox</strong>.</p>
+
+    <p>This issue is for the people who keep getting these calls. For <strong>Maureen Pritchard</strong>, 71, in Merthyr, who already screens every call and wants to know whether that is paranoid. For <strong>Dean Hollis</strong>, 38, on nights in Hull, who wants it straight and readable on a phone. For <strong>Fiona MacLeod</strong>, running a GP surgery near Inverness, and <strong>Sanjay Mistry</strong>, running three shops in Leicester, both of whom sign off payments. For <strong>Tomasz Wiśniewski</strong> and <strong>Hannah Clarke</strong>, who get the WhatsApp and the Microsoft versions at work. And for <strong>Marcus Campbell</strong>, who runs security at an insurer and already knows most of this, but needs the version he can forward to his mum.</p>
+
+    <h2 id="tells">The tells have gone.</h2>
+
+    <aside class="define" id="def-phishing" aria-label="Definition: phishing">
+      <div class="define-label">What the word means</div>
+      <div class="define-term">Phishing <span class="say">say: fishing</span></div>
+      <p class="define-text">Any message pretending to be from someone you trust, built to make you <strong>click a link, pay money or read out a code</strong>. The text from "Royal Mail". The email from "Microsoft". The WhatsApp from "your son".</p>
+      <div class="define-also"><strong>Vishing</strong> is the same trick by phone call. <strong>Spear phishing</strong> is the same trick aimed at you personally, using your name, your job and your mum's maiden name.</div>
+    </aside>
+
+    <aside class="define" id="def-deepfake" aria-label="Definition: deepfake">
+      <div class="define-label">What the word means</div>
+      <div class="define-term">Deepfake</div>
+      <p class="define-text">A voice or a face made by software to pass as a real person. A <strong>voice clone</strong> is the audio-only version: feed the software a few seconds of someone speaking and it will say anything you type, <em>in their voice</em>.</p>
+    </aside>
+
+    <p>For twenty years the public advice on phishing rested on one observation: criminals were sloppy. The grammar was off, the greeting was "Dear Customer", the English read like it had been through a translation site twice. That was a real signal. It was never a security system, but for most of us it was the only one we had.</p>
+
+    <p>Britain's National Cyber Security Centre said the quiet part in <a href="https://www.ncsc.gov.uk/report/impact-of-ai-on-cyber-threat" target="_blank" rel="noopener">January 2024</a>: generative AI can already produce convincing interaction with victims "without the translation, spelling and grammatical mistakes that often reveal phishing". Its <a href="https://www.ncsc.gov.uk/report/impact-ai-cyber-threat-now-2027" target="_blank" rel="noopener">follow-up assessment</a>, running to 2027, judges that AI will "almost certainly" make attacks more frequent and more intense, and that criminals will "highly likely" work around the safeguards on commercial models to sell AI-enabled tools as a service.</p>
+
+    <p>The academic evidence is blunter. In December 2024 a Harvard team led by Fredrik Heiding, with Bruce Schneier among the authors, <a href="https://arxiv.org/abs/2412.00586" target="_blank" rel="noopener">ran a trial on 101 real people</a>. A fully automated AI pipeline researched each target from public sources, wrote the lure and sent it. <span class="inline-highlight">54% clicked.</span> A generic scam email of the kind we all delete managed 12%. Human experts, given time to research each victim by hand, also scored 54%. The machine matched the professionals, and it did not need paying per email.</p>
+
+    <p>Two years earlier, a <a href="https://hoxhunt.com/blog/chatgpt-vs-human-phishing-and-social-engineering-study-whos-better" target="_blank" rel="noopener">large industry study</a> had found the opposite: human red-teamers beat the first ChatGPT comfortably. The models improved and the result flipped. If you take one thing from this section, take that. Whatever your instinct says about "how good AI scams are", it is calibrated to a version that no longer exists.</p>
+
+    <blockquote class="pull-quote">The spelling mistake was never the security system. It was just the only one most of us had.</blockquote>
+
+    <h2 id="three-scams">Three scams, upgraded.</h2>
+
+    <h3>The voice that sounds like family.</h3>
+
+    <p>Maureen's question is the right one: if it can sound like her grandson, how does she know it is him? The honest answer is that she cannot, not by ear. <a href="https://www.itv.com/news/2024-09-17/ai-voice-cloning-scam-warning-issued-by-bank" target="_blank" rel="noopener">Starling Bank's</a> chief information security officer put the requirement at <span class="inline-highlight">three seconds of audio</span>, which is less than one TikTok, one voice note, or one "leave a message after the tone". Starling's survey of more than 3,000 UK adults found 46% did not know this scam existed, 28% thought they might already have been targeted in the previous year, and 8% said they would send the money even if the call felt strange.</p>
+
+    <p>The script does not need to be clever. "Mum, it's me, I've lost my phone, this is my new number, I need £400 for the deposit by tonight." What has changed is that the voice on the end of it can now be the right one, and the follow-up messages read like your daughter, because the software has read how your daughter writes. <a href="https://openai.com/index/disrupting-malicious-uses-of-ai-romance-scam/" target="_blank" rel="noopener">OpenAI's own report</a> on scam networks it shut down describes exactly this: criminals using ChatGPT to translate, to sustain conversations with dozens of victims at once, and to make their messages read less obviously foreign.</p>
+
+    <h3>The bank that knows your name.</h3>
+
+    <p>Dean sleeps days. The call comes at two in the afternoon from a UK mobile number, and a calm voice says it is the fraud team, there has been an attempt on his account, and they need to move his money to a safe account while they sort it. They know his name, his bank and his postcode, because all of that leaked years ago in <a class="xref" href="/articles/php2shell-black-october/">a breach he never heard about</a>.</p>
+
+    <aside class="define" id="def-spoofing" aria-label="Definition: spoofing">
+      <div class="define-label">What the word means</div>
+      <div class="define-term">Spoofing</div>
+      <p class="define-text">Making a call or text <strong>show a number it did not come from</strong>. Cheap software lets a caller abroad display your bank's number, a UK mobile, or your local police station. The number on your screen is typed in by the caller, <em>not checked by the network</em>.</p>
+    </aside>
+
+    <p>The number on the screen means nothing. <a href="https://www.ofcom.org.uk/phones-and-broadband/scam-calls-and-messages/cracking-down-on-scam-calls-from-abroad" target="_blank" rel="noopener">Ofcom found</a> that 42% of us had a suspicious call in a single three-month window, and that we are nearly three times as likely to answer an unknown UK mobile number as an unknown international one. So criminals abroad simply display a UK mobile number. Ofcom says its rules already block around a million calls a day, and on 21 October it <a href="https://www.ofcom.org.uk/phones-and-broadband/phone-numbers/telecoms-provider-fined-437500-for-failing-to-prevent-misuse-of-its-phone-numbers-by-scammers" target="_blank" rel="noopener">fined a telecoms provider £437,500</a> for letting scammers misuse its numbers. That is the regulator moving. It is also one fine, against a flood.</p>
+
+    <p>One honest note. Bank and police impersonation losses actually <em>fell</em> 12% in 2025, according to UK Finance. The warnings your banking app now throws up before a transfer are working. The criminals have noticed, and they have moved to the scams the warnings do not catch: investment, romance, and the fake purchase.</p>
+
+    <h3>The boss on the video call.</h3>
+
+    <p>This is the one for Sanjay and Fiona. In January 2024 a finance worker at the British engineering firm <a href="https://abc17news.com/money/cnn-business-consumer/2024/05/16/british-engineering-giant-arup-revealed-as-25-million-deepfake-scam-victim/" target="_blank" rel="noopener">Arup</a>, in its Hong Kong office, got an email from the UK chief financial officer about a confidential transaction. He was suspicious. Then he joined a video call with the CFO and several colleagues he recognised, and the doubt went away. Every face on that call was a deepfake. He made 15 transfers totalling HK$200m, roughly <span class="inline-highlight">£20m</span> ($25.6m) at the time.</p>
+
+    <p>That was the expensive proof of concept. The volume version arrived this autumn. <a href="https://www.irishnews.com/news/uk/voice-phishing-attacks-soar-as-cyber-attackers-use-ai-microsoft-research-IRDLGP74YZLWHCHUF3B7KMMC7Y/" target="_blank" rel="noopener">Microsoft's Digital Defense Report</a>, published on 1 October, counted more than 46 million attacks in twelve months in which someone impersonated a business contact, and a 502% year-on-year rise in malicious voice-phishing calls made through Teams. It also reports AI being used to change a caller's voice in real time during the call, to mask an accent.</p>
+
+    <p>For Sanjay this arrives as a polite email from a supplier he has used for years, saying their bank details have changed, please update before the next invoice. For Fiona it is a caller from "the IT provider" who needs her to approve a remote-access request to fix the clinical system before Monday. UK Finance puts <strong>business losses to authorised payment scams at £75.6m</strong> last year. The scam is old. The confidence of the delivery is new.</p>
+
+    <h2 id="in-your-pocket">Three more that are in your pocket right now.</h2>
+
+    <p>The big three above are the ones that make the news. These three are the ones that arrived on your phone this week, and each of them is a small test of the same rule.</p>
+
+    <h3>The stranger on WhatsApp.</h3>
+
+    <p>"Hi, is this Sarah?" A number you do not know, a polite apology for the wrong number, and then a second message anyway. Or a contact request from someone who says you met at a wedding. Or you wake up in a group of forty strangers discussing a trading platform. <a href="https://www.moneyhelper.org.uk/en/blog/scams-and-fraud/what-are-whatsapp-scams" target="_blank" rel="noopener">MoneyHelper</a>, the government-backed money service, lists all three as standard openings: the wrong number that becomes a friendship that becomes an investment or a romance, and the group chat where the other members praising the scheme are the scammers too.</p>
+
+    <p>This is the scam that AI changed most, because it runs on conversation. One operator with a model can hold a hundred warm, patient, grammatically perfect chats at once, in your language, for weeks, which is exactly what OpenAI described finding when it shut those networks down. Tomasz Wiśniewski, who uses ChatGPT to polish his own English before emailing the boss, will recognise the quality of the prose. That is the point.</p>
+
+    <p>Two rules cover it. A real wrong-number sender stops after you tell them; anyone who keeps the chat going wants something. And <strong>nobody ever needs your six-digit WhatsApp code</strong>. If one arrives that you did not ask for, someone is trying to take your account, and the message that follows asking you to "send it back" is them. Report and block from inside the chat, and turn on two-step verification in WhatsApp's settings tonight.</p>
+
+    <h3>The Microsoft email about a password you never changed.</h3>
+
+    <p>"Unusual sign-in activity." "Your password was changed." "Someone requested a reset." These land in work and personal inboxes alike, and they work for a reason the old advice never covered: Microsoft really does send emails like this. <a href="https://blog.checkpoint.com/research/which-brands-are-impersonated-most-inside-the-q2-2026-brand-phishing-report" target="_blank" rel="noopener">Check Point's</a> brand-phishing count for the second quarter of 2026 puts Microsoft at about <span class="inline-highlight">23% of all brand impersonation attempts</span>, roughly twice the next name on the list, with LinkedIn, Google, Apple and Amazon behind it and ChatGPT entering the top ten for the first time.</p>
+
+    <p>You cannot tell the fake from the real by reading it, and the sender address proves nothing either. So do not try. Never touch the button in the email. Open a browser, type the address of the account yourself (your work sign-in page, or account.microsoft.com), and look at the recent activity there. If it is clean, the email was the attack. If it shows a login you do not recognise, the email was real and someone has your password: change it, on that page, now. Hannah Clarke's version is simpler still: forward it to IT and let them tell her. Marcus should note what this feeds. Cifas logged more than 78,000 account takeovers in 2025, up 6%, with SIM swaps up 38%, and a phished password is where most of them start.</p>
+
+    <h3>The police station that rang you.</h3>
+
+    <p>This is the one that should frighten you, and it is the one Maureen is most likely to get. The phone rings, the screen shows the number of a real police station, and an officer with a collar number tells her that her card has been cloned, that staff at her bank are under investigation, and that she can help by withdrawing her savings so they can be checked. A courier will collect them.</p>
+
+    <aside class="define" id="def-courier-fraud" aria-label="Definition: courier fraud">
+      <div class="define-label">What the word means</div>
+      <div class="define-term">Courier fraud</div>
+      <p class="define-text">A caller posing as <strong>a police officer or your bank</strong> says your money is at risk or you can help an investigation, then sends someone to your door to collect cash, cards, PINs or valuables "for safekeeping". Nothing handed over comes back. <em>No real officer will ever ask.</em></p>
+    </aside>
+
+    <p>The number on the screen is real and the call is not. On 2 October <a href="https://britbrief.co.uk/crime/fraud/warning-fraudsters-pose-as-police-in-spoofing-scam.html" target="_blank" rel="noopener">Northumbria Police</a> warned that calls were showing two of its own former numbers, both no longer in use, and said plainly: "do not rely solely on the number displayed on your phone to verify the identity of a caller." In June <a href="https://www.cityoflondon.police.uk/news/city-of-london/news/2026/june/city-of-london-police-alert-scam-calls-using-spoofed-phone-numbers/" target="_blank" rel="noopener">City of London Police</a>, the national lead on fraud, took more than 260 calls in a matter of hours from members of the public who had been rung from spoofed police numbers, and said other forces across the country were seeing the same. Its disruption team now works to get each spoofed number added to the industry's do-not-originate list, which stops that number being faked again. It does not stop the next one.</p>
+
+    <p>Three facts beat this scam, and Maureen can learn them in a minute. The police will never ask you to withdraw money, move money, buy anything or hand over a card or a PIN, not for any investigation. A real officer will not mind you hanging up. And if you want to check, do not ring the number on your screen or the one the caller gives you: use a different phone, or wait a few minutes, then ring 101 or the number on the force's own website. Then text 7726 with the word "Call" and the number that rang you.</p>
+
+    <h2 id="the-bill">The bill, in pounds.</h2>
+
+    <p>UK Finance's <a href="https://www.ukfinance.org.uk/news-and-insight/press-release/fraud-report-2026-press-release" target="_blank" rel="noopener">Annual Fraud Report</a>, published in June, says criminals stole <strong>£1.28bn</strong> through payment fraud in 2025, up 4%, across a record 4.06 million cases. Spread across the UK population that is roughly £18 taken from every man, woman and child, and it only counts what the banks saw.</p>
+
+    <aside class="define" id="def-app" aria-label="Definition: authorised push payment fraud">
+      <div class="define-label">What the word means</div>
+      <div class="define-term">Authorised push payment fraud <span class="say">the banks say: APP fraud</span></div>
+      <p class="define-text">A scam where <strong>you send the money yourself</strong>, because you were talked into it: to a "safe account", a fake seller, a fake investment, a fake daughter. It is the fastest-growing kind, and since October 2024 UK banks must usually refund it.</p>
+    </aside>
+
+    <p>The part that tracks this article is APP fraud. Those losses rose 19% to <span class="inline-highlight">£576.4m</span>. Investment fraud, the fake trading platform with the celebrity endorsement, was up 40% to £221.5m. Romance fraud was up 23%. Purchase scams were 71% of all APP cases. Two-thirds of these scams begin online, mostly on social media and marketplaces, but the 17% that begin with a phone call account for 28% of the money lost. The phone is where the big numbers go.</p>
+
+    <p><a href="https://www.cifas.org.uk/newsroom/fraudscape2026" target="_blank" rel="noopener">Cifas</a>, which runs the National Fraud Database, logged more than 444,000 cases in 2025, the most it has ever recorded, at over 1,200 a day. Its chief executive described fraud as being "industrialised, with AI accelerating crime". The National Crime Agency, in the same release, puts fraud at <strong>45% of all crime in England and Wales</strong>.</p>
+
+    <p>Nobody in that list can tell you what share of it was AI-assisted, because no one logs it that way. What every one of them says, in their own words, is that the messages got better and the cases got more numerous in the same two years that the tools became free. Draw your own line through those points.</p>
+
+    <p>One thing the UK does better than most countries: since October 2024 the Payment Systems Regulator has required most banks to <a href="https://www.psr.org.uk/information-for-consumers/app-scams-reimbursement-dashboard/" target="_blank" rel="noopener">refund victims</a> of authorised push payment scams, up to £85,000 per claim, with a few exceptions. UK Finance says banks returned £354.3m in 2025, 61% of losses. If you are scammed, report it to your bank at once; you are more likely to get the money back than you think. That is also why the warnings before a transfer keep getting longer. The bank is now the one paying.</p>
+
+    <h2 id="old-advice">Why the old advice stopped working.</h2>
+
+    <p>We were taught three checks. Look for bad spelling. Ask whether your bank would really contact you this way. Be wary of urgency. The first is dead, for the reasons above. The second is weakened, because the scammer now knows exactly how your bank contacts you and copies it. The third still holds. Urgency remains the one thing every scam needs, because a victim with a day to think is a victim who rings their daughter.</p>
+
+    <p>So the rule changes. <strong>Stop judging the content. Judge the channel.</strong> Anything that arrives at you can be forged: the voice, the face on the video call, the number on the screen, the email address, the logo, the "secure" link. What a criminal cannot forge is a conversation that <em>you</em> start, to a number or an address you already had before today. Marcus would call this out-of-band verification. Maureen can call it hanging up and ringing back.</p>
+
+    <blockquote class="pull-quote">Hang up, wait a minute, ring back on a number you already had. Any genuine caller will survive that.</blockquote>
+
+    <p>The minute matters. Criminals used to keep landlines open after you hung up so that "ringing the bank" put you straight back through to them. That trick is mostly closed off by the networks now, but a pause, or using a different phone, costs nothing.</p>
+
+    <h2 id="tonight">What to do tonight.</h2>
+
+    <p>For everyone, starting with Maureen and Dean:</p>
+
+    <ul>
+      <li><strong>Agree a safe phrase</strong> with your family this week, said out loud, never typed. Anyone ringing for money who cannot give it is not family, whatever they sound like.</li>
+      <li><strong>Ring 159</strong> if anyone calls claiming to be your bank. It is a short code that connects you to most major UK banks, including Barclays, HSBC, Lloyds, Nationwide, NatWest, Santander and Starling. Hang up first, then dial it yourself.</li>
+      <li><strong>Forward scam texts to 7726</strong> (it spells SPAM on a keypad) and scam emails to <a href="mailto:report@phishing.gov.uk">report@phishing.gov.uk</a>. Both are free and both get sites taken down.</li>
+      <li><strong>If money has gone</strong>, ring your bank immediately, then report it to Report Fraud (the service that replaced Action Fraud) at <a href="https://www.reportfraud.police.uk/" target="_blank" rel="noopener">reportfraud.police.uk</a> or on 0300 123 2040 in England, Wales and Northern Ireland, or to Police Scotland on 101.</li>
+    </ul>
+
+    <p>For Sanjay, Fiona and anyone else who approves payments at work: no change to a supplier's bank details is ever actioned from an email or a call. Someone rings the supplier back on the number you already had on file. Two people sign off anything above a threshold you pick today. And tell the team, plainly, that the voice of the boss on the phone is no longer proof the boss is on the phone. Fiona has an extra rule: nobody grants remote access to an inbound caller, ever, however urgent the clinical system sounds.</p>
+
+    <p>For Marcus, the uncomfortable version. Voice and video are now untrusted inputs, which means any control that rests on a human recognising a colleague is a control with a hole in it. Teams and other internal chat tools are the new phone line, and Microsoft's numbers say the attackers got there first. The fixes are the dull ones: payment approval through a second channel the attacker does not hold, passkeys or hardware keys so a phished one-time code is worthless, and a tabletop exercise where the finance team hears a cloned voice before a criminal plays them one.</p>
+  </section>
+
+  <!-- SLOT: tactical takeaway (MANDATORY) -->
+  <section class="takeaway" aria-label="Tactical takeaway for leaders">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2>Stop judging the message. Start checking <em>the channel</em>.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 · Tonight · for Maureen and Dean</div>
+        <div class="takeaway-point-text">Agree a <strong>safe phrase</strong> with the family, out loud. Any call about money, from the bank or the police: hang up, wait a minute, ring back on a number you already had, <strong>159</strong> for the bank or 101 for the police.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 · At work · for Sanjay and Fiona</div>
+        <div class="takeaway-point-text">No supplier bank-detail change and no remote access is ever actioned from an inbound email or call. <strong>Ring back on the number on file</strong>, and put two signatures on anything above a line you draw today.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 · Threat model · for Marcus</div>
+        <div class="takeaway-point-text">Treat voice and video as <strong>untrusted inputs</strong>. Move payment approval to a second channel, replace one-time codes with passkeys, and let the finance team hear a cloned voice in a drill before a criminal plays them one.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLOT: subscribe / substack slab -->
+  <section class="cta-slab" aria-label="Read more and subscribe">
+    <div class="cta-kicker">Read more &middot; Subscribe</div>
+    <h2 id="subscribe-slab">The next scam is already being written. <em>Hear about it first.</em></h2>
+    <p>Each issue lands the day it publishes: what changed, what it means in the UK, and what to do about it tonight. No paywall and no pitch. Then forward it to whoever in your family is most likely to pick up that call.</p>
+    <div class="cta-row">
+      <a class="cta-btn primary" href="/?src=issue026#subscribe">Subscribe <span aria-hidden="true">&#8594;</span></a>
+      <a class="cta-btn" href="/articles/php2shell-black-october/">Issue 025 &middot; The site that won't be patched <span aria-hidden="true">&#8594;</span></a>
+    </div>
+  </section>
+
+  <!-- SLOT: footer -->
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">If the voice on the phone can be anyone, <strong>what is the one thing you would still trust?</strong></p>
+      <div class="footer-links">
+        <a href="/">ai-sustained.com</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="#" data-ais-reopen>Cookie choices</a>
+      </div>
+    </div>
+    <div class="sources">
+      Sources ·
+      <a href="https://www.ukfinance.org.uk/news-and-insight/press-release/fraud-report-2026-press-release" target="_blank" rel="noopener">UK Finance, Annual Fraud Report 2026</a> ·
+      <a href="https://www.cifas.org.uk/newsroom/fraudscape2026" target="_blank" rel="noopener">Cifas, Fraudscape 2026</a> ·
+      <a href="https://www.ncsc.gov.uk/report/impact-of-ai-on-cyber-threat" target="_blank" rel="noopener">NCSC, near-term impact of AI (Jan 2024)</a> ·
+      <a href="https://www.ncsc.gov.uk/report/impact-ai-cyber-threat-now-2027" target="_blank" rel="noopener">NCSC, impact of AI to 2027 (May 2025)</a> ·
+      <a href="https://arxiv.org/abs/2412.00586" target="_blank" rel="noopener">Heiding et al., automated spear phishing (Dec 2024)</a> ·
+      <a href="https://hoxhunt.com/blog/chatgpt-vs-human-phishing-and-social-engineering-study-whos-better" target="_blank" rel="noopener">Hoxhunt, ChatGPT vs human phishing (2023)</a> ·
+      <a href="https://www.itv.com/news/2024-09-17/ai-voice-cloning-scam-warning-issued-by-bank" target="_blank" rel="noopener">Starling Bank voice-cloning survey (Sep 2024)</a> ·
+      <a href="https://www.ofcom.org.uk/phones-and-broadband/scam-calls-and-messages/cracking-down-on-scam-calls-from-abroad" target="_blank" rel="noopener">Ofcom, scam calls from abroad (Jul 2025)</a> ·
+      <a href="https://www.ofcom.org.uk/phones-and-broadband/phone-numbers/telecoms-provider-fined-437500-for-failing-to-prevent-misuse-of-its-phone-numbers-by-scammers" target="_blank" rel="noopener">Ofcom fine (21 Oct 2026)</a> ·
+      <a href="https://www.irishnews.com/news/uk/voice-phishing-attacks-soar-as-cyber-attackers-use-ai-microsoft-research-IRDLGP74YZLWHCHUF3B7KMMC7Y/" target="_blank" rel="noopener">Microsoft Digital Defense Report 2026, via PA</a> ·
+      <a href="https://abc17news.com/money/cnn-business-consumer/2024/05/16/british-engineering-giant-arup-revealed-as-25-million-deepfake-scam-victim/" target="_blank" rel="noopener">Arup deepfake case, CNN</a> ·
+      <a href="https://openai.com/index/disrupting-malicious-uses-of-ai-romance-scam/" target="_blank" rel="noopener">OpenAI, disrupting malicious uses</a> ·
+      <a href="https://www.psr.org.uk/information-for-consumers/app-scams-reimbursement-dashboard/" target="_blank" rel="noopener">PSR reimbursement dashboard</a> ·
+      <a href="https://www.moneyhelper.org.uk/en/blog/scams-and-fraud/what-are-whatsapp-scams" target="_blank" rel="noopener">MoneyHelper, WhatsApp scams</a> ·
+      <a href="https://blog.checkpoint.com/research/which-brands-are-impersonated-most-inside-the-q2-2026-brand-phishing-report" target="_blank" rel="noopener">Check Point, Q2 2026 brand phishing</a> ·
+      <a href="https://britbrief.co.uk/crime/fraud/warning-fraudsters-pose-as-police-in-spoofing-scam.html" target="_blank" rel="noopener">Northumbria Police spoofing warning (2 Oct 2026)</a> ·
+      <a href="https://www.cityoflondon.police.uk/news/city-of-london/news/2026/june/city-of-london-police-alert-scam-calls-using-spoofed-phone-numbers/" target="_blank" rel="noopener">City of London Police spoofing alert (16 Jun 2026)</a> ·
+      Per-person figure uses a UK population of about 69m; £ conversions approximate at time of writing.
+    </div>
+  </footer>
+
+  <!-- SLOT: hashtags -->
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#AIScams</span> <span>#Phishing</span> <span>#VoiceCloning</span> <span>#Deepfakes</span> <span>#CourierFraud</span> <span>#FraudUK</span> <span>#Cybersecurity</span> <span>#AIMadeSimple</span>
+    </div>
+  </div>
+
+  <!-- SLOT: colophon -->
+  <div class="colophon">
+    <span><span class="wordmark">AI Sustained.</span> · By Kevin Clubb</span>
+    <span>2026</span>
+  </div>
+
+</article>
+<script>
+(function () {
+  /* ---------- Issue 026 motion: reveal, count-up, reading bar ---------- */
+  var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var RV_SEL = '.stat-box, .content h2, .define, .pull-quote, .takeaway-point, .takeaway h2, .cta-slab, .toc';
+  var rvIO = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      rvIO.unobserve(e.target);
+      countUp(e.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 }) : null;
+
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+  function fmt(n, dp) {
+    var s = n.toFixed(dp);
+    return dp === 0 ? s.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : s;
+  }
+  function countUp(box) {
+    Array.prototype.forEach.call(box.querySelectorAll('.num-anim:not(.done)'), function (el) {
+      el.classList.add('done');
+      var target = parseFloat(el.getAttribute('data-count'));
+      var dp = parseInt(el.getAttribute('data-dp') || '0', 10);
+      var prefix = el.getAttribute('data-prefix') || '';
+      if (REDUCED || isNaN(target) || !('requestAnimationFrame' in window)) return;
+      var t0 = null, dur = 1500;
+      function step(ts) {
+        if (t0 === null) t0 = ts;
+        var k = Math.min(1, (ts - t0) / dur);
+        el.textContent = prefix + fmt(target * ease(k), dp);
+        if (k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  function reveal(root) {
+    var els = (root || document).querySelectorAll(RV_SEL);
+    Array.prototype.forEach.call(els, function (el) {
+      if (el.classList.contains('rv')) return;
+      el.classList.add('rv');
+      var p = el.parentNode, i = 0, sib = el;
+      while ((sib = sib.previousElementSibling)) i++;
+      if (p && (p.classList.contains('stat-grid') || p.classList.contains('takeaway-grid'))) {
+        el.style.transitionDelay = ((i % 6) * 90) + 'ms';
+      }
+      if (rvIO) rvIO.observe(el); else { el.classList.add('in'); countUp(el); }
+    });
+  }
+
+  var readbar = document.querySelector('.readbar');
+  if (readbar && !REDUCED) {
+    var ticking = false;
+    function paintBar() {
+      var doc = document.documentElement;
+      var max = (doc.scrollHeight - doc.clientHeight) || 1;
+      var p = Math.min(1, Math.max(0, (window.pageYOffset || doc.scrollTop) / max));
+      readbar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(paintBar); } }, { passive: true });
+    window.addEventListener('resize', paintBar);
+    paintBar();
+  }
+
+  reveal();
+})();
+</script>
+<script>
+(function () {
+  /* ---------- Top subscribe bar ----------
+     Same HubSpot form as the homepage sign-up (index.html #subscribe).
+     Resilient send, as on the case-study forms: the full payload first, then
+     email only, so a missing ai_lead_source property never loses a sign-up. */
+  var HS_PORTAL_ID = "148698319";
+  var HS_FORM_GUID = "fb5e2a95-a0e8-44c1-9529-571631ff2843";
+  var SRC = "issue026-top";
+  var ENDPOINT = "https://api-eu1.hsforms.com/submissions/v3/integration/submit/" + HS_PORTAL_ID + "/" + HS_FORM_GUID;
+
+  var bar = document.getElementById("sub-top");
+  if (!bar) return;
+  var form = bar.querySelector("form");
+  var input = bar.querySelector("input[type=email]");
+  var btn = bar.querySelector("button");
+  var statusEl = bar.querySelector(".sub-bar-status");
+
+  function say(text, cls) { statusEl.className = "sub-bar-status" + (cls ? " " + cls : ""); statusEl.textContent = text; }
+  function readCookie(name) {
+    var m = document.cookie.match(new RegExp("(?:^|; )" + name + "=([^;]*)"));
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+  function payload(email, full) {
+    var fields = [{ objectTypeId: "0-1", name: "email", value: email }];
+    if (full) fields.push({ objectTypeId: "0-1", name: "ai_lead_source", value: SRC });
+    var body = { fields: fields, context: { pageUri: location.href.split("#")[0], pageName: document.title } };
+    var hutk = readCookie("hubspotutk");
+    if (hutk) body.context.hutk = hutk;
+    return body;
+  }
+  function post(body) {
+    return fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var email = input.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { say("Please enter a valid email address.", "err"); input.focus(); return; }
+    btn.disabled = true;
+    say("Subscribing\u2026");
+    post(payload(email, true)).then(function (r) {
+      if (r.ok) return r;
+      return post(payload(email, false));
+    }).then(function (r) {
+      if (!r.ok) throw new Error("HubSpot " + r.status);
+      bar.classList.add("is-done");
+      say("You\u2019re in. Check your inbox to confirm.", "ok");
+      if (typeof gtag === "function") gtag("event", "generate_lead", { resource: "newsletter", placement: SRC });
+    }).catch(function () {
+      btn.disabled = false;
+      say("That didn\u2019t go through. Please try again.", "err");
+    });
+  });
+})();
+</script>
+</body>
+</html>
