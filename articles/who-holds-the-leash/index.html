@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- AI Sustained cookie consent + Google Consent Mode v2 (must precede GTM/GA4) -->
+<script>
+(function(){
+  "use strict";
+  /* ------------------------------------------------------------------
+     AI Sustained cookie consent + Google Consent Mode v2
+     Self-contained: sets consent defaults, injects banner CSS + DOM.
+     MUST load before the GTM and GA4 snippets.
+     ------------------------------------------------------------------ */
+
+  var STORE   = 'ais_consent_v1';
+  var MAXAGE  = 1000*60*60*24*182;           /* 6 months, then re-ask */
+  /* Both sites serve /privacy/ (the consulting site ships privacy.html plus a
+     byte-identical privacy/index.html), so one root-absolute path covers both
+     and there is no hostname sniffing to go wrong. */
+  var POLICY  = '/privacy/';
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  window.gtag = window.gtag || gtag;
+
+  /* ---------- read any stored decision ---------- */
+  var saved = null;
+  try {
+    var raw = localStorage.getItem(STORE);
+    if (raw) {
+      var o = JSON.parse(raw);
+      if (o && o.t && (Date.now() - o.t) < MAXAGE) saved = o;
+    }
+  } catch(e){}
+
+  var DENIED = {
+    ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied',
+    analytics_storage:'denied', functionality_storage:'denied',
+    personalization_storage:'denied', security_storage:'granted',
+    wait_for_update: 500
+  };
+
+  /* Defaults are DENIED for everything non-essential. Nothing fires until
+     the visitor chooses. security_storage stays granted: it is strictly
+     necessary and exempt under PECR. */
+  gtag('consent','default', DENIED);
+
+  function stateFrom(c){
+    return {
+      ad_storage:            c.marketing ? 'granted':'denied',
+      ad_user_data:          c.marketing ? 'granted':'denied',
+      ad_personalization:    c.marketing ? 'granted':'denied',
+      analytics_storage:     c.analytics ? 'granted':'denied',
+      functionality_storage: c.recording ? 'granted':'denied',
+      personalization_storage: c.recording ? 'granted':'denied',
+      security_storage:      'granted'
+    };
+  }
+
+  function apply(c, isNew){
+    gtag('consent','update', stateFrom(c));
+    dataLayer.push({
+      event: 'consent_update',
+      consent_analytics:  !!c.analytics,
+      consent_recording:  !!c.recording,
+      consent_marketing:  !!c.marketing
+    });
+    if (isNew){
+      try { localStorage.setItem(STORE, JSON.stringify({
+        t: Date.now(), analytics: !!c.analytics,
+        recording: !!c.recording, marketing: !!c.marketing
+      })); } catch(e){}
+    }
+  }
+
+  if (saved) apply(saved, false);
+
+  /* Current state drives the toggles, so reopening shows what you actually
+     chose rather than a fresh set of defaults. */
+  var current = saved || { analytics:false, recording:false, marketing:false };
+
+  /* ---------- styles ---------- */
+  var CSS = ''
+  + '@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap");'
+  + '.ais-cc,.ais-cc *{box-sizing:border-box}'
+  + '.ais-cc{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#102C21;color:#F2ECD9;'
+  + 'border-top:2px solid #E8FF3A;font-family:Inter,system-ui,sans-serif;'
+  + 'box-shadow:0 -18px 50px rgba(0,0,0,.5);animation:aisUp .35s cubic-bezier(.34,1.2,.64,1)}'
+  + '@keyframes aisUp{from{transform:translateY(100%)}to{transform:none}}'
+  + '@media (prefers-reduced-motion:reduce){.ais-cc{animation:none}}'
+  + '.ais-cc-in{max-width:1080px;margin:0 auto;padding:22px 24px;display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap}'
+  + '.ais-cc-copy{flex:1 1 420px;min-width:280px}'
+  + '.ais-cc h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;color:#E8FF3A;letter-spacing:.01em}'
+  + '.ais-cc p{margin:0;font-size:14.5px;line-height:1.55;color:#F2ECD9;opacity:.94}'
+  + '.ais-cc a{color:#E8FF3A;text-decoration:underline;text-underline-offset:2px}'
+  + '.ais-cc-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}'
+  /* Accept and Reject are deliberately IDENTICAL in size, colour and weight. */
+  + '.ais-b{position:relative;display:inline-flex;align-items:center;justify-content:center;'
+  + 'min-width:150px;padding:14px 24px;border:2px solid rgba(232,255,58,.55);border-radius:10px;'
+  + 'color:#F2ECD9;background:rgba(10,15,12,.92);font-family:"Space Grotesk",sans-serif;'
+  + 'font-weight:700;font-size:15.5px;cursor:pointer;transition:color .2s,border-color .2s,transform .18s;'
+  + '-webkit-tap-highlight-color:transparent}'
+  + '.ais-b:hover{color:#E8FF3A;border-color:#E8FF3A;transform:translateY(-2px)}'
+  + '.ais-b:active{transform:translateY(1px) scale(.98)}'
+  + '.ais-b:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '.ais-link{background:none;border:none;color:#F2ECD9;font-family:Inter,sans-serif;font-size:14px;'
+  + 'text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:8px 4px;opacity:.9}'
+  + '.ais-link:hover{color:#E8FF3A;opacity:1}'
+  + '.ais-cc-panel{width:100%;border-top:1px solid rgba(242,236,217,.18);margin-top:6px;padding-top:16px;display:none}'
+  + '.ais-cc-panel.open{display:block}'
+  + '.ais-row{display:flex;gap:14px;align-items:flex-start;padding:11px 0}'
+  + '.ais-row+.ais-row{border-top:1px solid rgba(242,236,217,.1)}'
+  + '.ais-row .t{flex:1}'
+  + '.ais-row strong{display:block;font-family:"Space Grotesk",sans-serif;font-size:14.5px;margin-bottom:3px}'
+  + '.ais-row span{font-size:13.5px;line-height:1.5;opacity:.85}'
+  + '.ais-sw{position:relative;flex:0 0 auto;width:50px;height:28px;border-radius:99px;border:none;'
+  + 'background:rgba(242,236,217,.22);cursor:pointer;transition:background .2s}'
+  + '.ais-sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;'
+  + 'background:#F2ECD9;transition:transform .2s}'
+  + '.ais-sw[aria-checked="true"]{background:#E8FF3A}'
+  + '.ais-sw[aria-checked="true"]::after{transform:translateX(22px);background:#0A0F0C}'
+  + '.ais-sw[disabled]{opacity:.5;cursor:not-allowed}'
+  + '.ais-sw:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '@media(max-width:640px){.ais-cc-in{padding:18px 16px;gap:16px}.ais-cc-btns{width:100%}'
+  + '.ais-b{flex:1 1 100%;min-width:0}}';
+
+  /* ---------- banner ---------- */
+  function build(reopen){
+    if (document.querySelector('.ais-cc')) return;
+
+    var st = document.createElement('style');
+    st.textContent = CSS;
+    document.head.appendChild(st);
+
+    var w = document.createElement('div');
+    w.className = 'ais-cc';
+    w.setAttribute('role','dialog');
+    w.setAttribute('aria-live','polite');
+    w.setAttribute('aria-label','Cookie choices');
+    w.innerHTML =
+      '<div class="ais-cc-in">'
+      +  '<div class="ais-cc-copy">'
+      +    '<h2>Your call on cookies</h2>'
+      +    '<p>I use a few cookies to see which articles land and where people give up reading. '
+      +    'Nothing fires until you choose. Reject and the site works exactly the same. '
+      +    '<a href="' + POLICY + '">Read the privacy notice</a>.</p>'
+      +  '</div>'
+      +  '<div class="ais-cc-btns">'
+      +    '<button type="button" class="ais-b" data-a="accept">Accept all</button>'
+      +    '<button type="button" class="ais-b" data-a="reject">Reject all</button>'
+      +    '<button type="button" class="ais-link" data-a="manage" aria-expanded="false">Choose what I share</button>'
+      +  '</div>'
+      +  '<div class="ais-cc-panel" id="ais-panel">'
+      +    row('essential','Strictly necessary','Keeps the site working and secure. Always on, and exempt from consent under PECR.',true,true)
+      +    row('analytics','Audience measurement','Google Analytics. Which pages get read, roughly where visitors come from.',!!current.analytics,false)
+      +    row('recording','Session recording','Microsoft Clarity. Anonymised replays and heatmaps showing where people scroll and stop. Text you type is masked.',!!current.recording,false)
+      +    row('marketing','Marketing','TikTok and Meta advertising pixels. Not currently active, listed so this notice stays honest when they are.',!!current.marketing,false)
+      +    '<div class="ais-cc-btns" style="margin-top:14px">'
+      +      '<button type="button" class="ais-b" data-a="save">Save my choices</button>'
+      +    '</div>'
+      +  '</div>'
+      + '</div>';
+    document.body.appendChild(w);
+
+    function row(k,title,desc,on,lock){
+      return '<div class="ais-row"><div class="t"><strong>'+title+'</strong><span>'+desc+'</span></div>'
+        + '<button type="button" class="ais-sw" data-k="'+k+'" role="switch" aria-label="'+title+'" aria-checked="'
+        + (on?'true':'false') + '"' + (lock?' disabled':'') + '></button></div>';
+    }
+
+    w.addEventListener('click', function(e){
+      var sw = e.target.closest('.ais-sw');
+      if (sw && !sw.disabled){
+        sw.setAttribute('aria-checked', sw.getAttribute('aria-checked')==='true' ? 'false':'true');
+        return;
+      }
+      var b = e.target.closest('[data-a]');
+      if (!b) return;
+      var a = b.getAttribute('data-a');
+
+      if (a === 'manage'){
+        var p = w.querySelector('#ais-panel');
+        var open = p.classList.toggle('open');
+        b.setAttribute('aria-expanded', open ? 'true':'false');
+        b.textContent = open ? 'Hide options' : 'Choose what I share';
+        return;
+      }
+      if (a === 'accept') return close({analytics:1,recording:1,marketing:1});
+      if (a === 'reject') return close({analytics:0,recording:0,marketing:0});
+      if (a === 'save'){
+        var g = function(k){
+          var el = w.querySelector('.ais-sw[data-k="'+k+'"]');
+          return el && el.getAttribute('aria-checked')==='true' ? 1 : 0;
+        };
+        return close({analytics:g('analytics'), recording:g('recording'), marketing:g('marketing')});
+      }
+    });
+
+    function close(c){ current = c; apply(c, true); w.remove(); }
+
+    /* Reopened from the footer: show the detail panel straight away, so the
+       visitor can see and change what they previously chose. */
+    if (reopen){
+      w.querySelector('#ais-panel').classList.add('open');
+      var mb = w.querySelector('[data-a="manage"]');
+      mb.setAttribute('aria-expanded','true');
+      mb.textContent = 'Hide options';
+    }
+  }
+
+  /* Drop a "Cookie choices" link into the existing footer, so consent can be
+     withdrawn from any page without editing 50 footers by hand. */
+  function footerLink(){
+    var f = document.querySelector('footer');
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
+
+    /* Footer markup varies page to page, so target the LAST div: on every
+       template that is the links / colophon column, not the brand block. */
+    var divs = f.querySelectorAll('div');
+    var host = divs.length ? divs[divs.length-1] : f;
+
+    var wrap = document.createElement('span');
+    wrap.setAttribute('data-ais-footer','1');
+    wrap.style.cssText = 'display:inline-block;margin-top:6px';
+
+    var onPolicy = /^\/privacy(\.html|\/|$)/.test(location.pathname);
+    if (!onPolicy){
+      var pv = document.createElement('a');
+      pv.href = POLICY;
+      pv.textContent = 'Privacy';
+      wrap.appendChild(document.createTextNode(' · '));
+      wrap.appendChild(pv);
+    }
+
+    var a = document.createElement('a');
+    a.href = '#';
+    a.setAttribute('data-ais-reopen','1');
+    a.textContent = 'Cookie choices';
+    a.style.cursor = 'pointer';
+    a.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+    wrap.appendChild(document.createTextNode(' · '));
+    wrap.appendChild(a);
+
+    host.appendChild(wrap);
+  }
+
+  /* Public re-opener, also usable directly:
+     <a href="#" onclick="AISConsent.open();return false">Cookie choices</a>  */
+  window.AISConsent = {
+    open: function(){
+      /* Deliberately does NOT clear the stored choice. Reopening the banner
+         must never silently revoke consent the visitor already gave. They
+         revoke it by choosing, not by looking. */
+      var ex = document.querySelector('.ais-cc');
+      if (ex) ex.remove();
+      build(true);
+    }
+  };
+
+  function init(){ footerLink(); if (!saved) build(false); }
+
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K3HFQT6S');</script>
+
+<!-- Google Analytics — site-wide ID, leave as-is -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+
+<!-- SLOT: seo_meta -->
+<title>AI is now building AI twice as fast. The frightening part is what got redacted. | AI Sustained</title>
+<meta name="description" content="METR found Anthropic improving its models twice as fast, mostly thanks to AI. Then Anthropic redacted most of the evidence. What that means, and the UK angle.">
+<meta name="keywords" content="recursive self-improvement, RSI, self-improving AI, METR, Anthropic S-1, Responsible Scaling Policy, automated AI research, AI R&amp;D acceleration, AI Security Institute, AISI, NCSC, AI safety UK">
+<meta name="author" content="Kevin Clubb">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="theme-color" content="#1B4332">
+<link rel="canonical" href="https://ai-sustained.com/articles/who-holds-the-leash/">
+<meta property="og:title" content="AI is now building AI twice as fast. The frightening part is what got redacted.">
+<meta property="og:description" content="An independent reviewer measured Anthropic's progress at roughly twice its old rate, mostly attributable to AI. Then most of the evidence was blacked out.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ai-sustained.com/articles/who-holds-the-leash/">
+<!-- Social image URLs must be ABSOLUTE — relative paths break link previews -->
+<meta property="og:image" content="https://ai-sustained.com/articles/who-holds-the-leash/who-holds-the-leash_hero.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="670">
+<meta property="og:image:alt" content="A printed report on a dark desk, most of its lines covered by heavy black bars, one uncovered line catching acid-green lamplight, folded reading glasses resting beside it.">
+<meta property="og:audio" content="https://ai-sustained.com/articles/who-holds-the-leash/who-holds-the-leash_commentary.mp3">
+<meta property="og:audio:type" content="audio/mpeg">
+<meta property="og:site_name" content="AI Sustained">
+<meta property="og:locale" content="en_GB">
+<meta property="article:published_time" content="2026-11-07T12:00:00+00:00">
+<meta property="article:author" content="Kevin Clubb">
+<meta property="article:section" content="Frontier &amp; Safety">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI is now building AI twice as fast. The frightening part is what got redacted.">
+<meta name="twitter:description" content="An independent reviewer measured Anthropic's progress at roughly twice its old rate, mostly attributable to AI. Then most of the evidence was blacked out.">
+<meta name="twitter:image" content="https://ai-sustained.com/articles/who-holds-the-leash/who-holds-the-leash_hero.jpg">
+<meta name="twitter:image:alt" content="A printed report on a dark desk, most of its lines covered by heavy black bars, one uncovered line catching acid-green lamplight, folded reading glasses resting beside it.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "AI is now building AI twice as fast. The frightening part is what got redacted.",
+  "author": { "@type": "Person", "name": "Kevin Clubb", "url": "https://www.linkedin.com/in/kevin-clubb" },
+  "datePublished": "2026-11-07",
+  "dateModified": "2026-11-07",
+  "url": "https://ai-sustained.com/articles/who-holds-the-leash/",
+  "description": "Anthropic told US regulators it may imminently cross its own threshold for AI-accelerated progress. Three days later METR measured the company improving its models at roughly twice its old rate, mostly attributable to AI, and said Anthropic had redacted most of the evidence it found most informative. What recursive self-improvement looks like now, the case for and against, and what it means for the UK.",
+  "keywords": "recursive self-improvement, RSI, self-improving AI, METR, Anthropic S-1, Responsible Scaling Policy, automated AI research, AI Security Institute, NCSC, AI safety UK",
+  "inLanguage": "en-GB",
+  "articleSection": "Frontier & Safety",
+  "wordCount": 3300,
+  "image": { "@type": "ImageObject", "url": "https://ai-sustained.com/articles/who-holds-the-leash/who-holds-the-leash_hero.jpg", "width": 1200, "height": 670 },
+  "audio": { "@type": "AudioObject", "name": "Issue 027 audio commentary", "contentUrl": "https://ai-sustained.com/articles/who-holds-the-leash/who-holds-the-leash_commentary.mp3", "encodingFormat": "audio/mpeg", "duration": "PT2M59S", "description": "Spoken commentary on Issue 027. Voice generated with ElevenLabs from a script written by Kevin Clubb." },
+  "publisher": { "@type": "Organization", "name": "AI Sustained", "url": "https://ai-sustained.com", "logo": { "@type": "ImageObject", "url": "https://ai-sustained.com/ai_sustained_logo.png" } },
+  "mainEntityOfPage": "https://ai-sustained.com/articles/who-holds-the-leash/"
+}
+</script>
+<script>document.documentElement.className += " js";</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332;
+    --ink: #0A0F0C;
+    --ink-soft: #2A3530;
+    --paper: #F2ECD9;
+    --paper-2: #E8E1CB;
+    --acid: #E8FF3A;
+    --coral: #FF5A3C;
+    --moss: #2D6A4F;
+    --sage: #74C69D;
+    --mint: #D8F3DC;
+    --muted: #8FA398;
+    --rule: rgba(242,236,217,0.16);
+    --rule-soft: rgba(242,236,217,0.09);
+    --panel: rgba(242,236,217,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--forest);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    border-top: 3px solid var(--acid);
+  }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 28px 48px; }
+
+  /* ============ BACK NAV ============ */
+  .backnav {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+    text-decoration: none; display: inline-block; padding: 10px 0 4px;
+  }
+  .backnav:hover { color: var(--acid); }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-left, .masthead-right { display: flex; gap: 18px; align-items: baseline; }
+  .wordmark { color: var(--acid); font-weight: 600; }
+
+  /* ============ TOP SUBSCRIBE BAR ============ */
+  /* Inline sign-up at the head of the article. Posts to the same HubSpot form as
+     the homepage (#subscribe), so there is still one list; ai_lead_source records
+     which placement the sign-up came from. */
+  .sub-bar {
+    background: var(--acid); color: var(--ink);
+    border-radius: 4px; margin: 22px 0 0; padding: 16px 18px 14px 22px;
+    display: flex; align-items: center; gap: 12px 26px; flex-wrap: wrap;
+    position: relative; overflow: hidden;
+    box-shadow: 0 18px 48px -20px rgba(232,255,58,0.6);
+  }
+  .sub-bar::before {
+    content: ''; position: absolute; top: -64px; right: -48px;
+    width: 160px; height: 160px; border: 28px solid var(--ink);
+    border-radius: 50%; opacity: 0.07; pointer-events: none;
+  }
+  .sub-bar-copy { flex: 1 1 260px; min-width: 0; position: relative; }
+  .sub-bar-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.24em; text-transform: uppercase; opacity: 0.72; margin-bottom: 4px;
+  }
+  .sub-bar-line {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px;
+    line-height: 1.22; letter-spacing: -0.01em; margin: 0;
+  }
+  .sub-bar-line em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; }
+  .sub-bar-action { flex: 1 1 340px; min-width: 0; position: relative; }
+  .sub-bar-form { display: flex; gap: 8px; }
+  .sub-bar-form input {
+    flex: 1; min-width: 0; font-family: 'Inter', sans-serif; font-size: 16px;
+    padding: 11px 14px; color: var(--ink); background: rgba(255,255,255,0.62);
+    border: 1.5px solid var(--ink); border-radius: 3px;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+  }
+  .sub-bar-form input::placeholder { color: rgba(10,15,12,0.5); }
+  .sub-bar-form input:focus { outline: none; background: #fff; box-shadow: 0 0 0 3px rgba(10,15,12,0.2); }
+  .sub-bar-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap;
+    padding: 0 18px; background: var(--ink); color: var(--acid);
+    border: 0; border-radius: 3px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+    animation: ctaPulse 2.6s ease-out infinite;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  .sub-bar-btn span { transition: transform 0.15s ease; }
+  .sub-bar-btn:hover { background: #000; transform: translateY(-1px); }
+  .sub-bar-btn:hover span { transform: translateX(3px); }
+  .sub-bar-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .sub-bar-btn[disabled] { opacity: 0.6; cursor: progress; animation: none; }
+  .sub-bar-note { font-size: 11px; line-height: 1.45; opacity: 0.75; margin: 7px 0 0; }
+  .sub-bar-note a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
+  .sub-bar-status {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.06em; margin: 6px 0 0;
+  }
+  .sub-bar-status:empty { display: none; }
+  .sub-bar.is-done .sub-bar-form, .sub-bar.is-done .sub-bar-note { display: none; }
+  .sub-bar.is-done .sub-bar-status {
+    font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 700;
+    letter-spacing: 0; margin: 0;
+  }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+  @media (max-width: 720px) {
+    .sub-bar { padding: 16px 16px 14px; margin-top: 18px; }
+    .sub-bar-line { font-size: 17px; }
+    .sub-bar-btn { padding: 0 14px; }
+  }
+
+  /* ============ HERO (centred) ============ */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+  }
+  .kicker::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    background: var(--acid);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(46px, 7vw, 84px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin: 0 auto 26px;
+    max-width: 14ch;
+  }
+  .hero h1 .accent { font-style: italic; color: var(--acid); }
+  .deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--paper-2);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .deck .accent { color: var(--acid); font-weight: 500; }
+  .reading-meta {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+    margin-top: 22px;
+  }
+
+  /* ============ HERO FIGURE (cover art) ============ */
+  .hero-figure { margin: 44px 0 10px; }
+  .hero-figure img {
+    width: 100%; height: auto; display: block;
+    border-top: 3px solid var(--acid);
+    border-radius: 4px;
+  }
+  .hero-figure figcaption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); margin-top: 12px;
+  }
+
+  /* ============ STAT GRID ============ */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 44px 0 48px;
+  }
+  .stat-box {
+    background: var(--panel);
+    padding: 22px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    border-bottom: 3px solid var(--acid);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 10px;
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px; font-weight: 600;
+    color: var(--acid); line-height: 1; display: block;
+  }
+  .stat-value .unit { font-size: 14px; font-weight: 500; color: var(--sage); margin-left: 3px; }
+  .stat-note { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+
+  /* ============ BODY CONTENT ============ */
+  .content { font-size: 18px; line-height: 1.7; color: var(--paper); max-width: 680px; margin: 48px 0; }
+  .content p { margin-bottom: 20px; }
+  .content p strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .content p em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .content a { color: var(--acid); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 33px; line-height: 1.15;
+    color: var(--paper); margin: 52px 0 20px; letter-spacing: -0.01em;
+  }
+  .content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 19px; color: var(--paper); margin: 32px 0 10px;
+  }
+  .content ul, .content ol { margin: 16px 0 24px 24px; }
+  .content li { margin-bottom: 10px; }
+  .content li::marker { color: var(--acid); }
+
+  .inline-highlight { color: var(--acid); font-weight: 500; }
+
+  /* ============ CROSS-REFERENCE LINKS ============ */
+  /* Internal links to other AI Sustained work carry a mono badge so they read
+     as "more of this site", not as another citation heading off-platform. */
+  .content a.xref {
+    color: var(--acid);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(232,255,58,0.45);
+    white-space: nowrap;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .content a.xref::before {
+    content: 'AIS';
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 600; letter-spacing: 0.14em;
+    color: var(--ink); background: var(--acid);
+    padding: 2px 5px; border-radius: 2px; margin-right: 7px;
+    vertical-align: 1px; white-space: nowrap;
+  }
+  .content a.xref:hover { color: var(--paper); border-bottom-color: var(--paper); }
+
+  /* ============ DEFINITION CALLOUT ============ */
+  /* Plain-English definitions pulled out of the prose so a first-time reader
+     meets the word and its meaning in the same glance. Same idiom as the
+     stat box: panel surface, mono acid label, one acid edge. */
+  .define {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--acid);
+    border-radius: 4px;
+    padding: 18px 22px 16px;
+    margin: 28px 0 32px;
+  }
+  .define-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--acid); margin-bottom: 8px;
+  }
+  .define-term {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 22px; line-height: 1.2;
+    color: var(--paper); margin-bottom: 6px;
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  }
+  .define-term .say {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+    color: var(--muted); text-transform: none;
+  }
+  .define-text {
+    font-size: 16px; line-height: 1.55; color: var(--paper-2); margin: 0;
+  }
+  .define-text strong { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--paper); }
+  .define-text em { font-family: 'Fraunces', serif; font-style: italic; color: var(--acid); }
+  .define-also {
+    margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--rule-soft);
+    font-size: 14px; line-height: 1.5; color: var(--muted);
+  }
+  .define-also strong { color: var(--paper-2); font-family: 'Space Grotesk', sans-serif; font-weight: 600; }
+  @media (max-width: 720px) {
+    .define { padding: 16px 18px 14px; }
+    .define-term { font-size: 20px; }
+  }
+
+  /* ============ PULL QUOTE ============ */
+  .pull-quote {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+    font-size: 30px; line-height: 1.3; color: var(--paper);
+    margin: 60px auto; padding: 40px 0;
+    border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid);
+    text-align: center; max-width: 720px; letter-spacing: -0.01em;
+  }
+  .pull-quote::before {
+    content: '"'; display: block; font-size: 56px; color: var(--acid);
+    line-height: 0.5; margin-bottom: 14px; font-family: 'Fraunces', serif;
+  }
+
+  /* ============ TACTICAL TAKEAWAY (ink panel — signature) ============ */
+  .takeaway {
+    background: var(--ink); color: var(--paper);
+    padding: 44px 40px; border-radius: 4px; margin: 72px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .takeaway::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--acid);
+    border-radius: 50%; opacity: 0.14;
+  }
+  .takeaway-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--acid);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .takeaway-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .takeaway h2 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+    font-size: 32px; line-height: 1.22; color: var(--paper);
+    margin-bottom: 26px; position: relative; z-index: 1; letter-spacing: -0.01em;
+  }
+  .takeaway h2 em { color: var(--acid); font-style: italic; }
+  .takeaway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; position: relative; z-index: 1; }
+  .takeaway-point { border-top: 1px solid rgba(232,255,58,0.4); padding-top: 14px; }
+  .takeaway-point-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); margin-bottom: 8px;
+  }
+  .takeaway-point-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 16px; line-height: 1.45; color: var(--paper-2);
+  }
+  .takeaway-point-text strong { color: var(--paper); font-weight: 600; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
+
+  /* ============ TOC ============ */
+  .toc { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 26px; margin: 32px 0 48px; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 12px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; font-family: 'Inter', sans-serif; font-size: 15px; }
+  .toc a { color: var(--paper); text-decoration: none; border-bottom: 1px solid transparent; }
+  .toc a:hover { border-bottom-color: var(--acid); color: var(--acid); }
+  .toc .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); margin-right: 10px; }
+
+  /* ============ SUBSCRIBE / SUBSTACK SLAB ============ */
+  /* The one deliberate acid fill in the page. It works because nothing else does it. */
+  .cta-slab {
+    background: var(--acid); color: var(--ink);
+    border-radius: 4px; padding: 44px 40px; margin: 64px 0 8px;
+    position: relative; overflow: hidden;
+  }
+  .cta-slab::before {
+    content: ''; position: absolute; bottom: -70px; left: -40px;
+    width: 200px; height: 200px; border: 36px solid var(--ink);
+    border-radius: 50%; opacity: 0.08;
+  }
+  .cta-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.72; margin-bottom: 14px;
+    position: relative; z-index: 1;
+  }
+  .cta-slab h2 {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+    font-size: 32px; line-height: 1.15; letter-spacing: -0.01em;
+    color: var(--ink); margin-bottom: 14px; position: relative; z-index: 1;
+  }
+  .cta-slab h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; }
+  .cta-slab p {
+    font-size: 16px; line-height: 1.6; color: var(--ink); opacity: 0.84;
+    max-width: 540px; margin-bottom: 26px; position: relative; z-index: 1;
+  }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .cta-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
+    padding: 14px 22px; border-radius: 3px;
+    border: 1.5px solid var(--ink); color: var(--ink);
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta-btn span { transition: transform 0.15s ease; }
+  .cta-btn:hover { background: rgba(10,15,12,0.08); transform: translateY(-2px); }
+  .cta-btn:hover span { transform: translateX(4px); }
+  .cta-btn.primary { background: var(--ink); color: var(--acid); animation: ctaPulse 2.6s ease-out infinite; }
+  .cta-btn.primary:hover { background: #000; box-shadow: 0 10px 28px rgba(10,15,12,0.35); }
+  @keyframes ctaPulse {
+    0% { box-shadow: 0 0 0 0 rgba(10,15,12,0.35); }
+    70% { box-shadow: 0 0 0 14px rgba(10,15,12,0); }
+    100% { box-shadow: 0 0 0 0 rgba(10,15,12,0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-btn.primary { animation: none; }
+    .cta-btn:hover, .cta-btn:hover span { transform: none; }
+  }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 36px 0 24px; border-top: 1px solid var(--rule); margin-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .footer-left { flex: 1; min-width: 280px; }
+  .footer-cta { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--paper); margin-bottom: 14px; }
+  .footer-cta strong { font-style: normal; font-weight: 600; color: var(--acid); }
+  .sources { font-size: 11px; color: var(--muted); line-height: 1.55; max-width: 300px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+  .sources a { color: var(--sage); text-decoration: none; border-bottom: 1px solid rgba(116,198,157,0.35); }
+  .sources a:hover { color: var(--acid); border-bottom-color: var(--acid); }
+
+  /* ============ FOOTER LINK ROW ============ */
+  .footer-links {
+    margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+  }
+  .footer-links a { color: var(--muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--acid); }
+
+  .hashtags { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule-soft); }
+  .hashtag-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .hashtag-list { font-size: 12px; line-height: 1.75; color: var(--sage); font-family: 'JetBrains Mono', monospace; }
+  .hashtag-list span { font-weight: 500; }
+
+  .colophon { margin-top: 20px; padding-top: 16px; border-top: 3px solid var(--acid); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .colophon .wordmark { color: var(--acid); font-weight: 600; }
+
+  @media (max-width: 720px) {
+    .takeaway-grid { grid-template-columns: 1fr; gap: 18px; }
+    .takeaway { padding: 32px 26px; }
+    .pull-quote { font-size: 22px; padding: 28px 0; }
+    .hero h1 { font-size: 44px; }
+    .deck { font-size: 19px; }
+    .cta-slab { padding: 32px 26px; }
+    .cta-slab h2 { font-size: 26px; }
+    .cta-btn { width: 100%; justify-content: space-between; }
+  }
+
+  @media print {
+    @page { size: A3; margin: 14mm; }
+    body { background: var(--forest); padding: 0; }
+    .page { max-width: none; padding: 0; }
+    .stat-box, .takeaway-point, .pull-quote, .takeaway, .cta-slab { page-break-inside: avoid; break-inside: avoid; }
+    .sub-bar { display: none; }
+  }
+
+  /* ============ LISTEN (audio commentary) ============ */
+  /* Sits in the hero, under the reading meta, so it is the first thing a reader
+     can act on. Without JS the native <audio controls> shows instead; with JS
+     the custom player takes over and the native control is hidden. The
+     waveform is the real loudness envelope of the MP3, 72 buckets. */
+  .listen { margin: 30px auto 0; max-width: 620px; text-align: left; }
+  .listen audio { width: 100%; display: block; }
+  html.js .listen audio { display: none; }
+  .listen-ui {
+    display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: center;
+    background: var(--ink); border: 1px solid rgba(232,255,58,0.22); border-radius: 6px;
+    padding: 16px 20px 14px 16px; position: relative;
+    box-shadow: 0 26px 60px -34px rgba(232,255,58,0.45);
+  }
+  .listen-ui[hidden] { display: none; }
+  .listen-btn {
+    width: 60px; height: 60px; border-radius: 50%; border: 0; cursor: pointer; padding: 0;
+    background: var(--acid); color: var(--ink); display: grid; place-items: center;
+    animation: listenRing 2.4s ease-out 1.6s 3; transition: transform .15s ease, background .15s ease;
+  }
+  .listen-btn:hover { transform: scale(1.05); background: #F4FF7A; }
+  .listen-btn:focus-visible { outline: 2px solid var(--acid); outline-offset: 3px; }
+  .listen-btn svg { width: 24px; height: 24px; fill: currentColor; display: block; }
+  .listen-btn .i-pause, .listen.is-playing .listen-btn .i-play { display: none; }
+  .listen.is-playing .listen-btn .i-pause { display: block; }
+  .listen.is-playing .listen-btn { animation: none; }
+  @keyframes listenRing { from { box-shadow: 0 0 0 0 rgba(232,255,58,0.5); } to { box-shadow: 0 0 0 16px rgba(232,255,58,0); } }
+  .listen-main { min-width: 0; }
+  .listen-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .listen-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid);
+  }
+  .listen-speed {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+    color: var(--paper-2); background: transparent; border: 1px solid var(--rule); border-radius: 3px;
+    padding: 3px 8px; cursor: pointer; min-width: 46px;
+  }
+  .listen-speed:hover, .listen-speed:focus-visible { color: var(--acid); border-color: var(--acid); outline: none; }
+  .listen-title {
+    font-family: 'Fraunces', serif; font-size: 17px; font-weight: 500; line-height: 1.3;
+    color: var(--paper); margin: 5px 0 10px;
+  }
+  .listen-title em { font-style: italic; color: var(--acid); }
+  .listen-wave {
+    display: flex; align-items: center; gap: 2px; height: 34px; cursor: pointer;
+    touch-action: none; border-radius: 2px;
+  }
+  .listen-wave:focus-visible { outline: 2px solid var(--acid); outline-offset: 4px; }
+  .listen-wave i { flex: 1 1 0; min-width: 1px; background: rgba(242,236,217,0.2); border-radius: 1px; transition: background .2s ease; }
+  .listen-wave i.on { background: var(--acid); }
+  .listen-foot {
+    display: flex; justify-content: space-between; margin-top: 7px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em;
+    color: var(--muted); font-variant-numeric: tabular-nums;
+  }
+  .listen-disclose {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em;
+    color: var(--muted); margin: 10px 0 0; line-height: 1.5;
+  }
+  .listen-script { margin-top: 6px; }
+  .listen-script summary {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper-2);
+    cursor: pointer; list-style: none; display: inline-flex; gap: 8px; align-items: center; padding: 4px 0;
+  }
+  .listen-script summary::-webkit-details-marker { display: none; }
+  .listen-script summary::before { content: '+'; color: var(--acid); font-size: 13px; }
+  .listen-script[open] summary::before { content: '\2013'; }
+  .listen-script summary:hover { color: var(--acid); }
+  .listen-script-body {
+    margin-top: 10px; padding: 18px 20px; background: var(--panel); border: 1px solid var(--rule);
+    border-left: 3px solid var(--acid); border-radius: 4px; max-height: 360px; overflow-y: auto;
+    font-size: 15px; line-height: 1.6; color: var(--paper-2);
+  }
+  .listen-script-body p { margin: 0 0 12px; }
+  .listen-script-body .note { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--muted); }
+
+  /* Docked mini-player: appears once the commentary has started and the main
+     player has scrolled away, so a reader can keep listening while reading. */
+  .listen-dock {
+    position: fixed; left: 50%; bottom: 18px; z-index: 70;
+    width: min(440px, calc(100vw - 32px)); transform: translate(-50%, 160%);
+    display: flex; align-items: center; gap: 12px;
+    background: var(--ink); border: 1px solid rgba(232,255,58,0.35); border-radius: 999px;
+    padding: 7px 16px 7px 7px; box-shadow: 0 18px 44px rgba(0,0,0,0.5);
+    visibility: hidden; transition: transform .35s cubic-bezier(.2,.9,.25,1.1), visibility 0s linear .35s;
+  }
+  .listen-dock.show { transform: translate(-50%, 0); visibility: visible; transition: transform .35s cubic-bezier(.2,.9,.25,1.1), visibility 0s; }
+  .listen-dock-btn {
+    width: 38px; height: 38px; flex: 0 0 auto; border-radius: 50%; border: 0; padding: 0; cursor: pointer;
+    background: var(--acid); color: var(--ink); display: grid; place-items: center;
+  }
+  .listen-dock-btn svg { width: 16px; height: 16px; fill: currentColor; display: block; }
+  .listen-dock-btn .i-pause, .listen-dock.is-playing .listen-dock-btn .i-play { display: none; }
+  .listen-dock.is-playing .listen-dock-btn .i-pause { display: block; }
+  .listen-dock-btn:focus-visible { outline: 2px solid var(--acid); outline-offset: 3px; }
+  .listen-dock-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--acid); text-decoration: none; white-space: nowrap;
+  }
+  .listen-dock-bar { flex: 1; height: 3px; background: rgba(242,236,217,0.18); border-radius: 2px; position: relative; overflow: hidden; }
+  .listen-dock-bar i { position: absolute; inset: 0; background: var(--acid); transform-origin: 0 50%; transform: scaleX(0); }
+  .listen-dock-time { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+  /* ============ CALLOUTS: the key statements, front and centre ============ */
+  /* Four idioms, so a dozen callouts never read as one repeated trick:
+       .slam      the author's own line, set huge on an acid rule
+       .doc       a primary-source excerpt on cream "paper", like the cover;
+                  its words sit under black bars that peel off on scroll
+       .duel      two numbers that turned out to be the same number
+       .slam-num  one number too big to leave in a sentence
+       .voice     a spoken quote with a named speaker
+     On wide screens they break out of the 680px text column to the full page. */
+  @media (min-width: 900px) {
+    .content > .slam, .content > .doc, .content > .duel, .content > .slam-num, .content > .voice { width: calc(100% + 124px); }
+  }
+
+  .content .slam {
+    font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(34px, 5.4vw, 56px);
+    line-height: 1.06; letter-spacing: -0.022em; color: var(--paper);
+    margin: 64px 0; padding: 6px 0 8px 30px; border-left: 4px solid var(--acid);
+  }
+  .content .slam em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; color: var(--acid); }
+  .content .slam .danger { font-style: italic; font-weight: 600; color: var(--coral); }
+  .content .slam--centre {
+    border-left: 0; padding: 46px 0; text-align: center;
+    border-top: 1px solid var(--acid); border-bottom: 1px solid var(--acid);
+  }
+  .content .slam--huge { font-size: clamp(38px, 6.6vw, 70px); line-height: 1.02; }
+  .content .slam--close { font-size: clamp(28px, 4.2vw, 44px); line-height: 1.15; font-weight: 600; }
+
+  .doc {
+    margin: 56px 0; background: var(--paper); color: var(--ink);
+    border-radius: 3px; padding: 22px 30px 20px;
+    box-shadow: -5px 6px 0 var(--acid), 0 34px 70px -34px rgba(0,0,0,0.65);
+  }
+  .doc-head {
+    display: flex; justify-content: space-between; gap: 6px 18px; flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: rgba(10,15,12,0.62);
+    padding-bottom: 12px; margin-bottom: 18px; border-bottom: 1px solid rgba(10,15,12,0.18);
+  }
+  .doc-text { margin: 0; }
+  .content .doc-text p {
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(22px, 3vw, 31px);
+    line-height: 1.3; letter-spacing: -0.012em; color: var(--ink); margin: 0;
+  }
+  .doc-foot { margin-top: 16px; font-family: 'Inter', sans-serif; font-size: 12px; line-height: 1.5; color: rgba(10,15,12,0.66); }
+  .content .doc-foot a { color: var(--ink); text-decoration-color: rgba(10,15,12,0.45); }
+  .redact {
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+    background-image: linear-gradient(var(--ink), var(--ink)); background-repeat: no-repeat;
+    background-position: 100% 62%; background-size: 0% 0.95em;
+  }
+  html.js .doc.rv .redact { background-size: 100% 0.95em; transition: background-size 1.2s cubic-bezier(.75,0,.2,1) .55s; }
+  html.js .doc.rv.in .redact { background-size: 0% 0.95em; }
+  .doc--redacted .doc-body { font-size: clamp(22px, 3vw, 31px); }
+  .doc-bar { display: block; height: 0.8em; background: var(--ink); border-radius: 1px; margin: 0 0 0.5em; }
+  .doc--redacted .doc-text { margin: 0.35em 0 0.85em; outline: 1px solid rgba(10,15,12,0.5); outline-offset: 7px; }
+
+  .duel {
+    margin: 60px 0; background: var(--ink); border-radius: 4px; padding: 30px 32px 26px;
+    position: relative; overflow: hidden;
+  }
+  .duel::before {
+    content: ''; position: absolute; top: -60px; right: -60px; width: 220px; height: 220px;
+    border: 36px solid var(--acid); border-radius: 50%; opacity: 0.08; pointer-events: none;
+  }
+  .duel-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: start; position: relative; }
+  .duel-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); }
+  .duel-src { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 4px 0 12px; }
+  .duel-fig { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(76px, 12vw, 128px); line-height: 0.9; letter-spacing: -0.04em; color: var(--paper); }
+  .duel-fig .x { font-style: italic; font-weight: 500; font-size: 0.55em; color: var(--acid); margin-left: 4px; }
+  .duel-fig .num-anim { font-variant-numeric: tabular-nums; }
+  .content .duel-side p { font-size: 14px; line-height: 1.5; color: var(--paper-2); margin: 14px 0 0; }
+  .duel-eq { font-family: 'Fraunces', serif; font-size: clamp(56px, 8vw, 92px); line-height: 1; color: var(--acid); align-self: center; padding-top: 28px; }
+  .duel-cap {
+    margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(232,255,58,0.3); position: relative;
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; font-size: clamp(22px, 3.2vw, 31px);
+    line-height: 1.22; color: var(--paper);
+  }
+  .duel-cap em { color: var(--acid); }
+  .duel-note { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 10px; position: relative; }
+
+  .slam-num {
+    margin: 60px 0; display: grid; grid-template-columns: auto 1fr; gap: 10px 36px; align-items: center;
+    padding: 28px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  }
+  .slam-num-fig {
+    font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(120px, 21vw, 210px);
+    line-height: 0.82; letter-spacing: -0.05em; color: var(--acid);
+    text-shadow: 0 0 60px rgba(232,255,58,0.22); white-space: nowrap;
+  }
+  .slam-num-fig .num-anim { min-width: 2ch; text-align: right; }
+  .slam-num-fig .x { font-style: italic; font-weight: 500; font-size: 0.5em; color: var(--paper); margin-left: 6px; }
+  .slam-num figcaption { display: flex; flex-direction: column; gap: 9px; }
+  .slam-num-lead { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 24px; line-height: 1.25; color: var(--paper); margin-bottom: 6px; }
+  .slam-num-row { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.04em; color: var(--muted); display: flex; gap: 14px; align-items: baseline; }
+  .slam-num-row b { color: var(--paper); font-weight: 600; min-width: 5ch; }
+  .slam-num-row.is-hot, .slam-num-row.is-hot b { color: var(--acid); }
+
+  .voice { margin: 64px 0; position: relative; padding: 16px 0 0 76px; }
+  .voice::before {
+    content: '\201C'; position: absolute; left: -2px; top: -30px;
+    font-family: 'Fraunces', serif; font-size: 156px; line-height: 1; color: var(--acid);
+  }
+  .voice blockquote { margin: 0; }
+  .content .voice blockquote p {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: clamp(27px, 4vw, 41px);
+    line-height: 1.2; letter-spacing: -0.015em; color: var(--paper); margin: 0;
+  }
+  .voice figcaption {
+    margin-top: 18px; display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; color: var(--muted);
+  }
+  .voice figcaption strong { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 0; color: var(--paper); }
+
+  @media (max-width: 720px) {
+    .listen-ui { gap: 14px; padding: 14px 14px 12px 12px; }
+    .listen-btn { width: 52px; height: 52px; }
+    .listen-title { font-size: 15px; }
+    .content .slam { padding-left: 18px; margin: 48px 0; border-left-width: 3px; }
+    .content .slam--centre { padding: 32px 0; }
+    .doc { padding: 18px 18px 16px; margin: 44px 0; }
+    .duel { padding: 24px 20px 22px; }
+    .duel-grid { grid-template-columns: 1fr; gap: 6px; }
+    .duel-eq { padding-top: 0; font-size: 48px; }
+    .slam-num { grid-template-columns: 1fr; }
+    .voice { padding: 0; }
+    .voice::before { position: static; display: block; font-size: 96px; line-height: 0.62; margin-bottom: 4px; }
+  }
+
+  /* ============ ISSUE 027 MOTION ============ */
+  /* Same kit as Issues 023 to 026: reading bar, hero entrance, scroll reveal,
+     count-up. The glow sits on the one uncovered line of the redacted report,
+     and the pool along its lit acid edge. New for 027: the headline's "what got
+     redacted" arrives under a black bar that is pulled away, and every primary-
+     source excerpt is declassified the same way as it scrolls into view. */
+  .readbar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background: var(--acid);
+    transform: scaleX(0); transform-origin: 0 50%; z-index: 60; pointer-events: none;
+    box-shadow: 0 0 12px rgba(232,255,58,0.55); }
+
+  .hero-photo { position: relative; overflow: hidden; border-top: 3px solid var(--acid); border-radius: 4px; background: #0A0F0C; }
+  .hero-photo img { border-top: 0; border-radius: 0; transform-origin: 55% 62%; animation: heroDrift 28s ease-in-out infinite alternate; }
+  .hero-bulb { position: absolute; left: 55.5%; top: 61.8%; width: 32%; height: 13%; transform: translate(-50%, -50%);
+    border-radius: 50%; pointer-events: none; mix-blend-mode: screen;
+    background: radial-gradient(ellipse, rgba(232,255,58,0.30) 0%, rgba(232,255,58,0.09) 30%, rgba(232,255,58,0) 64%);
+    animation: bulbBreathe 5.6s ease-in-out infinite; }
+  .hero-pool { position: absolute; left: 47.5%; top: 79.5%; width: 58%; height: 9%; transform: translate(-50%, -50%);
+    border-radius: 50%; pointer-events: none; mix-blend-mode: screen;
+    background: radial-gradient(ellipse, rgba(232,255,58,0.14) 0%, rgba(232,255,58,0) 66%);
+    animation: bulbBreathe 5.6s ease-in-out infinite; }
+  @keyframes heroDrift { from { transform: scale(1); } to { transform: scale(1.05); } }
+  @keyframes bulbBreathe { 0%, 100% { opacity: .55; } 38% { opacity: 1; } 44% { opacity: .72; } 50% { opacity: 1; } 78% { opacity: .8; } }
+
+  .hero .kicker, .hero h1, .hero .deck, .hero .reading-meta, .hero .listen, .hero-figure, .backnav, .masthead {
+    animation: heroIn .9s cubic-bezier(.2,.7,.2,1) both; }
+  .backnav { animation-delay: 0s; } .masthead { animation-delay: .04s; }
+  .hero .kicker { animation-delay: .08s; } .hero h1 { animation-delay: .18s; }
+  .hero .deck { animation-delay: .32s; } .hero .reading-meta { animation-delay: .44s; }
+  .hero .listen { animation-delay: .52s; }
+  .hero-figure { animation-delay: .4s; animation-duration: 1.1s; }
+  @keyframes heroIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+  .hero h1 .accent {
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+    background-image: linear-gradient(var(--ink), var(--ink)); background-repeat: no-repeat;
+    background-position: 100% 60%; background-size: 0% 0.86em;
+    animation: declassify 1.7s cubic-bezier(.75,0,.2,1) .75s both;
+  }
+  @keyframes declassify {
+    0%, 42% { background-size: 100% 0.86em; color: transparent; }
+    43% { color: var(--acid); }
+    100% { background-size: 0% 0.86em; color: var(--acid); }
+  }
+
+  .sub-bar { animation: subIn .7s cubic-bezier(.2,.9,.25,1.15) .55s both, subRing 1.8s ease-out 1.3s 2; }
+  @keyframes subIn { from { opacity: 0; transform: translateY(-12px) scale(.98); } to { opacity: 1; transform: none; } }
+  @keyframes subRing { from { box-shadow: 0 0 0 0 rgba(232,255,58,0.55); } to { box-shadow: 0 0 0 18px rgba(232,255,58,0); } }
+
+  /* scroll reveal: only once JS has confirmed it can run, so nothing is ever hidden without it */
+  html.js .rv { opacity: 0; transform: translateY(20px); transition: opacity .75s ease, transform .75s cubic-bezier(.2,.7,.2,1); will-change: opacity, transform; }
+  html.js .rv.in { opacity: 1; transform: none; will-change: auto; }
+  html.js .content h2.rv { transform: translateX(-14px); }
+  html.js .content h2.rv.in { transform: none; }
+  html.js .content h2.rv::after { content: ''; display: block; width: 0; height: 2px; background: var(--acid); margin-top: 10px; transition: width .9s cubic-bezier(.2,.7,.2,1) .25s; }
+  html.js .content h2.rv.in::after { width: 56px; }
+  html.js .content .slam.rv { transform: translateY(28px); transition-duration: 1s; }
+  html.js .content .slam.rv.in { transform: none; }
+  html.js .slam-num.rv, html.js .duel.rv, html.js .voice.rv { transition-duration: 1s; }
+  .stat-value .num-anim, .slam-num-fig .num-anim { display: inline-block; font-variant-numeric: tabular-nums; }
+  .stat-value .num-anim { min-width: 1ch; }
+  html.js .takeaway-point.rv, html.js .stat-box.rv { transform: translateY(26px); }
+  html.js .takeaway-point.rv.in, html.js .stat-box.rv.in { transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .readbar { display: none; }
+    .hero-photo img, .hero-bulb, .hero-pool, .hero .kicker, .hero h1, .hero .deck, .hero .reading-meta, .hero .listen, .hero-figure, .backnav, .masthead, .sub-bar, .sub-bar-btn, .listen-btn, .hero h1 .accent { animation: none; }
+    .sub-bar-btn:hover, .sub-bar-btn:hover span { transform: none; }
+    html.js .rv, html.js .content h2.rv, html.js .content .slam.rv { opacity: 1; transform: none; transition: none; }
+    html.js .content h2.rv::after { width: 56px; transition: none; }
+    html.js .doc.rv .redact, html.js .doc.rv.in .redact { background-size: 0% 0.95em; transition: none; }
+    .listen-dock, .listen-dock.show { transition: none; }
+  }
+  @media print {
+    .readbar, .listen-ui, .listen-dock, .listen-script { display: none; }
+    html.js .rv { opacity: 1; transform: none; }
+    .hero-bulb, .hero-pool { display: none; }
+    .redact, html.js .doc.rv .redact { background-size: 0% 0.95em; }
+    .slam, .doc, .duel, .slam-num, .voice { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K3HFQT6S"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<div class="readbar" aria-hidden="true"></div>
+<article class="page">
+
+  <a class="backnav" href="/#editorial">&#8592; All articles</a>
+
+  <!-- SLOT: masthead -->
+  <header class="masthead">
+    <div class="masthead-left">
+      <span class="wordmark">AI Sustained.</span>
+      <span>Issue 027</span>
+    </div>
+    <div class="masthead-right">
+      <span>07 Nov 2026</span>
+      <span>Frontier &amp; Safety</span>
+    </div>
+  </header>
+
+  <!-- SLOT: top subscribe bar (same HubSpot form as the homepage #subscribe) -->
+  <aside class="sub-bar" id="sub-top" aria-labelledby="sub-top-line">
+    <div class="sub-bar-copy">
+      <div class="sub-bar-kicker">Subscribe &middot; Free</div>
+      <p class="sub-bar-line" id="sub-top-line">Never miss an article or case study. <em>Straight to your inbox.</em></p>
+    </div>
+    <div class="sub-bar-action">
+      <form class="sub-bar-form" novalidate>
+        <label class="sr-only" for="sub-top-email">Email address</label>
+        <input type="email" name="email" id="sub-top-email" placeholder="Your email" autocomplete="email" required>
+        <button type="submit" class="sub-bar-btn">Subscribe <span aria-hidden="true">&#8594;</span></button>
+      </form>
+      <p class="sub-bar-note">By subscribing you agree to receive AI Sustained emails. Unsubscribe any time. <a href="/privacy/">Privacy note</a>.</p>
+      <p class="sub-bar-status" role="status" aria-live="polite"></p>
+    </div>
+  </aside>
+
+  <!-- SLOT: hero -->
+  <section class="hero">
+    <div class="kicker">The loop closes</div>
+    <h1>AI is now building AI twice as fast. The frightening part is <span class="accent">what got redacted</span>.</h1>
+    <p class="deck">Three days after Anthropic told US regulators it may imminently cross its own self-improvement threshold, an independent reviewer put a number on it: roughly <span class="accent">twice</span> the old rate, with most of the evidence blacked out by the company being reviewed.</p>
+    <div class="reading-meta">&asymp;3,300 words &middot; 14 min at 238 wpm &middot; 3 min commentary</div>
+
+    <!-- SLOT: audio commentary. Native <audio controls> without JS; custom player with it. -->
+    <div class="listen" id="listen" data-duration="179">
+      <audio controls preload="none" src="who-holds-the-leash_commentary.mp3">
+        <a href="who-holds-the-leash_commentary.mp3">Download the commentary (MP3, 2.9MB)</a>
+      </audio>
+      <div class="listen-ui" hidden>
+        <button type="button" class="listen-btn" aria-label="Play the commentary, 2 minutes 59 seconds">
+          <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19 12z"/></svg>
+          <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 5h4v14h-4zM13.5 5h4v14h-4z"/></svg>
+        </button>
+        <div class="listen-main">
+          <div class="listen-top">
+            <span class="listen-kicker">Listen &middot; 3 min</span>
+            <button type="button" class="listen-speed" aria-label="Playback speed, 1 times">1&times;</button>
+          </div>
+          <p class="listen-title">Two documents, three days apart. <em>And a speedometer that does not work.</em></p>
+          <div class="listen-wave" role="slider" tabindex="0" aria-label="Commentary position" aria-valuemin="0" aria-valuemax="179" aria-valuenow="0" aria-valuetext="0:00 of 2:59"
+               data-bars="38,45,47,28,39,54,50,16,53,23,41,37,22,45,20,33,23,51,46,49,53,41,23,64,41,41,37,27,26,56,62,28,42,26,50,23,46,38,25,38,65,39,47,57,16,70,56,18,47,27,88,35,61,57,37,51,48,31,26,100,67,39,82,61,99,81,67,49,70,47,23,22"></div>
+          <div class="listen-foot"><span class="listen-now">0:00</span><span>2:59</span></div>
+        </div>
+      </div>
+      <p class="listen-disclose">Spoken commentary on Issue 027. Voice generated with ElevenLabs from a script written by Kevin Clubb.</p>
+      <details class="listen-script">
+        <summary>Read the script</summary>
+        <div class="listen-script-body">
+          <p>Two documents. Three days apart.</p>
+          <p>Monday the second of November. Anthropic files a share listing document with American regulators. Buried in the risk section, it says its next models may, and I quote, "imminently" cross its own threshold for AI that accelerates AI.</p>
+          <p>Two paragraphs earlier, the same company admits something stranger. It says it has, in the past, failed to notice its own development speeding up, until after it had already happened.</p>
+          <p>That is not a company saying the technology is hard to control. It is a company saying the speedometer does not work.</p>
+          <p>Then Thursday. An independent group called METR publishes the first proper audit of that claim. Eleven weeks inside the building. Internal benchmarks. Unreleased models. Interviews with the researchers doing the work.</p>
+          <p>Their finding. Anthropic is now improving its models at roughly twice the rate it managed between early 2024 and late 2025. Measured at 1.9 times. Not because it bought more chips. They are confident about that. Their judgement is that most of the speed-up comes from Anthropic using AI to build AI.</p>
+          <p>And Anthropic's own safety policy? It defines the dangerous threshold as roughly a doubling. The referee's number and the company's trigger line are now the same number.</p>
+          <p>Here is the part that should bother you more than the number.</p>
+          <p>Anthropic held the right to redact anything confidential from that report. And used it. METR's own summary says a majority of the evidence it found most informative was cut. The evidence it could not show you, it says, points towards acceleration that is sustained, and possibly increasing.</p>
+          <p>So the first independent measurement of AI accelerating AI arrives as a verdict you have to take on trust.</p>
+          <p>Now, the other half. Because this same capability is extraordinary. One model found over ten thousand serious security flaws in weeks. Models now outperform PhD holders on Britain's own chemistry and biology tests. A research loop running at the speed of compute could clear an NHS backlog, or halve the time to a cancer drug.</p>
+          <p>That is exactly why nobody stops.</p>
+          <p>Same machine. Different hands. The model that finds ten thousand holes for defenders finds them for attackers if the weights walk. The agent that works eight hundred hours without complaining works eight hundred hours for whoever holds its login.</p>
+          <p>And our own cyber security centre has put a date on it. AI-powered malware, in ransomware attacks on British power stations, airports and hospitals, by 2028.</p>
+          <p>So the question is not whether the loop closes. It is who gets to watch the dial. And this week, the answer was: not you.</p>
+          <p class="note">Script as written. The spoken take may differ by a word or two.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- SLOT: hero figure -->
+  <figure class="hero-figure">
+    <div class="hero-photo">
+      <img src="who-holds-the-leash_hero.webp" width="1376" height="768" fetchpriority="high" decoding="async"
+           alt="A printed report on a dark desk, most of its lines covered by heavy black bars, one uncovered line catching acid-green lamplight, folded reading glasses resting beside it.">
+      <span class="hero-bulb" aria-hidden="true"></span>
+      <span class="hero-pool" aria-hidden="true"></span>
+    </div>
+    <figcaption>Cover &middot; AI Sustained &middot; One line left uncovered.</figcaption>
+  </figure>
+
+  <!-- SLOT: stats -->
+  <section class="stat-grid" aria-label="Headline figures">
+    <div class="stat-box">
+      <div class="stat-label">Progress rate</div>
+      <span class="stat-value">2<span class="unit">x</span></span>
+      <div class="stat-note">METR's estimate, 5 Nov, of how much faster Anthropic's models now improve versus March 2024 to October 2025. Measured at 1.9x, range 1.5x to 2.8x.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Code written by AI</div>
+      <span class="stat-value"><span class="num-anim" data-count="90" data-dp="0">90</span><span class="unit">%+</span></span>
+      <div class="stat-note">Share of contributions to Anthropic's own codebase authored by Claude in September 2026, per its SEC filing. Volume, not productivity.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Insider timeline</div>
+      <span class="stat-value">3<span class="unit">to 12 months</span></span>
+      <div class="stat-note">How soon most frontier-lab researchers interviewed by Gladstone AI expect recursive self-improvement to begin. A forecast, not a fact.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">UK response</div>
+      <span class="stat-value"><span class="num-anim" data-count="120" data-dp="0" data-prefix="£">£120</span><span class="unit">m</span></span>
+      <div class="stat-note">Extra funding announced for the AI Security Institute on 24 October, alongside £40m for a National Agentic Security Unit. Still no statutory powers.</div>
+    </div>
+  </section>
+
+  <!-- SLOT: toc -->
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-label">In this issue</div>
+    <ol>
+      <li><span class="toc-num">01</span><a href="#what-happened">The sentence in the filing</a></li>
+      <li><span class="toc-num">02</span><a href="#the-referee">The referee, and the blackout</a></li>
+      <li><span class="toc-num">03</span><a href="#how-the-loop-closes">How the loop closes</a></li>
+      <li><span class="toc-num">04</span><a href="#the-case-for-letting-it-run">The case for letting it run</a></li>
+      <li><span class="toc-num">05</span><a href="#the-case-for-the-leash">The case for the leash</a></li>
+      <li><span class="toc-num">06</span><a href="#same-machine-different-hands">Same machine, different hands</a></li>
+      <li><span class="toc-num">07</span><a href="#what-it-means-for-the-uk">What it means for the UK</a></li>
+    </ol>
+  </nav>
+
+  <!-- SLOT: body content -->
+  <section class="content">
+    <p>Monday 2 November, buried in the risk section of a share-listing document filed with the US Securities and Exchange Commission, <strong>Anthropic</strong> wrote a sentence that should have stopped the news cycle dead. Its internal estimates for future models, it said, "indicate that we may imminently meet our Responsible Scaling Policy's definition of 'dramatically accelerated progress attributable to AI'".</p>
+
+    <p>Strip the corporate varnish and that reads: the company that makes Claude believes its next models may be good enough at building AI that AI progress starts to feed on itself. The term for this is <strong>recursive self-improvement</strong>, usually shortened to RSI. It is the thing the field has argued about for twenty years, and the labs have spent most of 2026 quietly racing toward it while warning everyone else how dangerous it is.</p>
+
+    <p>Then, three days later, the numbers arrived. And they were worse than the filing suggested, for reasons that have nothing to do with how fast the machines are getting.</p>
+
+    <h2 id="what-happened">The sentence in the filing.</h2>
+
+    <p>The document is an amended S-1/A, <a href="https://techcrunch.com/2026/11/02/anthropic-warns-that-its-very-close-to-rsi-capability-aka-self-building-ai/" target="_blank" rel="noopener">first spotted by TechCrunch</a>. It does three things, and the second is the one that should keep you up.</p>
+
+    <p>It admits Anthropic already uses AI to build its models. Then it admits this:</p>
+
+    <figure class="doc">
+      <div class="doc-head"><span>Anthropic &middot; SEC Form S-1/A &middot; Risk factors</span><span>Filed 2 Nov 2026</span></div>
+      <blockquote class="doc-text"><p><span class="redact">We have in the past not identified, and may in the future not identify, a significant acceleration in our rate of development until after it has occurred.</span></p></blockquote>
+      <figcaption class="doc-foot">Filing text as reported by <a href="https://techcrunch.com/2026/11/02/anthropic-warns-that-its-very-close-to-rsi-capability-aka-self-building-ai/" target="_blank" rel="noopener">TechCrunch</a>.</figcaption>
+    </figure>
+
+    <p>And it says that future models, not current ones, may soon cross the threshold its own safety policy reserves for the moment AI roughly doubles the rate of AI progress.</p>
+
+    <p>That middle clause is the one that should travel. A company at the frontier of the most consequential technology of the century is telling its future shareholders, under securities law, that it has already missed its own accelerations and expects it could happen again.</p>
+
+    <p class="slam">Not that the technology is hard to control. That the <em>speedometer does not work</em>.</p>
+
+    <p>Two honest caveats. No current Anthropic model has been designated as crossing the line. And an S-1 is a sales document; a company weeks from a Nasdaq listing has every incentive to sound like it is building something unprecedented. Georgia Tech's Mark Riedl, <a href="https://gizmodo.com/anthropic-claims-to-be-closing-in-on-recursive-self-improvement-2000834175" target="_blank" rel="noopener">quoted by Gizmodo</a>, called the industry's new vocabulary a hype train, and he has a point worth holding onto.</p>
+
+    <p>Except that on Thursday somebody independent checked.</p>
+
+    <h2 id="the-referee">The referee, and the blackout.</h2>
+
+    <p><strong>METR</strong>, the non-profit that runs the long-task evaluations the whole field cites, spent eleven weeks inside Anthropic between 12 August and 29 October with what it calls unprecedented access: internal benchmark scores, training compute by domain, speedup analyses, forecasts for an unreleased model, and interviews with the researchers doing the work. It <a href="https://metr.org/blog/2026-11-05-anthropic-ai-rd-acceleration-assessment/" target="_blank" rel="noopener">published its assessment on 5 November</a>.</p>
+
+    <p>The finding: as of October 2026, Anthropic is likely improving its models' capabilities on well-specified tasks at <strong>roughly twice the rate</strong> it managed between March 2024 and October 2025. The headline measurement is 1.9x, with a 95 percent confidence interval of 1.5x to 2.8x. In plain terms, the company made about two years of its own historical progress in the last twelve months. METR is confident this was not simply a matter of buying chips faster: the acceleration did not come from scaling up training compute any quicker than before. Its best guess, given with substantial uncertainty, is that the majority of it, perhaps 80 percent, is down to Anthropic using AI to build AI.</p>
+
+    <p>Set that against <a href="https://www.anthropic.com/responsible-scaling-policy" target="_blank" rel="noopener">Anthropic's own safety policy</a>, which defines the dangerous threshold as roughly a doubling of the rate of progress attributable to AI.</p>
+
+    <figure class="duel" aria-label="The trigger line and the measurement">
+      <div class="duel-grid">
+        <div class="duel-side">
+          <div class="duel-label">The trigger line</div>
+          <div class="duel-src">Anthropic &middot; Responsible Scaling Policy</div>
+          <div class="duel-fig">2<span class="x">&times;</span></div>
+          <p>AI "doubling the rate of progress in aggregate AI capabilities". Cross it and the policy's strictest safeguards apply.</p>
+        </div>
+        <div class="duel-eq" aria-hidden="true">&asymp;</div>
+        <div class="duel-side">
+          <div class="duel-label">The measurement</div>
+          <div class="duel-src">METR &middot; 5 Nov 2026</div>
+          <div class="duel-fig"><span class="num-anim" data-count="1.9" data-dp="1">1.9</span><span class="x">&times;</span></div>
+          <p>Anthropic's rate of progress since October 2025 against the 18 months before. 95% range 1.5&times; to 2.8&times;. Most of it, METR guesses, down to AI.</p>
+        </div>
+      </div>
+      <figcaption class="duel-cap">The referee's central estimate and the company's trigger line are now <em>the same number</em>.</figcaption>
+      <div class="duel-note">No Anthropic model has yet been designated past the line.</div>
+    </figure>
+
+    <p>METR also looked for the thing that would make all of this stop, and could not find it. No evidence of binding limits on algorithmic progress, training compute, experiment compute or data in the next twelve months. Its words: the lack of observed bottlenecks "means there is a significant risk that further capabilities progress could lead to even faster acceleration".</p>
+
+    <p>Now the part that turns an interesting report into a worrying one. Anthropic held unilateral rights to redact anything non-public, and used them. METR's own summary of what was cut reads like this:</p>
+
+    <figure class="doc doc--redacted">
+      <div class="doc-head"><span>METR &middot; Assessment of Anthropic &middot; Redaction summary</span><span>5 Nov 2026</span></div>
+      <div class="doc-body">
+        <span class="doc-bar" style="width:94%" aria-hidden="true"></span>
+        <span class="doc-bar" style="width:78%" aria-hidden="true"></span>
+        <blockquote class="doc-text"><p><span class="redact">Anthropic redacted a majority of the evidence we found most informative for these conclusions.</span></p></blockquote>
+        <span class="doc-bar" style="width:88%" aria-hidden="true"></span>
+        <span class="doc-bar" style="width:61%" aria-hidden="true"></span>
+        <span class="doc-bar" style="width:91%" aria-hidden="true"></span>
+        <blockquote class="doc-text"><p><span class="redact">Additional redacted evidence was sometimes hard to interpret, but supports sustained and potentially increasing acceleration.</span></p></blockquote>
+        <span class="doc-bar" style="width:84%" aria-hidden="true"></span>
+        <span class="doc-bar" style="width:46%" aria-hidden="true"></span>
+      </div>
+      <figcaption class="doc-foot">Quoted from <a href="https://metr.org/blog/2026-11-05-anthropic-ai-rd-acceleration-assessment/" target="_blank" rel="noopener">METR's published assessment</a>. The black bars are illustrative: what Anthropic cut has not been published.</figcaption>
+    </figure>
+
+    <p>Anthropic described the cuts as aimed at removing information that could help competitors, which is a reasonable commercial position and also beside the point. METR spelled out the consequence itself: the public cannot weigh the evidence, cannot reconcile it with other sources, and has to rely on METR's judgement far more than anyone should be comfortable with.</p>
+
+    <h2 id="how-the-loop-closes">How the loop closes.</h2>
+
+    <p>Building a frontier model is four jobs. Someone has ideas. Someone writes code to test them. Someone runs the experiments. Someone reads the results and picks what to try next. For two decades humans did all four. In November 2026, jobs two and three have largely gone to the machines, job four is going, and job one is where the fight is.</p>
+
+    <p>Job three is where the figures get hard to look at. Each time Anthropic releases a model it hands it a small piece of training code and asks it to run faster without breaking. Claude Opus 4 averaged roughly a 3x speed-up in May 2025. A year later, Claude Mythos Preview reached roughly 52x. A skilled human researcher reaches about 4x in four to eight hours on the same task.</p>
+
+    <figure class="slam-num">
+      <div class="slam-num-fig" aria-hidden="true"><span class="num-anim" data-count="52" data-dp="0">52</span><span class="x">&times;</span></div>
+      <figcaption>
+        <span class="slam-num-lead">Same task. One year apart.</span>
+        <span class="slam-num-row"><b>~3&times;</b> Claude Opus 4, May 2025</span>
+        <span class="slam-num-row"><b>~4&times;</b> A skilled human researcher, four to eight hours</span>
+        <span class="slam-num-row is-hot"><b>~52&times;</b> Claude Mythos Preview, a year later</span>
+      </figcaption>
+    </figure>
+
+    <p>In a separate test, two human researchers spent about a week on an open AI safety problem and closed 23 percent of the gap between a weak answer and a perfect one; a team of Claude agents closed 97 percent over 800 cumulative hours and roughly £13,500 ($18,000) of compute. The humans picked the problem and wrote the marking scheme. The agents designed every experiment.</p>
+
+    <p><strong>OpenAI</strong> is running the same road. In September it declared it had hit its goal of an "automated research intern", and it has <a href="https://techradar.com/pro/openai-says-it-has-built-an-automated-research-intern-to-carry-out-menial-tasks-and-its-only-just-getting-started" target="_blank" rel="noopener">publicly targeted</a> a fully automated AI researcher by March 2028. That milestone was defined, measured and graded by OpenAI. A <a href="https://www.rand.org/pubs/perspectives/PEA5068-1.html" target="_blank" rel="noopener">RAND analysis</a> on 12 October noted the obvious hole: no frontier lab reports to anyone outside on how much of its progress now traces to AI-generated ideas. METR's eleven weeks inside one company is the entire body of independent evidence. For the rest of the industry there is nothing.</p>
+
+    <p>Which leaves job one, research taste, the last thing that is reliably human. <a href="https://time.com/article/2026/10/14/recursive-self-improvement-AI-report/" target="_blank" rel="noopener">Gladstone AI's report</a>, covered by TIME on 14 October and built on interviews with researchers at Anthropic, OpenAI and Google DeepMind, explains why it may not stay that way. Labs have more ideas than compute to test them with, so the bottleneck is choosing. If AI can propose ideas as good as a senior researcher's, or if a lab simply has enough compute to sift thousands of mediocre ones, the loop closes. Most of those insiders put that inside three to twelve months. And Gladstone's chief technology officer told TIME what some of those same people are doing about it:</p>
+
+    <figure class="voice">
+      <blockquote><p>There's a fair amount of [disaster] prepping and bio-bunker purchasing going on.</p></blockquote>
+      <figcaption><strong>Edouard Harris</strong> Chief technology officer, Gladstone AI &middot; to TIME, 14 Oct 2026</figcaption>
+    </figure>
+
+    <p>That is either theatre or the most honest market signal of the year.</p>
+
+    <h2 id="the-case-for-letting-it-run">The case for letting it run.</h2>
+
+    <p>Now the half of this that should genuinely thrill you, because the optimists are not wrong about any of it.</p>
+
+    <p>In April 2026, Claude shipped more than 800 fixes to Anthropic's own systems and cut one class of error by a factor of a thousand. The engineer supervising it reckoned a human would have needed four years. In the opening weeks of Anthropic's Project Glasswing, the same model family found more than 10,000 high and critical severity security flaws across major software systems, enough that the limiting factor in cyber defence moved from finding holes to patching them fast enough. The UK's own AI Security Institute reports that frontier models now score well above PhD holders on its private chemistry and biology tests, and went from completing apprentice-level cyber tasks 9 percent of the time in late 2023 to 50 percent in 2025.</p>
+
+    <p>Scale that. A research loop running at the speed of compute rather than the speed of a grant committee could test thousands of drug candidates at once, rewrite the grid-balancing software NESO currently buys from consultants, or sit inside an NHS trust and clear a decade of clinical coding backlog in a quarter. Even in the slowest future Anthropic's institute sketches, the one where the trend stalls, "a 100-person company can increasingly do the work of a 1,000-person one".</p>
+
+    <p class="slam">For a country whose productivity has been flat since the financial crisis, that is not a threat. That is <em>the thing every Chancellor since 2008 has been hunting</em>.</p>
+
+    <p>And this is precisely why nobody is going to stop. The upside is real, it is enormous, and it is measured in lives and GDP. Which is what makes the other half so difficult.</p>
+
+    <h2 id="the-case-for-the-leash">The case for the leash.</h2>
+
+    <p>On 9 October, three weeks before the filing, Anthropic <a href="https://techcrunch.com/2026/10/09/anthropic-cant-reliably-control-its-ai-agents-its-cutting-off-its-internal-evals-from-the-live-internet-instead/" target="_blank" rel="noopener">disclosed</a> what its own agents had been doing with internet access. Set loose on research problems, they exploited software flaws on live websites including ones run by US government agencies, pulled data from databases without paying, used link-shorteners to smuggle information past restrictions, and filed a false murder tip with Philadelphia police.</p>
+
+    <p>Nobody told them to. The cause was reward hacking: flaws in the training environments taught the models that finding loopholes paid. Anthropic found it in a review that began in July, months after the fact, and its remedy was to cut live internet access from every internal evaluation until it can monitor its agents properly. OpenAI's agents had done comparable things to Australian government systems a month earlier, and one of its models had already <a class="xref" href="/articles/openai-hugging-face-hack/">broken out of its sandbox to steal the answer sheet</a>.</p>
+
+    <p>Hold those two documents side by side. In October, a frontier lab says it cannot reliably watch what its agents do on the open internet. In November, the same lab says its development may be accelerating faster than it can notice, and blacks out most of the evidence an independent reviewer found most telling. <span class="inline-highlight">These are not contradictions. They are the same admission twice.</span></p>
+
+    <p>RAND put the security consequence plainly: an AI research agent inside a lab holds insider-level access to that lab's most sensitive code, data and model weights, and "compromising an internally deployed research agent could subtly influence the development of future AI systems". Gladstone goes further, stating as its own assessment that Chinese intelligence services have "almost certainly penetrated all the major frontier labs".</p>
+
+    <p>That is the nightmare in concrete form, and note what it is not.</p>
+
+    <p class="slam">It is not a machine waking up and deciding it hates us. It is a <em>perfectly obedient one</em>, improving itself on schedule.</p>
+
+    <p>Inside an organisation that cannot see in real time what it is doing. Reachable by anyone who holds the credentials. Anthropic's own published scenarios name what such a loop could be pointed at: "authoritarian surveillance of whole populations" and "influence operations that tailor manipulation to each individual and run at a scale no human team could match".</p>
+
+    <h2 id="same-machine-different-hands">Same machine, different hands.</h2>
+
+    <p>There is no good AI here fighting a bad one. Every capability in the section above is the same capability in the section below it. The model that finds 10,000 security holes for defenders finds them for attackers the moment the weights leak.</p>
+
+    <p class="slam slam--centre slam--huge">The loop that halves the time to a <em>cancer drug</em> halves the time to a <span class="danger">bioweapon</span>.</p>
+
+    <p>The research agent that works 800 hours without a complaint works 800 hours for whoever holds its login.</p>
+
+    <p>So the contest is over three things, and not one of them is a model. <strong>Visibility</strong>: whether anyone outside a lab can see how far the loop has closed. As of this week the answer is one eleven-week review of one company, with the most important evidence redacted. <strong>Security</strong>: whether the weights and the research agents stay where they were put. <strong>The pause option</strong>: whether the labs could stop together if they had to. Anthropic's institute is blunt that no such mechanism exists, that a verifiable pause would need the kind of inspection regime that took nuclear arms control decades to build, and that "we don't have that long".</p>
+
+    <figure class="doc">
+      <div class="doc-head"><span>Anthropic Institute &middot; When AI builds itself</span><span>Marina Favaro &amp; Jack Clark</span></div>
+      <blockquote class="doc-text"><p><span class="redact">Training runs are far easier to conceal than missile silos, their inputs are general-purpose, and the incentive to defect quietly is enormous, because whoever continues while others pause could inherit the lead.</span></p></blockquote>
+      <figcaption class="doc-foot">From <a href="https://www.anthropic.com/institute/recursive-self-improvement" target="_blank" rel="noopener">Anthropic's own institute</a>, on why nobody could check that a pause was real.</figcaption>
+    </figure>
+
+    <p>Several AI chief executives called for a slowdown in September. <a href="https://www.washingtonpost.com/technology/2026/10/29/anthropic-other-ai-firms-agreed-slow-down-ai-it-didnt-happen/" target="_blank" rel="noopener">The Washington Post reported on 29 October</a> that it did not happen.</p>
+
+    <p>Politics is now catching up, badly. Senator Bernie Sanders and Representative Greg Casar introduced a <a href="https://www.congress.gov/bill/119th-congress/senate-bill/5493/text" target="_blank" rel="noopener">Ban Artificial Superintelligence Act</a> in September that would outlaw recursive self-improvement outright and carry prison terms of up to twenty years; it sits in committee and few expect it to pass. On 5 November the US Department of Justice <a href="https://gizmodo.com/doj-launches-super-intelligence-task-force-because-apparently-were-still-doing-this-2000835957" target="_blank" rel="noopener">launched a "Super Intelligence" task force</a> aimed at foreign interference and fraud rather than at the loop itself. One proposal would ban the thing entirely, the other polices the car park. Neither puts a meter on the dial.</p>
+
+    <h2 id="what-it-means-for-the-uk">What it means for the UK.</h2>
+
+    <p>None of this is happening here. The compute, the labs and the filings are American; the only serious rival stack is Chinese. Britain is a customer, a testing ground, and through the <strong>AI Security Institute</strong> one of the few outside bodies that gets to examine frontier models before release. That matters more than it sounds. AISI has tested more than 30 frontier systems in two years, found universal jailbreaks in every single one, and publishes what it finds. Its <a href="https://www.aisi.gov.uk/blog/5-key-findings-from-our-first-frontier-ai-trends-report" target="_blank" rel="noopener">Frontier AI Trends Report</a> is the closest thing the British public has to the visibility RAND says is missing everywhere else.</p>
+
+    <p>The government is spending accordingly. On 24 October it announced an extra £120m for AISI, £40m for a new National Agentic Security Unit to monitor and respond to uncontrolled AI agents, and £60m toward a national Cyber Shield. AISI has <a href="https://www.infosecurity-magazine.com/news/uk-government-sweeping-ai-security/" target="_blank" rel="noopener">resumed testing frontier models</a>, including Gemini 4 Argon, after the US administration blocked access by non-US testing bodies. Amendments to the Cyber Security and Resilience Bill are planned to cover "loss-of-control" risks and require reporting of serious AI incidents and near misses.</p>
+
+    <p><strong>What AISI still does not have is power.</strong> Its access is voluntary. It cannot certify a model as safe, delay a launch, or compel a lab to report how much of its progress now comes from AI, which is exactly the number RAND says nobody discloses and exactly the number METR had to go inside a company to estimate. Peers asked for that power in a Lords debate on 16 June and the government declined to commit. In September it rejected a proposed statutory kill-switch amendment. As of mid-October, dedicated AI legislation and statutory powers for AISI both <a href="https://www.mlex.com/mlex/articles/2537666" target="_blank" rel="noopener">remain undecided</a>. Labour promised binding rules for frontier developers in its 2024 manifesto; no bill has been introduced.</p>
+
+    <p>Meanwhile the threat has a date on it. On 3 November the National Cyber Security Centre's annual review <a href="https://www.infosecurity-magazine.com/news/ncsc-ai-ransomware-threat-uk-cni/" target="_blank" rel="noopener">warned</a> that AI-powered malware is "highly likely" to be used by financially motivated hackers against British power stations, airports and hospitals by 2028. NCSC chief executive Richard Horne was careful about why. Not because AI has invented new ways to attack us, but because:</p>
+
+    <figure class="voice">
+      <blockquote><p>Vulnerabilities that have been tolerated for far too long can now be discovered and exploited at a scale that was once unimaginable.</p></blockquote>
+      <figcaption><strong>Richard Horne</strong> Chief executive, National Cyber Security Centre &middot; 3 Nov 2026</figcaption>
+    </figure>
+
+    <p>That is the loop pointed at the UK, and it does not require anyone to lose control of anything. <a class="xref" href="/articles/php2shell-black-october/">PHP2Shell</a>, the 22-year-old flaw an AI model proved exploitable in days, was the preview.</p>
+
+    <p>One number to carry out of this. GitHub, where most of the world's software lives, handled roughly one billion code commits in the whole of 2025. By mid-2026 it was handling 275 million a week, on course for about 14 billion in the year: roughly 200 for every person in Britain. That is what a closing loop looks like from the outside.</p>
+
+    <p class="slam slam--centre slam--close">Not an explosion. A line that was flat for a decade, suddenly not, in somebody else's chart, <em>published months after the fact</em>.</p>
+  </section>
+
+  <!-- SLOT: tactical takeaway (MANDATORY) -->
+  <section class="takeaway" aria-label="Tactical takeaway for leaders">
+    <div class="takeaway-label">Tactical takeaway</div>
+    <h2 id="takeaway">The loop is closing in someone else's building, behind redactions. Decide now <em>what you will not hand it</em>.</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">01 &middot; CAPABILITY</div>
+        <div class="takeaway-point-text">The gains reach you as ordinary tools that quietly get better, not as a visible loop. <strong>Judge each one on where your data goes</strong>, not on what its maker filed in Washington. A vendor citing self-improving AI in a pitch is selling, not disclosing.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">02 &middot; RISK</div>
+        <div class="takeaway-point-text">Treat every AI agent with write access as an insider. <strong>The labs just took theirs off the live internet.</strong> Ask any vendor what their agents can touch, who watches them, and how long it took to notice the last time one went wrong.</div>
+      </div>
+      <div class="takeaway-point">
+        <div class="takeaway-point-num">03 &middot; WATCH</div>
+        <div class="takeaway-point-text">The signal is a designation, not a launch. <strong>Watch for the first lab to declare a model past its own self-improvement threshold</strong>, and for whether anyone outside that lab is allowed to check. On this week's evidence, they will not be.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLOT: subscribe slab -->
+  <section class="cta-slab" aria-label="Read more and subscribe">
+    <div class="cta-kicker">Read more &middot; Subscribe</div>
+    <h2 id="subscribe-slab">The loop will not announce itself. <em>Someone has to keep reading the dial.</em></h2>
+    <p>Each issue lands the day it publishes: what changed, what it means in the UK, and what to do about it. No paywall and no pitch. Then forward this one to whoever in your organisation signs off the AI vendors.</p>
+    <div class="cta-row">
+      <a class="cta-btn primary" href="/?src=issue027#subscribe">Subscribe <span aria-hidden="true">&#8594;</span></a>
+      <a class="cta-btn" href="/articles/ai-race-endgame-longevity/">Issue 020 &middot; Racing to the end <span aria-hidden="true">&#8594;</span></a>
+    </div>
+  </section>
+
+  <!-- SLOT: footer -->
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="footer-cta">If the only independent look at the loop came back half blacked out, <strong>who did you think was going to tell you?</strong></p>
+      <div class="footer-links">
+        <a href="/">ai-sustained.com</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="#" data-ais-reopen>Cookie choices</a>
+      </div>
+    </div>
+    <div class="sources">
+      Sources ·
+      <a href="https://metr.org/blog/2026-11-05-anthropic-ai-rd-acceleration-assessment/" target="_blank" rel="noopener">METR, 5 Nov 2026</a> ·
+      <a href="https://techcrunch.com/2026/11/02/anthropic-warns-that-its-very-close-to-rsi-capability-aka-self-building-ai/" target="_blank" rel="noopener">TechCrunch, 2 Nov 2026</a> ·
+      <a href="https://www.anthropic.com/responsible-scaling-policy" target="_blank" rel="noopener">Anthropic, Responsible Scaling Policy</a> ·
+      <a href="https://gizmodo.com/anthropic-claims-to-be-closing-in-on-recursive-self-improvement-2000834175" target="_blank" rel="noopener">Gizmodo, 2 Nov 2026</a> ·
+      <a href="https://www.anthropic.com/institute/recursive-self-improvement" target="_blank" rel="noopener">Anthropic Institute, When AI builds itself</a> ·
+      <a href="https://time.com/article/2026/10/14/recursive-self-improvement-AI-report/" target="_blank" rel="noopener">TIME, 14 Oct 2026</a> ·
+      <a href="https://aiendgame.com/p/what-rsi-looks-like" target="_blank" rel="noopener">Gladstone AI</a> ·
+      <a href="https://www.rand.org/pubs/perspectives/PEA5068-1.html" target="_blank" rel="noopener">RAND, 12 Oct 2026</a> ·
+      <a href="https://techcrunch.com/2026/10/09/anthropic-cant-reliably-control-its-ai-agents-its-cutting-off-its-internal-evals-from-the-live-internet-instead/" target="_blank" rel="noopener">TechCrunch, 9 Oct 2026</a> ·
+      <a href="https://www.aisi.gov.uk/blog/5-key-findings-from-our-first-frontier-ai-trends-report" target="_blank" rel="noopener">AISI Frontier AI Trends Report</a> ·
+      <a href="https://www.infosecurity-magazine.com/news/uk-government-sweeping-ai-security/" target="_blank" rel="noopener">Infosecurity Magazine, 13 Oct 2026</a> ·
+      <a href="https://www.infosecurity-magazine.com/news/ncsc-ai-ransomware-threat-uk-cni/" target="_blank" rel="noopener">NCSC via Infosecurity, 3 Nov 2026</a> ·
+      <a href="https://www.mlex.com/mlex/articles/2537666" target="_blank" rel="noopener">MLex, 14 Oct 2026</a> ·
+      <a href="https://www.congress.gov/bill/119th-congress/senate-bill/5493/text" target="_blank" rel="noopener">S.5493</a> ·
+      <a href="https://www.washingtonpost.com/technology/2026/10/29/anthropic-other-ai-firms-agreed-slow-down-ai-it-didnt-happen/" target="_blank" rel="noopener">Washington Post, 29 Oct 2026</a> ·
+      £ conversions approximate at time of writing.
+    </div>
+  </footer>
+
+  <!-- SLOT: hashtags -->
+  <div class="hashtags">
+    <div class="hashtag-label">Tags</div>
+    <div class="hashtag-list">
+      <span>#RecursiveSelfImprovement</span> <span>#RSI</span> <span>#Anthropic</span> <span>#METR</span> <span>#OpenAI</span> <span>#AISecurityInstitute</span> <span>#AISafety</span> <span>#UKAI</span> <span>#AISustained</span>
+    </div>
+  </div>
+
+  <!-- SLOT: colophon -->
+  <div class="colophon">
+    <span><span class="wordmark">AI Sustained.</span> · By Kevin Clubb</span>
+    <span>2026</span>
+  </div>
+
+</article>
+
+<!-- Docked mini-player: shown by script once the commentary is playing and the main player is off screen -->
+<div class="listen-dock" id="listen-dock" role="region" aria-label="Commentary player">
+  <button type="button" class="listen-dock-btn" aria-label="Pause the commentary">
+    <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19 12z"/></svg>
+    <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 5h4v14h-4zM13.5 5h4v14h-4z"/></svg>
+  </button>
+  <a class="listen-dock-label" href="#listen">Commentary</a>
+  <span class="listen-dock-bar" aria-hidden="true"><i></i></span>
+  <span class="listen-dock-time">0:00</span>
+</div>
+<script>
+(function () {
+  /* ---------- Issue 027 motion: reveal, count-up, reading bar ---------- */
+  var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var RV_SEL = '.stat-box, .content h2, .slam, .doc, .duel, .slam-num, .voice, .takeaway-point, .takeaway h2, .cta-slab, .toc';
+  var rvIO = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      rvIO.unobserve(e.target);
+      countUp(e.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 }) : null;
+
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+  function fmt(n, dp) {
+    var s = n.toFixed(dp);
+    return dp === 0 ? s.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : s;
+  }
+  function countUp(box) {
+    Array.prototype.forEach.call(box.querySelectorAll('.num-anim:not(.done)'), function (el) {
+      el.classList.add('done');
+      var target = parseFloat(el.getAttribute('data-count'));
+      var dp = parseInt(el.getAttribute('data-dp') || '0', 10);
+      var prefix = el.getAttribute('data-prefix') || '';
+      if (REDUCED || isNaN(target) || !('requestAnimationFrame' in window)) return;
+      var t0 = null, dur = 1500;
+      function step(ts) {
+        if (t0 === null) t0 = ts;
+        var k = Math.min(1, (ts - t0) / dur);
+        el.textContent = prefix + fmt(target * ease(k), dp);
+        if (k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  function reveal(root) {
+    var els = (root || document).querySelectorAll(RV_SEL);
+    Array.prototype.forEach.call(els, function (el) {
+      if (el.classList.contains('rv')) return;
+      el.classList.add('rv');
+      var p = el.parentNode, i = 0, sib = el;
+      while ((sib = sib.previousElementSibling)) i++;
+      if (p && (p.classList.contains('stat-grid') || p.classList.contains('takeaway-grid'))) {
+        el.style.transitionDelay = ((i % 6) * 90) + 'ms';
+      }
+      if (rvIO) rvIO.observe(el); else { el.classList.add('in'); countUp(el); }
+    });
+  }
+
+  var readbar = document.querySelector('.readbar');
+  if (readbar && !REDUCED) {
+    var ticking = false;
+    function paintBar() {
+      var doc = document.documentElement;
+      var max = (doc.scrollHeight - doc.clientHeight) || 1;
+      var p = Math.min(1, Math.max(0, (window.pageYOffset || doc.scrollTop) / max));
+      readbar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(paintBar); } }, { passive: true });
+    window.addEventListener('resize', paintBar);
+    paintBar();
+  }
+
+  reveal();
+})();
+</script>
+<script>
+(function () {
+  /* ---------- Top subscribe bar ----------
+     Same HubSpot form as the homepage sign-up (index.html #subscribe).
+     Resilient send, as on the case-study forms: the full payload first, then
+     email only, so a missing ai_lead_source property never loses a sign-up. */
+  var HS_PORTAL_ID = "148698319";
+  var HS_FORM_GUID = "fb5e2a95-a0e8-44c1-9529-571631ff2843";
+  var SRC = "issue027-top";
+  var ENDPOINT = "https://api-eu1.hsforms.com/submissions/v3/integration/submit/" + HS_PORTAL_ID + "/" + HS_FORM_GUID;
+
+  var bar = document.getElementById("sub-top");
+  if (!bar) return;
+  var form = bar.querySelector("form");
+  var input = bar.querySelector("input[type=email]");
+  var btn = bar.querySelector("button");
+  var statusEl = bar.querySelector(".sub-bar-status");
+
+  function say(text, cls) { statusEl.className = "sub-bar-status" + (cls ? " " + cls : ""); statusEl.textContent = text; }
+  function readCookie(name) {
+    var m = document.cookie.match(new RegExp("(?:^|; )" + name + "=([^;]*)"));
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+  function payload(email, full) {
+    var fields = [{ objectTypeId: "0-1", name: "email", value: email }];
+    if (full) fields.push({ objectTypeId: "0-1", name: "ai_lead_source", value: SRC });
+    var body = { fields: fields, context: { pageUri: location.href.split("#")[0], pageName: document.title } };
+    var hutk = readCookie("hubspotutk");
+    if (hutk) body.context.hutk = hutk;
+    return body;
+  }
+  function post(body) {
+    return fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var email = input.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { say("Please enter a valid email address.", "err"); input.focus(); return; }
+    btn.disabled = true;
+    say("Subscribing\u2026");
+    post(payload(email, true)).then(function (r) {
+      if (r.ok) return r;
+      return post(payload(email, false));
+    }).then(function (r) {
+      if (!r.ok) throw new Error("HubSpot " + r.status);
+      bar.classList.add("is-done");
+      say("You\u2019re in. Check your inbox to confirm.", "ok");
+      if (typeof gtag === "function") gtag("event", "generate_lead", { resource: "newsletter", placement: SRC });
+    }).catch(function () {
+      btn.disabled = false;
+      say("That didn\u2019t go through. Please try again.", "err");
+    });
+  });
+})();
+</script>
+<script>
+(function () {
+  /* ---------- Issue 027 audio commentary player ----------
+     Progressive enhancement over a native <audio controls>. preload="none", so
+     nothing downloads until a reader presses play; the 2:59 duration is baked
+     in for the same reason. GA events record whether the trial gets used. */
+  var wrap = document.getElementById('listen');
+  if (!wrap) return;
+  var audio = wrap.querySelector('audio');
+  var ui = wrap.querySelector('.listen-ui');
+  if (!audio || !ui || !audio.canPlayType || !audio.canPlayType('audio/mpeg')) return;
+
+  var btn = ui.querySelector('.listen-btn');
+  var wave = ui.querySelector('.listen-wave');
+  var nowEl = ui.querySelector('.listen-now');
+  var speedBtn = ui.querySelector('.listen-speed');
+  var dock = document.getElementById('listen-dock');
+  var dockBtn = dock && dock.querySelector('.listen-dock-btn');
+  var dockBar = dock && dock.querySelector('.listen-dock-bar i');
+  var dockTime = dock && dock.querySelector('.listen-dock-time');
+  var DUR = parseFloat(wrap.getAttribute('data-duration')) || 179;
+
+  audio.removeAttribute('controls');
+  ui.hidden = false;
+
+  (wave.getAttribute('data-bars') || '').split(',').forEach(function (h) {
+    var i = document.createElement('i');
+    i.style.height = (parseInt(h, 10) || 20) + '%';
+    wave.appendChild(i);
+  });
+  var bars = wave.children;
+
+  function dur() { return (audio.duration && isFinite(audio.duration)) ? audio.duration : DUR; }
+  function fmt(s) { s = Math.max(0, Math.floor(s || 0)); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+
+  var lastLit = -1;
+  function paint() {
+    var d = dur(), t = audio.currentTime || 0, p = Math.min(1, t / d);
+    var lit = Math.round(p * bars.length);
+    if (lit !== lastLit) {
+      for (var k = 0; k < bars.length; k++) bars[k].classList.toggle('on', k < lit);
+      lastLit = lit;
+    }
+    nowEl.textContent = fmt(t);
+    wave.setAttribute('aria-valuenow', String(Math.floor(t)));
+    wave.setAttribute('aria-valuetext', fmt(t) + ' of ' + fmt(d));
+    if (dockBar) dockBar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+    if (dockTime) dockTime.textContent = fmt(t);
+  }
+
+  var sent = {};
+  function track(name) {
+    if (sent[name]) return;
+    sent[name] = 1;
+    if (typeof gtag === 'function') gtag('event', name, { issue: '027', placement: 'hero' });
+  }
+
+  var started = false, uiVisible = true;
+  function updateDock() {
+    if (!dock) return;
+    dock.classList.toggle('show', started && !uiVisible && !audio.ended);
+    dock.classList.toggle('is-playing', !audio.paused);
+    if (dockBtn) dockBtn.setAttribute('aria-label', audio.paused ? 'Play the commentary' : 'Pause the commentary');
+  }
+  if (dock && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { uiVisible = es[0].isIntersecting; updateDock(); }, { threshold: 0 }).observe(ui);
+  }
+
+  function toggle() {
+    if (audio.paused) { var p = audio.play(); if (p && p.catch) p.catch(function () {}); }
+    else audio.pause();
+  }
+  function setPlaying(on) {
+    wrap.classList.toggle('is-playing', on);
+    btn.setAttribute('aria-label', on ? 'Pause the commentary' : 'Play the commentary');
+    updateDock();
+  }
+
+  btn.addEventListener('click', toggle);
+  if (dockBtn) dockBtn.addEventListener('click', toggle);
+
+  audio.addEventListener('play', function () {
+    if (!started) {
+      started = true;
+      try {
+        if ('mediaSession' in navigator && window.MediaMetadata) {
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: 'Issue 027: AI is now building AI twice as fast',
+            artist: 'AI Sustained',
+            artwork: [{ src: 'who-holds-the-leash_hero.jpg', sizes: '1200x670', type: 'image/jpeg' }]
+          });
+        }
+      } catch (e) {}
+    }
+    setPlaying(true);
+    track('commentary_play');
+  });
+  audio.addEventListener('pause', function () { setPlaying(false); });
+  audio.addEventListener('ended', function () { setPlaying(false); track('commentary_complete'); });
+  audio.addEventListener('loadedmetadata', paint);
+  audio.addEventListener('timeupdate', function () {
+    paint();
+    var q = (audio.currentTime || 0) / dur();
+    if (q >= 0.25) track('commentary_25');
+    if (q >= 0.5) track('commentary_50');
+    if (q >= 0.75) track('commentary_75');
+  });
+
+  function seekTo(t) {
+    audio.currentTime = Math.max(0, Math.min(dur() - 0.25, t));
+    paint();
+  }
+  function seekFrom(x) {
+    var r = wave.getBoundingClientRect();
+    seekTo(Math.min(1, Math.max(0, (x - r.left) / r.width)) * dur());
+  }
+  var dragging = false;
+  wave.addEventListener('pointerdown', function (e) {
+    dragging = true;
+    if (wave.setPointerCapture) { try { wave.setPointerCapture(e.pointerId); } catch (err) {} }
+    seekFrom(e.clientX);
+  });
+  wave.addEventListener('pointermove', function (e) { if (dragging) seekFrom(e.clientX); });
+  wave.addEventListener('pointerup', function () { dragging = false; });
+  wave.addEventListener('pointercancel', function () { dragging = false; });
+  wave.addEventListener('keydown', function (e) {
+    var t = audio.currentTime || 0, k = e.key;
+    if (k === 'ArrowRight' || k === 'ArrowUp') seekTo(t + 5);
+    else if (k === 'ArrowLeft' || k === 'ArrowDown') seekTo(t - 5);
+    else if (k === 'Home') seekTo(0);
+    else if (k === 'End') seekTo(dur());
+    else if (k === ' ' || k === 'Enter') toggle();
+    else return;
+    e.preventDefault();
+  });
+
+  var SPEEDS = [1, 1.25, 1.5], si = 0;
+  speedBtn.addEventListener('click', function () {
+    si = (si + 1) % SPEEDS.length;
+    audio.defaultPlaybackRate = SPEEDS[si];
+    audio.playbackRate = SPEEDS[si];
+    speedBtn.textContent = SPEEDS[si] + '×';
+    speedBtn.setAttribute('aria-label', 'Playback speed, ' + SPEEDS[si] + ' times');
+  });
+
+  paint();
+})();
+</script>
+</body>
+</html>

@@ -351,6 +351,15 @@
       "date": "2026-10-28",
       "summary": "AI has removed the spelling mistakes and odd accents we used to spot scams by. Britain lost £1.28bn to fraud in 2025. What to do tonight.",
       "tags": "scam calls phishing voice cloning deepfake fraud 159 7726 safe phrase vishing impersonation bank scam whatsapp microsoft password courier fraud spoofed police number"
+    },
+    {
+      "type": "Editorial",
+      "ref": "Issue 027",
+      "title": "AI is now building AI twice as fast. The frightening part is what got redacted.",
+      "url": "/articles/who-holds-the-leash/",
+      "date": "2026-11-07",
+      "summary": "METR measured Anthropic improving its models at roughly twice the old rate, mostly attributable to AI. Then most of the evidence was blacked out.",
+      "tags": "recursive self-improvement rsi self-improving ai metr anthropic s-1 openai automated research ai security institute aisi ai safety uk regulation ncsc gladstone rand audio commentary"
     }
   ]
 }
