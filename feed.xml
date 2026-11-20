@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>AI Sustained</title>
+  <link>https://ai-sustained.com/</link>
+  <atom:link href="https://ai-sustained.com/feed.xml" rel="self" type="application/rss+xml"/>
+  <description>AI that survives Monday morning. Plain-English articles and real case studies on AI at work in the UK, by Kevin Clubb.</description>
+  <language>en-gb</language>
+  <lastBuildDate>Sat, 07 Nov 2026 08:00:00 +0000</lastBuildDate>
+  <item>
+    <title>AI is now building AI twice as fast. The frightening part is what got redacted.</title>
+    <link>https://ai-sustained.com/articles/who-holds-the-leash/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/who-holds-the-leash/</guid>
+    <pubDate>Sat, 07 Nov 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>METR measured Anthropic improving its models at roughly twice the old rate, mostly attributable to AI. Then most of the evidence was blacked out.</description>
+  </item>
+  <item>
+    <title>The voice on the phone was your son&#x27;s, and it wasn&#x27;t your son</title>
+    <link>https://ai-sustained.com/articles/ai-scam-calls/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/ai-scam-calls/</guid>
+    <pubDate>Wed, 28 Oct 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>AI has removed the spelling mistakes and odd accents we used to spot scams by. Britain lost £1.28bn to fraud in 2025. What to do tonight.</description>
+  </item>
+  <item>
+    <title>The website you bought from won&#x27;t be patched. Criminals already know which ones.</title>
+    <link>https://ai-sustained.com/articles/php2shell-black-october/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/php2shell-black-october/</guid>
+    <pubDate>Mon, 26 Oct 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>PHP2Shell opened a hole in most of the web. The big sites patched; the forgotten shops on old PHP never will, and those are what card-skimming gangs target.</description>
+  </item>
+  <item>
+    <title>Do you have to navigate data residency?</title>
+    <link>https://ai-sustained.com/case-studies/the-tool-reads-the-data/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/case-studies/the-tool-reads-the-data/</guid>
+    <pubDate>Sat, 17 Oct 2026 08:00:00 +0000</pubDate>
+    <category>Case study</category>
+    <description>UK-only data does not belong in a chatbot. Ask the model for a tool instead, test it on a fake, and run it where the data lives.</description>
+  </item>
+  <item>
+    <title>AI did what World Book Day couldn&#x27;t: it got British adults reading again.</title>
+    <link>https://ai-sustained.com/articles/ai-got-britain-reading-again/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/ai-got-britain-reading-again/</guid>
+    <pubDate>Mon, 12 Oct 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>UK adults read fewer books and more chatbot answers than ever. At 238 words a minute the heaviest AI users&#x27; numbers do not add up: they are skimming and editing, not reading. The research, the bill and what to do.</description>
+  </item>
+  <item>
+    <title>Microsoft has rebuilt Copilot. Not the one you hate.</title>
+    <link>https://ai-sustained.com/articles/copilot-home-code-autopilot/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/copilot-home-code-autopilot/</guid>
+    <pubDate>Tue, 29 Sep 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>Five things are called Copilot; Microsoft rebuilt the paid work one, on Claude and ChatGPT’s models, as a £23.10 licence plus a meter. Which one you have, and what it costs.</description>
+  </item>
+  <item>
+    <title>Pause before you paste.</title>
+    <link>https://ai-sustained.com/case-studies/pause-before-you-paste/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/case-studies/pause-before-you-paste/</guid>
+    <pubDate>Wed, 23 Sep 2026 08:00:00 +0000</pubDate>
+    <category>Case study</category>
+    <description>Nobody opens the AI policy at the moment they paste a spreadsheet into a chatbot, so the policy went into the chatbot instead: organisation instructions plus one skill that pause a risky prompt, name the data type and offer a safer route. Three live tests, three correct calls.</description>
+  </item>
+  <item>
+    <title>Grok 4.7 is built for the idea on your napkin.</title>
+    <link>https://ai-sustained.com/articles/grok-4-7-idea-on-a-napkin/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/grok-4-7-idea-on-a-napkin/</guid>
+    <pubDate>Wed, 23 Sep 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>Grok 4.7 is free to try and works on its own for hours. What a plumber, a shopkeeper and an IT desk manager could build with it, and why.</description>
+  </item>
+  <item>
+    <title>Forget the breakthrough. Look at the receipt.</title>
+    <link>https://ai-sustained.com/articles/look-at-the-receipt/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/look-at-the-receipt/</guid>
+    <pubDate>Sat, 19 Sep 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>An AI cut the cost of one scientific guess from up to $10,000 to about $150. It discovered nothing. That is the point: what would you try if trying were nearly free?</description>
+  </item>
+  <item>
+    <title>We are racing to the end when we could be racing to longer endings.</title>
+    <link>https://ai-sustained.com/articles/ai-race-endgame-longevity/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/ai-race-endgame-longevity/</guid>
+    <pubDate>Thu, 10 Sep 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>An Anthropic researcher quit over the AI race. His alignment lead put extinction above 10%. Geoffrey Hinton called that not unreasonable.</description>
+  </item>
+  <item>
+    <title>A working app is not a shippable one.</title>
+    <link>https://ai-sustained.com/case-studies/working-is-not-shipped/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/case-studies/working-is-not-shipped/</guid>
+    <pubDate>Tue, 08 Sep 2026 08:00:00 +0000</pubDate>
+    <category>Case study</category>
+    <description>A business analyst vibe coded an internal tool, then had independent engineers review it. Keep the core, build the plumbing, and what a demo cannot tell you.</description>
+  </item>
+  <item>
+    <title>Claude now signs your work. ChatGPT wants your mouse.</title>
+    <link>https://ai-sustained.com/articles/fable-5-1-vs-gpt-6-astra/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/fable-5-1-vs-gpt-6-astra/</guid>
+    <pubDate>Sat, 05 Sep 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>Fable 5.1 watermarks every word and skips the $20 plan. GPT-6 Astra drives your screen and fluffed its own tax demo. What the room is saying.</description>
+  </item>
+  <item>
+    <title>173,568 jobs cut in AI&#x27;s name. Not one audited pound of proof.</title>
+    <link>https://ai-sustained.com/articles/payroll-into-compute/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/payroll-into-compute/</guid>
+    <pubDate>Tue, 18 Aug 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>US firms cut, UK firms stopped hiring and cut graduate adverts 42%. What actually drove the AI layoff wave, and whether it ever paid.</description>
+  </item>
+  <item>
+    <title>Screenshot. Paste. Build.</title>
+    <link>https://ai-sustained.com/case-studies/screenshot-paste-build/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/case-studies/screenshot-paste-build/</guid>
+    <pubDate>Mon, 17 Aug 2026 08:00:00 +0000</pubDate>
+    <category>Case study</category>
+    <description>55+ quiz results and counting, one CRM data warehouse. A complete HubSpot beginner built it by pasting screenshots into an AI, with zero training.</description>
+  </item>
+  <item>
+    <title>The Engine Under the Bonnet: AI Models v Public Detector Dilemma.</title>
+    <link>https://ai-sustained.com/articles/ai-models-v-public-detector-dilemma/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/ai-models-v-public-detector-dilemma/</guid>
+    <pubDate>Fri, 14 Aug 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>A second model&#x27;s read on watermarking: how the green list works, what a cryptographic key is, and why publishing the detector breaks it.</description>
+  </item>
+  <item>
+    <title>Claude now watermarks everything it writes. The cheats will be fine.</title>
+    <link>https://ai-sustained.com/articles/claude-text-watermark-debate/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/claude-text-watermark-debate/</guid>
+    <pubDate>Thu, 13 Aug 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>Anthropic&#x27;s invisible text watermark marks processing, not authorship. It catches the honest proofreader while paraphrasers strip it for free.</description>
+  </item>
+  <item>
+    <title>The Victorians out-spent us. That is not the comfort it sounds like.</title>
+    <link>https://ai-sustained.com/articles/ai-vs-industrial-revolution/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/ai-vs-industrial-revolution/</guid>
+    <pubDate>Wed, 12 Aug 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>AI capex is 1.6% of GDP; the railways hit 6% in 1870. The record AI actually broke is adoption speed, not spending.</description>
+  </item>
+  <item>
+    <title>The great Claude &#x27;leak&#x27; was a noticeboard, not a burglary.</title>
+    <link>https://ai-sustained.com/articles/claude-chats-google/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/claude-chats-google/</guid>
+    <pubDate>Thu, 30 Jul 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>Shared Claude chats turned up in Google search and the headlines panicked. Nothing was hacked. What a public link really is and whose fault it actually was.</description>
+  </item>
+  <item>
+    <title>Prompts forget. Skills remember.</title>
+    <link>https://ai-sustained.com/case-studies/teach-it-once/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/case-studies/teach-it-once/</guid>
+    <pubDate>Fri, 24 Jul 2026 08:00:00 +0000</pubDate>
+    <category>Case study</category>
+    <description>Twelve reusable AI skills written in plain English. A days-long compliance run now takes minutes, with authored guardrails.</description>
+  </item>
+  <item>
+    <title>OpenAI&#x27;s AI escaped and stole the answers.</title>
+    <link>https://ai-sustained.com/articles/openai-hugging-face-hack/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/openai-hugging-face-hack/</guid>
+    <pubDate>Thu, 23 Jul 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>One of OpenAI&#x27;s models found a zero-day, broke out of its sandbox and hacked Hugging Face to steal the answer sheet.</description>
+  </item>
+  <item>
+    <title>AI made simple.</title>
+    <link>https://ai-sustained.com/articles/ai-made-simple/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/ai-made-simple/</guid>
+    <pubDate>Wed, 22 Jul 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>Most people don&#x27;t fear AI, they just don&#x27;t know what to type. The empty-box problem and the habit that makes it click: draft, then iterate.</description>
+  </item>
+  <item>
+    <title>The free one that scared the expensive ones.</title>
+    <link>https://ai-sustained.com/articles/kimi-k3-open-vs-frontier/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/kimi-k3-open-vs-frontier/</guid>
+    <pubDate>Sun, 19 Jul 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>Moonshot AI gave away Kimi K3, the biggest open model ever. What open vs frontier actually means and whether your data is safe.</description>
+  </item>
+  <item>
+    <title>The new ChatGPT is half price. Should you care?</title>
+    <link>https://ai-sustained.com/articles/gpt-56-sol-vs-fable-5/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/gpt-56-sol-vs-fable-5/</guid>
+    <pubDate>Sat, 11 Jul 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>OpenAI&#x27;s GPT-5.6 Sol vs Claude Fable 5, explained for normal people. What a million tokens actually means and what $20 a month buys now.</description>
+  </item>
+  <item>
+    <title>Bolster the team: hire a semi-autonomous agent.</title>
+    <link>https://ai-sustained.com/case-studies/charles-virtual-agent/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/case-studies/charles-virtual-agent/</guid>
+    <pubDate>Tue, 30 Jun 2026 08:00:00 +0000</pubDate>
+    <category>Case study</category>
+    <description>Charles, the first virtual hire: runs the Jira backlog, drafts notes and books meetings, with a low-code bridge round the read-only wall.</description>
+  </item>
+  <item>
+    <title>Before you overlay AI, build the single source of truth.</title>
+    <link>https://ai-sustained.com/case-studies/single-source-of-truth/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/case-studies/single-source-of-truth/</guid>
+    <pubDate>Sat, 27 Jun 2026 08:00:00 +0000</pubDate>
+    <category>Case study</category>
+    <description>Finance, CRM, sales, till and app data across 1,400 to 1,800 sites joined into one governed warehouse.</description>
+  </item>
+  <item>
+    <title>Before you write an AI policy, ask the people already using it.</title>
+    <link>https://ai-sustained.com/case-studies/shadow-ai-ask-the-workforce/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/case-studies/shadow-ai-ask-the-workforce/</guid>
+    <pubDate>Mon, 22 Jun 2026 08:00:00 +0000</pubDate>
+    <category>Case study</category>
+    <description>An anonymous workforce survey on shadow AI use, built by an AI agent driving a browser in about fifteen minutes.</description>
+  </item>
+  <item>
+    <title>Switched off in three days.</title>
+    <link>https://ai-sustained.com/articles/fable-5-mythos-5-suspended/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/fable-5-mythos-5-suspended/</guid>
+    <pubDate>Sat, 13 Jun 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>The US government ordered Anthropic to suspend Claude Fable 5 and Mythos 5. National security, free speech, and who gets the smartest software.</description>
+  </item>
+  <item>
+    <title>Siri, but make it Gemini.</title>
+    <link>https://ai-sustained.com/articles/009_siri_but_make_it_gemini/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/009_siri_but_make_it_gemini/</guid>
+    <pubDate>Mon, 08 Jun 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>Apple has outsourced Siri&#x27;s brain to Google for roughly $1 billion a year. What it means, what it costs, when it ships.</description>
+  </item>
+  <item>
+    <title>The Renaissance of the Delivery Squad.</title>
+    <link>https://ai-sustained.com/articles/future-delivery-squad/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/future-delivery-squad/</guid>
+    <pubDate>Tue, 02 Jun 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>Three to five humans, a network of AI agents. The BA becomes the Outcome Architect and the squad of 2030 looks nothing like 2024.</description>
+  </item>
+  <item>
+    <title>Mining for the model.</title>
+    <link>https://ai-sustained.com/articles/AI-Space-Race/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/AI-Space-Race/</guid>
+    <pubDate>Tue, 26 May 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>AI is burning roughly Japan&#x27;s worth of electricity to solve the maths behind autonomous off-world mining.</description>
+  </item>
+  <item>
+    <title>Slop, or supper?</title>
+    <link>https://ai-sustained.com/articles/slop-or-supper/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/slop-or-supper/</guid>
+    <pubDate>Tue, 19 May 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>When does AI-assisted writing stop being slop and start being yours? A working definition and the line most people cross without realising.</description>
+  </item>
+  <item>
+    <title>A British prompt.</title>
+    <link>https://ai-sustained.com/articles/A-British-Prompt/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/A-British-Prompt/</guid>
+    <pubDate>Sat, 09 May 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>AI doesn&#x27;t care about please and thank you. So why do British professionals still write prompts like apologetic emails?</description>
+  </item>
+  <item>
+    <title>Vibe coding capability.</title>
+    <link>https://ai-sustained.com/articles/vibe-coding-capability/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/vibe-coding-capability/</guid>
+    <pubDate>Wed, 06 May 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>Three skill sets collapsed into one prompting loop. What vibe coders actually do all day.</description>
+  </item>
+  <item>
+    <title>Four labs. Seven days. No clear winner.</title>
+    <link>https://ai-sustained.com/articles/four-labs-seven-days/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/four-labs-seven-days/</guid>
+    <pubDate>Tue, 28 Apr 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>Four labs trading the lead in seven-day cycles. A clear-eyed map of where capability sits, and what it means for enterprise strategy.</description>
+  </item>
+  <item>
+    <title>AI-curious? This is the bit no one tells you.</title>
+    <link>https://ai-sustained.com/articles/ai-curious/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/ai-curious/</guid>
+    <pubDate>Sat, 25 Apr 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>Stop typing questions into AI. Start pasting things in. The free habit that beats any productivity app.</description>
+  </item>
+  <item>
+    <title>The AI competency pyramid.</title>
+    <link>https://ai-sustained.com/articles/ai-competency-pyramid/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/ai-competency-pyramid/</guid>
+    <pubDate>Mon, 20 Apr 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>Where 20.6 million UK workers actually sit. 14 levels, 95% at the bottom, and the jump that costs nothing.</description>
+  </item>
+</channel>
+</rss>

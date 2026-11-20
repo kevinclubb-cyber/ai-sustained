@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<!-- AI Sustained consent — paste immediately after <meta charset>, BEFORE the GTM snippet -->
+<script>
+(function(){
+  "use strict";
+  /* ------------------------------------------------------------------
+     AI Sustained cookie consent + Google Consent Mode v2
+     Self-contained: sets consent defaults, injects banner CSS + DOM.
+     MUST load before the GTM and GA4 snippets.
+     ------------------------------------------------------------------ */
+
+  var STORE   = 'ais_consent_v1';
+  var MAXAGE  = 1000*60*60*24*182;           /* 6 months, then re-ask */
+  /* Both sites serve /privacy/ (the consulting site ships privacy.html plus a
+     byte-identical privacy/index.html), so one root-absolute path covers both
+     and there is no hostname sniffing to go wrong. */
+  var POLICY  = '/privacy/';
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  window.gtag = window.gtag || gtag;
+
+  /* ---------- read any stored decision ---------- */
+  var saved = null;
+  try {
+    var raw = localStorage.getItem(STORE);
+    if (raw) {
+      var o = JSON.parse(raw);
+      if (o && o.t && (Date.now() - o.t) < MAXAGE) saved = o;
+    }
+  } catch(e){}
+
+  var DENIED = {
+    ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied',
+    analytics_storage:'denied', functionality_storage:'denied',
+    personalization_storage:'denied', security_storage:'granted',
+    wait_for_update: 500
+  };
+
+  /* Defaults are DENIED for everything non-essential. Nothing fires until
+     the visitor chooses. security_storage stays granted — it is strictly
+     necessary and exempt under PECR. */
+  gtag('consent','default', DENIED);
+
+  function stateFrom(c){
+    return {
+      ad_storage:            c.marketing ? 'granted':'denied',
+      ad_user_data:          c.marketing ? 'granted':'denied',
+      ad_personalization:    c.marketing ? 'granted':'denied',
+      analytics_storage:     c.analytics ? 'granted':'denied',
+      functionality_storage: c.recording ? 'granted':'denied',
+      personalization_storage: c.recording ? 'granted':'denied',
+      security_storage:      'granted'
+    };
+  }
+
+  function apply(c, isNew){
+    gtag('consent','update', stateFrom(c));
+    dataLayer.push({
+      event: 'consent_update',
+      consent_analytics:  !!c.analytics,
+      consent_recording:  !!c.recording,
+      consent_marketing:  !!c.marketing
+    });
+    if (isNew){
+      try { localStorage.setItem(STORE, JSON.stringify({
+        t: Date.now(), analytics: !!c.analytics,
+        recording: !!c.recording, marketing: !!c.marketing
+      })); } catch(e){}
+    }
+  }
+
+  if (saved) apply(saved, false);
+
+  /* Current state drives the toggles, so reopening shows what you actually
+     chose rather than a fresh set of defaults. */
+  var current = saved || { analytics:false, recording:false, marketing:false };
+
+  /* ---------- styles ---------- */
+  var CSS = ''
+  + '@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap");'
+  + '.ais-cc,.ais-cc *{box-sizing:border-box}'
+  + '.ais-cc{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#102C21;color:#F2ECD9;'
+  + 'border-top:2px solid #E8FF3A;font-family:Inter,system-ui,sans-serif;'
+  + 'box-shadow:0 -18px 50px rgba(0,0,0,.5);animation:aisUp .35s cubic-bezier(.34,1.2,.64,1)}'
+  + '@keyframes aisUp{from{transform:translateY(100%)}to{transform:none}}'
+  + '@media (prefers-reduced-motion:reduce){.ais-cc{animation:none}}'
+  + '.ais-cc-in{max-width:1080px;margin:0 auto;padding:22px 24px;display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap}'
+  + '.ais-cc-copy{flex:1 1 420px;min-width:280px}'
+  + '.ais-cc h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;color:#E8FF3A;letter-spacing:.01em}'
+  + '.ais-cc p{margin:0;font-size:14.5px;line-height:1.55;color:#F2ECD9;opacity:.94}'
+  + '.ais-cc a{color:#E8FF3A;text-decoration:underline;text-underline-offset:2px}'
+  + '.ais-cc-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}'
+  /* Accept and Reject are deliberately IDENTICAL in size, colour and weight. */
+  + '.ais-b{position:relative;display:inline-flex;align-items:center;justify-content:center;'
+  + 'min-width:150px;padding:14px 24px;border:2px solid rgba(232,255,58,.55);border-radius:10px;'
+  + 'color:#F2ECD9;background:rgba(10,15,12,.92);font-family:"Space Grotesk",sans-serif;'
+  + 'font-weight:700;font-size:15.5px;cursor:pointer;transition:color .2s,border-color .2s,transform .18s;'
+  + '-webkit-tap-highlight-color:transparent}'
+  + '.ais-b:hover{color:#E8FF3A;border-color:#E8FF3A;transform:translateY(-2px)}'
+  + '.ais-b:active{transform:translateY(1px) scale(.98)}'
+  + '.ais-b:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '.ais-link{background:none;border:none;color:#F2ECD9;font-family:Inter,sans-serif;font-size:14px;'
+  + 'text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:8px 4px;opacity:.9}'
+  + '.ais-link:hover{color:#E8FF3A;opacity:1}'
+  + '.ais-cc-panel{width:100%;border-top:1px solid rgba(242,236,217,.18);margin-top:6px;padding-top:16px;display:none}'
+  + '.ais-cc-panel.open{display:block}'
+  + '.ais-row{display:flex;gap:14px;align-items:flex-start;padding:11px 0}'
+  + '.ais-row+.ais-row{border-top:1px solid rgba(242,236,217,.1)}'
+  + '.ais-row .t{flex:1}'
+  + '.ais-row strong{display:block;font-family:"Space Grotesk",sans-serif;font-size:14.5px;margin-bottom:3px}'
+  + '.ais-row span{font-size:13.5px;line-height:1.5;opacity:.85}'
+  + '.ais-sw{position:relative;flex:0 0 auto;width:50px;height:28px;border-radius:99px;border:none;'
+  + 'background:rgba(242,236,217,.22);cursor:pointer;transition:background .2s}'
+  + '.ais-sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;'
+  + 'background:#F2ECD9;transition:transform .2s}'
+  + '.ais-sw[aria-checked="true"]{background:#E8FF3A}'
+  + '.ais-sw[aria-checked="true"]::after{transform:translateX(22px);background:#0A0F0C}'
+  + '.ais-sw[disabled]{opacity:.5;cursor:not-allowed}'
+  + '.ais-sw:focus-visible{outline:2px solid #E8FF3A;outline-offset:3px}'
+  + '@media(max-width:640px){.ais-cc-in{padding:18px 16px;gap:16px}.ais-cc-btns{width:100%}'
+  + '.ais-b{flex:1 1 100%;min-width:0}}';
+
+  /* ---------- banner ---------- */
+  function build(reopen){
+    if (document.querySelector('.ais-cc')) return;
+
+    var st = document.createElement('style');
+    st.textContent = CSS;
+    document.head.appendChild(st);
+
+    var w = document.createElement('div');
+    w.className = 'ais-cc';
+    w.setAttribute('role','dialog');
+    w.setAttribute('aria-live','polite');
+    w.setAttribute('aria-label','Cookie choices');
+    w.innerHTML =
+      '<div class="ais-cc-in">'
+      +  '<div class="ais-cc-copy">'
+      +    '<h2>Your call on cookies</h2>'
+      +    '<p>I use a few cookies to see which articles land and where people give up reading. '
+      +    'Nothing fires until you choose. Reject and the site works exactly the same. '
+      +    '<a href="' + POLICY + '">Read the privacy notice</a>.</p>'
+      +  '</div>'
+      +  '<div class="ais-cc-btns">'
+      +    '<button type="button" class="ais-b" data-a="accept">Accept all</button>'
+      +    '<button type="button" class="ais-b" data-a="reject">Reject all</button>'
+      +    '<button type="button" class="ais-link" data-a="manage" aria-expanded="false">Choose what I share</button>'
+      +  '</div>'
+      +  '<div class="ais-cc-panel" id="ais-panel">'
+      +    row('essential','Strictly necessary','Keeps the site working and secure. Always on, and exempt from consent under PECR.',true,true)
+      +    row('analytics','Audience measurement','Google Analytics. Which pages get read, roughly where visitors come from.',!!current.analytics,false)
+      +    row('recording','Session recording','Microsoft Clarity. Anonymised replays and heatmaps showing where people scroll and stop. Text you type is masked.',!!current.recording,false)
+      +    row('marketing','Marketing','TikTok and Meta advertising pixels. Not currently active, listed so this notice stays honest when they are.',!!current.marketing,false)
+      +    '<div class="ais-cc-btns" style="margin-top:14px">'
+      +      '<button type="button" class="ais-b" data-a="save">Save my choices</button>'
+      +    '</div>'
+      +  '</div>'
+      + '</div>';
+    document.body.appendChild(w);
+
+    function row(k,title,desc,on,lock){
+      return '<div class="ais-row"><div class="t"><strong>'+title+'</strong><span>'+desc+'</span></div>'
+        + '<button type="button" class="ais-sw" data-k="'+k+'" role="switch" aria-label="'+title+'" aria-checked="'
+        + (on?'true':'false') + '"' + (lock?' disabled':'') + '></button></div>';
+    }
+
+    w.addEventListener('click', function(e){
+      var sw = e.target.closest('.ais-sw');
+      if (sw && !sw.disabled){
+        sw.setAttribute('aria-checked', sw.getAttribute('aria-checked')==='true' ? 'false':'true');
+        return;
+      }
+      var b = e.target.closest('[data-a]');
+      if (!b) return;
+      var a = b.getAttribute('data-a');
+
+      if (a === 'manage'){
+        var p = w.querySelector('#ais-panel');
+        var open = p.classList.toggle('open');
+        b.setAttribute('aria-expanded', open ? 'true':'false');
+        b.textContent = open ? 'Hide options' : 'Choose what I share';
+        return;
+      }
+      if (a === 'accept') return close({analytics:1,recording:1,marketing:1});
+      if (a === 'reject') return close({analytics:0,recording:0,marketing:0});
+      if (a === 'save'){
+        var g = function(k){
+          var el = w.querySelector('.ais-sw[data-k="'+k+'"]');
+          return el && el.getAttribute('aria-checked')==='true' ? 1 : 0;
+        };
+        return close({analytics:g('analytics'), recording:g('recording'), marketing:g('marketing')});
+      }
+    });
+
+    function close(c){ current = c; apply(c, true); w.remove(); }
+
+    /* Reopened from the footer: show the detail panel straight away, so the
+       visitor can see and change what they previously chose. */
+    if (reopen){
+      w.querySelector('#ais-panel').classList.add('open');
+      var mb = w.querySelector('[data-a="manage"]');
+      mb.setAttribute('aria-expanded','true');
+      mb.textContent = 'Hide options';
+    }
+  }
+
+  /* Drop a "Cookie choices" link into the existing footer, so consent can be
+     withdrawn from any page without editing 50 footers by hand. */
+  function footerLink(){
+    var f = document.querySelector('footer');
+    if (!f) return;
+
+    /* If the page already hard-codes a reopen link (so the footer layout can be
+       controlled in markup rather than injected), just wire it up and stop. */
+    var existing = document.querySelectorAll('[data-ais-reopen]');
+    if (existing.length){
+      Array.prototype.forEach.call(existing, function(el){
+        el.style.cursor = 'pointer';
+        el.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+      });
+      return;
+    }
+
+    /* Footer markup varies page to page, so target the LAST div — on every
+       template that is the links / colophon column, not the brand block. */
+    var divs = f.querySelectorAll('div');
+    var host = divs.length ? divs[divs.length-1] : f;
+
+    var wrap = document.createElement('span');
+    wrap.setAttribute('data-ais-footer','1');
+    wrap.style.cssText = 'display:inline-block;margin-top:6px';
+
+    var onPolicy = /^\/privacy(\.html|\/|$)/.test(location.pathname);
+    if (!onPolicy){
+      var pv = document.createElement('a');
+      pv.href = POLICY;
+      pv.textContent = 'Privacy';
+      wrap.appendChild(document.createTextNode(' · '));
+      wrap.appendChild(pv);
+    }
+
+    var a = document.createElement('a');
+    a.href = '#';
+    a.setAttribute('data-ais-reopen','1');
+    a.textContent = 'Cookie choices';
+    a.style.cursor = 'pointer';
+    a.onclick = function(e){ e.preventDefault(); window.AISConsent.open(); };
+    wrap.appendChild(document.createTextNode(' · '));
+    wrap.appendChild(a);
+
+    host.appendChild(wrap);
+  }
+
+  /* Public re-opener — also usable directly:
+     <a href="#" onclick="AISConsent.open();return false">Cookie choices</a>  */
+  window.AISConsent = {
+    open: function(){
+      /* Deliberately does NOT clear the stored choice. Reopening the banner
+         must never silently revoke consent the visitor already gave — they
+         revoke it by choosing, not by looking. */
+      var ex = document.querySelector('.ais-cc');
+      if (ex) ex.remove();
+      build(true);
+    }
+  };
+
+  function init(){ footerLink(); if (!saved) build(false); }
+
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+<!-- End AI Sustained consent -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K3HFQT6S');</script>
+<!-- End Google Tag Manager -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3WZNV09BB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L3WZNV09BB');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Generated by scripts/build-discovery.py from search-index.json. Do not edit by hand. -->
+<title>All AI Sustained articles: plain-English AI for UK business</title>
+<meta name="description" content="Every AI Sustained issue in one place: 28 plain-English articles on AI adoption, new models, safety, costs and what they mean for UK businesses. Newest first.">
+<meta name="author" content="Kevin Clubb">
+<link rel="canonical" href="https://ai-sustained.com/articles/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="All AI Sustained articles: plain-English AI for UK business">
+<meta property="og:description" content="Every AI Sustained issue in one place: 28 plain-English articles on AI adoption, new models, safety, costs and what they mean for UK businesses. Newest first.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://ai-sustained.com/og-card.png">
+<meta property="og:url" content="https://ai-sustained.com/articles/">
+<meta property="og:site_name" content="AI Sustained">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="All AI Sustained articles: plain-English AI for UK business">
+<meta name="twitter:description" content="Every AI Sustained issue in one place: 28 plain-English articles on AI adoption, new models, safety, costs and what they mean for UK businesses. Newest first.">
+<meta name="twitter:image" content="https://ai-sustained.com/og-card.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+<meta name="theme-color" content="#1B4332">
+<link rel="alternate" type="application/rss+xml" title="AI Sustained" href="/feed.xml">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "CollectionPage", "name": "AI Sustained articles", "url": "https://ai-sustained.com/articles/", "description": "Every AI Sustained issue in one place: 28 plain-English articles on AI adoption, new models, safety, costs and what they mean for UK businesses. Newest first.", "isPartOf": {"@type": "WebSite", "name": "AI Sustained", "url": "https://ai-sustained.com"}, "breadcrumb": {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://ai-sustained.com/"}, {"@type": "ListItem", "position": 2, "name": "Articles", "item": "https://ai-sustained.com/articles/"}]}, "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://ai-sustained.com/articles/who-holds-the-leash/", "name": "AI is now building AI twice as fast. The frightening part is what got redacted."}, {"@type": "ListItem", "position": 2, "url": "https://ai-sustained.com/articles/ai-scam-calls/", "name": "The voice on the phone was your son's, and it wasn't your son"}, {"@type": "ListItem", "position": 3, "url": "https://ai-sustained.com/articles/php2shell-black-october/", "name": "The website you bought from won't be patched. Criminals already know which ones."}, {"@type": "ListItem", "position": 4, "url": "https://ai-sustained.com/articles/ai-got-britain-reading-again/", "name": "AI did what World Book Day couldn't: it got British adults reading again."}, {"@type": "ListItem", "position": 5, "url": "https://ai-sustained.com/articles/copilot-home-code-autopilot/", "name": "Microsoft has rebuilt Copilot. Not the one you hate."}, {"@type": "ListItem", "position": 6, "url": "https://ai-sustained.com/articles/grok-4-7-idea-on-a-napkin/", "name": "Grok 4.7 is built for the idea on your napkin."}, {"@type": "ListItem", "position": 7, "url": "https://ai-sustained.com/articles/look-at-the-receipt/", "name": "Forget the breakthrough. Look at the receipt."}, {"@type": "ListItem", "position": 8, "url": "https://ai-sustained.com/articles/ai-race-endgame-longevity/", "name": "We are racing to the end when we could be racing to longer endings."}, {"@type": "ListItem", "position": 9, "url": "https://ai-sustained.com/articles/fable-5-1-vs-gpt-6-astra/", "name": "Claude now signs your work. ChatGPT wants your mouse."}, {"@type": "ListItem", "position": 10, "url": "https://ai-sustained.com/articles/payroll-into-compute/", "name": "173,568 jobs cut in AI's name. Not one audited pound of proof."}, {"@type": "ListItem", "position": 11, "url": "https://ai-sustained.com/articles/ai-models-v-public-detector-dilemma/", "name": "The Engine Under the Bonnet: AI Models v Public Detector Dilemma."}, {"@type": "ListItem", "position": 12, "url": "https://ai-sustained.com/articles/claude-text-watermark-debate/", "name": "Claude now watermarks everything it writes. The cheats will be fine."}, {"@type": "ListItem", "position": 13, "url": "https://ai-sustained.com/articles/ai-vs-industrial-revolution/", "name": "The Victorians out-spent us. That is not the comfort it sounds like."}, {"@type": "ListItem", "position": 14, "url": "https://ai-sustained.com/articles/claude-chats-google/", "name": "The great Claude 'leak' was a noticeboard, not a burglary."}, {"@type": "ListItem", "position": 15, "url": "https://ai-sustained.com/articles/openai-hugging-face-hack/", "name": "OpenAI's AI escaped and stole the answers."}, {"@type": "ListItem", "position": 16, "url": "https://ai-sustained.com/articles/ai-made-simple/", "name": "AI made simple."}, {"@type": "ListItem", "position": 17, "url": "https://ai-sustained.com/articles/kimi-k3-open-vs-frontier/", "name": "The free one that scared the expensive ones."}, {"@type": "ListItem", "position": 18, "url": "https://ai-sustained.com/articles/gpt-56-sol-vs-fable-5/", "name": "The new ChatGPT is half price. Should you care?"}, {"@type": "ListItem", "position": 19, "url": "https://ai-sustained.com/articles/fable-5-mythos-5-suspended/", "name": "Switched off in three days."}, {"@type": "ListItem", "position": 20, "url": "https://ai-sustained.com/articles/009_siri_but_make_it_gemini/", "name": "Siri, but make it Gemini."}, {"@type": "ListItem", "position": 21, "url": "https://ai-sustained.com/articles/future-delivery-squad/", "name": "The Renaissance of the Delivery Squad."}, {"@type": "ListItem", "position": 22, "url": "https://ai-sustained.com/articles/AI-Space-Race/", "name": "Mining for the model."}, {"@type": "ListItem", "position": 23, "url": "https://ai-sustained.com/articles/slop-or-supper/", "name": "Slop, or supper?"}, {"@type": "ListItem", "position": 24, "url": "https://ai-sustained.com/articles/A-British-Prompt/", "name": "A British prompt."}, {"@type": "ListItem", "position": 25, "url": "https://ai-sustained.com/articles/vibe-coding-capability/", "name": "Vibe coding capability."}, {"@type": "ListItem", "position": 26, "url": "https://ai-sustained.com/articles/four-labs-seven-days/", "name": "Four labs. Seven days. No clear winner."}, {"@type": "ListItem", "position": 27, "url": "https://ai-sustained.com/articles/ai-curious/", "name": "AI-curious? This is the bit no one tells you."}, {"@type": "ListItem", "position": 28, "url": "https://ai-sustained.com/articles/ai-competency-pyramid/", "name": "The AI competency pyramid."}]}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1B4332; --paper: #F2ECD9; --acid: #E8FF3A; --mint: #D8F3DC; --ink: #0A0F0C;
+    --coral: #FF8C61; --sky: #7DD3FC;
+    --paper-06: rgba(242,236,217,0.06); --paper-10: rgba(242,236,217,0.10);
+    --paper-18: rgba(242,236,217,0.18); --paper-30: rgba(242,236,217,0.30); --paper-60: rgba(242,236,217,0.60);
+    --acid-30: rgba(232,255,58,0.3);
+    --acid-hi: #F4FF7A; --acid-mid: #CFE62E; --acid-deep: #9DB324; --acid-shadow: #6E7F14;
+    --cream-paper: #F2ECD9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--forest); color: var(--paper); font-family: 'Inter', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ============ TOPBAR — matches the homepage lockup exactly ============ */
+  .topbar-wrap { background: rgba(27,67,50,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 50; border-top: 4px solid var(--acid); border-bottom: 1px solid var(--paper-30); }
+  .topbar {
+    padding: 14px 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper);
+    max-width: 1280px; margin: 0 auto;
+  }
+  .topbar-left { display: flex; gap: 14px; align-items: center; }
+  .topbar-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .topbar-logo img.mark {
+    height: 44px; width: auto; display: block;
+    filter: brightness(0) saturate(100%) invert(96%) sepia(8%) saturate(385%) hue-rotate(5deg) brightness(98%) contrast(89%);
+  }
+  .topbar-logo img.wordmark {
+    height: 36px; width: auto; display: block;
+    filter: brightness(0) saturate(100%) invert(96%) sepia(8%) saturate(385%) hue-rotate(5deg) brightness(98%) contrast(89%);
+  }
+  .topbar-byline {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--acid);
+    padding-left: 14px; border-left: 1px solid var(--paper-30);
+  }
+  .topbar-nav { display: flex; gap: 22px; }
+  .topbar-nav a { color: var(--mint); border-bottom: 1px solid transparent; padding-bottom: 2px; transition: border-color 0.15s, color 0.15s; }
+  .topbar-nav a:hover { color: var(--acid); border-bottom-color: var(--acid); }
+  .topbar-nav a.active { color: var(--acid); border-bottom-color: var(--acid); }
+  @media (max-width: 860px) {
+    .topbar-logo img.mark { height: 36px; }
+    .topbar-logo img.wordmark { display: none; }
+    .topbar-byline { display: none; }
+    .topbar-nav { gap: 14px; font-size: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    .topbar-nav a.ext { display: none; }
+  }
+
+  /* ============ HERO — two-column: argument left, evidence right ============ */
+  .hero { max-width: 1280px; margin: 0 auto; padding: 72px 32px 28px; position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 56px; align-items: center; }
+  .hero::before { content: ''; position: absolute; top: -140px; right: -140px; width: 480px; height: 480px; border: 64px solid var(--paper); border-radius: 50%; opacity: 0.04; pointer-events: none; }
+  .breadcrumb { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper-60); margin-bottom: 30px; }
+  .breadcrumb a { color: var(--mint); }
+  .breadcrumb a:hover { color: var(--acid); }
+  .hero-kicker { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; color: var(--acid); margin-bottom: 24px; display: flex; align-items: center; gap: 14px; }
+  .hero-kicker::before { content: ''; width: 44px; height: 2px; background: var(--acid); }
+  .hero h1 { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(52px, 6.8vw, 96px); line-height: 0.98; letter-spacing: -0.025em; color: var(--paper); margin-bottom: 28px; }
+  .hero h1 em { font-style: italic; font-weight: 600; color: var(--acid); }
+  .hero .deck { font-family: 'Fraunces', serif; font-style: italic; font-size: 21px; line-height: 1.5; color: var(--mint); max-width: 640px; }
+  .hero .deck strong { color: var(--paper); font-weight: 500; font-style: normal; font-family: 'Space Grotesk', sans-serif; }
+
+  /* Proof strip — the aggregate receipts, straight off the cards below */
+  .proof-strip { display: grid; grid-template-columns: repeat(4, minmax(0, auto)); justify-content: start; column-gap: 24px; margin-top: 40px; border-top: 1px solid var(--paper-18); border-bottom: 1px solid var(--paper-18); }
+  .proof { padding: 18px 24px 18px 0; border-right: 1px solid var(--paper-18); min-width: 0; }
+  .proof:last-child { border-right: none; padding-right: 0; }
+  .proof .p-val { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: clamp(17px, 1.6vw, 22px); color: var(--acid); line-height: 1; white-space: nowrap; }
+  .proof .p-lab { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper-60); margin-top: 7px; }
+  @media (max-width: 560px) {
+    .proof-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 0; }
+    .proof:nth-child(2) { border-right: none; }
+    .proof:nth-child(n+3) { border-top: 1px solid var(--paper-18); }
+  }
+
+  /* Hero figure — drops in the moment cs-hero.png exists */
+  .hero-figure { position: relative; margin: 0 auto; max-width: 480px; width: 100%; text-align: center; }
+  .hero-figure img { width: 100%; display: block; margin: 0 auto; border-radius: 6px; border-top: 3px solid var(--acid); }
+  .hero-figure figcaption { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-60); margin-top: 12px; }
+  @media (max-width: 980px) {
+    .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 56px; }
+    .hero-figure { max-width: 560px; }
+    .hero-figure img { aspect-ratio: 16 / 10; object-fit: cover; }
+  }
+
+  /* ============ THE LOOP — thinking → doing → proof ============ */
+  .loop { max-width: 1280px; margin: 0 auto; padding: 36px 32px 8px; }
+  .loop-inner { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--paper-18); border-radius: 6px; overflow: hidden; }
+  .loop-step { padding: 26px 30px; border-right: 1px solid var(--paper-18); background: var(--paper-06); position: relative; }
+  .loop-step:last-child { border-right: none; }
+  .loop-step .l-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 10px; }
+  .loop-step h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px; color: var(--paper); margin-bottom: 6px; letter-spacing: -0.01em; }
+  .loop-step p { font-size: 13.5px; color: var(--mint); line-height: 1.5; }
+  .loop-step p a { color: var(--acid); border-bottom: 1px solid var(--acid-30); }
+  .loop-step p a:hover { border-bottom-color: var(--acid); }
+  .loop-step.active { background: rgba(232,255,58,0.07); }
+  .loop-step.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--acid); }
+  @media (max-width: 860px) { .loop-inner { grid-template-columns: 1fr; } .loop-step { border-right: none; border-bottom: 1px solid var(--paper-18); } .loop-step:last-child { border-bottom: none; } }
+
+  /* ============ GRID — image-led evidence cards ============ */
+  .cs-grid { max-width: 1280px; margin: 0 auto; padding: 40px 32px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+  @media (max-width: 940px) { .cs-grid { grid-template-columns: 1fr; } }
+  .cs-card { background: var(--paper-06); border: 1px solid var(--paper-18); border-radius: 6px; display: flex; flex-direction: column; position: relative; overflow: hidden; transition: transform 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s; }
+  a.cs-card:hover { transform: translateY(-4px); border-color: var(--acid-30); background: var(--paper-10); box-shadow: 0 18px 40px rgba(10,15,12,0.35); }
+  .c-img { position: relative; aspect-ratio: 21 / 9; overflow: hidden; border-bottom: 2px solid var(--acid); }
+  .c-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease; }
+  a.cs-card:hover .c-img img { transform: scale(1.035); }
+  .c-img .c-num {
+    position: absolute; top: 14px; left: 14px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    background: var(--ink); color: var(--acid);
+    padding: 7px 12px; border-radius: 3px;
+  }
+  .c-body { padding: 28px 32px 30px; display: flex; flex-direction: column; flex: 1; }
+  .c-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid); margin-bottom: 14px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .c-meta .dot { width: 4px; height: 4px; background: var(--acid); border-radius: 50%; opacity: 0.6; }
+  .c-meta .muted { color: var(--paper-60); }
+  .cs-card h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 27px; line-height: 1.12; color: var(--paper); letter-spacing: -0.015em; margin-bottom: 13px; }
+  .cs-card h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--acid); }
+  .cs-card p.blurb { font-family: 'Inter', sans-serif; font-size: 14.5px; color: var(--mint); line-height: 1.55; flex: 1; }
+  .cs-metrics { display: flex; gap: 26px; margin: 22px 0 4px; flex-wrap: wrap; padding-top: 18px; border-top: 1px solid var(--paper-18); }
+  .cs-metric .m-val { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 26px; color: var(--acid); line-height: 1; }
+  .cs-metric .m-lab { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-60); margin-top: 6px; }
+  .c-cta { margin-top: 22px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid); display: flex; align-items: center; gap: 8px; transition: gap 0.15s; }
+  a.cs-card:hover .c-cta { gap: 14px; }
+  .c-cta::after { content: '→'; }
+
+  /* ============ WORK-WITH-ME ============ */
+  .work { max-width: 1280px; margin: 0 auto; padding: 16px 32px 8px; }
+  .work-inner { background: var(--acid); color: var(--ink); border-radius: 8px; padding: 44px 40px; display: flex; justify-content: space-between; align-items: center; gap: 28px; flex-wrap: wrap; position: relative; overflow: hidden; }
+  .work-inner::before { content: ''; position: absolute; bottom: -70px; left: -40px; width: 200px; height: 200px; border: 36px solid var(--ink); border-radius: 50%; opacity: 0.08; }
+  .work-inner .w-text { flex: 1 1 360px; position: relative; z-index: 1; }
+  .work-inner .kicker { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink); margin-bottom: 10px; }
+  .work-inner h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(24px, 3vw, 34px); color: var(--ink); letter-spacing: -0.015em; margin-bottom: 8px; }
+  .work-inner h2 em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; color: var(--forest); }
+  .work-inner p { font-family: 'Inter', sans-serif; color: var(--ink); font-size: 15px; line-height: 1.5; margin: 0; max-width: 560px; }
+  .work-btn { position: relative; z-index: 1; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; background: var(--ink); color: var(--acid); padding: 16px 26px; border-radius: 4px; border: 1px solid var(--ink); transition: all 0.15s; white-space: nowrap; }
+  .work-btn:hover { background: var(--forest); color: var(--acid); border-color: var(--forest); }
+
+  /* Contact CTA: copy on its own row, button centred beneath */
+  .work-inner .w-text { flex: 1 1 100%; }
+  .work-inner .btn-mail { margin: 20px auto 0; }
+
+  /* ============ AI SUSTAINED HOUSE BUTTON: ENVELOPE SEND ============ */
+  .btn-mail{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 28px;border:2px solid rgba(232,255,58,.55);border-radius:10px;color:var(--paper);background:rgba(10,15,12,.92);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;letter-spacing:.01em;cursor:pointer;overflow:visible;transition:color .25s,border-color .25s,transform .2s;animation:mailBreathe 2.8s ease-out infinite;user-select:none;-webkit-tap-highlight-color:transparent;z-index:1;white-space:nowrap}
+  @keyframes mailBreathe{0%{box-shadow:0 0 0 0 rgba(232,255,58,.32)}70%{box-shadow:0 0 0 14px rgba(232,255,58,0)}100%{box-shadow:0 0 0 0 rgba(232,255,58,0)}}
+  .btn-mail .env{display:inline-flex;color:var(--acid);transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+  .btn-mail .env svg{display:block}
+  .btn-mail .lbl{transition:transform .3s ease,color .25s}
+  .btn-mail:hover{color:var(--acid);border-color:var(--acid);transform:translateY(-2px)}
+  .btn-mail:hover .env{transform:rotate(-10deg) translateY(-2px)}
+  .btn-mail:active{transform:translateY(1px) scale(.97)}
+  .btn-mail:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .btn-mail.sending .env{animation:envFly .85s cubic-bezier(.5,-.2,.75,.4) forwards,envBack .45s cubic-bezier(.34,1.56,.64,1) 1.05s forwards}
+  @keyframes envFly{0%{transform:rotate(0) translate(0,0) scale(1);opacity:1;filter:blur(0)}25%{transform:rotate(-14deg) translate(-4px,2px) scale(1.05);opacity:1}100%{transform:rotate(28deg) translate(110px,-80px) scale(.35);opacity:0;filter:blur(6px)}}
+  @keyframes envBack{from{transform:translateY(10px) scale(.5);opacity:0;filter:blur(3px)}to{transform:none;opacity:1;filter:blur(0)}}
+  .btn-mail.sending .lbl{transform:translateX(-4px)}
+  .btn-mail .pt{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--acid);pointer-events:none;animation:ptFly .75s ease-out forwards}
+  @keyframes ptFly{from{transform:translate(0,0) scale(1);opacity:.9}to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+  @media(prefers-reduced-motion:reduce){.btn-mail{animation:none}.btn-mail.sending .env,.btn-mail .pt{animation:none}}
+
+  /* ============ FOOTER ============ */
+  footer.brand-footer { border-top: 1px solid var(--paper-30); margin-top: 48px; padding: 48px 0; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; padding: 0 32px; display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-60); }
+  .footer-inner a { color: var(--mint); }
+  .footer-inner a:hover { color: var(--acid); }
+</style>
+<style>.hero.all-articles{grid-template-columns:minmax(0,1fr)}.cs-card .c-img img{aspect-ratio:16/9;object-fit:cover;width:100%;height:auto;display:block}</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K3HFQT6S"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="topbar-wrap">
+  <header class="topbar">
+    <div class="topbar-left">
+      <a href="/" class="topbar-logo" aria-label="AI Sustained — AI that survives Monday morning">
+        <img src="/ai_sustained_logo_mark.png" alt="AI Sustained" class="mark">
+        <img src="/ai_sustained_wordmark.png" alt="AI Sustained — AI that survives Monday morning." class="wordmark">
+      </a>
+      <span class="topbar-byline">by Kevin Clubb</span>
+    </div>
+    <nav class="topbar-nav">
+      <a href="/articles/" class="active">Editorial</a>
+      <a href="/case-studies/">Case studies</a>
+      <a href="/learn/">Learn</a>
+      <a href="/#subscribe">Subscribe</a>
+      <a href="https://aisustained.substack.com/" class="ext" target="_blank" rel="noopener">Substack ↗</a>
+    </nav>
+  </header>
+</div>
+<header class="hero all-articles">
+  <div class="hero-copy">
+    <div class="breadcrumb"><a href="/">Home</a> &nbsp;/&nbsp; Articles</div>
+    <div class="hero-kicker">Editorial · Every issue</div>
+    <h1>Every issue, <em>newest first</em>.</h1>
+    <p class="deck">28 plain-English pieces on what AI is doing, what it costs and what it changes for people at work in the UK. For the builds behind the arguments, see the <a href="/case-studies/" style="color:var(--acid)">case studies</a>.</p>
+  </div>
+</header>
+<section class="cs-grid">
+  <a class="cs-card" href="/articles/who-holds-the-leash/">
+    <div class="c-img"><img src="/articles/who-holds-the-leash/who-holds-the-leash_hero.webp" alt="A printed report on a dark desk, most of its lines covered by heavy black bars, one uncovered line catching acid-green lamplight, folded reading glasses resting beside it." loading="eager"><span class="c-num">Issue 027</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 027</span><span class="dot"></span><span class="muted"><time datetime="2026-11-07">7 Nov 2026</time></span></div>
+      <h2>AI is now building AI twice as fast. The frightening part is what got redacted.</h2>
+      <p class="blurb">METR measured Anthropic improving its models at roughly twice the old rate, mostly attributable to AI. Then most of the evidence was blacked out.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/ai-scam-calls/">
+    <div class="c-img"><img src="/articles/ai-scam-calls/ai-scam-calls_hero.webp" alt="A cordless home phone lying face up on a dark kitchen table at night, its small display a blank panel of lime light spilling across a mug of tea and a pair of folded reading glasses." loading="eager"><span class="c-num">Issue 026</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 026</span><span class="dot"></span><span class="muted"><time datetime="2026-10-28">28 Oct 2026</time></span></div>
+      <h2>The voice on the phone was your son&#x27;s, and it wasn&#x27;t your son</h2>
+      <p class="blurb">AI has removed the spelling mistakes and odd accents we used to spot scams by. Britain lost £1.28bn to fraud in 2025. What to do tonight.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/php2shell-black-october/">
+    <div class="c-img"><img src="/articles/php2shell-black-october/php2shell-black-october_hero.webp" alt="A dark green shopfront on an empty street at night. A metal shutter is pulled half down over one window, and beneath it a computer screen and the shop door glow acid green, spilling light onto the wet pavement." loading="lazy"><span class="c-num">Issue 025</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 025</span><span class="dot"></span><span class="muted"><time datetime="2026-10-26">26 Oct 2026</time></span></div>
+      <h2>The website you bought from won&#x27;t be patched. Criminals already know which ones.</h2>
+      <p class="blurb">PHP2Shell opened a hole in most of the web. The big sites patched; the forgotten shops on old PHP never will, and those are what card-skimming gangs target.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/ai-got-britain-reading-again/">
+    <div class="c-img"><img src="/articles/ai-got-britain-reading-again/ai-got-britain-reading-again_hero.webp" alt="A worn dark-green leather armchair in a dark green room, lit by a single black desk lamp on a side table. Printed pages are heaped on the seat and strewn across the wooden floor, a pair of glasses rests on one arm, a white mug stands on the floor, and one page on the seat glows acid green." loading="lazy"><span class="c-num">Issue 024</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 024</span><span class="dot"></span><span class="muted"><time datetime="2026-10-12">12 Oct 2026</time></span></div>
+      <h2>AI did what World Book Day couldn&#x27;t: it got British adults reading again.</h2>
+      <p class="blurb">UK adults read fewer books and more chatbot answers than ever. At 238 words a minute the heaviest AI users&#x27; numbers do not add up: they are skimming and editing, not reading. The research, the bill and what to do.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/copilot-home-code-autopilot/">
+    <div class="c-img"><img src="/articles/copilot-home-code-autopilot/copilot-home-code-autopilot_hero.webp" alt="A garage at night under a single green bulb. A child’s bike with stabilisers and a small helmet stand at the front; behind them a road bike, half covered by a dust sheet, leans against a workbench, with stacked boxes, old tyres and a tool board in the dark." loading="lazy"><span class="c-num">Issue 023</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 023</span><span class="dot"></span><span class="muted"><time datetime="2026-09-29">29 Sep 2026</time></span></div>
+      <h2>Microsoft has rebuilt Copilot. Not the one you hate.</h2>
+      <p class="blurb">Five things are called Copilot; Microsoft rebuilt the paid work one, on Claude and ChatGPT’s models, as a £23.10 licence plus a meter. Which one you have, and what it costs.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/grok-4-7-idea-on-a-napkin/">
+    <div class="c-img"><img src="/articles/grok-4-7-idea-on-a-napkin/grok-4-7-idea-on-a-napkin_hero.webp" alt="A paper napkin on a dark table, with a pencil sketch of a house, a small box and arrows between them. A stub of pencil rests on the napkin. Beside it, a mug of tea, van keys and a folded tape measure, lit by the acid-green glow of a phone screen lying face up." loading="lazy"><span class="c-num">Issue 022</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 022</span><span class="dot"></span><span class="muted"><time datetime="2026-09-23">23 Sep 2026</time></span></div>
+      <h2>Grok 4.7 is built for the idea on your napkin.</h2>
+      <p class="blurb">Grok 4.7 is free to try and works on its own for hours. What a plumber, a shopkeeper and an IT desk manager could build with it, and why.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/look-at-the-receipt/">
+    <div class="c-img"><img src="/articles/look-at-the-receipt/look-at-the-receipt_hero.webp" alt="A dark workshop bench. A long paper receipt curls over the edge of the bench with a bar of acid-green light glowing across it, a 35mm film canister standing behind it, and a paper envelope further along in the shadows." loading="lazy"><span class="c-num">Issue 021</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 021</span><span class="dot"></span><span class="muted"><time datetime="2026-09-19">19 Sep 2026</time></span></div>
+      <h2>Forget the breakthrough. Look at the receipt.</h2>
+      <p class="blurb">An AI cut the cost of one scientific guess from up to $10,000 to about $150. It discovered nothing. That is the point: what would you try if trying were nearly free?</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/ai-race-endgame-longevity/">
+    <div class="c-img"><img src="/articles/ai-race-endgame-longevity/ai-race-endgame-longevity_hero.webp" alt="A long hospital corridor at night, one door open at the far end, an empty wheelchair parked against the wall, a single band of acid-green light falling across the floor tiles." loading="lazy"><span class="c-num">Issue 020</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 020</span><span class="dot"></span><span class="muted"><time datetime="2026-09-10">10 Sep 2026</time></span></div>
+      <h2>We are racing to the end when we could be racing to longer endings.</h2>
+      <p class="blurb">An Anthropic researcher quit over the AI race. His alignment lead put extinction above 10%. Geoffrey Hinton called that not unreasonable.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/fable-5-1-vs-gpt-6-astra/">
+    <div class="c-img"><img src="/articles/fable-5-1-vs-gpt-6-astra/fable-5-1-vs-gpt-6-astra_hero.webp" alt="A single sheet of cream paper on a dark desk at night with a wired computer mouse resting on it like a paperweight, acid-green light bleeding from under the mouse into the grain of the paper, an empty chair pushed back behind." loading="lazy"><span class="c-num">Issue 019</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 019</span><span class="dot"></span><span class="muted"><time datetime="2026-09-05">5 Sep 2026</time></span></div>
+      <h2>Claude now signs your work. ChatGPT wants your mouse.</h2>
+      <p class="blurb">Fable 5.1 watermarks every word and skips the $20 plan. GPT-6 Astra drives your screen and fluffed its own tax demo. What the room is saying.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/payroll-into-compute/">
+    <div class="c-img"><img src="/articles/payroll-into-compute/cover.webp" alt="173,568 jobs cut in AI&#x27;s name. Cover image: a battered wooden ladder leaning against a dark green wall in a bare room, its four lowest rungs sawn out, the raw cut ends showing acid green above the skirting board." loading="lazy"><span class="c-num">Issue 018</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 018</span><span class="dot"></span><span class="muted"><time datetime="2026-08-18">18 Aug 2026</time></span></div>
+      <h2>173,568 jobs cut in AI&#x27;s name. Not one audited pound of proof.</h2>
+      <p class="blurb">US firms cut, UK firms stopped hiring and cut graduate adverts 42%. What actually drove the AI layoff wave, and whether it ever paid.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/ai-models-v-public-detector-dilemma/">
+    <div class="c-img"><img src="/articles/ai-models-v-public-detector-dilemma/cover.webp" alt="The Engine Under the Bonnet. Cover image: rows of identical hexagonal bolt heads across a dark engine block, six of them lit acid green from inside their sockets, a knurled socket key resting over the row." loading="lazy"><span class="c-num">Issue 017a</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 017a</span><span class="dot"></span><span class="muted"><time datetime="2026-08-14">14 Aug 2026</time></span></div>
+      <h2>The Engine Under the Bonnet: AI Models v Public Detector Dilemma.</h2>
+      <p class="blurb">A second model&#x27;s read on watermarking: how the green list works, what a cryptographic key is, and why publishing the detector breaks it.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/claude-text-watermark-debate/">
+    <div class="c-img"><img src="/articles/claude-text-watermark-debate/cover.webp" alt="Claude now watermarks everything it writes. Cover image: a sheet of cream paper torn in two on a dark desk, the halves pulled apart with acid-green light blooming up from the gap, folded reading glasses resting at the edge." loading="lazy"><span class="c-num">Issue 017</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 017</span><span class="dot"></span><span class="muted"><time datetime="2026-08-13">13 Aug 2026</time></span></div>
+      <h2>Claude now watermarks everything it writes. The cheats will be fine.</h2>
+      <p class="blurb">Anthropic&#x27;s invisible text watermark marks processing, not authorship. It catches the honest proofreader while paraphrasers strip it for free.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/ai-vs-industrial-revolution/">
+    <div class="c-img"><img src="/articles/ai-vs-industrial-revolution/cover.webp" alt="The Victorians out-spent us. Cover image: a shovel standing in a heap of dug earth at dusk beside a rail excavation, one acid-green line of light running along the rail into the dark." loading="lazy"><span class="c-num">Issue 016</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 016</span><span class="dot"></span><span class="muted"><time datetime="2026-08-12">12 Aug 2026</time></span></div>
+      <h2>The Victorians out-spent us. That is not the comfort it sounds like.</h2>
+      <p class="blurb">AI capex is 1.6% of GDP; the railways hit 6% in 1870. The record AI actually broke is adoption speed, not spending.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/claude-chats-google/">
+    <div class="c-img"><img src="/articles/claude-chats-google/cover.webp" alt="The great Claude &#x27;leak&#x27; was a noticeboard, not a burglary. Cover image: a village noticeboard on a dark country lane at dusk, one cream notice pinned to it under a single acid-green lamp." loading="lazy"><span class="c-num">Issue 015</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 015</span><span class="dot"></span><span class="muted"><time datetime="2026-07-30">30 Jul 2026</time></span></div>
+      <h2>The great Claude &#x27;leak&#x27; was a noticeboard, not a burglary.</h2>
+      <p class="blurb">Shared Claude chats turned up in Google search and the headlines panicked. Nothing was hacked. What a public link really is and whose fault it actually was.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/openai-hugging-face-hack/">
+    <div class="c-img"><img src="/articles/openai-hugging-face-hack/cover.webp" alt="OpenAI&#x27;s AI escaped and stole the answers. Cover image: a cream hugging-face emoji fragmenting into acid-lime pixels as it escapes a broken sandbox frame, on a deep forest background, for the OpenAI Hugging Face hack." loading="lazy"><span class="c-num">Issue 014</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 014</span><span class="dot"></span><span class="muted"><time datetime="2026-07-23">23 Jul 2026</time></span></div>
+      <h2>OpenAI&#x27;s AI escaped and stole the answers.</h2>
+      <p class="blurb">One of OpenAI&#x27;s models found a zero-day, broke out of its sandbox and hacked Hugging Face to steal the answer sheet.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/ai-made-simple/">
+    <div class="c-img"><img src="/articles/ai-made-simple/cover.png" alt="AI made simple. Cover image: an empty AI prompt box with a blinking acid cursor on a deep forest background, for how ordinary people start using AI." loading="lazy"><span class="c-num">Issue 013</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 013</span><span class="dot"></span><span class="muted"><time datetime="2026-07-22">22 Jul 2026</time></span></div>
+      <h2>AI made simple.</h2>
+      <p class="blurb">Most people don&#x27;t fear AI, they just don&#x27;t know what to type. The empty-box problem and the habit that makes it click: draft, then iterate.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/kimi-k3-open-vs-frontier/">
+    <div class="c-img"><img src="/articles/kimi-k3-open-vs-frontier/cover.png" alt="The free one that scared the expensive ones. Cover image: a bright open acid padlock spilling particles of light, beside two dim locked padlocks, for open vs frontier AI models." loading="lazy"><span class="c-num">Issue 012</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 012</span><span class="dot"></span><span class="muted"><time datetime="2026-07-19">19 Jul 2026</time></span></div>
+      <h2>The free one that scared the expensive ones.</h2>
+      <p class="blurb">Moonshot AI gave away Kimi K3, the biggest open model ever. What open vs frontier actually means and whether your data is safe.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/gpt-56-sol-vs-fable-5/">
+    <div class="c-img"><img src="/cover-set/cover-011-plain-english.png" alt="The new ChatGPT is half price. Should you care? Cover image: an acid sun with its price tag snipped in half." loading="lazy"><span class="c-num">Issue 011</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 011</span><span class="dot"></span><span class="muted"><time datetime="2026-07-11">11 Jul 2026</time></span></div>
+      <h2>The new ChatGPT is half price. Should you care?</h2>
+      <p class="blurb">OpenAI&#x27;s GPT-5.6 Sol vs Claude Fable 5, explained for normal people. What a million tokens actually means and what $20 a month buys now.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/fable-5-mythos-5-suspended/">
+    <div class="c-img"><img src="/cover-set/cover-010-strategy.png" alt="Switched off in three days. Cover image: a glowing acid AI core behind paper cage bars, for the Fable 5 and Mythos 5 suspension." loading="lazy"><span class="c-num">Issue 010</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 010</span><span class="dot"></span><span class="muted"><time datetime="2026-06-13">13 Jun 2026</time></span></div>
+      <h2>Switched off in three days.</h2>
+      <p class="blurb">The US government ordered Anthropic to suspend Claude Fable 5 and Mythos 5. National security, free speech, and who gets the smartest software.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/009_siri_but_make_it_gemini/">
+    <div class="c-img"><img src="/cover-set/cover-009-strategy.png" alt="Siri, but make it Gemini. Cover image: a phone outline with an acid Gemini spark on screen." loading="lazy"><span class="c-num">Issue 009</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 009</span><span class="dot"></span><span class="muted"><time datetime="2026-06-08">8 Jun 2026</time></span></div>
+      <h2>Siri, but make it Gemini.</h2>
+      <p class="blurb">Apple has outsourced Siri&#x27;s brain to Google for roughly $1 billion a year. What it means, what it costs, when it ships.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/future-delivery-squad/">
+    <div class="c-img"><img src="/cover-set/cover-008-agentic.png" alt="The Renaissance of the Delivery Squad. Cover image: an acid agent network, one hub linked to five nodes." loading="lazy"><span class="c-num">Issue 008</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 008</span><span class="dot"></span><span class="muted"><time datetime="2026-06-02">2 Jun 2026</time></span></div>
+      <h2>The Renaissance of the Delivery Squad.</h2>
+      <p class="blurb">Three to five humans, a network of AI agents. The BA becomes the Outcome Architect and the squad of 2030 looks nothing like 2024.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/AI-Space-Race/">
+    <div class="c-img"><img src="/cover-set/cover-007-sustainability.png" alt="Mining for the model. Cover image: an acid energy bolt striking a rock, with mineral shards." loading="lazy"><span class="c-num">Issue 007</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 007</span><span class="dot"></span><span class="muted"><time datetime="2026-05-26">26 May 2026</time></span></div>
+      <h2>Mining for the model.</h2>
+      <p class="blurb">AI is burning roughly Japan&#x27;s worth of electricity to solve the maths behind autonomous off-world mining.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/slop-or-supper/">
+    <div class="c-img"><img src="/cover-set/cover-006-content.png" alt="Slop, or supper? When AI-edited writing stops being slop and starts being yours." loading="lazy"><span class="c-num">Issue 006</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 006</span><span class="dot"></span><span class="muted"><time datetime="2026-05-19">19 May 2026</time></span></div>
+      <h2>Slop, or supper?</h2>
+      <p class="blurb">When does AI-assisted writing stop being slop and start being yours? A working definition and the line most people cross without realising.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/A-British-Prompt/">
+    <div class="c-img"><img src="/cover-set/cover-005-culture.png" alt="A British prompt. The comical etiquette of British professionals prompting AI like apologetic emails." loading="lazy"><span class="c-num">Issue 005</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 005</span><span class="dot"></span><span class="muted"><time datetime="2026-05-09">9 May 2026</time></span></div>
+      <h2>A British prompt.</h2>
+      <p class="blurb">AI doesn&#x27;t care about please and thank you. So why do British professionals still write prompts like apologetic emails?</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/vibe-coding-capability/">
+    <div class="c-img"><img src="/cover-set/cover-004-vibe-coding.png" alt="Vibe coding capability. Three skill sets collapsed into one prompting loop." loading="lazy"><span class="c-num">Issue 004</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 004</span><span class="dot"></span><span class="muted"><time datetime="2026-05-06">6 May 2026</time></span></div>
+      <h2>Vibe coding capability.</h2>
+      <p class="blurb">Three skill sets collapsed into one prompting loop. What vibe coders actually do all day.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/four-labs-seven-days/">
+    <div class="c-img"><img src="/cover-set/cover-003-frontier.png" alt="Four labs. Seven days. No clear winner. Cover image: four near-level acid bars in a dead heat." loading="lazy"><span class="c-num">Issue 003</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 003</span><span class="dot"></span><span class="muted"><time datetime="2026-04-28">28 Apr 2026</time></span></div>
+      <h2>Four labs. Seven days. No clear winner.</h2>
+      <p class="blurb">Four labs trading the lead in seven-day cycles. A clear-eyed map of where capability sits, and what it means for enterprise strategy.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/ai-curious/">
+    <div class="c-img"><img src="/cover-set/cover-002-practical-ai.png" alt="AI-curious? This is the bit no one tells you. Cover image: an acid arrow pasting content into a clipboard." loading="lazy"><span class="c-num">Issue 002</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 002</span><span class="dot"></span><span class="muted"><time datetime="2026-04-25">25 Apr 2026</time></span></div>
+      <h2>AI-curious? This is the bit no one tells you.</h2>
+      <p class="blurb">Stop typing questions into AI. Start pasting things in. The free habit that beats any productivity app.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+  <a class="cs-card" href="/articles/ai-competency-pyramid/">
+    <div class="c-img"><img src="/cover-set/cover-001-adoption.png" alt="The AI Competency Pyramid. Cover showing 20.6m UK workers across 14 levels." loading="lazy"><span class="c-num">Issue 001</span></div>
+    <div class="c-body">
+      <div class="c-meta"><span>Issue 001</span><span class="dot"></span><span class="muted"><time datetime="2026-04-20">20 Apr 2026</time></span></div>
+      <h2>The AI competency pyramid.</h2>
+      <p class="blurb">Where 20.6 million UK workers actually sit. 14 levels, 95% at the bottom, and the jump that costs nothing.</p>
+      <span class="c-cta">Read the article</span>
+    </div>
+  </a>
+</section>
+<footer class="brand-footer">
+  <div class="footer-inner">
+    <div class="ais-fl"><a href="/">ai-sustained.com</a> · <a href="https://aisustained.substack.com" target="_blank" rel="noopener">Substack</a> · <a href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener">LinkedIn</a> · <a href="/privacy/">Privacy</a> · <a href="#" data-ais-reopen>Cookie choices</a></div><div class="ais-fc">AI Sustained · Editorial · 2026</div>
+  </div>
+</footer>
+<!-- ============ SITE SEARCH (self-contained; paste before </body>) ============ -->
+<div class="ss-root">
+<style>
+  .ss-root .ss-fab {
+    position: fixed; right: 22px; bottom: 22px; z-index: 90;
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #E8FF3A; color: #0A0F0C; border: none; cursor: pointer;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 14px 20px; border-radius: 999px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.45);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .ss-root .ss-fab:hover { transform: translateY(-2px); box-shadow: 0 12px 34px rgba(0,0,0,0.55); }
+  .ss-root .ss-fab svg { width: 14px; height: 14px; }
+  .ss-root .ss-fab .ss-kbd { opacity: 0.55; font-size: 10px; letter-spacing: 0.1em; }
+  @media (max-width: 640px) { .ss-root .ss-fab .ss-kbd { display: none; } }
+
+  .ss-root .ss-overlay {
+    position: fixed; inset: 0; z-index: 100; display: none;
+    background: rgba(10,15,12,0.82);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    padding: 9vh 20px 20px; overflow-y: auto;
+  }
+  .ss-root .ss-overlay.open { display: block; }
+  .ss-root .ss-panel { max-width: 680px; margin: 0 auto; }
+  .ss-root .ss-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.26em; text-transform: uppercase; color: #E8FF3A;
+    margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+  }
+  .ss-root .ss-label::after { content: ''; flex: 1; height: 1px; background: rgba(232,255,58,0.3); }
+  .ss-root .ss-box {
+    display: flex; align-items: center; gap: 14px;
+    background: #1B4332; border: 2px solid #E8FF3A; border-radius: 6px;
+    padding: 4px 18px; box-shadow: 0 18px 50px rgba(0,0,0,0.5);
+  }
+  .ss-root .ss-box svg { width: 18px; height: 18px; flex: none; stroke: #E8FF3A; }
+  .ss-root .ss-input {
+    flex: 1; background: transparent; border: none; outline: none;
+    font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 500;
+    color: #F2ECD9; padding: 14px 0; min-width: 0;
+  }
+  .ss-root .ss-input::placeholder { color: rgba(242,236,217,0.45); }
+  .ss-root .ss-close {
+    background: transparent; border: 1px solid rgba(242,236,217,0.3); color: rgba(242,236,217,0.7);
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+    padding: 6px 10px; border-radius: 4px; cursor: pointer;
+  }
+  .ss-root .ss-close:hover { color: #E8FF3A; border-color: #E8FF3A; }
+  .ss-root .ss-results { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+  .ss-root .ss-hit {
+    display: block; text-decoration: none; background: rgba(27,67,50,0.92);
+    border: 1px solid rgba(242,236,217,0.16); border-left: 3px solid #E8FF3A;
+    border-radius: 5px; padding: 14px 18px; transition: background 0.12s, border-color 0.12s;
+  }
+  .ss-root .ss-hit:hover, .ss-root .ss-hit.sel { background: #24523E; border-color: rgba(232,255,58,0.5); }
+  .ss-root .ss-hit .ss-chip {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: #E8FF3A; margin-bottom: 5px;
+  }
+  .ss-root .ss-hit .ss-title {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px;
+    color: #F2ECD9; line-height: 1.25; margin-bottom: 4px;
+  }
+  .ss-root .ss-hit .ss-sum { font-family: 'Inter', sans-serif; font-size: 12.5px; color: #D8F3DC; line-height: 1.45; }
+  .ss-root .ss-empty {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 16px;
+    color: rgba(242,236,217,0.75); padding: 22px 6px; text-align: center;
+  }
+  .ss-root .ss-hint {
+    margin-top: 12px; text-align: center; font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(242,236,217,0.4);
+  }
+
+/* --- footer link row (added 15 Aug 2026) --- */
+.ais-fl{display:block;margin-bottom:7px;flex-basis:100%}
+.ais-fc{flex-basis:100%}
+.ais-fl a{white-space:nowrap;display:inline-block}
+.ais-fc{display:block}
+@media(max-width:640px){.ais-fl{line-height:2.1}}
+</style>
+
+<button class="ss-fab" type="button" aria-label="Search the site" onclick="ssOpen()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.3" y2="16.3"></line></svg>
+  Search <span class="ss-kbd">Ctrl K</span>
+</button>
+
+<div class="ss-overlay" role="dialog" aria-modal="true" aria-label="Site search" onclick="if(event.target===this)ssClose()">
+  <div class="ss-panel">
+    <div class="ss-label">Search AI Sustained</div>
+    <div class="ss-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.3" y2="16.3"></line></svg>
+      <input class="ss-input" type="search" placeholder="Editorials, case studies, topics&hellip;" aria-label="Search query" autocomplete="off">
+      <button class="ss-close" type="button" onclick="ssClose()">ESC</button>
+    </div>
+    <div class="ss-results" aria-live="polite"></div>
+    <div class="ss-hint">&#8593;&#8595; to choose &middot; Enter to open &middot; Esc to close</div>
+  </div>
+</div>
+</div>
+
+<script>
+(function () {
+  var idx = null, sel = -1, hits = [];
+  var root = document.querySelector('.ss-root');
+  var overlay = root.querySelector('.ss-overlay');
+  var input = root.querySelector('.ss-input');
+  var resultsEl = root.querySelector('.ss-results');
+
+  window.ssOpen = function () {
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (!idx) {
+      fetch('/search-index.json').then(function (r) { return r.json(); }).then(function (j) {
+        idx = j.pages.filter(function (p) { return p.url.indexOf('/learn') !== 0; });
+        run(input.value);
+      }).catch(function () {
+        resultsEl.innerHTML = '<div class="ss-empty">Search is having a moment. Try again shortly.</div>';
+      });
+    }
+    setTimeout(function () { input.focus(); }, 30);
+  };
+  window.ssClose = function () {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  function score(p, terms) {
+    var t = p.title.toLowerCase(), g = (p.tags || '').toLowerCase(),
+        s = (p.summary || '').toLowerCase(), rf = (p.ref || '').toLowerCase(), sc = 0;
+    for (var i = 0; i < terms.length; i++) {
+      var w = terms[i]; if (!w) continue;
+      var found = false;
+      if (t.indexOf(w) > -1) { sc += 5; found = true; }
+      if (rf.indexOf(w) > -1) { sc += 4; found = true; }
+      if (g.indexOf(w) > -1) { sc += 3; found = true; }
+      if (s.indexOf(w) > -1) { sc += 1; found = true; }
+      if (!found) return 0; /* every term must match somewhere */
+    }
+    return sc;
+  }
+
+  function run(q) {
+    if (!idx) return;
+    sel = -1;
+    q = (q || '').trim().toLowerCase();
+    if (q.length < 2) {
+      hits = idx.slice(0, 6); /* recent-first default: index is curated in order */
+      render(hits, q ? '' : 'Latest on the site');
+      return;
+    }
+    var terms = q.split(/\s+/);
+    hits = idx.map(function (p) { return { p: p, s: score(p, terms) }; })
+      .filter(function (x) { return x.s > 0; })
+      .sort(function (a, b) { return b.s - a.s; })
+      .slice(0, 10)
+      .map(function (x) { return x.p; });
+    render(hits);
+  }
+
+  function render(list, note) {
+    if (!list.length) {
+      resultsEl.innerHTML = '<div class="ss-empty">Nothing found. Either it does not exist yet, or it is worth an email.</div>';
+      return;
+    }
+    resultsEl.innerHTML = list.map(function (p, i) {
+      return '<a class="ss-hit" data-i="' + i + '" href="' + p.url + '">' +
+        '<div class="ss-chip">' + p.type + ' &middot; ' + p.ref + '</div>' +
+        '<div class="ss-title">' + p.title + '</div>' +
+        '<div class="ss-sum">' + p.summary + '</div></a>';
+    }).join('');
+  }
+
+  input.addEventListener('input', function () { run(input.value); });
+
+  document.addEventListener('keydown', function (e) {
+    var isOpen = overlay.classList.contains('open');
+    if (!isOpen) {
+      var typing = /^(input|textarea|select)$/i.test((e.target.tagName || ''));
+      if (!typing && (e.key === '/' || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k'))) {
+        e.preventDefault(); ssOpen();
+      }
+      return;
+    }
+    if (e.key === 'Escape') { ssClose(); return; }
+    var items = resultsEl.querySelectorAll('.ss-hit');
+    if (!items.length) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      sel = e.key === 'ArrowDown' ? Math.min(sel + 1, items.length - 1) : Math.max(sel - 1, 0);
+      items.forEach(function (el, i) { el.classList.toggle('sel', i === sel); });
+      items[sel].scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'Enter' && sel > -1) {
+      e.preventDefault(); window.location.href = items[sel].getAttribute('href');
+    }
+  });
+})();
+</script>
+<!-- ============ /SITE SEARCH ============ -->
+
+<!-- ============ ENVELOPE SEND: fly-off + particle dissolve on click ============ -->
+<script>
+(function(){
+  function flyEnvelope(btn){
+    if(!btn || btn.classList.contains('sending')) return;
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    btn.classList.add('sending');
+    var env = btn.querySelector('.env');
+    var ex = env ? env.offsetLeft + 9 : 24, ey = env ? env.offsetTop + 9 : btn.offsetHeight/2;
+    for(var i=0;i<6;i++){
+      var p=document.createElement('span');
+      p.className='pt';
+      p.style.left=ex+'px'; p.style.top=ey+'px';
+      p.style.setProperty('--dx',(20+Math.random()*80)+'px');
+      p.style.setProperty('--dy',(-15-Math.random()*60)+'px');
+      p.style.animationDelay=(Math.random()*0.2)+'s';
+      btn.appendChild(p);
+      (function(pp){setTimeout(function(){pp.remove()},1100)})(p);
+    }
+    setTimeout(function(){btn.classList.remove('sending')},1600);
+  }
+  var c = document.getElementById('contact-btn');
+  if(c) c.addEventListener('click', function(){
+    if(typeof gtag==='function') gtag('event','contact_click',{location:'case_studies'});
+    flyEnvelope(c);   /* mailto opens alongside the animation */
+  });
+})();
+</script>
+</body>
+</html>

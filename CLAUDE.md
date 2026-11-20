@@ -71,7 +71,7 @@ resource/ docs/ privacy/                  _headers         Cloudflare headers
 llms.txt  robots.txt  sitemap.xml
 ```
 
-Adding an article: create `articles/<slug>/`, add `index.html` + optimised cover, add a card to `index.html`, add the URL to `sitemap.xml`, add an entry to `search-index.json` (site search reads it; Issue 022 and Case study 007 were missed and back-filled on 29 Sep 2026) and, if it is worth surfacing to crawlers, a line in `llms.txt`. `README.md` tells you to do this through the GitHub web UI — **ignore that**, it predates the local clone. Work locally and push.
+Adding an article: create `articles/<slug>/`, add `index.html` + optimised cover, add a card to `index.html`, add an entry to `search-index.json`, run `python3 -I scripts/build-discovery.py` (it adds the sitemap entry, feed item, articles index card and related links) (site search reads it; Issue 022 and Case study 007 were missed and back-filled on 29 Sep 2026) and, if it is worth surfacing to crawlers, a line in `llms.txt`. `README.md` tells you to do this through the GitHub web UI — **ignore that**, it predates the local clone. Work locally and push.
 
 ## Known pre-existing breakage
 
@@ -94,7 +94,8 @@ Current carousel order: `shadow-ai-ask-the-workforce` · `single-source-of-truth
 
 - **`404.html`** at the repo root. Cloudflare Pages serves it with a genuine 404 status; before it existed, unknown paths returned the homepage with a 200. Don't delete it.
 - **`og-card.png`** (1200x630) is the social card for the homepage, `/ledger/` and `/advertise/`. Built from `learn/wordmark_white.png` + `learn/logo_mark_white.png`. Note both of those assets carry a semi-opaque backing plate at alpha 1-31 across the whole canvas — strip anything under alpha 40 or you get a faint box. `ai_sustained_wordmark.png` is the **dark** version and disappears on forest.
-- **`sitemap.xml` is hand-maintained** — 42 entries as of 17 Oct 2026, `changefreq`/`priority`, no `lastmod`. Add new articles and case studies when you publish them. `case-studies/ifg-data-platform/` is deliberately excluded: it is a DRAFT scaffold carrying `noindex, nofollow`.
+- **Discovery plumbing is generated (added 20 Nov 2026).** `python3 -I scripts/build-discovery.py` reads `search-index.json` and rewrites `articles/index.html` (the index of every issue), `feed.xml`, `sitemap.xml` (now with `lastmod`), `llms.txt` (appends missing pages) and, inside every article and case study, two marker blocks: `<!-- ais-head -->` (feed link, breadcrumb data, any missing social tags) and `<!-- ais-more -->` (the "Keep reading" block of three related pieces before the footer). **After adding an article: add its `search-index.json` entry and homepage card, then run the script.** Never edit inside the markers or `articles/index.html` by hand. The root `<32 hex>.txt` file is the IndexNow key for Bing; don't delete it.
+- **`sitemap.xml` was hand-maintained until then** — 42 entries as of 17 Oct 2026, `changefreq`/`priority`, no `lastmod`. Add new articles and case studies when you publish them. `case-studies/ifg-data-platform/` is deliberately excluded: it is a DRAFT scaffold carrying `noindex, nofollow`.
 - **Never inline images as base64.** Two pages did and were 563KB and 372KB, ~90% of which was one data URI. They are now 55KB and 53KB with WebP files alongside.
 
 ### Structured data

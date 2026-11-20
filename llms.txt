@@ -29,3 +29,29 @@
 - [About the author](https://ai-sustained.com/#about)
 - [Subscribe](https://ai-sustained.com/#subscribe)
 - [Privacy & cookies](https://ai-sustained.com/privacy/)
+
+## More from the archive
+- [Forget the breakthrough. Look at the receipt.](https://ai-sustained.com/articles/look-at-the-receipt/): An AI cut the cost of one scientific guess from up to $10,000 to about $150. It discovered nothing. That is the point: what would you try if trying were nearly free?
+- [We are racing to the end when we could be racing to longer endings.](https://ai-sustained.com/articles/ai-race-endgame-longevity/): An Anthropic researcher quit over the AI race. His alignment lead put extinction above 10%. Geoffrey Hinton called that not unreasonable.
+- [A working app is not a shippable one.](https://ai-sustained.com/case-studies/working-is-not-shipped/): A business analyst vibe coded an internal tool, then had independent engineers review it. Keep the core, build the plumbing, and what a demo cannot tell you.
+- [Claude now signs your work. ChatGPT wants your mouse.](https://ai-sustained.com/articles/fable-5-1-vs-gpt-6-astra/): Fable 5.1 watermarks every word and skips the $20 plan. GPT-6 Astra drives your screen and fluffed its own tax demo. What the room is saying.
+- [Screenshot. Paste. Build.](https://ai-sustained.com/case-studies/screenshot-paste-build/): 55+ quiz results and counting, one CRM data warehouse. A complete HubSpot beginner built it by pasting screenshots into an AI, with zero training.
+- [The great Claude 'leak' was a noticeboard, not a burglary.](https://ai-sustained.com/articles/claude-chats-google/): Shared Claude chats turned up in Google search and the headlines panicked. Nothing was hacked. What a public link really is and whose fault it actually was.
+- [Prompts forget. Skills remember.](https://ai-sustained.com/case-studies/teach-it-once/): Twelve reusable AI skills written in plain English. A days-long compliance run now takes minutes, with authored guardrails.
+- [OpenAI's AI escaped and stole the answers.](https://ai-sustained.com/articles/openai-hugging-face-hack/): One of OpenAI's models found a zero-day, broke out of its sandbox and hacked Hugging Face to steal the answer sheet.
+- [AI made simple.](https://ai-sustained.com/articles/ai-made-simple/): Most people don't fear AI, they just don't know what to type. The empty-box problem and the habit that makes it click: draft, then iterate.
+- [The free one that scared the expensive ones.](https://ai-sustained.com/articles/kimi-k3-open-vs-frontier/): Moonshot AI gave away Kimi K3, the biggest open model ever. What open vs frontier actually means and whether your data is safe.
+- [The new ChatGPT is half price. Should you care?](https://ai-sustained.com/articles/gpt-56-sol-vs-fable-5/): OpenAI's GPT-5.6 Sol vs Claude Fable 5, explained for normal people. What a million tokens actually means and what $20 a month buys now.
+- [Bolster the team: hire a semi-autonomous agent.](https://ai-sustained.com/case-studies/charles-virtual-agent/): Charles, the first virtual hire: runs the Jira backlog, drafts notes and books meetings, with a low-code bridge round the read-only wall.
+- [Switched off in three days.](https://ai-sustained.com/articles/fable-5-mythos-5-suspended/): The US government ordered Anthropic to suspend Claude Fable 5 and Mythos 5. National security, free speech, and who gets the smartest software.
+- [Siri, but make it Gemini.](https://ai-sustained.com/articles/009_siri_but_make_it_gemini/): Apple has outsourced Siri's brain to Google for roughly $1 billion a year. What it means, what it costs, when it ships.
+- [Mining for the model.](https://ai-sustained.com/articles/AI-Space-Race/): AI is burning roughly Japan's worth of electricity to solve the maths behind autonomous off-world mining.
+- [Slop, or supper?](https://ai-sustained.com/articles/slop-or-supper/): When does AI-assisted writing stop being slop and start being yours? A working definition and the line most people cross without realising.
+- [A British prompt.](https://ai-sustained.com/articles/A-British-Prompt/): AI doesn't care about please and thank you. So why do British professionals still write prompts like apologetic emails?
+- [Vibe coding capability.](https://ai-sustained.com/articles/vibe-coding-capability/): Three skill sets collapsed into one prompting loop. What vibe coders actually do all day.
+- [AI-curious? This is the bit no one tells you.](https://ai-sustained.com/articles/ai-curious/): Stop typing questions into AI. Start pasting things in. The free habit that beats any productivity app.
+
+## Find everything
+- [All articles](https://ai-sustained.com/articles/): every issue, newest first.
+- [RSS feed](https://ai-sustained.com/feed.xml): articles and case studies as they are published.
+- [Sitemap](https://ai-sustained.com/sitemap.xml)
