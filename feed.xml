@@ -6,7 +6,15 @@
   <atom:link href="https://ai-sustained.com/feed.xml" rel="self" type="application/rss+xml"/>
   <description>AI that survives Monday morning. Plain-English articles and real case studies on AI at work in the UK, by Kevin Clubb.</description>
   <language>en-gb</language>
-  <lastBuildDate>Sat, 07 Nov 2026 08:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Sat, 21 Nov 2026 08:00:00 +0000</lastBuildDate>
+  <item>
+    <title>The search box became a teacher. Nobody interviewed it.</title>
+    <link>https://ai-sustained.com/articles/let-students-search/</link>
+    <guid isPermaLink="true">https://ai-sustained.com/articles/let-students-search/</guid>
+    <pubDate>Sat, 21 Nov 2026 08:00:00 +0000</pubDate>
+    <category>Article</category>
+    <description>Google says schools that refuse its AI answers lose Search too. More than 500 of its own staff disagree. What it means for UK schools, governors and parents.</description>
+  </item>
   <item>
     <title>AI is now building AI twice as fast. The frightening part is what got redacted.</title>
     <link>https://ai-sustained.com/articles/who-holds-the-leash/</link>

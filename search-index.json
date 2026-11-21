@@ -360,6 +360,15 @@
       "date": "2026-11-07",
       "summary": "METR measured Anthropic improving its models at roughly twice the old rate, mostly attributable to AI. Then most of the evidence was blacked out.",
       "tags": "recursive self-improvement rsi self-improving ai metr anthropic s-1 openai automated research ai security institute aisi ai safety uk regulation ncsc gladstone rand audio commentary"
+    },
+    {
+      "type": "Editorial",
+      "ref": "Issue 028",
+      "title": "The search box became a teacher. Nobody interviewed it.",
+      "url": "/articles/let-students-search/",
+      "date": "2026-11-21",
+      "summary": "Google says schools that refuse its AI answers lose Search too. More than 500 of its own staff disagree. What it means for UK schools, governors and parents.",
+      "tags": "let students search google search schools ai overviews ai mode gemini workspace for education guided learning alphabet workers union petition kcsie filtering monitoring governors safeguarding homework national literacy trust cma education pupils parents audio commentary"
     }
   ]
 }
