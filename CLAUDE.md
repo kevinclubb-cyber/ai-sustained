@@ -144,3 +144,9 @@ Two traps when touching this:
 ## Identity
 
 Commits here use `Kevin Clubb <269910415+kevinclubb-cyber@users.noreply.github.com>`, set per-repo. Global git config is a work email and must not appear in this repo — if you add a new clone, set the local identity.
+
+## Consent snippet — scanner guard (22 Nov 2026)
+
+The cookie consent block is inlined, byte-identical, in 48 pages (every page that sets `gtag('consent','default', …)`). Since 22 Nov 2026 its `apply()` keeps link scanners out of GA4: a browser that reports `navigator.webdriver` or names itself as a crawler never has consent switched on, and after a fresh Accept the consent update is sent at the visitor's next real movement, tap, key press or scroll (`whenHuman`), not at the press. A stored choice is applied straight away. Change all 48 copies together with a script; never edit one page by hand.
+
+`case-studies/working-is-not-shipped/index.html` loads Tag Manager but has **no** consent block at all — flagged to Kevin 22 Nov 2026, not yet fixed.

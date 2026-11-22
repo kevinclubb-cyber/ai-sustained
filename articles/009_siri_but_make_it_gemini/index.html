@@ -63,7 +63,21 @@
     };
   }
 
-  function apply(c, isNew){
+  /* ---------- keep link scanners out of the numbers ----------
+     Scanners follow shared links and press Accept. Two guards:
+     1. a browser that says it is automated, or names itself as a crawler,
+        never has anything switched on;
+     2. after a fresh Accept, consent is passed to Google at the visitor's
+        next real movement, tap, key press or scroll, not at the press itself.
+     A returning visitor's stored choice is applied straight away. */
+  var AUTOMATED = !!navigator.webdriver ||
+    /bot\/|bot;|crawler|spider|facebookexternalhit|facebot|meta-external|headlesschrome|lighthouse|phantomjs/i
+      .test(navigator.userAgent || '');
+  var HUMAN = ['pointermove','pointerdown','keydown','wheel','touchstart','scroll'];
+  var HUMAN_AFTER = 1500;                    /* ignore the press itself */
+  var stopWaiting = null;
+
+  function send(c){
     gtag('consent','update', stateFrom(c));
     dataLayer.push({
       event: 'consent_update',
@@ -71,12 +85,34 @@
       consent_recording:  !!c.recording,
       consent_marketing:  !!c.marketing
     });
+  }
+
+  function whenHuman(fn){
+    var since = Date.now(), opts = { capture:true, passive:true };
+    function seen(e){
+      if (!e.isTrusted || Date.now() - since < HUMAN_AFTER) return;
+      stopWaiting();
+      fn();
+    }
+    stopWaiting = function(){
+      HUMAN.forEach(function(n){ window.removeEventListener(n, seen, opts); });
+      stopWaiting = null;
+    };
+    HUMAN.forEach(function(n){ window.addEventListener(n, seen, opts); });
+  }
+
+  function apply(c, isNew){
+    if (stopWaiting) stopWaiting();          /* a newer choice replaces a waiting one */
     if (isNew){
       try { localStorage.setItem(STORE, JSON.stringify({
         t: Date.now(), analytics: !!c.analytics,
         recording: !!c.recording, marketing: !!c.marketing
       })); } catch(e){}
     }
+    var wants = c.analytics || c.recording || c.marketing;
+    if (wants && AUTOMATED) return;
+    if (wants && isNew){ whenHuman(function(){ send(c); }); return; }
+    send(c);
   }
 
   if (saved) apply(saved, false);
