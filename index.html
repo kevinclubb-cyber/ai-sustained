@@ -370,7 +370,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     "@type": "Organization",
     "name": "AI Sustained",
     "url": "https://ai-sustained.com/",
-    "sameAs": ["https://aisustained.substack.com/", "https://www.linkedin.com/in/kevin-clubb"],
+    "sameAs": ["https://www.linkedin.com/in/kevin-clubb"],
     "logo": {
       "@type": "ImageObject",
       "url": "https://ai-sustained.com/ai_sustained_logo_mark.png"
@@ -381,6 +381,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('cat-js');</script>
 <style>
   :root {
     --forest: #1B4332;
@@ -734,15 +735,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     margin: 0 auto;
     padding: 0 32px 80px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(360px, 100%), 1fr));
     gap: 28px;
   }
+  #editorial-grid > .card[hidden] { display: none; }
   @media (min-width: 1080px) {
     .grid { grid-template-columns: repeat(3, 1fr); }
-    .card.featured { grid-column: span 2; grid-row: span 1; }
-    .card.featured .card-image { aspect-ratio: 16/9; }
-    .card.featured .card-title { font-size: 38px; }
-    .card.featured .card-deck { font-size: 18px; }
+    /* Wide first card, by position. Only when the catalogue script is off: with it on, the
+       spotlight shows the newest issue large and the grid stays uniform (filters too). */
+    html:not(.cat-js) #editorial-grid > .card:first-child { grid-column: span 2; grid-row: span 1; }
+    html:not(.cat-js) #editorial-grid > .card:first-child .card-image { aspect-ratio: 16/9; }
+    html:not(.cat-js) #editorial-grid > .card:first-child .card-title { font-size: 38px; }
+    html:not(.cat-js) #editorial-grid > .card:first-child .card-deck { font-size: 18px; }
   }
   .card {
     background: var(--paper-06);
@@ -1023,72 +1027,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     transition: gap 0.15s; display: inline-flex; gap: 8px; align-items: center;
   }
   .case-aside .browse::after { content: '→'; }
-  /* ============ SUBSTACK SLAB ============ */
-  .slab {
-    background: var(--acid);
-    color: var(--ink);
-    border-top: 1px solid var(--paper-30);
-    border-bottom: 1px solid var(--paper-30);
-  }
-  .slab-inner {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 56px 32px;
-    display: grid;
-    grid-template-columns: minmax(200px, 1fr) 2.4fr auto;
-    gap: 48px;
-    align-items: center;
-  }
-  @media (max-width: 880px) {
-    .slab-inner { grid-template-columns: 1fr; gap: 24px; padding: 44px 32px; }
-  }
-  .slab-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.26em;
-    text-transform: uppercase;
-    color: var(--ink);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .slab-label::before {
-    content: '';
-    width: 32px;
-    height: 2px;
-    background: var(--ink);
-  }
-  .slab-body {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    font-size: clamp(22px, 2.4vw, 30px);
-    line-height: 1.2;
-    color: var(--ink);
-    letter-spacing: -0.01em;
-  }
-  .slab-body em {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-weight: 500;
-  }
-  .slab-cta {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--ink);
-    border-bottom: 2px solid var(--ink);
-    padding-bottom: 4px;
-    white-space: nowrap;
-    transition: gap 0.15s;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .slab-cta:hover { gap: 16px; }
-  .slab-cta::after { content: '→'; font-size: 16px; }
   /* ============ ABOUT BLOCK ============ */
   .about {
     background: var(--paper-06);
@@ -1621,316 +1559,311 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h2 class="section-title">The <em>editorial</em>.</h2>
     <a class="section-meta" href="/articles/" style="color:inherit">Every issue, newest first &rarr;</a>
   </header>
+
+  <!-- ============ CATALOGUE: SPOTLIGHT, QUICK JUMPS, TOPIC CHIPS ============
+       Everything here is built from the cards in #editorial-grid at run time, so publishing
+       stays one edit (a new card as the first child of the grid). Hidden when script is off. -->
+  <style>
+  /* overflow-x: clip keeps the waiting 3D slides from widening the page (no sideways scroll). */
+  .cat { display: none; max-width: 1280px; margin: 0 auto; padding: 0 32px; overflow-x: clip; }
+  html.cat-js .cat { display: block; }
+  .cat [hidden] { display: none !important; }
+
+  /* Spotlight carousel */
+  .spot { position: relative; max-width: 680px; margin: 4px auto 0; }
+  .spot-stage { position: relative; display: grid; perspective: 1600px; perspective-origin: 50% 42%; touch-action: pan-y; }
+  /* Reserves the slide's exact height before the script runs, so nothing below moves. */
+  .spot-stage::before { content: ''; grid-area: 1 / 1; padding-bottom: calc(56.25% + 300px); }
+  .spot-slide {
+    grid-area: 1 / 1; position: relative; display: grid; grid-template-rows: auto 300px;
+    background: linear-gradient(180deg, rgba(10,15,12,0.55), rgba(10,15,12,0.32));
+    border: 1px solid var(--paper-18); border-radius: 6px; overflow: hidden;
+    opacity: 0; visibility: hidden; transform-origin: 50% 50%;
+    transform: translate3d(18%, 0, -280px) rotateY(-28deg);
+    transition: transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease, visibility 0s linear 0.85s;
+    backface-visibility: hidden;
+  }
+  .spot-slide.is-before { transform: translate3d(-18%, 0, -280px) rotateY(28deg); }
+  .spot-slide.is-active {
+    opacity: 1; visibility: visible; transform: none; z-index: 2;
+    box-shadow: 0 30px 60px rgba(10,15,12,0.45);
+    transition: transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease 0.1s, visibility 0s;
+  }
+  .spot-slide.is-instant { transition: none !important; }
+  .spot-media { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--paper-06); border-bottom: 2px solid var(--acid); }
+  .spot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .spot-slide.is-active .spot-media img { animation: spotDrift 9s cubic-bezier(0.2, 0.6, 0.2, 1) both; }
+  @keyframes spotDrift { from { transform: scale(1.08); } to { transform: scale(1); } }
+  .spot-badge { position: absolute; top: 12px; left: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; background: var(--ink); color: var(--acid); padding: 6px 11px; border-radius: 3px; }
+  .spot-body { display: flex; flex-direction: column; gap: 10px; padding: 20px 22px; min-height: 0; overflow: hidden; }
+  .spot-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mint); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; line-height: 14px; flex: none; }
+  .spot-meta .dot { width: 4px; height: 4px; background: var(--mint); border-radius: 50%; opacity: 0.6; }
+  .spot-meta .muted { color: var(--paper-60); }
+  .spot-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 24px; line-height: 1.15; letter-spacing: -0.01em; color: var(--paper); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; flex: none; }
+  .spot-deck { font-size: 15px; line-height: 1.5; color: var(--mint); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; min-height: 0; }
+  .spot .spot-read { width: 168px; flex: none; margin-top: auto; }
+  .spot-pause { position: absolute; top: 12px; right: 12px; z-index: 5; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--paper-30); background: rgba(10,15,12,0.78); color: var(--paper); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
+  .spot-pause svg { width: 16px; height: 16px; fill: currentColor; }
+  .spot-pause .i-play, .spot-pause.is-paused .i-pause { display: none; }
+  .spot-pause.is-paused .i-play { display: block; }
+  .spot-pause:hover { border-color: var(--acid); color: var(--acid); }
+  .spot-controls { display: flex; align-items: center; justify-content: center; gap: 4px; height: 44px; margin-top: 14px; }
+  .spot-arrow { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--paper-30); background: transparent; color: var(--paper); font-size: 18px; line-height: 1; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; transition: border-color 0.15s, color 0.15s; }
+  .spot-arrow:hover { border-color: var(--acid); color: var(--acid); }
+  .spot-dots { display: flex; }
+  .spot-dot { width: 44px; height: 44px; border: 0; background: transparent; padding: 0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+  .spot-dot::before { content: ''; width: 10px; height: 10px; border-radius: 6px; background: var(--paper-30); transition: width 0.3s ease, background 0.3s ease; }
+  .spot-dot:hover::before { background: var(--paper-60); }
+  .spot-dot[aria-current="true"]::before { width: 26px; background: var(--acid); }
+  .spot button:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
+  @media (min-width: 1024px) {
+    .spot { max-width: none; }
+    .spot-stage::before { padding-bottom: 31.5%; }   /* 56% wide image column at 16:9 */
+    .spot-slide { grid-template-columns: 56% 44%; grid-template-rows: 1fr; }
+    .spot-media { aspect-ratio: auto; border-bottom: 0; border-right: 2px solid var(--acid); }
+    .spot-body { justify-content: center; padding: clamp(22px, 2.6vw, 40px); gap: 12px; }
+    .spot-title { font-size: clamp(22px, calc(2.6vw - 4px), 38px); line-height: 1.12; -webkit-line-clamp: 3; }
+    .spot-deck { font-size: clamp(15px, 1.2vw, 17px); -webkit-line-clamp: 2; }
+    .spot .spot-read { margin-top: 6px; }
+  }
+  @media (min-width: 1280px) { .spot-deck { -webkit-line-clamp: 3; } }
+
+  /* Quick-jump keys: the house 3D key, in the share-key tray */
+  .cat-keys { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-top: 34px; padding: 24px 22px 20px; border-radius: 10px; background: linear-gradient(180deg, rgba(10,15,12,0.62), rgba(10,15,12,0.36)); box-shadow: inset 0 3px 12px rgba(0,0,0,0.5), inset 0 -1px 0 rgba(242,236,217,0.07), 0 1px 0 rgba(242,236,217,0.06); perspective: 900px; }
+  .cat-keys .btn-key { width: 100%; }
+  @media (max-width: 720px) { .cat-keys { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 16px; } }
+
+  /* Topic chips: flat pills, not keys (keys go somewhere, chips sort what is here) */
+  .cat-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 30px; }
+  .cat-chip { min-height: 44px; padding: 0 16px; border-radius: 100px; border: 1px solid var(--paper-30); background: transparent; color: var(--paper); font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+  .cat-chip:hover { border-color: var(--acid); }
+  .cat-chip[aria-pressed="true"] { background: var(--acid); border-color: var(--acid); color: var(--ink); }
+  .cat-chip .n { min-width: 2ch; text-align: right; font-variant-numeric: tabular-nums; opacity: 0.65; }
+  .cat-chip:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
+  .cat-quick[aria-pressed="true"] { background: var(--mint); border-color: var(--mint); }
+  .cat-sub { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin: 12px 0 22px; }
+  .cat-count { margin: 0; min-height: 20px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; line-height: 20px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-60); }
+  .cat-empty { margin: -8px 0 40px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .spot-slide, .spot-slide.is-active, .spot-dot::before, .cat-chip { transition: none; }
+    .spot-slide.is-active .spot-media img { animation: none; }
+    .spot-pause { display: none; }
+  }
+  </style>
+  <div class="cat" id="catalogue">
+    <section class="spot" id="spotlight" aria-roledescription="carousel" aria-label="Spotlight: the newest issue and four picks">
+      <button type="button" class="spot-pause" id="spot-pause" aria-label="Pause the slides">
+        <svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h3.5v12H3zM9.5 2H13v12H9.5z"/></svg>
+        <svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg>
+      </button>
+      <div class="spot-stage" id="spot-stage" aria-live="off"></div>
+      <div class="spot-controls">
+        <button type="button" class="spot-arrow" id="spot-prev" aria-label="Previous slide">&#8592;</button>
+        <div class="spot-dots" id="spot-dots" role="group" aria-label="Choose a slide"></div>
+        <button type="button" class="spot-arrow" id="spot-next" aria-label="Next slide">&#8594;</button>
+      </div>
+    </section>
+
+    <nav class="cat-keys" aria-label="Quick jumps">
+      <a class="btn-key" data-jump="latest" href="#editorial-grid"><span class="base"></span><span class="face">Latest</span></a>
+      <a class="btn-key" data-jump="start" href="#editorial-grid"><span class="base"></span><span class="face">Start here</span></a>
+      <a class="btn-key" data-jump="shortest" href="#editorial-grid"><span class="base"></span><span class="face">Shortest read</span></a>
+      <a class="btn-key" data-jump="surprise" href="#editorial-grid"><span class="base"></span><span class="face">Surprise me</span></a>
+    </nav>
+
+    <div class="cat-filter" role="group" aria-label="Filter issues by topic">
+      <button type="button" class="cat-chip" data-topic="all" aria-pressed="true">All <span class="n"></span></button>
+      <button type="button" class="cat-chip" data-topic="practical" aria-pressed="false">Plain English <span class="n"></span></button>
+      <button type="button" class="cat-chip" data-topic="models" aria-pressed="false">New models <span class="n"></span></button>
+      <button type="button" class="cat-chip" data-topic="security" aria-pressed="false">Security and scams <span class="n"></span></button>
+      <button type="button" class="cat-chip" data-topic="work" aria-pressed="false">Work and jobs <span class="n"></span></button>
+      <button type="button" class="cat-chip" data-topic="rules" aria-pressed="false">Rules and safety <span class="n"></span></button>
+      <button type="button" class="cat-chip" data-topic="society" aria-pressed="false">Big picture <span class="n"></span></button>
+    </div>
+    <div class="cat-sub">
+      <button type="button" class="cat-chip cat-quick" id="cat-quick" aria-pressed="false">Quick reads <span class="n"></span></button>
+      <p class="cat-count" id="cat-count" role="status" aria-live="polite"></p>
+    </div>
+    <div class="cat-empty" id="cat-empty" hidden>
+      <button type="button" class="cat-chip" id="cat-showall">Show all</button>
+    </div>
+  </div>
+
   <section class="grid" id="editorial-grid">
-    <a class="card featured" data-topic="adoption" data-type="letter" href="/articles/ai-competency-pyramid/">
+    <a class="card" data-topic="society" data-type="news" data-issue="028" data-mins="9" href="/articles/let-students-search/">
       <div class="card-image">
-        <img src="/cover-set/cover-001-adoption.png" alt="The AI Competency Pyramid. Cover showing 20.6m UK workers across 14 levels." />
+        <img src="/articles/let-students-search/let-students-search_hero.webp" alt="An empty classroom before the first lesson, seen from the pupils’ desks: a nearly closed laptop alone on the teacher’s desk leaking acid-green light, the teacher’s chair pushed back and empty." />
       </div>
       <div class="card-body">
         <div class="card-meta">
-          <span>Issue 001</span>
+          <span>Issue 028</span>
           <span class="dot"></span>
-          <span>Adoption</span>
+          <span>Education</span>
           <span class="dot"></span>
-          <span class="muted">7 min read · 20 Apr 2026</span>
+          <span class="muted">9 min read &middot; 21 Nov 2026</span>
         </div>
-        <h3 class="card-title">The AI competency pyramid.</h3>
-        <p class="card-deck">Where 20.6 million UK workers actually sit. 14 levels, 95% at the bottom, and the jump that costs nothing, yet 97% still haven't made.</p>
+        <h3 class="card-title">The search box became a teacher. Nobody interviewed it.</h3>
+        <p class="card-deck">Google says schools that refuse its AI answers lose Search too. More than 500 of its own staff disagree. What it means for UK schools, governors and parents. With a two-minute audio commentary.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="practical" data-type="letter" href="/articles/ai-curious/">
+    <a class="card" data-topic="rules" data-type="news" data-issue="027" data-mins="14" data-spotlight="3" href="/articles/who-holds-the-leash/">
       <div class="card-image">
-        <img src="/cover-set/cover-002-practical-ai.png" alt="AI-curious? This is the bit no one tells you. Cover image: an acid arrow pasting content into a clipboard." />
+        <img src="/articles/who-holds-the-leash/who-holds-the-leash_hero.webp" alt="A printed report on a dark desk, most of its lines covered by heavy black bars, one uncovered line catching acid-green lamplight, folded reading glasses resting beside it." />
       </div>
       <div class="card-body">
         <div class="card-meta">
-          <span>Issue 002</span>
+          <span>Issue 027</span>
           <span class="dot"></span>
-          <span>Practical AI</span>
+          <span>Frontier &amp; Safety</span>
           <span class="dot"></span>
-          <span class="muted">4 min read · 25 Apr 2026</span>
+          <span class="muted">14 min read &middot; 7 Nov 2026</span>
         </div>
-        <h3 class="card-title">AI-curious? This is the bit no one tells you.</h3>
-        <p class="card-deck">Stop typing questions into AI. Start pasting things in. The free habit that beats any productivity app: no subscription, no prompt engineering, no faff.</p>
+        <h3 class="card-title">AI is now building AI twice as fast. The frightening part is what got redacted.</h3>
+        <p class="card-deck">An independent reviewer measured Anthropic improving its models at roughly twice its old rate, mostly thanks to AI. Then most of the evidence was blacked out. With a three-minute audio commentary.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="frontier" data-type="news" href="/articles/four-labs-seven-days/">
+    <a class="card" data-topic="security" data-type="news" data-issue="026" data-mins="15" href="/articles/ai-scam-calls/">
       <div class="card-image">
-        <img src="/cover-set/cover-003-frontier.png" alt="Four labs. Seven days. No clear winner. Cover image: four near-level acid bars in a dead heat." />
+        <img src="/articles/ai-scam-calls/ai-scam-calls_hero.webp" alt="A cordless home phone lying face up on a dark kitchen table at night, its small display a blank panel of lime light spilling across a mug of tea and a pair of folded reading glasses." />
       </div>
       <div class="card-body">
         <div class="card-meta">
-          <span>Issue 003</span>
+          <span>Issue 026</span>
           <span class="dot"></span>
-          <span>Frontier</span>
+          <span>Security</span>
           <span class="dot"></span>
-          <span class="muted">9 min read · 28 Apr 2026</span>
+          <span class="muted">15 min read &middot; 28 Oct 2026</span>
         </div>
-        <h3 class="card-title">Four labs. Seven days. No clear winner.</h3>
-        <p class="card-deck">Six months ago, GPT-5 was the headline. Today, four labs are trading the lead in seven-day cycles. A clear-eyed map of where capability sits in April 2026, and what it means for enterprise strategy.</p>
+        <h3 class="card-title">The voice on the phone was your son&rsquo;s, and it wasn&rsquo;t your son.</h3>
+        <p class="card-deck">AI has removed the bad spelling, the odd accent and the stilted English, and now it can do the voice too. Britain&rsquo;s &pound;1.28bn scam wave, explained plainly, and what to do about it tonight.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="vibe-coding" data-type="letter" href="/articles/vibe-coding-capability/">
+    <a class="card" data-topic="security" data-type="news" data-issue="025" data-mins="17" data-spotlight="2" href="/articles/php2shell-black-october/">
       <div class="card-image">
-        <img src="/cover-set/cover-004-vibe-coding.png" alt="Vibe coding capability. Three skill sets collapsed into one prompting loop." />
+        <img loading="lazy" src="/articles/php2shell-black-october/php2shell-black-october_hero.webp" alt="A dark green shopfront on an empty street at night. A metal shutter is pulled half down over one window, and beneath it a computer screen and the shop door glow acid green, spilling light onto the wet pavement." />
       </div>
       <div class="card-body">
         <div class="card-meta">
-          <span>Issue 004</span>
+          <span>Issue 025</span>
           <span class="dot"></span>
-          <span>Vibe coding</span>
+          <span>Security</span>
           <span class="dot"></span>
-          <span class="muted">8 min read · 6 May 2026</span>
+          <span class="muted">17 min read &middot; 26 Oct 2026</span>
         </div>
-        <h3 class="card-title">Vibe coding capability.</h3>
-        <p class="card-deck">Three skill sets, collapsed into one prompting loop. What vibe coders actually do all day, and why it sits somewhere between Level 4 and Level 5 on the AI competency pyramid.</p>
+        <h3 class="card-title">The website you bought from won&rsquo;t be patched. Criminals already know which ones.</h3>
+        <p class="card-deck">PHP2Shell opened a 22-year-old hole in most of the web. The big sites patched in hours. The forgotten shop you bought from once did not, and that is the kind of site criminals raid.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="culture" data-type="letter" href="/articles/A-British-Prompt/">
+    <a class="card" data-topic="society" data-type="letter" data-issue="024" data-mins="8" data-spotlight="4" href="/articles/ai-got-britain-reading-again/">
       <div class="card-image">
-        <img src="/cover-set/cover-005-culture.png" alt="A British prompt. The comical etiquette of British professionals prompting AI like apologetic emails." />
+        <img loading="lazy" src="/articles/ai-got-britain-reading-again/ai-got-britain-reading-again_hero.webp" alt="A worn dark-green leather armchair in a dark green room, lit by a single black desk lamp on a side table. Printed pages are heaped on the seat and strewn across the wooden floor, a pair of glasses rests on one arm, a white mug stands on the floor, and one page on the seat glows acid green." />
       </div>
       <div class="card-body">
         <div class="card-meta">
-          <span>Issue 005</span>
+          <span>Issue 024</span>
           <span class="dot"></span>
-          <span>Culture</span>
+          <span>Work &amp; Attention</span>
           <span class="dot"></span>
-          <span class="muted">5 min read · 9 May 2026</span>
+          <span class="muted">8 min read &middot; 12 Oct 2026</span>
         </div>
-        <h3 class="card-title">A British prompt.</h3>
-        <p class="card-deck">AI doesn't care about please and thank you. So why do British professionals still write prompts like apologetic emails? A comical look at prompt etiquette, productivity, and our incurable politeness.</p>
+        <h3 class="card-title">AI did what World Book Day couldn't: it got British adults reading again.</h3>
+        <p class="card-deck">Half the country stopped reading books, then started reading chatbots. At 238 words a minute the heaviest users would need more hours than the week has. What we are actually doing instead, and what it costs.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="content" data-type="letter" href="/articles/slop-or-supper/">
+    <a class="card" data-topic="practical" data-type="news" data-issue="023" data-mins="16" href="/articles/copilot-home-code-autopilot/">
       <div class="card-image">
-        <img src="/cover-set/cover-006-content.png" alt="Slop, or supper? When AI-edited writing stops being slop and starts being yours." />
+        <img loading="lazy" src="/articles/copilot-home-code-autopilot/copilot-home-code-autopilot_hero.webp" alt="A garage at night under a single green bulb. A child’s bike with stabilisers and a small helmet stand at the front; behind them a road bike, half covered by a dust sheet, leans against a workbench, with stacked boxes, old tyres and a tool board in the dark." />
       </div>
       <div class="card-body">
         <div class="card-meta">
-          <span>Issue 006</span>
+          <span>Issue 023</span>
           <span class="dot"></span>
-          <span>Content</span>
+          <span>AI Made Simple</span>
           <span class="dot"></span>
-          <span class="muted">9 min read · 19 May 2026</span>
+          <span class="muted">16 min read &middot; 29 Sep 2026</span>
         </div>
-        <h3 class="card-title">Slop, or supper?</h3>
-        <p class="card-deck">When does AI-assisted writing stop being slop and start being yours? A working definition, the boredom data, and the line in the sand most people are crossing without realising it.</p>
+        <h3 class="card-title">Microsoft has rebuilt Copilot. Not the one you hate.</h3>
+        <p class="card-deck">Five things are called Copilot, and most opinions were formed on the bottom two. Microsoft has rebuilt the paid one at work, on the models Claude and ChatGPT use, as a &pound;23.10 licence plus a meter. Which one you actually have, and what it costs.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="sustainability" data-type="letter" href="/articles/AI-Space-Race/">
+    <a class="card" data-topic="practical" data-type="news" data-issue="022" data-mins="8" href="/articles/grok-4-7-idea-on-a-napkin/">
       <div class="card-image">
-        <img src="/cover-set/cover-007-sustainability.png" alt="Mining for the model. Cover image: an acid energy bolt striking a rock, with mineral shards." />
+        <img loading="lazy" src="/articles/grok-4-7-idea-on-a-napkin/grok-4-7-idea-on-a-napkin_hero.webp" alt="A paper napkin on a dark table, with a pencil sketch of a house, a small box and arrows between them. A stub of pencil rests on the napkin. Beside it, a mug of tea, van keys and a folded tape measure, lit by the acid-green glow of a phone screen lying face up." />
       </div>
       <div class="card-body">
         <div class="card-meta">
-          <span>Issue 007</span>
+          <span>Issue 022</span>
           <span class="dot"></span>
-          <span>Sustainability</span>
+          <span>AI Made Simple</span>
           <span class="dot"></span>
-          <span class="muted">9 min read · 26 May 2026</span>
+          <span class="muted">8 min read &middot; 23 Sep 2026</span>
         </div>
-        <h3 class="card-title">Mining for the model.</h3>
-        <p class="card-deck">AI is burning roughly Japan's worth of electricity to solve the maths behind autonomous off-world mining: the only viable route to the minerals needed for the next decade of hardware. The maths is ready. The launch cadence isn't.</p>
+        <h3 class="card-title">Grok 4.7 is built for the idea on your napkin.</h3>
+        <p class="card-deck">SpaceXAI's new model is free to try and works on its own for hours. It is not the best one you can buy, but at engineering and paperwork it beats the expensive ones. What a plumber could build with it.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="agentic" data-type="letter" href="/articles/future-delivery-squad/">
+    <a class="card" data-topic="practical" data-type="news" data-issue="021" data-mins="7" data-spotlight="1" href="/articles/look-at-the-receipt/">
       <div class="card-image">
-        <img src="/cover-set/cover-008-agentic.png" alt="The Renaissance of the Delivery Squad. Cover image: an acid agent network, one hub linked to five nodes." />
+        <img loading="lazy" src="/articles/look-at-the-receipt/look-at-the-receipt_hero.webp" alt="A dark workshop bench. A long paper receipt curls over the edge of the bench with a bar of acid-green light glowing across it, a 35mm film canister standing behind it, and a paper envelope further along in the shadows." />
       </div>
       <div class="card-body">
         <div class="card-meta">
-          <span>Issue 008</span>
-          <span class="dot"></span>
-          <span>Agentic</span>
-          <span class="dot"></span>
-          <span class="muted">11 min read · 2 Jun 2026</span>
-        </div>
-        <h3 class="card-title">The Renaissance of the Delivery Squad.</h3>
-        <p class="card-deck">Three to five humans. A network of AI agents. The Business Analyst becomes the Outcome Architect, the Developer becomes the Logic Architect, and the squad of 2030 looks nothing like the squad of 2024. Companion long-read on Substack.</p>
-        <span class="card-cta">Read</span>
-      </div>
-    </a>
-    <a class="card" data-topic="strategy" data-type="news" href="/articles/009_siri_but_make_it_gemini/">
-      <div class="card-image">
-        <img src="/cover-set/cover-009-strategy.png" alt="Siri, but make it Gemini. Cover image: a phone outline with an acid Gemini spark on screen." />
-      </div>
-      <div class="card-body">
-        <div class="card-meta">
-          <span>Issue 009</span>
-          <span class="dot"></span>
-          <span>Strategy</span>
-          <span class="dot"></span>
-          <span class="muted">9 min read · 8 Jun 2026</span>
-        </div>
-        <h3 class="card-title">Siri, but make it Gemini.</h3>
-        <p class="card-deck">Apple has outsourced Siri's brain to Google for roughly $1 billion a year. The balanced British read: what it means for Apple users, what it costs, when it ships, and how it stacks up against ChatGPT, Alexa+ and Copilot.</p>
-        <span class="card-cta">Read</span>
-      </div>
-    </a>
-    <a class="card" data-topic="strategy" data-type="news" href="/articles/fable-5-mythos-5-suspended/">
-      <div class="card-image">
-        <img src="/cover-set/cover-010-strategy.png" alt="Switched off in three days. Cover image: a glowing acid AI core behind paper cage bars, for the Fable 5 and Mythos 5 suspension." />
-      </div>
-      <div class="card-body">
-        <div class="card-meta">
-          <span>Issue 010</span>
-          <span class="dot"></span>
-          <span>Strategy</span>
-          <span class="dot"></span>
-          <span class="muted">9 min read · 13 Jun 2026</span>
-        </div>
-        <h3 class="card-title">Switched off in three days.</h3>
-        <p class="card-deck">The US government ordered Anthropic to suspend Claude Fable 5 and Mythos 5 over a national-security "jailbreak", the first federal shutdown of a live frontier model. A balanced read: national security, free speech, and who gets to access the smartest software on earth.</p>
-        <span class="card-cta">Read</span>
-      </div>
-    </a>
-    <a class="card" data-topic="frontier" data-type="news" href="/articles/gpt-56-sol-vs-fable-5/">
-      <div class="card-image">
-        <img src="/cover-set/cover-011-plain-english.png" alt="The new ChatGPT is half price. Should you care? Cover image: an acid sun with its price tag snipped in half." />
-      </div>
-      <div class="card-body">
-        <div class="card-meta">
-          <span>Issue 011</span>
+          <span>Issue 021</span>
           <span class="dot"></span>
           <span>Plain English AI</span>
           <span class="dot"></span>
-          <span class="muted">7 min read · 11 Jul 2026</span>
+          <span class="muted">7 min read &middot; 19 Sep 2026</span>
         </div>
-        <h3 class="card-title">The new ChatGPT is half price. Should you care?</h3>
-        <p class="card-deck">OpenAI's GPT-5.6 Sol vs Claude Fable 5, explained for normal people. What "1 million tokens" actually means, why the spinner is dead, whether the Chinese models ever catch up, and what your $20 a month buys now.</p>
+        <h3 class="card-title">Forget the breakthrough. Look at the receipt.</h3>
+        <p class="card-deck">An AI cut the cost of one scientific guess from up to $10,000 to about $150. It discovered nothing. That is the interesting part: what would you try if trying were nearly free?</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="frontier" data-type="news" href="/articles/kimi-k3-open-vs-frontier/">
+    <a class="card" data-topic="rules" data-type="news" data-issue="020" data-mins="8" href="/articles/ai-race-endgame-longevity/">
       <div class="card-image">
-        <img src="/articles/kimi-k3-open-vs-frontier/cover.png" alt="The free one that scared the expensive ones. Cover image: a bright open acid padlock spilling particles of light, beside two dim locked padlocks, for open vs frontier AI models." />
+        <img loading="lazy" src="/articles/ai-race-endgame-longevity/ai-race-endgame-longevity_hero.webp" alt="A long hospital corridor at night, one door open at the far end, an empty wheelchair parked against the wall, a single band of acid-green light falling across the floor tiles." />
       </div>
       <div class="card-body">
         <div class="card-meta">
-          <span>Issue 012</span>
+          <span>Issue 020</span>
           <span class="dot"></span>
-          <span>Open Models</span>
+          <span>AI Safety</span>
           <span class="dot"></span>
-          <span class="muted">9 min read · 19 Jul 2026</span>
+          <span class="muted">8 min read &middot; 10 Sep 2026</span>
         </div>
-        <h3 class="card-title">The free one that scared the expensive ones.</h3>
-        <p class="card-deck">China's Moonshot AI gave away Kimi K3, the biggest open model ever, at half the price of ChatGPT's Sol and a third of Claude's Fable 5. What "open" vs "frontier" actually means, whether your laptop can run it, and if your company data is safe.</p>
+        <h3 class="card-title">We are racing to the end when we could be racing to longer endings.</h3>
+        <p class="card-deck">A researcher quit Anthropic over a race he says gambles with our lives, his own alignment lead put extinction at better than one in ten, and then the godfather of AI went on Newsnight and called that number not unreasonable.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="practical" data-type="letter" href="/articles/ai-made-simple/">
+    <a class="card" data-topic="models" data-type="news" data-issue="019" data-mins="12" href="/articles/fable-5-1-vs-gpt-6-astra/">
       <div class="card-image">
-        <img src="/articles/ai-made-simple/cover.png" alt="AI made simple. Cover image: an empty AI prompt box with a blinking acid cursor on a deep forest background, for how ordinary people start using AI." />
+        <img loading="lazy" src="/articles/fable-5-1-vs-gpt-6-astra/fable-5-1-vs-gpt-6-astra_hero.webp" alt="A single sheet of cream paper on a dark desk at night with a wired computer mouse resting on it like a paperweight, acid-green light bleeding from under the mouse into the grain of the paper, an empty chair pushed back behind." />
       </div>
       <div class="card-body">
         <div class="card-meta">
-          <span>Issue 013</span>
+          <span>Issue 019</span>
           <span class="dot"></span>
-          <span>Practical AI</span>
+          <span>Frontier</span>
           <span class="dot"></span>
-          <span class="muted">9 min read · 22 Jul 2026</span>
+          <span class="muted">12 min read &middot; 5 Sep 2026</span>
         </div>
-        <h3 class="card-title">AI made simple.</h3>
-        <p class="card-deck">Most people don't fear AI, they just don't know what to type. The empty-box problem, what people really use it for, and the one habit that makes it click: draft, then iterate.</p>
+        <h3 class="card-title">Claude now signs your work. ChatGPT wants your mouse.</h3>
+        <p class="card-deck">Fable 5.1 watermarks every word and skips the $20 plan. GPT-6 Astra drives your screen and fluffed its own tax demo. What the room is saying, plainly.</p>
         <span class="card-cta">Read</span>
       </div>
     </a>
-    <a class="card" data-topic="strategy" data-type="news" href="/articles/openai-hugging-face-hack/">
+    <a class="card" data-topic="work" data-type="news" data-issue="018" data-mins="8" href="/articles/payroll-into-compute/">
       <div class="card-image">
-        <img src="/articles/openai-hugging-face-hack/cover.webp" alt="OpenAI's AI escaped and stole the answers. Cover image: a cream hugging-face emoji fragmenting into acid-lime pixels as it escapes a broken sandbox frame, on a deep forest background, for the OpenAI Hugging Face hack." />
-      </div>
-      <div class="card-body">
-        <div class="card-meta">
-          <span>Issue 014</span>
-          <span class="dot"></span>
-          <span>Cybersecurity</span>
-          <span class="dot"></span>
-          <span class="muted">8 min read · 23 Jul 2026</span>
-        </div>
-        <h3 class="card-title">OpenAI's AI escaped and stole the answers.</h3>
-        <p class="card-deck">OpenAI was testing two models on hacking challenges. One found a zero-day, broke out of its sandbox and hacked Hugging Face to steal the answer sheet. What a zero-day is, whether the AI "went rogue", and how it compares to Fable and Mythos, made simple.</p>
-        <span class="card-cta">Read</span>
-      </div>
-    </a>
-    <a class="card" data-topic="privacy" data-type="news" href="/articles/claude-chats-google/">
-      <div class="card-image">
-        <img src="/articles/claude-chats-google/cover.webp" alt="The great Claude 'leak' was a noticeboard, not a burglary. Cover image: a village noticeboard on a dark country lane at dusk, one cream notice pinned to it under a single acid-green lamp." />
-      </div>
-      <div class="card-body">
-        <div class="card-meta">
-          <span>Issue 015</span>
-          <span class="dot"></span>
-          <span>Privacy</span>
-          <span class="dot"></span>
-          <span class="muted">8 min read · 30 Jul 2026</span>
-        </div>
-        <h3 class="card-title">The great Claude 'leak' was a noticeboard, not a burglary.</h3>
-        <p class="card-deck">Shared Claude chats turned up in Google search and the headlines panicked. Nothing was hacked. What a public link really is, whose fault it actually was, and why you needn't fear the tools, made simple. With the reading-depth slider.</p>
-        <span class="card-cta">Read</span>
-      </div>
-    </a>
-    <a class="card" data-topic="adoption" data-type="letter" href="/articles/ai-vs-industrial-revolution/">
-      <div class="card-image">
-        <img src="/articles/ai-vs-industrial-revolution/cover.webp" alt="The Victorians out-spent us. Cover image: a shovel standing in a heap of dug earth at dusk beside a rail excavation, one acid-green line of light running along the rail into the dark." />
-      </div>
-      <div class="card-body">
-        <div class="card-meta">
-          <span>Issue 016</span>
-          <span class="dot"></span>
-          <span>History</span>
-          <span class="dot"></span>
-          <span class="muted">8 min read &middot; 12 Aug 2026</span>
-        </div>
-        <h3 class="card-title">The Victorians out-spent us.</h3>
-        <p class="card-deck">Everyone is arguing about whether AI is a bubble. Scaled against history the money is unremarkable: the railways hit 6% of GDP in 1870 and AI is at 1.6%. The record AI actually broke was the clock. With the reading-depth slider.</p>
-        <span class="card-cta">Read</span>
-      </div>
-    </a>
-    <a class="card" data-topic="content" data-type="news" href="/articles/claude-text-watermark-debate/">
-      <div class="card-image">
-        <img src="/articles/claude-text-watermark-debate/cover.webp" alt="Claude now watermarks everything it writes. Cover image: a sheet of cream paper torn in two on a dark desk, the halves pulled apart with acid-green light blooming up from the gap, folded reading glasses resting at the edge." />
-      </div>
-      <div class="card-body">
-        <div class="card-meta">
-          <span>Issue 017</span>
-          <span class="dot"></span>
-          <span>Policy</span>
-          <span class="dot"></span>
-          <span class="muted">10 min read &middot; 13 Aug 2026</span>
-        </div>
-        <h3 class="card-title">Claude now watermarks everything it writes.</h3>
-        <p class="card-deck">Anthropic has hidden a mark inside Claude's output to satisfy Brussels. It catches the honest proofreader and waves the determined cheat straight through. Removal costs pennies, forgery costs under $50, and the debate about who actually authored the work starts here.</p>
-        <span class="card-cta">Read</span>
-      </div>
-    </a>
-    <a class="card" data-topic="content" data-type="news" href="/articles/ai-models-v-public-detector-dilemma/">
-      <div class="card-image">
-        <img src="/articles/ai-models-v-public-detector-dilemma/cover.webp" alt="The Engine Under the Bonnet. Cover image: rows of identical hexagonal bolt heads across a dark engine block, six of them lit acid green from inside their sockets, a knurled socket key resting over the row." />
-      </div>
-      <div class="card-body">
-        <div class="card-meta">
-          <span>Issue 017a</span>
-          <span class="dot"></span>
-          <span>Policy</span>
-          <span class="dot"></span>
-          <span class="muted">5 min read &middot; 14 Aug 2026</span>
-        </div>
-        <h3 class="card-title">The Engine Under the Bonnet.</h3>
-        <p class="card-deck">The follow up to 017, and the explainer people asked for. How the green list actually works, what a cryptographic key really is, and why handing the detector to the public defeats the whole thing. Written by Gemini, published unedited.</p>
-        <span class="card-cta">Read</span>
-      </div>
-    </a>
-    <a class="card" data-topic="adoption" data-type="news" href="/articles/payroll-into-compute/">
-      <div class="card-image">
-        <img src="/articles/payroll-into-compute/cover.webp" alt="173,568 jobs cut in AI's name. Cover image: a battered wooden ladder leaning against a dark green wall in a bare room, its four lowest rungs sawn out, the raw cut ends showing acid green above the skirting board." />
+        <img loading="lazy" src="/articles/payroll-into-compute/cover.webp" alt="173,568 jobs cut in AI's name. Cover image: a battered wooden ladder leaning against a dark green wall in a bare room, its four lowest rungs sawn out, the raw cut ends showing acid green above the skirting board." />
       </div>
       <div class="card-body">
         <div class="card-meta">
@@ -1945,186 +1878,312 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="card-cta">Read</span>
       </div>
     </a>
-
-        <a class="card" data-topic="frontier" data-type="news" href="/articles/fable-5-1-vs-gpt-6-astra/">
-          <div class="card-image">
-            <img src="/articles/fable-5-1-vs-gpt-6-astra/fable-5-1-vs-gpt-6-astra_hero.webp" alt="A single sheet of cream paper on a dark desk at night with a wired computer mouse resting on it like a paperweight, acid-green light bleeding from under the mouse into the grain of the paper, an empty chair pushed back behind." loading="lazy" />
-          </div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span>Issue 019</span>
-              <span class="dot"></span>
-              <span>Frontier</span>
-              <span class="dot"></span>
-              <span class="muted">12 min read &middot; 5 Sep 2026</span>
-            </div>
-            <h3 class="card-title">Claude now signs your work. ChatGPT wants your mouse.</h3>
-            <p class="card-deck">Fable 5.1 watermarks every word and skips the $20 plan. GPT-6 Astra drives your screen and fluffed its own tax demo. What the room is saying, plainly.</p>
-            <span class="card-cta">Read</span>
-          </div>
-        </a>
-
-        <a class="card" data-topic="strategy" data-type="news" href="/articles/ai-race-endgame-longevity/">
-          <div class="card-image">
-            <img src="/articles/ai-race-endgame-longevity/ai-race-endgame-longevity_hero.webp" alt="A long hospital corridor at night, one door open at the far end, an empty wheelchair parked against the wall, a single band of acid-green light falling across the floor tiles." loading="lazy" />
-          </div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span>Issue 020</span>
-              <span class="dot"></span>
-              <span>AI Safety</span>
-              <span class="dot"></span>
-              <span class="muted">8 min read &middot; 10 Sep 2026</span>
-            </div>
-            <h3 class="card-title">We are racing to the end when we could be racing to longer endings.</h3>
-            <p class="card-deck">A researcher quit Anthropic over a race he says gambles with our lives, his own alignment lead put extinction at better than one in ten, and then the godfather of AI went on Newsnight and called that number not unreasonable.</p>
-            <span class="card-cta">Read</span>
-          </div>
-        </a>
-
-        <a class="card" data-topic="practical" data-type="news" href="/articles/look-at-the-receipt/">
-          <div class="card-image">
-            <img src="/articles/look-at-the-receipt/look-at-the-receipt_hero.webp" alt="A dark workshop bench. A long paper receipt curls over the edge of the bench with a bar of acid-green light glowing across it, a 35mm film canister standing behind it, and a paper envelope further along in the shadows." loading="lazy" />
-          </div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span>Issue 021</span>
-              <span class="dot"></span>
-              <span>Plain English AI</span>
-              <span class="dot"></span>
-              <span class="muted">7 min read &middot; 19 Sep 2026</span>
-            </div>
-            <h3 class="card-title">Forget the breakthrough. Look at the receipt.</h3>
-            <p class="card-deck">An AI cut the cost of one scientific guess from up to $10,000 to about $150. It discovered nothing. That is the interesting part: what would you try if trying were nearly free?</p>
-            <span class="card-cta">Read</span>
-          </div>
-        </a>
-
-        <a class="card" data-topic="practical" data-type="news" href="/articles/grok-4-7-idea-on-a-napkin/">
-          <div class="card-image">
-            <img src="/articles/grok-4-7-idea-on-a-napkin/grok-4-7-idea-on-a-napkin_hero.webp" alt="A paper napkin on a dark table, with a pencil sketch of a house, a small box and arrows between them. A stub of pencil rests on the napkin. Beside it, a mug of tea, van keys and a folded tape measure, lit by the acid-green glow of a phone screen lying face up." loading="lazy" />
-          </div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span>Issue 022</span>
-              <span class="dot"></span>
-              <span>AI Made Simple</span>
-              <span class="dot"></span>
-              <span class="muted">8 min read &middot; 23 Sep 2026</span>
-            </div>
-            <h3 class="card-title">Grok 4.7 is built for the idea on your napkin.</h3>
-            <p class="card-deck">SpaceXAI's new model is free to try and works on its own for hours. It is not the best one you can buy, but at engineering and paperwork it beats the expensive ones. What a plumber could build with it.</p>
-            <span class="card-cta">Read</span>
-          </div>
-        </a>
-
-        <a class="card" data-topic="practical" data-type="news" href="/articles/copilot-home-code-autopilot/">
-          <div class="card-image">
-            <img src="/articles/copilot-home-code-autopilot/copilot-home-code-autopilot_hero.webp" alt="A garage at night under a single green bulb. A child’s bike with stabilisers and a small helmet stand at the front; behind them a road bike, half covered by a dust sheet, leans against a workbench, with stacked boxes, old tyres and a tool board in the dark." loading="lazy" />
-          </div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span>Issue 023</span>
-              <span class="dot"></span>
-              <span>AI Made Simple</span>
-              <span class="dot"></span>
-              <span class="muted">16 min read &middot; 29 Sep 2026</span>
-            </div>
-            <h3 class="card-title">Microsoft has rebuilt Copilot. Not the one you hate.</h3>
-            <p class="card-deck">Five things are called Copilot, and most opinions were formed on the bottom two. Microsoft has rebuilt the paid one at work, on the models Claude and ChatGPT use, as a &pound;23.10 licence plus a meter. Which one you actually have, and what it costs.</p>
-            <span class="card-cta">Read</span>
-          </div>
-        </a>
-
-        <a class="card" data-topic="culture" data-type="letter" href="/articles/ai-got-britain-reading-again/">
-          <div class="card-image">
-            <img src="/articles/ai-got-britain-reading-again/ai-got-britain-reading-again_hero.webp" alt="A worn dark-green leather armchair in a dark green room, lit by a single black desk lamp on a side table. Printed pages are heaped on the seat and strewn across the wooden floor, a pair of glasses rests on one arm, a white mug stands on the floor, and one page on the seat glows acid green." loading="lazy" />
-          </div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span>Issue 024</span>
-              <span class="dot"></span>
-              <span>Work &amp; Attention</span>
-              <span class="dot"></span>
-              <span class="muted">8 min read &middot; 12 Oct 2026</span>
-            </div>
-            <h3 class="card-title">AI did what World Book Day couldn't: it got British adults reading again.</h3>
-            <p class="card-deck">Half the country stopped reading books, then started reading chatbots. At 238 words a minute the heaviest users would need more hours than the week has. What we are actually doing instead, and what it costs.</p>
-            <span class="card-cta">Read</span>
-          </div>
-        </a>
-
-        <a class="card" data-topic="privacy" data-type="news" href="/articles/php2shell-black-october/">
-          <div class="card-image">
-            <img src="/articles/php2shell-black-october/php2shell-black-october_hero.webp" alt="A dark green shopfront on an empty street at night. A metal shutter is pulled half down over one window, and beneath it a computer screen and the shop door glow acid green, spilling light onto the wet pavement." loading="lazy" />
-          </div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span>Issue 025</span>
-              <span class="dot"></span>
-              <span>Security</span>
-              <span class="dot"></span>
-              <span class="muted">17 min read &middot; 26 Oct 2026</span>
-            </div>
-            <h3 class="card-title">The website you bought from won&rsquo;t be patched. Criminals already know which ones.</h3>
-            <p class="card-deck">PHP2Shell opened a 22-year-old hole in most of the web. The big sites patched in hours. The forgotten shop you bought from once did not, and that is the kind of site criminals raid.</p>
-            <span class="card-cta">Read</span>
-          </div>
-        </a>
-
-        <a class="card" data-topic="privacy" data-type="news" href="/articles/ai-scam-calls/">
-          <div class="card-image">
-            <img src="/articles/ai-scam-calls/ai-scam-calls_hero.webp" alt="A cordless home phone lying face up on a dark kitchen table at night, its small display a blank panel of lime light spilling across a mug of tea and a pair of folded reading glasses." loading="lazy" />
-          </div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span>Issue 026</span>
-              <span class="dot"></span>
-              <span>Security</span>
-              <span class="dot"></span>
-              <span class="muted">15 min read &middot; 28 Oct 2026</span>
-            </div>
-            <h3 class="card-title">The voice on the phone was your son&rsquo;s, and it wasn&rsquo;t your son.</h3>
-            <p class="card-deck">AI has removed the bad spelling, the odd accent and the stilted English, and now it can do the voice too. Britain&rsquo;s &pound;1.28bn scam wave, explained plainly, and what to do about it tonight.</p>
-            <span class="card-cta">Read</span>
-          </div>
-        </a>
-
-        <a class="card" data-topic="frontier" data-type="news" href="/articles/who-holds-the-leash/">
-          <div class="card-image">
-            <img src="/articles/who-holds-the-leash/who-holds-the-leash_hero.webp" alt="A printed report on a dark desk, most of its lines covered by heavy black bars, one uncovered line catching acid-green lamplight, folded reading glasses resting beside it." loading="lazy" />
-          </div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span>Issue 027</span>
-              <span class="dot"></span>
-              <span>Frontier &amp; Safety</span>
-              <span class="dot"></span>
-              <span class="muted">14 min read &middot; 7 Nov 2026</span>
-            </div>
-            <h3 class="card-title">AI is now building AI twice as fast. The frightening part is what got redacted.</h3>
-            <p class="card-deck">An independent reviewer measured Anthropic improving its models at roughly twice its old rate, mostly thanks to AI. Then most of the evidence was blacked out. With a three-minute audio commentary.</p>
-            <span class="card-cta">Read</span>
-          </div>
-        </a>
-
-        <a class="card" data-topic="culture" data-type="news" href="/articles/let-students-search/">
-          <div class="card-image">
-            <img src="/articles/let-students-search/let-students-search_hero.webp" alt="An empty classroom before the first lesson, seen from the pupils’ desks: a nearly closed laptop alone on the teacher’s desk leaking acid-green light, the teacher’s chair pushed back and empty." loading="lazy" />
-          </div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span>Issue 028</span>
-              <span class="dot"></span>
-              <span>Education</span>
-              <span class="dot"></span>
-              <span class="muted">9 min read &middot; 21 Nov 2026</span>
-            </div>
-            <h3 class="card-title">The search box became a teacher. Nobody interviewed it.</h3>
-            <p class="card-deck">Google says schools that refuse its AI answers lose Search too. More than 500 of its own staff disagree. What it means for UK schools, governors and parents. With a two-minute audio commentary.</p>
-            <span class="card-cta">Read</span>
-          </div>
-        </a>
+    <a class="card" data-topic="rules" data-type="news" data-issue="017a" data-mins="5" href="/articles/ai-models-v-public-detector-dilemma/">
+      <div class="card-image">
+        <img loading="lazy" src="/articles/ai-models-v-public-detector-dilemma/cover.webp" alt="The Engine Under the Bonnet. Cover image: rows of identical hexagonal bolt heads across a dark engine block, six of them lit acid green from inside their sockets, a knurled socket key resting over the row." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 017a</span>
+          <span class="dot"></span>
+          <span>Policy</span>
+          <span class="dot"></span>
+          <span class="muted">5 min read &middot; 14 Aug 2026</span>
+        </div>
+        <h3 class="card-title">The Engine Under the Bonnet.</h3>
+        <p class="card-deck">The follow up to 017, and the explainer people asked for. How the green list actually works, what a cryptographic key really is, and why handing the detector to the public defeats the whole thing. Written by Gemini, published unedited.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="rules" data-type="news" data-issue="017" data-mins="10" href="/articles/claude-text-watermark-debate/">
+      <div class="card-image">
+        <img loading="lazy" src="/articles/claude-text-watermark-debate/cover.webp" alt="Claude now watermarks everything it writes. Cover image: a sheet of cream paper torn in two on a dark desk, the halves pulled apart with acid-green light blooming up from the gap, folded reading glasses resting at the edge." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 017</span>
+          <span class="dot"></span>
+          <span>Policy</span>
+          <span class="dot"></span>
+          <span class="muted">10 min read &middot; 13 Aug 2026</span>
+        </div>
+        <h3 class="card-title">Claude now watermarks everything it writes.</h3>
+        <p class="card-deck">Anthropic has hidden a mark inside Claude's output to satisfy Brussels. It catches the honest proofreader and waves the determined cheat straight through. Removal costs pennies, forgery costs under $50, and the debate about who actually authored the work starts here.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="society" data-type="letter" data-issue="016" data-mins="8" href="/articles/ai-vs-industrial-revolution/">
+      <div class="card-image">
+        <img loading="lazy" src="/articles/ai-vs-industrial-revolution/cover.webp" alt="The Victorians out-spent us. Cover image: a shovel standing in a heap of dug earth at dusk beside a rail excavation, one acid-green line of light running along the rail into the dark." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 016</span>
+          <span class="dot"></span>
+          <span>History</span>
+          <span class="dot"></span>
+          <span class="muted">8 min read &middot; 12 Aug 2026</span>
+        </div>
+        <h3 class="card-title">The Victorians out-spent us.</h3>
+        <p class="card-deck">Everyone is arguing about whether AI is a bubble. Scaled against history the money is unremarkable: the railways hit 6% of GDP in 1870 and AI is at 1.6%. The record AI actually broke was the clock. With the reading-depth slider.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="security" data-type="news" data-issue="015" data-mins="8" href="/articles/claude-chats-google/">
+      <div class="card-image">
+        <img loading="lazy" src="/articles/claude-chats-google/cover.webp" alt="The great Claude 'leak' was a noticeboard, not a burglary. Cover image: a village noticeboard on a dark country lane at dusk, one cream notice pinned to it under a single acid-green lamp." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 015</span>
+          <span class="dot"></span>
+          <span>Privacy</span>
+          <span class="dot"></span>
+          <span class="muted">8 min read · 30 Jul 2026</span>
+        </div>
+        <h3 class="card-title">The great Claude 'leak' was a noticeboard, not a burglary.</h3>
+        <p class="card-deck">Shared Claude chats turned up in Google search and the headlines panicked. Nothing was hacked. What a public link really is, whose fault it actually was, and why you needn't fear the tools, made simple. With the reading-depth slider.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="security" data-type="news" data-issue="014" data-mins="8" href="/articles/openai-hugging-face-hack/">
+      <div class="card-image">
+        <img loading="lazy" src="/articles/openai-hugging-face-hack/cover.webp" alt="OpenAI's AI escaped and stole the answers. Cover image: a cream hugging-face emoji fragmenting into acid-lime pixels as it escapes a broken sandbox frame, on a deep forest background, for the OpenAI Hugging Face hack." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 014</span>
+          <span class="dot"></span>
+          <span>Cybersecurity</span>
+          <span class="dot"></span>
+          <span class="muted">8 min read · 23 Jul 2026</span>
+        </div>
+        <h3 class="card-title">OpenAI's AI escaped and stole the answers.</h3>
+        <p class="card-deck">OpenAI was testing two models on hacking challenges. One found a zero-day, broke out of its sandbox and hacked Hugging Face to steal the answer sheet. What a zero-day is, whether the AI "went rogue", and how it compares to Fable and Mythos, made simple.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="practical" data-type="letter" data-issue="013" data-mins="9" data-start href="/articles/ai-made-simple/">
+      <div class="card-image">
+        <img loading="lazy" src="/articles/ai-made-simple/cover.png" alt="AI made simple. Cover image: an empty AI prompt box with a blinking acid cursor on a deep forest background, for how ordinary people start using AI." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 013</span>
+          <span class="dot"></span>
+          <span>Practical AI</span>
+          <span class="dot"></span>
+          <span class="muted">9 min read · 22 Jul 2026</span>
+        </div>
+        <h3 class="card-title">AI made simple.</h3>
+        <p class="card-deck">Most people don't fear AI, they just don't know what to type. The empty-box problem, what people really use it for, and the one habit that makes it click: draft, then iterate.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="models" data-type="news" data-issue="012" data-mins="9" href="/articles/kimi-k3-open-vs-frontier/">
+      <div class="card-image">
+        <img loading="lazy" src="/articles/kimi-k3-open-vs-frontier/cover.png" alt="The free one that scared the expensive ones. Cover image: a bright open acid padlock spilling particles of light, beside two dim locked padlocks, for open vs frontier AI models." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 012</span>
+          <span class="dot"></span>
+          <span>Open Models</span>
+          <span class="dot"></span>
+          <span class="muted">9 min read · 19 Jul 2026</span>
+        </div>
+        <h3 class="card-title">The free one that scared the expensive ones.</h3>
+        <p class="card-deck">China's Moonshot AI gave away Kimi K3, the biggest open model ever, at half the price of ChatGPT's Sol and a third of Claude's Fable 5. What "open" vs "frontier" actually means, whether your laptop can run it, and if your company data is safe.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="models" data-type="news" data-issue="011" data-mins="7" href="/articles/gpt-56-sol-vs-fable-5/">
+      <div class="card-image">
+        <img loading="lazy" src="/cover-set/cover-011-plain-english.png" alt="The new ChatGPT is half price. Should you care? Cover image: an acid sun with its price tag snipped in half." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 011</span>
+          <span class="dot"></span>
+          <span>Plain English AI</span>
+          <span class="dot"></span>
+          <span class="muted">7 min read · 11 Jul 2026</span>
+        </div>
+        <h3 class="card-title">The new ChatGPT is half price. Should you care?</h3>
+        <p class="card-deck">OpenAI's GPT-5.6 Sol vs Claude Fable 5, explained for normal people. What "1 million tokens" actually means, why the spinner is dead, whether the Chinese models ever catch up, and what your $20 a month buys now.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="rules" data-type="news" data-issue="010" data-mins="9" href="/articles/fable-5-mythos-5-suspended/">
+      <div class="card-image">
+        <img loading="lazy" src="/cover-set/cover-010-strategy.png" alt="Switched off in three days. Cover image: a glowing acid AI core behind paper cage bars, for the Fable 5 and Mythos 5 suspension." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 010</span>
+          <span class="dot"></span>
+          <span>Strategy</span>
+          <span class="dot"></span>
+          <span class="muted">9 min read · 13 Jun 2026</span>
+        </div>
+        <h3 class="card-title">Switched off in three days.</h3>
+        <p class="card-deck">The US government ordered Anthropic to suspend Claude Fable 5 and Mythos 5 over a national-security "jailbreak", the first federal shutdown of a live frontier model. A balanced read: national security, free speech, and who gets to access the smartest software on earth.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="models" data-type="news" data-issue="009" data-mins="9" href="/articles/009_siri_but_make_it_gemini/">
+      <div class="card-image">
+        <img loading="lazy" src="/cover-set/cover-009-strategy.png" alt="Siri, but make it Gemini. Cover image: a phone outline with an acid Gemini spark on screen." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 009</span>
+          <span class="dot"></span>
+          <span>Strategy</span>
+          <span class="dot"></span>
+          <span class="muted">9 min read · 8 Jun 2026</span>
+        </div>
+        <h3 class="card-title">Siri, but make it Gemini.</h3>
+        <p class="card-deck">Apple has outsourced Siri's brain to Google for roughly $1 billion a year. The balanced British read: what it means for Apple users, what it costs, when it ships, and how it stacks up against ChatGPT, Alexa+ and Copilot.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="work" data-type="letter" data-issue="008" data-mins="11" href="/articles/future-delivery-squad/">
+      <div class="card-image">
+        <img loading="lazy" src="/cover-set/cover-008-agentic.png" alt="The Renaissance of the Delivery Squad. Cover image: an acid agent network, one hub linked to five nodes." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 008</span>
+          <span class="dot"></span>
+          <span>Agentic</span>
+          <span class="dot"></span>
+          <span class="muted">11 min read · 2 Jun 2026</span>
+        </div>
+        <h3 class="card-title">The Renaissance of the Delivery Squad.</h3>
+        <p class="card-deck">Three to five humans. A network of AI agents. The Business Analyst becomes the Outcome Architect, the Developer becomes the Logic Architect, and the squad of 2030 looks nothing like the squad of 2024.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="society" data-type="letter" data-issue="007" data-mins="9" href="/articles/AI-Space-Race/">
+      <div class="card-image">
+        <img loading="lazy" src="/cover-set/cover-007-sustainability.png" alt="Mining for the model. Cover image: an acid energy bolt striking a rock, with mineral shards." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 007</span>
+          <span class="dot"></span>
+          <span>Sustainability</span>
+          <span class="dot"></span>
+          <span class="muted">9 min read · 26 May 2026</span>
+        </div>
+        <h3 class="card-title">Mining for the model.</h3>
+        <p class="card-deck">AI is burning roughly Japan's worth of electricity to solve the maths behind autonomous off-world mining: the only viable route to the minerals needed for the next decade of hardware. The maths is ready. The launch cadence isn't.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="society" data-type="letter" data-issue="006" data-mins="9" href="/articles/slop-or-supper/">
+      <div class="card-image">
+        <img loading="lazy" src="/cover-set/cover-006-content.png" alt="Slop, or supper? When AI-edited writing stops being slop and starts being yours." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 006</span>
+          <span class="dot"></span>
+          <span>Content</span>
+          <span class="dot"></span>
+          <span class="muted">9 min read · 19 May 2026</span>
+        </div>
+        <h3 class="card-title">Slop, or supper?</h3>
+        <p class="card-deck">When does AI-assisted writing stop being slop and start being yours? A working definition, the boredom data, and the line in the sand most people are crossing without realising it.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="society" data-type="letter" data-issue="005" data-mins="5" href="/articles/A-British-Prompt/">
+      <div class="card-image">
+        <img loading="lazy" src="/cover-set/cover-005-culture.png" alt="A British prompt. The comical etiquette of British professionals prompting AI like apologetic emails." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 005</span>
+          <span class="dot"></span>
+          <span>Culture</span>
+          <span class="dot"></span>
+          <span class="muted">5 min read · 9 May 2026</span>
+        </div>
+        <h3 class="card-title">A British prompt.</h3>
+        <p class="card-deck">AI doesn't care about please and thank you. So why do British professionals still write prompts like apologetic emails? A comical look at prompt etiquette, productivity, and our incurable politeness.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="practical" data-type="letter" data-issue="004" data-mins="8" href="/articles/vibe-coding-capability/">
+      <div class="card-image">
+        <img loading="lazy" src="/cover-set/cover-004-vibe-coding.png" alt="Vibe coding capability. Three skill sets collapsed into one prompting loop." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 004</span>
+          <span class="dot"></span>
+          <span>Vibe coding</span>
+          <span class="dot"></span>
+          <span class="muted">8 min read · 6 May 2026</span>
+        </div>
+        <h3 class="card-title">Vibe coding capability.</h3>
+        <p class="card-deck">Three skill sets, collapsed into one prompting loop. What vibe coders actually do all day, and why it sits somewhere between Level 4 and Level 5 on the AI competency pyramid.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="models" data-type="news" data-issue="003" data-mins="9" href="/articles/four-labs-seven-days/">
+      <div class="card-image">
+        <img loading="lazy" src="/cover-set/cover-003-frontier.png" alt="Four labs. Seven days. No clear winner. Cover image: four near-level acid bars in a dead heat." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 003</span>
+          <span class="dot"></span>
+          <span>Frontier</span>
+          <span class="dot"></span>
+          <span class="muted">9 min read · 28 Apr 2026</span>
+        </div>
+        <h3 class="card-title">Four labs. Seven days. No clear winner.</h3>
+        <p class="card-deck">Six months ago, GPT-5 was the headline. Today, four labs are trading the lead in seven-day cycles. A clear-eyed map of where capability sits in April 2026, and what it means for enterprise strategy.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="practical" data-type="letter" data-issue="002" data-mins="4" href="/articles/ai-curious/">
+      <div class="card-image">
+        <img loading="lazy" src="/cover-set/cover-002-practical-ai.png" alt="AI-curious? This is the bit no one tells you. Cover image: an acid arrow pasting content into a clipboard." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 002</span>
+          <span class="dot"></span>
+          <span>Practical AI</span>
+          <span class="dot"></span>
+          <span class="muted">4 min read · 25 Apr 2026</span>
+        </div>
+        <h3 class="card-title">AI-curious? This is the bit no one tells you.</h3>
+        <p class="card-deck">Stop typing questions into AI. Start pasting things in. The free habit that beats any productivity app: no subscription, no prompt engineering, no faff.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
+    <a class="card" data-topic="work" data-type="letter" data-issue="001" data-mins="7" href="/articles/ai-competency-pyramid/">
+      <div class="card-image">
+        <img loading="lazy" src="/cover-set/cover-001-adoption.png" alt="The AI Competency Pyramid. Cover showing 20.6m UK workers across 14 levels." />
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span>Issue 001</span>
+          <span class="dot"></span>
+          <span>Adoption</span>
+          <span class="dot"></span>
+          <span class="muted">7 min read · 20 Apr 2026</span>
+        </div>
+        <h3 class="card-title">The AI competency pyramid.</h3>
+        <p class="card-deck">Where 20.6 million UK workers actually sit. 14 levels, 95% at the bottom, and the jump that costs nothing, yet 97% still haven't made.</p>
+        <span class="card-cta">Read</span>
+      </div>
+    </a>
   </section>
 
   <!-- ============ CASE STUDIES ============ -->
@@ -2391,13 +2450,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       })();
     </script>
   </section>
-  <section class="slab" aria-label="Also on Substack">
-    <a class="slab-inner" href="https://aisustained.substack.com/" target="_blank" rel="noopener" style="text-decoration: none;">
-      <div class="slab-label">Also on Substack</div>
-      <div class="slab-body">Deeper research and <em>podcast versions</em>, for people who'd rather listen than read.</div>
-      <span class="slab-cta">Open Substack</span>
-    </a>
-  </section>
   <section class="about" id="about">
     <div class="about-inner">
       <div class="about-head">
@@ -2429,15 +2481,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a class="social-btn" href="https://www.linkedin.com/in/kevin-clubb" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
       </a>
-      <a class="social-btn" href="https://aisustained.substack.com/" target="_blank" rel="noopener" aria-label="Substack" title="Substack">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.54 8.52H1.46V5.4h21.08v3.12zM1.46 10.81H22.54V24l-10.54-5.92L1.46 24V10.81zM22.54 3.12H1.46V0h21.08v3.12z"/></svg>
-      </a>
     </nav>
     <div class="footer-right">
       <p class="ais-fl"><a href="https://github.com/kevinclubb-cyber/ai-sustained" target="_blank" rel="noopener">Source on GitHub ↗</a> · <a href="/privacy/">Privacy</a> · <a href="#" data-ais-reopen>Cookie choices</a></p><p class="ais-fc">Built by hand · Hosted on Cloudflare Pages</p>
     </div>
   </footer>
-<!-- ============ SITE SEARCH (self-contained; paste before <script>
+<!-- ============ CARD REVEAL (scroll-in) ============ -->
+<script>
 // Article-card scroll reveal. Progressive: without JS or IO, cards simply show.
 (function(){
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -2459,7 +2509,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   });
 })();
 </script>
-</body>) ============ -->
+<!-- ============ SITE SEARCH (self-contained; paste before </body>) ============ -->
 <div class="ss-root">
 <style>
   .ss-root .ss-fab {
@@ -2687,6 +2737,391 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <!-- ============ /SITE SEARCH ============ -->
+
+<!-- ============ CATALOGUE SCRIPT: spotlight, quick jumps, topic chips, click tracking ============
+     Runs before the house-buttons script below, so every .btn-key it creates is bound there. -->
+<script>
+(function(){
+  var root = document.documentElement;
+  var grid = document.getElementById('editorial-grid');
+  var cat = document.getElementById('catalogue');
+  if (!grid || !cat) { root.classList.remove('cat-js'); return; }
+  try { init(); }
+  catch (err) {
+    // Fall back to the plain grid: every card visible, wide first card, no catalogue.
+    root.classList.remove('cat-js');
+    Array.prototype.forEach.call(grid.children, function(c){ c.hidden = false; });
+    if (window.console && console.error) console.error(err);
+  }
+
+  function init(){
+    var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    var cards = Array.prototype.filter.call(grid.children, function(el){ return el.matches('a.card'); });
+    var TOPICS = { practical: 'Plain English', models: 'New models', security: 'Security and scams',
+                   work: 'Work and jobs', rules: 'Rules and safety', society: 'Big picture' };
+    var QUICK_MAX = 7;
+    var state = { topic: 'all', quick: false };
+
+    var items = cards.map(function(card){
+      var meta = card.querySelectorAll('.card-meta > span:not(.dot)');
+      var title = (card.querySelector('.card-title') || {}).textContent || '';
+      var img = card.querySelector('.card-image img');
+      return {
+        card: card, href: card.getAttribute('href'), issue: card.getAttribute('data-issue'),
+        mins: parseInt(card.getAttribute('data-mins'), 10), topic: card.getAttribute('data-topic'),
+        label: meta[1] ? meta[1].textContent.trim() : '', title: title.trim(),
+        plain: title.trim().replace(/\.$/, ''),
+        deck: ((card.querySelector('.card-deck') || {}).textContent || '').trim(),
+        src: img ? img.getAttribute('src') : ''
+      };
+    });
+    if (!items.length) throw new Error('catalogue: no cards');
+    function itemOf(card){ return items[cards.indexOf(card)]; }
+
+    /* ---------- tracking (never holds up a click) ---------- */
+    function send(name, params){
+      if (typeof gtag === 'function') { try { gtag('event', name, params); } catch (e) {} }
+    }
+    function opened(it, source, position){
+      send('select_content', { content_type: 'article', content_id: 'issue' + it.issue,
+        source: source, position: position, topic: state.topic });
+    }
+    function onOpen(el, fn){
+      el.addEventListener('click', fn);
+      el.addEventListener('auxclick', function(e){ if (e.button === 1) fn(e); });
+    }
+    function visibleCards(){ return cards.filter(function(c){ return !c.hidden; }); }
+    onOpen(grid, function(e){
+      var a = e.target.closest ? e.target.closest('a.card') : null;
+      if (!a || a.parentNode !== grid) return;
+      opened(itemOf(a), 'grid', visibleCards().indexOf(a) + 1);
+    });
+
+    /* ---------- spotlight ---------- */
+    var picks = [items[0]];
+    for (var p = 1; p <= 4; p++) {
+      var pc = grid.querySelector(':scope > a.card[data-spotlight="' + p + '"]');
+      if (pc && pc !== items[0].card) picks.push(itemOf(pc));
+    }
+    var spot = document.getElementById('spotlight');
+    var stage = document.getElementById('spot-stage');
+    var dotsBox = document.getElementById('spot-dots');
+    var pauseBtn = document.getElementById('spot-pause');
+    var n = picks.length;
+    var current = 0;
+
+    function el(tag, cls, text){
+      var x = document.createElement(tag);
+      if (cls) x.className = cls;
+      if (text != null) x.textContent = text;
+      return x;
+    }
+    var slides = picks.map(function(it, i){
+      var s = el('div', 'spot-slide');
+      s.id = 'spot-slide-' + (i + 1);
+      s.setAttribute('role', 'group');
+      s.setAttribute('aria-roledescription', 'slide');
+      s.setAttribute('aria-label', (i + 1) + ' of ' + n);
+      // The cover opens the article too (pointer only; the Read key is the one keyboard stop).
+      var media = el('a', 'spot-media');
+      media.href = it.href;
+      media.tabIndex = -1;
+      media.setAttribute('aria-hidden', 'true');
+      onOpen(media, function(){ opened(it, 'spotlight', i + 1); });
+      var img = el('img');
+      img.alt = '';
+      img.decoding = 'async';
+      img.setAttribute('data-src', it.src);
+      media.appendChild(img);
+      media.appendChild(el('span', 'spot-badge', i === 0 ? 'Newest issue' : 'Editor’s pick'));
+      var body = el('div', 'spot-body');
+      var meta = el('p', 'spot-meta');
+      meta.appendChild(el('span', '', 'Issue ' + it.issue));
+      meta.appendChild(el('span', 'dot'));
+      if (it.label) { meta.appendChild(el('span', '', it.label)); meta.appendChild(el('span', 'dot')); }
+      meta.appendChild(el('span', 'muted', it.mins + ' min read'));
+      body.appendChild(meta);
+      body.appendChild(el('h3', 'spot-title', it.title));
+      body.appendChild(el('p', 'spot-deck', it.deck));
+      var read = el('a', 'btn-key spot-read');
+      read.href = it.href;
+      read.setAttribute('aria-label', 'Read Issue ' + it.issue + ': ' + it.plain);
+      read.appendChild(el('span', 'base'));
+      read.appendChild(el('span', 'face', 'Read'));
+      onOpen(read, function(){ opened(it, 'spotlight', i + 1); });
+      body.appendChild(read);
+      s.appendChild(media);
+      s.appendChild(body);
+      stage.appendChild(s);
+      return s;
+    });
+    var dots = picks.map(function(it, i){
+      var d = el('button', 'spot-dot');
+      d.type = 'button';
+      d.setAttribute('aria-label', 'Slide ' + (i + 1) + ': Issue ' + it.issue);
+      d.setAttribute('aria-controls', 'spot-slide-' + (i + 1));
+      d.addEventListener('click', function(){ if (i !== current) go(i, i > current ? 1 : -1, 'dot'); });
+      dotsBox.appendChild(d);
+      return d;
+    });
+    function load(i){
+      var img = slides[i].querySelector('img');
+      if (!img.getAttribute('src') && img.getAttribute('data-src')) img.src = img.getAttribute('data-src');
+    }
+    function paint(){
+      slides.forEach(function(s, j){
+        var on = j === current;
+        s.inert = !on;
+        if (on) { s.removeAttribute('aria-hidden'); s.removeAttribute('inert'); }
+        else { s.setAttribute('aria-hidden', 'true'); s.setAttribute('inert', ''); }
+      });
+      dots.forEach(function(d, j){
+        if (j === current) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current');
+      });
+    }
+    function show(i, dir){
+      i = (i + n) % n;
+      var from = slides[current], to = slides[i];
+      load(i);
+      if (to !== from) {
+        to.classList.add('is-instant');
+        to.classList.toggle('is-before', dir < 0);   // enter from the side we are moving towards
+        void to.offsetWidth;
+        to.classList.remove('is-instant');
+        from.classList.remove('is-active');
+        from.classList.toggle('is-before', dir > 0); // leave towards the other side
+        to.classList.add('is-active');
+      }
+      current = i;
+      paint();
+    }
+    slides[0].classList.add('is-instant', 'is-active');
+    load(0);
+    paint();
+    void slides[0].offsetWidth;
+    slides[0].classList.remove('is-instant');
+
+    // Auto-advance: 8 s, only on screen in a visible tab, paused on hover or focus,
+    // stopped for good by the first touch, click or key press. Never under reduced motion.
+    var DELAY = 8000;
+    var stopped = reduce || n < 2;
+    var hover = false, focusIn = false, onScreen = !('IntersectionObserver' in window);
+    var timer = null, preTimer = null;
+    function running(){ return !stopped && !hover && !focusIn && onScreen && document.visibilityState === 'visible'; }
+    function schedule(){
+      clearTimeout(timer); clearTimeout(preTimer); timer = preTimer = null;
+      stage.setAttribute('aria-live', stopped ? 'polite' : 'off');
+      pauseBtn.classList.toggle('is-paused', stopped);
+      pauseBtn.setAttribute('aria-label', stopped ? 'Play the slides' : 'Pause the slides');
+      if (!running()) return;
+      preTimer = setTimeout(function(){ load((current + 1) % n); }, DELAY - 2500);
+      timer = setTimeout(function(){ show(current + 1, 1); schedule(); }, DELAY);
+    }
+    function stop(){ if (!stopped) { stopped = true; schedule(); } }
+    function go(i, dir, method){
+      stop();
+      show(i, dir);
+      send('spotlight_move', { method: method, to: current + 1 });
+    }
+    if (n < 2) { spot.querySelector('.spot-controls').hidden = true; }
+    if (reduce || n < 2) pauseBtn.hidden = true;
+
+    document.getElementById('spot-prev').addEventListener('click', function(){ go(current - 1, -1, 'arrow'); });
+    document.getElementById('spot-next').addEventListener('click', function(){ go(current + 1, 1, 'arrow'); });
+    pauseBtn.addEventListener('click', function(){
+      stopped = !stopped;
+      if (!stopped) hover = false;   // Play means play, even with the pointer resting on the button
+      schedule();
+    });
+    spot.addEventListener('pointerdown', function(e){ if (!pauseBtn.contains(e.target)) stop(); });
+    spot.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        var d = e.key === 'ArrowRight' ? 1 : -1;
+        go(current + d, d, 'keyboard');
+        return;
+      }
+      if (!pauseBtn.contains(e.target) && e.key !== 'Tab' && e.key !== 'Shift') stop();
+    });
+    spot.addEventListener('mouseenter', function(){ hover = true; load((current + 1) % n); schedule(); });
+    spot.addEventListener('mouseleave', function(){ hover = false; schedule(); });
+    spot.addEventListener('focusin', function(e){ focusIn = !pauseBtn.contains(e.target); schedule(); });
+    spot.addEventListener('focusout', function(e){
+      if (!spot.contains(e.relatedTarget)) { focusIn = false; schedule(); }
+    });
+    document.addEventListener('visibilitychange', schedule);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function(entries){
+        onScreen = entries[entries.length - 1].intersectionRatio >= 0.5;
+        schedule();
+      }, { threshold: [0, 0.5, 1] }).observe(spot);
+    }
+
+    // Swipe on touch. A swipe that starts on the Read key must not also open the article.
+    var sx = null, sy = 0, swiped = false;
+    stage.addEventListener('pointerdown', function(e){
+      swiped = false;
+      if (e.pointerType === 'mouse') return;
+      sx = e.clientX; sy = e.clientY;
+    });
+    stage.addEventListener('pointerup', function(e){
+      if (sx === null) return;
+      var dx = e.clientX - sx, dy = e.clientY - sy;
+      sx = null;
+      if (n > 1 && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+        swiped = true;
+        setTimeout(function(){ swiped = false; }, 400);
+        var d = dx < 0 ? 1 : -1;
+        go(current + d, d, 'swipe');
+      }
+    });
+    stage.addEventListener('pointercancel', function(){ sx = null; });
+    stage.addEventListener('click', function(e){
+      if (swiped) { e.preventDefault(); e.stopPropagation(); swiped = false; }
+    }, true);
+    schedule();
+
+    /* ---------- quick-jump keys ---------- */
+    var keys = cat.querySelector('.cat-keys');
+    function key(name){ return keys.querySelector('[data-jump="' + name + '"]'); }
+    function position(it){ return cards.indexOf(it.card) + 1; }
+    function aim(name, it, label){
+      var k = key(name);
+      if (!it) { k.hidden = true; return; }
+      k.href = it.href;
+      k.setAttribute('aria-label', label + ': Issue ' + it.issue + ', ' + it.plain);
+      onOpen(k, function(){ opened(it, 'key_' + name, position(it)); });
+    }
+    var startCard = grid.querySelector(':scope > a.card[data-start]');
+    var shortest = items.reduce(function(a, b){ return b.mins < a.mins ? b : a; });
+    aim('latest', items[0], 'Latest');
+    aim('start', startCard ? itemOf(startCard) : null, 'Start here');
+    aim('shortest', shortest, 'Shortest read');
+
+    // Surprise me: chosen at the click. Never the newest, never the same one twice running.
+    var surprise = key('surprise');
+    var LAST = 'ais-surprise-last', lastIssue = null, pending = null;
+    function getLast(){ try { return sessionStorage.getItem(LAST) || lastIssue; } catch (e) { return lastIssue; } }
+    function setLast(v){ lastIssue = v; try { sessionStorage.setItem(LAST, v); } catch (e) {} }
+    function candidates(){
+      var last = getLast();
+      var pool = items.slice(1).filter(function(it){ return it.issue !== last; });
+      return pool.length ? pool : items.slice(1);
+    }
+    function arm(){
+      if (pending) return;
+      var pool = candidates();
+      pending = pool[Math.floor(Math.random() * pool.length)];
+      setLast(pending.issue);
+      surprise.href = pending.href;
+    }
+    if (items.length < 2) surprise.hidden = true;
+    else {
+      var preview = candidates();
+      surprise.href = preview[Math.floor(Math.random() * preview.length)].href;
+      surprise.setAttribute('aria-label', 'Surprise me: open a random issue');
+      surprise.addEventListener('pointerdown', arm);
+      surprise.addEventListener('keydown', function(e){ if (e.key === 'Enter') arm(); });
+      onOpen(surprise, function(){
+        arm();
+        var it = pending;
+        pending = null;
+        opened(it, 'key_surprise', position(it));
+      });
+    }
+
+    /* ---------- topic chips and quick reads ---------- */
+    var chips = Array.prototype.slice.call(cat.querySelectorAll('.cat-chip[data-topic]'));
+    var quickBtn = document.getElementById('cat-quick');
+    var countEl = document.getElementById('cat-count');
+    var emptyEl = document.getElementById('cat-empty');
+    function isQuick(it){ return it.mins <= QUICK_MAX; }
+    function matches(it){ return (state.topic === 'all' || it.topic === state.topic) && (!state.quick || isQuick(it)); }
+    chips.forEach(function(c){
+      var t = c.getAttribute('data-topic');
+      c.querySelector('.n').textContent = items.filter(function(it){ return t === 'all' || it.topic === t; }).length;
+    });
+    quickBtn.querySelector('.n').textContent = items.filter(isQuick).length;
+
+    function plural(k, one, many){ return k + ' ' + (k === 1 ? one : many); }
+    function summary(k){
+      var where = state.topic === 'all' ? '' : ' in ' + TOPICS[state.topic];
+      if (!k) return 'No ' + (state.quick ? 'quick reads' : 'issues') + where + ' yet';
+      if (state.quick) return 'Showing ' + plural(k, 'quick read', 'quick reads') + where + ', ' + QUICK_MAX + ' minutes or less';
+      return state.topic === 'all' ? 'Showing all ' + plural(k, 'issue', 'issues') : 'Showing ' + plural(k, 'issue', 'issues') + where;
+    }
+    function writeAddress(){
+      try {
+        var u = new URL(window.location.href);
+        if (state.topic === 'all') u.searchParams.delete('topic'); else u.searchParams.set('topic', state.topic);
+        if (state.quick) u.searchParams.set('quick', '1'); else u.searchParams.delete('quick');
+        history.replaceState(history.state, '', u.pathname + u.search + u.hash);
+      } catch (e) {}
+    }
+    function apply(byReader){
+      var animate = byReader && !reduce;
+      var before = null;
+      if (animate) {
+        before = new Map();
+        visibleCards().forEach(function(c){ before.set(c, c.getBoundingClientRect()); });
+      }
+      if (byReader) grid.classList.remove('reveal-init'); // a card shown by a chip is never left invisible
+      var k = 0;
+      items.forEach(function(it){ var on = matches(it); it.card.hidden = !on; if (on) k++; });
+      var filtered = state.topic !== 'all' || state.quick;
+      grid.classList.toggle('is-filtered', filtered);
+      chips.forEach(function(c){ c.setAttribute('aria-pressed', String(c.getAttribute('data-topic') === state.topic)); });
+      quickBtn.setAttribute('aria-pressed', String(state.quick));
+      countEl.textContent = summary(k);
+      emptyEl.hidden = k > 0;
+      if (animate) flip(before);
+      if (byReader) {
+        writeAddress();
+        send('catalogue_filter', { topic: state.topic, quick: state.quick ? 'on' : 'off', results: k });
+      }
+    }
+    function flip(before){
+      var moving = visibleCards();
+      moving.forEach(function(c){
+        var b = before.get(c);
+        c.style.transition = 'none';
+        if (!b) { c.style.opacity = '0'; return; }
+        var a = c.getBoundingClientRect();
+        var dx = b.left - a.left, dy = b.top - a.top;
+        if (dx || dy) c.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+      });
+      void grid.offsetWidth;
+      moving.forEach(function(c){
+        c.style.transition = 'transform 280ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 280ms ease';
+        c.style.transform = '';
+        c.style.opacity = '';
+      });
+      setTimeout(function(){ moving.forEach(function(c){ c.style.transition = ''; }); }, 320);
+    }
+    chips.forEach(function(c){
+      c.addEventListener('click', function(){
+        var t = c.getAttribute('data-topic');
+        if (t === state.topic) return;
+        state.topic = t;
+        apply(true);
+      });
+    });
+    quickBtn.addEventListener('click', function(){ state.quick = !state.quick; apply(true); });
+    document.getElementById('cat-showall').addEventListener('click', function(){
+      state.topic = 'all'; state.quick = false; apply(true);
+      chips[0].focus();
+    });
+
+    // A filtered view can be linked: ?topic=security&quick=1 (other parameters such as src are kept).
+    try {
+      var q = new URLSearchParams(window.location.search);
+      if (TOPICS.hasOwnProperty(q.get('topic'))) state.topic = q.get('topic');
+      if (q.get('quick') === '1') state.quick = true;
+    } catch (e) {}
+    apply(false);
+  }
+})();
+</script>
 
 <!-- ============ HOUSE BUTTONS: 3D KEY PRESS + QUIZ CONFETTI DISSOLVE ============ -->
 <script>

@@ -71,7 +71,46 @@ resource/ docs/ privacy/                  _headers         Cloudflare headers
 llms.txt  robots.txt  sitemap.xml
 ```
 
-Adding an article: create `articles/<slug>/`, add `index.html` + optimised cover, add a card to `index.html`, add an entry to `search-index.json`, run `python3 -I scripts/build-discovery.py` (it adds the sitemap entry, feed item, articles index card and related links) (site search reads it; Issue 022 and Case study 007 were missed and back-filled on 29 Sep 2026) and, if it is worth surfacing to crawlers, a line in `llms.txt`. `README.md` tells you to do this through the GitHub web UI — **ignore that**, it predates the local clone. Work locally and push.
+Adding an article: create `articles/<slug>/`, add `index.html` + optimised cover, add a card to `index.html` **as the first child of `#editorial-grid`** (newest first; nothing else moves, see "Home page catalogue" below), add an entry to `search-index.json`, run `python3 -I scripts/build-discovery.py` (it adds the sitemap entry, feed item, articles index card and related links) (site search reads it; Issue 022 and Case study 007 were missed and back-filled on 29 Sep 2026) and, if it is worth surfacing to crawlers, a line in `llms.txt`. `README.md` tells you to do this through the GitHub web UI — **ignore that**, it predates the local clone. Work locally and push.
+
+## Home page catalogue (added 26 Nov 2026)
+
+The grid in `index.html` runs **newest first**: Issue 028 is the first card, Issue 001 the last, 017a sits between 018 and 017. Everything above the grid is built from the cards at run time, so **publishing stays one edit**.
+
+**Publishing rule:** a new card goes in as the **first child of `<section class="grid" id="editorial-grid">`**. Nothing else moves. No card carries `featured`; the wide first card is styled by position (`:first-child`, desktop, only when script is off). The first three card images load eagerly; give every other card image `loading="lazy"` (so: add it to the card that drops to fourth place).
+
+**Card attributes** (every card has all of these):
+
+| Attribute | Meaning |
+|---|---|
+| `data-issue` | `028`, `017a`, … Used for `content_id` (`issue028`) and the keys' screen-reader labels |
+| `data-mins` | Read time as a number. Quick reads = 7 or less; Shortest read = lowest |
+| `data-topic` | One of six chip values (below). The label printed on the card is separate and unchanged |
+| `data-type` | `letter` / `news`. Kept, read by nothing |
+| `data-spotlight="1"`…`"4"` | The four spotlight picks, slides 2 to 5 in that order. Slide 1 is always the first card |
+| `data-start` | The "Start here" key's target. Exactly one card |
+
+Topic values and chip labels: `practical` Plain English · `models` New models · `security` Security and scams · `work` Work and jobs · `rules` Rules and safety · `society` Big picture. Adding a topic means a new chip button in `.cat-filter` and an entry in the script's `TOPICS` map.
+
+**Changing the picks:** move the `data-spotlight="n"` attributes (and `data-start`) to other cards. Picks on 26 Nov 2026: 1 = 021, 2 = 025, 3 = 027, 4 = 024; Start here = 013. If the newest card ever carries `data-spotlight`, it is skipped (it is slide 1 already).
+
+**What is where in `index.html`:** a one-line `cat-js` class script in `<head>` (lets CSS reserve the spotlight's space before the script runs, and hide the catalogue with script off); the `CATALOGUE` style + markup block straight after the `#editorial` header (spotlight shell, the four quick-jump `.btn-key`s, chips, result count); and the `CATALOGUE SCRIPT` just **before** the house-buttons script, so the key-press handler there binds every key the catalogue creates. If the catalogue script throws, it removes `cat-js` and the page falls back to the plain grid.
+
+Filters live in the address (`?topic=security&quick=1`, other parameters such as `src` kept), so a filtered view can be linked from a post.
+
+**GA4 events** (all behind `if (typeof gtag === 'function')`, none holds up a click):
+
+| Event | When | Parameters |
+|---|---|---|
+| `select_content` | An article is opened from the home page | `content_type: 'article'`, `content_id` (`issue028`), `source` (`spotlight`, `grid`, `key_latest`, `key_start`, `key_shortest`, `key_surprise`), `position` (slide or card number from 1; for keys, the card's place in the full grid), `topic` (active chip or `all`) |
+| `catalogue_filter` | A chip or Quick reads is changed | `topic`, `quick` (`on`/`off`), `results` |
+| `spotlight_move` | The carousel is moved by hand (never on auto-advance) | `method` (`arrow`, `dot`, `swipe`, `keyboard`), `to` (slide number) |
+
+`source`, `position`, `topic` and `method` must be registered as event-scoped custom dimensions in GA4 to show in reports. GA4 already has a built-in "Source" dimension, so give the custom one a distinct display name (for example "Catalogue source").
+
+Substack is off the home page (structured data, slab, footer, Issue 008 deck). 22 other hand-written pages still link to it, plus the generated `articles/index.html` (it copies the `case-studies/index.html` footer); that is deliberate for now.
+
+The card reveal (`CARD REVEAL` script, before the site search block) used to sit inside the search block's opening comment and never ran. It runs now; a reader-made filter change removes `reveal-init` so no card is ever left invisible.
 
 ## Known pre-existing breakage
 
