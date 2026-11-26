@@ -98,6 +98,8 @@ Topic values and chip labels: `practical` Plain English Â· `models` New models Â
 
 Filters live in the address (`?topic=security&quick=1`, other parameters such as `src` kept), so a filtered view can be linked from a post.
 
+The **Reader Ledger strip** sits **below the editorial grid**, before the case studies (moved there 26 Nov 2026 so the catalogue starts higher on phones; the first article link went from 1.55 to 1.37 screens down at 390 x 844). Its block is self-contained (style, markup, script fetching `/ledger/receipts.json`); the byline above the editorial keeps its own 60px bottom padding.
+
 **GA4 events** (all behind `if (typeof gtag === 'function')`, none holds up a click):
 
 | Event | When | Parameters |
